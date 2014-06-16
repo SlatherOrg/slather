@@ -13,7 +13,7 @@ end
 
 require 'pathname'
 
-SOURCE_DIR = "/Users/marklarsen/github.com/ocmock"
+SOURCE_DIR = "/Users/marklarsen/github.com/VENCalculatorInputView"
 COVERAGE_DIR = "."
 
 
@@ -30,7 +30,10 @@ def coverage_files
 end
 
 def compute_coverage_for_source_file(source_file_pathname)
-  str = `xcrun gcov -object-directory=#{COVERAGE_DIR} #{source_file_pathname}`
+  command = "xcrun gcov -object-directory=#{COVERAGE_DIR} #{source_file_pathname}"
+  puts command
+  str = `#{command}`
+  puts str
   coverage = nil
   if str =~ /Lines executed:(\d+\.\d+)% of (\d+)/
     puts "#{$1}, #{$2}, #{source_file_pathname}"
