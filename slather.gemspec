@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'smother/version'
+require 'slather/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "smother"
-  spec.version       = Smother::VERSION
+  spec.name          = "slather"
+  spec.version       = Slather::VERSION
   spec.authors       = ["Mark Larsen"]
   spec.email         = ["larse503@gmail.com"]
   spec.summary       = %q{TODO: Write a short summary. Required.}

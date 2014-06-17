@@ -1,3 +1,3 @@
-module Smother
+module Slather
   VERSION = "0.0.1"
 end

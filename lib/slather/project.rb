@@ -2,7 +2,7 @@ require 'fileutils'
 require 'xcodeproj'
 require 'json'
 
-module Smother
+module Slather
   class Project < Xcodeproj::Project
 
     def derived_data_dir
@@ -12,7 +12,7 @@ module Smother
 
     def coverage_files
       Dir["#{derived_data_dir}/**/*.gcno"].map do |file|
-        coverage_file = Smother::CoverallsCoverageFile.new(file)
+        coverage_file = Slather::CoverallsCoverageFile.new(file)
         coverage_file.project = self
         # If there's no source file for this gcno, or the gcno is old, it probably belongs to another project.
         if coverage_file.source_file_pathname

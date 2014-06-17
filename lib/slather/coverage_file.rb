@@ -1,4 +1,4 @@
-module Smother
+module Slather
   class CoverageFile
 
     attr_accessor :project, :gcno_file_pathname

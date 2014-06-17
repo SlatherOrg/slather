@@ -1,4 +1,4 @@
-module Smother
+module Slather
   class CoverallsCoverageFile < CoverageFile
 
     def coverage_data
