@@ -5,16 +5,26 @@ require 'json'
 module Smother
   class Project < Xcodeproj::Project
 
-    def gcno_file_dir
-      "/Users/marklarsen/Library/Developer/Xcode/DerivedData/OCMock-enxcxyopnlsrzqdfbcahokpmqtwj/Build/Intermediates/OCMock.build/Debug/OCMock.build/Objects-normal/x86_64/"
+    def derived_data_dir
+      File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
     end
+    private :derived_data_dir
 
     def coverage_files
-      Dir["#{gcno_file_dir}/*.gcno"].map do |file|
+      Dir["#{derived_data_dir}/**/*.gcno"].map do |file|
         coverage_file = Smother::CoverallsCoverageFile.new(file)
         coverage_file.project = self
-        coverage_file
-      end
+        # If there's no source file for this gcno, or the gcno is old, it probably belongs to another project.
+        if coverage_file.source_file_pathname
+          stale_seconds_limit = 60
+          if (Time.now - File.mtime(file) < stale_seconds_limit)
+            next coverage_file
+          else
+            puts "Skipping #{file} -- older than #{stale_seconds_limit} seconds ago."
+          end
+        end
+        next nil
+      end.compact
     end
     private :coverage_files
 
