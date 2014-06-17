@@ -6,12 +6,14 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'slather')
 Clamp do
 
   parameter "xcodeproj", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+  option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
 
   def execute
-    puts "slathering..."
+    puts "Slathering..."
     project = Slather::Project.open(xcodeproj_path)
+    project.build_directory = build_directory
     project.post_to_coveralls
-    puts "done!"
+    puts "Done slathering!"
   end
 
 end
