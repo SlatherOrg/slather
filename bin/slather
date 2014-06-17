@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require 'clamp'
+require File.join(File.dirname(__FILE__), '..', 'lib', 'slather')
+
+Clamp do
+
+  parameter "xcodeproj", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+
+  def execute
+    puts "slathering..."
+    project = Slather::Project.open(xcodeproj_path)
+    project.post_to_coveralls
+    puts "done!"
+  end
+
+end
