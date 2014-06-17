@@ -12,12 +12,14 @@ Clamp do
             "Slather::CoverageService::#{service}".constantize
          end
   option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
+  option ["--ignore", "-i"], "IGNORE", "ignore files conforming to a path", :multivalued => true
 
   def execute
     puts "Slathering..."
 
     project = Slather::Project.open(xcodeproj_path)
     project.extend(coverage_service)
+    project.ignore_list = ignore_list
     project.build_directory = build_directory
     project.post
 

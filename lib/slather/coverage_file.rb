@@ -11,7 +11,7 @@ module Slather
       @source_file_pathname ||= begin
         base_filename = gcno_file_pathname.basename.sub_ext("")
         # TODO: Handle Swift
-        path = Dir["#{project.main_group.real_path}/*/#{base_filename}.m"].first
+        path = Dir["#{project.main_group.real_path}/**/#{base_filename}.m"].first
         path && Pathname(path)
       end
     end

@@ -5,7 +5,7 @@ require 'json'
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory
+    attr_accessor :build_directory, :ignore_list
 
     def derived_data_dir
       File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
@@ -22,8 +22,12 @@ module Slather
         puts file
         coverage_file = coverage_file_class.new(file)
         coverage_file.project = self
-        # If there's no source file for this gcno, or the gcno is old, it probably belongs to another project.
-        coverage_file.source_file_pathname ? coverage_file : nil
+        # If there's no source file for this gcno, it probably belongs to another project.
+        if coverage_file.source_file_pathname && !(coverage_file.source_file_pathname_relative_to_project_root.to_s =~ /^(#{ignore_list.join("|")})$/)
+          coverage_file
+        else
+          nil
+        end
       end.compact
     end
     private :coverage_files
