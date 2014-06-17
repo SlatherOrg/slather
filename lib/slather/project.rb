@@ -19,7 +19,7 @@ module Slather
 
     def coverage_files
       Dir["#{build_directory}/**/*.gcno"].map do |file|
-        coverage_file = Slather::CoverallsCoverageFile.new(file)
+        coverage_file = coverage_file_class.new(file)
         coverage_file.project = self
         # If there's no source file for this gcno, or the gcno is old, it probably belongs to another project.
         if coverage_file.source_file_pathname

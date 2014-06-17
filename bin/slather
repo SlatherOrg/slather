@@ -6,13 +6,21 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'slather')
 Clamp do
 
   parameter "xcodeproj", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+  option ["--coverage-service", "-c"], 
+         "COVERAGE_SERVICE", "The coverage service to post the results to. Valid values are \n Coveralls \n SimpleOutput \n",
+         :default => "Coveralls" do |service|
+            Object.const_get("Slather::CoverageService::#{service}")
+         end
   option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
 
   def execute
     puts "Slathering..."
+
     project = Slather::Project.open(xcodeproj_path)
+    project.extend(coverage_service)
     project.build_directory = build_directory
-    project.post_to_coveralls
+    project.post
+
     puts "Done slathering!"
   end
 
