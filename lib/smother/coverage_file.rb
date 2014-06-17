@@ -30,10 +30,15 @@ module Smother
 
     def gcov_data
       @gcov_data ||= begin
-       `gcov #{source_file_pathname} --object-directory #{project.gcno_file_dir}`
+        gcov_output = `gcov #{source_file_pathname} --object-directory #{project.gcno_file_dir}`
+        # Sometimes gcov makes gcov files for Cocoa Touch classes, like NSRange. Ignore and delete later.
+        gcov_files_created = gcov_output.scan(/creating '(.+\..+\.gcov)'/)
+
         gcov_file = File.new("./#{source_file_pathname.basename}.gcov")
         gcov_data = gcov_file.read
-        FileUtils.rm(gcov_file)
+
+        gcov_files_created.each { |file| FileUtils.rm(file) }
+        
         gcov_data
       end
     end

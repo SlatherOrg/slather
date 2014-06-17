@@ -1,6 +1,6 @@
 require 'fileutils'
 require 'xcodeproj'
-require 'httmultiparty'
+require 'json'
 
 module Smother
   class Project < Xcodeproj::Project
@@ -29,8 +29,8 @@ module Smother
     def post_to_coveralls
       f = File.open('coveralls_json_file', 'w+')
       f.write(coveralls_coverage_data)
-      HTTMultiParty.post("https://coveralls.io/api/v1/jobs", :body => { :json_file => f })
-      #FileUtils.rm(f)
+      `curl -s --form json_file=@#{f.path} https://coveralls.io/api/v1/jobs`
+      FileUtils.rm(f)
     end
 
   end

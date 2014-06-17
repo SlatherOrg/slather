@@ -23,6 +23,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 2.14"
   spec.add_development_dependency "pry", "~> 0.9"
 
-  spec.add_dependency "httmultiparty", "~> 0.3.14"
   spec.add_dependency "xcodeproj", "~> 0.17"
 end
