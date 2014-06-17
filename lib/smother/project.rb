@@ -16,6 +16,7 @@ module Smother
         coverage_file
       end
     end
+    private :coverage_files
 
     def coveralls_coverage_data
       {
