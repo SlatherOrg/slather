@@ -7,10 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "slather"
   spec.version       = Slather::VERSION
   spec.authors       = ["Mark Larsen"]
-  spec.email         = ["larse503@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.email         = ["mark@venmo.com"]
+  spec.summary       = %q{Test coverage reports for Xcode projects}
+  spec.homepage      = "https://github.com/marklarr/slather"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
