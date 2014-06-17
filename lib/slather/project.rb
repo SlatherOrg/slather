@@ -19,18 +19,11 @@ module Slather
 
     def coverage_files
       Dir["#{build_directory}/**/*.gcno"].map do |file|
+        puts file
         coverage_file = coverage_file_class.new(file)
         coverage_file.project = self
         # If there's no source file for this gcno, or the gcno is old, it probably belongs to another project.
-        if coverage_file.source_file_pathname
-          stale_seconds_limit = 60
-          if (Time.now - File.mtime(file) < stale_seconds_limit)
-            next coverage_file
-          else
-            puts "Skipping #{file} -- older than #{stale_seconds_limit} seconds ago."
-          end
-        end
-        next nil
+        coverage_file.source_file_pathname ? coverage_file : nil
       end.compact
     end
     private :coverage_files
