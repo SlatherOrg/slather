@@ -6,32 +6,49 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'slather')
 
 Clamp do
 
-  parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+  self.default_subcommand = "coverage"
 
-  option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
-  option ["--simple-output", "-s"], :flag, "Post coverage results to coveralls"
+  subcommand "coverage", "Computes coverage for the supplised project" do
 
-  option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
-  option ["--ignore", "-i"], "IGNORE", "ignore files conforming to a path", :multivalued => true
+    option "--project, -p", "PROJECT", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
 
-  def execute
-    puts "Slathering..."
+    option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
+    option ["--simple-output", "-s"], :flag, "Post coverage results to coveralls"
 
-    xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml_file["xcodeproj"]
+    option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
+    option ["--ignore", "-i"], "IGNORE", "ignore files conforming to a path", :multivalued => true
 
-    project = Slather::Project.open(xcodeproj_path_to_open)
+    def execute
+      puts "Slathering..."
 
-    if coveralls?
-      project.extend(Slather::CoverageService::Coveralls)
-    elsif simple_output?
-      project.extend(Slather::CoverageService::SimpleOutput)
+      xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml_file["xcodeproj"]
+
+      project = Slather::Project.open(xcodeproj_path_to_open)
+
+      if coveralls?
+        project.extend(Slather::CoverageService::Coveralls)
+      elsif simple_output?
+        project.extend(Slather::CoverageService::SimpleOutput)
+      end
+          
+      project.ignore_list = ignore_list if !ignore_list.empty?
+      project.build_directory = build_directory if build_directory
+      project.post
+
+      puts "Done slathering!"
     end
-        
-    project.ignore_list = ignore_list if !ignore_list.empty?
-    project.build_directory = build_directory if build_directory
-    project.post
 
-    puts "Done slathering!"
   end
 
+  subcommand "setup", "Configures an xcodeproj for test coverage generation" do
+
+    parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+
+    def execute
+      project = Slather::Project.open(xcodeproj_path)
+      project.setup_for_coverage
+      project.save
+    end
+
+  end
 end
