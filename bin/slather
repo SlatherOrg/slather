@@ -1,26 +1,34 @@
 #!/usr/bin/env ruby
 
 require 'clamp'
+require 'yaml'
 require File.join(File.dirname(__FILE__), '..', 'lib', 'slather')
 
 Clamp do
 
-  parameter "xcodeproj", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
-  option ["--coverage-service", "-c"], 
-         "COVERAGE_SERVICE", "The coverage service to post the results to. Valid values are \n Coveralls \n SimpleOutput \n",
-         :default => "Coveralls" do |service|
-            "Slather::CoverageService::#{service}".constantize
-         end
+  parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+
+  option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
+  option ["--simple-output", "-s"], :flag, "Post coverage results to coveralls"
+
   option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
   option ["--ignore", "-i"], "IGNORE", "ignore files conforming to a path", :multivalued => true
 
   def execute
     puts "Slathering..."
 
-    project = Slather::Project.open(xcodeproj_path)
-    project.extend(coverage_service)
-    project.ignore_list = ignore_list
-    project.build_directory = build_directory
+    xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml_file["xcodeproj"]
+
+    project = Slather::Project.open(xcodeproj_path_to_open)
+
+    if coveralls?
+      project.extend(Slather::CoverageService::Coveralls)
+    elsif simple_output?
+      project.extend(Slather::CoverageService::SimpleOutput)
+    end
+        
+    project.ignore_list = ignore_list if !ignore_list.empty?
+    project.build_directory = build_directory if build_directory
     project.post
 
     puts "Done slathering!"
