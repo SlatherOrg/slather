@@ -24,8 +24,8 @@ module Slather
       source_file.read
     end
 
-    def source_file_pathname_relative_to_project_root
-      source_file_pathname.relative_path_from(project.main_group.real_path)
+    def source_file_pathname_relative_to_repo_root
+      source_file_pathname.relative_path_from(Pathname("./").realpath)
     end
 
     def gcov_data
@@ -59,7 +59,7 @@ module Slather
 
     def ignored?
       project.ignore_list.any? do |ignore|
-        File.fnmatch(ignore, source_file_pathname_relative_to_project_root)
+        File.fnmatch(ignore, source_file_pathname_relative_to_repo_root)
       end
     end
 

@@ -20,7 +20,7 @@ module Slather
           total_project_lines_tested += lines_tested
           total_project_lines += total_lines
 
-          puts "#{coverage_file.source_file_pathname_relative_to_project_root}: #{lines_tested} of #{total_lines} lines (#{percentage}%)"
+          puts "#{coverage_file.source_file_pathname_relative_to_repo_root}: #{lines_tested} of #{total_lines} lines (#{percentage}%)"
         end
         total_percentage = '%.2f' % [(total_project_lines_tested / total_project_lines.to_f) * 100.0]
         puts "Test Coverage: #{total_percentage}%"

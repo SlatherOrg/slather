@@ -11,7 +11,7 @@ module Slather
 
     def as_json
       {
-        :name => source_file_pathname_relative_to_project_root.to_s,
+        :name => source_file_pathname_relative_to_repo_root.to_s,
         :source => source_data,
         :coverage => coverage_data
       }
