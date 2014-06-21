@@ -6,11 +6,15 @@ module Slather
         Slather::CoverallsCoverageFile
       end
 
+      def travis_job_id
+        ENV['TRAVIS_JOB_ID']
+      end
+
       def coveralls_coverage_data
         if ci_service == :travis_ci
-          if ENV['TRAVIS_JOB_ID']
+          if travis_job_id
             {
-              :service_job_id => ENV['TRAVIS_JOB_ID'],
+              :service_job_id => travis_job_id,
               :service_name => "travis-ci",
               :source_files => coverage_files.map(&:as_json)
             }.to_json
@@ -26,8 +30,12 @@ module Slather
       def post
         f = File.open('coveralls_json_file', 'w+')
         f.write(coveralls_coverage_data)
-        `curl -s --form json_file=@#{f.path} https://coveralls.io/api/v1/jobs`
+        `curl -s --form json_file=@#{f.path} #{coveralls_api_jobs_path}`
         FileUtils.rm(f)
+      end
+
+      def coveralls_api_jobs_path
+        "https://coveralls.io/api/v1/jobs"
       end
 
     end

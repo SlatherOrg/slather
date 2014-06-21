@@ -57,5 +57,11 @@ module Slather
       end
     end
 
+    def ignored?
+      project.ignore_list.any? do |ignore|
+        File.fnmatch(ignore, source_file_pathname_relative_to_project_root)
+      end
+    end
+
   end
 end
