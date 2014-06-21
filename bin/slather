@@ -12,6 +12,8 @@ Clamp do
 
     option "--project, -p", "PROJECT", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
 
+    option ["--travis", "-t"], :flag, "Indicate that the builds are running on Travis CI"
+
     option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
     option ["--simple-output", "-s"], :flag, "Post coverage results to coveralls"
 
@@ -20,22 +22,48 @@ Clamp do
 
     def execute
       puts "Slathering..."
+          
+      setup_service_name
+      setup_ignore_list
+      setup_build_directory
+      setup_coverage_service
 
-      xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml_file["xcodeproj"]
+      post
 
-      project = Slather::Project.open(xcodeproj_path_to_open)
+      puts "Done slathering!"
+    end
 
+    def setup_build_directory
+      project.build_directory = build_directory if build_directory
+    end
+
+    def setup_ignore_list
+      project.ignore_list = ignore_list if !ignore_list.empty?
+    end
+
+    def setup_service_name
+      if travis?
+        project.ci_service = :travis_ci
+      end
+    end
+
+    def post
+      project.post
+    end
+
+    def project
+      @project ||= begin
+        xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml_file["xcodeproj"]
+        project = Slather::Project.open(xcodeproj_path_to_open)
+      end
+    end
+
+    def setup_coverage_service
       if coveralls?
         project.extend(Slather::CoverageService::Coveralls)
       elsif simple_output?
         project.extend(Slather::CoverageService::SimpleOutput)
       end
-          
-      project.ignore_list = ignore_list if !ignore_list.empty?
-      project.build_directory = build_directory if build_directory
-      project.post
-
-      puts "Done slathering!"
     end
 
   end

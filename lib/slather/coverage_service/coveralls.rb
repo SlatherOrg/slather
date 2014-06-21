@@ -7,11 +7,19 @@ module Slather
       end
 
       def coveralls_coverage_data
-        {
-          :service_job_id => ENV['TRAVIS_JOB_ID'],
-          :service_name => "travis-ci",
-          :source_files => coverage_files.map(&:as_json)
-        }.to_json
+        if ci_service == :travis_ci
+          if ENV['TRAVIS_JOB_ID']
+            {
+              :service_job_id => ENV['TRAVIS_JOB_ID'],
+              :service_name => "travis-ci",
+              :source_files => coverage_files.map(&:as_json)
+            }.to_json
+          else
+            raise StandardError, "Environment variable `TRAVIS_JOB_ID` not set. Is this running on a travis build?"
+          end
+        else
+          raise StandardError, "No support for ci named #{ci_service}"
+        end
       end
       private :coveralls_coverage_data
 

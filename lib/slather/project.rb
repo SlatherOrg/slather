@@ -6,7 +6,7 @@ require 'yaml'
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory, :ignore_list
+    attr_accessor :build_directory, :ignore_list, :ci_service
 
     def self.open(xcodeproj)
       proj = super
@@ -36,6 +36,7 @@ module Slather
         end
       end.compact
 
+      puts coverage_files.map(&:source_file_pathname)
       if coverage_files.empty?
         raise StandardError, "No coverage files found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.pbxproj`"
       else
@@ -58,6 +59,7 @@ module Slather
     def configure_from_yml
       self.build_directory = self.class.yml_file["build_directory"] if self.class.yml_file["build_directory"]
       self.ignore_list = self.class.yml_file["ignore"] || []
+      self.ci_service = (self.class.yml_file["ci_service"] || :travis_ci).to_sym
 
       coverage_service = self.class.yml_file["coverage_service"]
       if coverage_service == "coveralls"
