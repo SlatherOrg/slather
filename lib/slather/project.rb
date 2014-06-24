@@ -22,7 +22,6 @@ module Slather
     def build_directory
       @build_directory || derived_data_dir
     end
-    private :build_directory
 
     def coverage_files
       coverage_files = Dir["#{build_directory}/**/*.gcno"].map do |file|
@@ -50,23 +49,25 @@ module Slather
         if File.exist?(yml_filename)
           YAML.load_file(yml_filename)
         else
-          {}
+          nil
         end
       end
     end
 
     def configure_from_yml
-      self.build_directory = self.class.yml_file["build_directory"] if self.class.yml_file["build_directory"]
-      self.ignore_list = self.class.yml_file["ignore"] || []
-      self.ci_service = (self.class.yml_file["ci_service"] || :travis_ci).to_sym
+      if self.class.yml_file
+        self.build_directory = self.class.yml_file["build_directory"] if self.class.yml_file["build_directory"]
+        self.ignore_list = self.class.yml_file["ignore"] || []
+        self.ci_service = (self.class.yml_file["ci_service"] || :travis_ci).to_sym
 
-      coverage_service = self.class.yml_file["coverage_service"]
-      if coverage_service == "coveralls"
-        extend(Slather::CoverageService::Coveralls)
-      elsif coverage_service == "terminal"
-        extend(Slather::CoverageService::SimpleOutput)
-      elsif !self.class.method_defined?(:post)
-        raise ArgumentError, "value `#{coverage_service}` not valid for key `coverage_service` in #{self.class.yml_file.path}. Try `terminal` or `coveralls`"
+        coverage_service = self.class.yml_file["coverage_service"]
+        if coverage_service == "coveralls"
+          extend(Slather::CoverageService::Coveralls)
+        elsif coverage_service == "terminal"
+          extend(Slather::CoverageService::SimpleOutput)
+        elsif !self.class.method_defined?(:post)
+          raise ArgumentError, "value `#{coverage_service}` not valid for key `coverage_service` in #{self.class.yml_file.path}. Try `terminal` or `coveralls`"
+        end
       end
     end
 
