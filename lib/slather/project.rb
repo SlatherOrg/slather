@@ -43,9 +43,12 @@ module Slather
     end
     private :coverage_files
 
+    def self.yml_filename
+      '.slather.yml'
+    end
+
     def self.yml_file
       @yml_file ||= begin
-        yml_filename = '.slather.yml'
         if File.exist?(yml_filename)
           YAML.load_file(yml_filename)
         else
@@ -66,7 +69,7 @@ module Slather
         elsif coverage_service == "terminal"
           extend(Slather::CoverageService::SimpleOutput)
         elsif !self.class.method_defined?(:post)
-          raise ArgumentError, "value `#{coverage_service}` not valid for key `coverage_service` in #{self.class.yml_file.path}. Try `terminal` or `coveralls`"
+          raise ArgumentError, "value `#{coverage_service}` not valid for key `coverage_service` in #{self.class.yml_filename}. Try `terminal` or `coveralls`"
         end
       end
     end
