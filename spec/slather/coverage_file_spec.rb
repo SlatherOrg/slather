@@ -6,11 +6,14 @@ describe Slather::CoverageFile do
     Slather::Project.open(FIXTURES_PROJECT_PATH)
   end
 
-  let(:coverage_file) { Slather::CoverageFile.new(fixtures_project, "/some/path/fixtures.gcno") }
+  let(:coverage_file) do
+    gcno_path = Pathname(File.join(File.dirname(__FILE__), "fixtures.gcno")).to_s
+    Slather::CoverageFile.new(fixtures_project, gcno_path)
+  end
 
   describe "#initialize" do
     it "should convert the provided path string to a Pathname object, and set it as the gcno_file_pathname" do
-      expect(coverage_file.gcno_file_pathname).to eq(Pathname("/some/path/fixtures.gcno"))
+      expect(coverage_file.gcno_file_pathname).to eq(Pathname(File.join(File.dirname(__FILE__), "fixtures.gcno")))
     end
   end
 
@@ -48,6 +51,16 @@ describe Slather::CoverageFile do
 
 @implementation fixtures
 
+- (void)testedMethod
+{
+    NSLog(@"tested");
+}
+
+- (void)untestedMethod
+{
+    NSLog(@"untested");
+}
+
 @end
 OBJC
       expect(coverage_file.source_data).to eq(expected)
@@ -80,6 +93,42 @@ OBJC
       it "should return false if the source_file_pathname does not glob against anything in the project.ignore_list" do
         coverage_file.project.ignore_list = ["*test*", "*XCTest*"]
         expect(coverage_file.ignored?).to be_falsy
+      end
+    end
+
+    describe "gcov_data" do
+      it "should process the gcno file with gcov and return the contents of the file" do
+        expected = <<-GCOV
+        -:    0:Source:/Users/marklarsen/github.com/slather/spec/fixtures/fixtures/fixtures.m
+        -:    0:Graph:/Users/marklarsen/github.com/slather/spec/slather/fixtures.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1://
+        -:    2://  fixtures.m
+        -:    3://  fixtures
+        -:    4://
+        -:    5://  Created by Mark Larsen on 6/24/14.
+        -:    6://  Copyright (c) 2014 marklarr. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#import "fixtures.h"
+        -:   10:
+        -:   11:@implementation fixtures
+        -:   12:
+        -:   13:- (void)testedMethod
+        -:   14:{
+    #####:   15:    NSLog(@"tested");
+    #####:   16:}
+        -:   17:
+        -:   18:- (void)untestedMethod
+        -:   19:{
+    #####:   20:    NSLog(@"untested");
+    #####:   21:}
+        -:   22:
+        -:   23:@end
+GCOV
+        expect(coverage_file.gcov_data).to eq(expected)
       end
     end
 

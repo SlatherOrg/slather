@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 marklarr. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <AppKit/AppKit.h>
 
-@interface peekaview : UIView
+@interface peekaview : NSView
 
 @end

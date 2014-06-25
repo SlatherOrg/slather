@@ -10,4 +10,14 @@
 
 @implementation fixtures
 
+- (void)testedMethod
+{
+    NSLog(@"tested");
+}
+
+- (void)untestedMethod
+{
+    NSLog(@"untested");
+}
+
 @end

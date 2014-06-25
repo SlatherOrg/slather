@@ -10,4 +10,7 @@
 
 @interface fixtures : NSObject
 
+- (void)testedMethod;
+- (void)untestedMethod;
+
 @end

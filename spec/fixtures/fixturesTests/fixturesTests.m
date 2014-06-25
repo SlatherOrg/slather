@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "fixtures.h"
 
 @interface fixturesTests : XCTestCase
 
@@ -28,7 +29,8 @@
 
 - (void)testExample
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    fixtures *f = [[fixtures alloc] init];
+    [f testedMethod];
 }
 
 @end
