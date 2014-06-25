@@ -12,8 +12,8 @@ module Slather
       @source_file_pathname ||= begin
         base_filename = gcno_file_pathname.basename.sub_ext("")
         # TODO: Handle Swift
-        path = Dir["#{project.main_group.real_path}/**/#{base_filename}.m"].first
-        path && Pathname(path)
+        pbx_file = project.files.detect { |pbx_file| pbx_file.real_path.basename.to_s == "#{base_filename}.m" }        
+        pbx_file && pbx_file.real_path
       end
     end
 
