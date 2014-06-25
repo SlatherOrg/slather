@@ -5,10 +5,12 @@ module Slather
       def coverage_file_class
         Slather::CoverallsCoverageFile
       end
+      private :coverage_file_class
 
       def travis_job_id
         ENV['TRAVIS_JOB_ID']
       end
+      private :travis_job_id
 
       def coveralls_coverage_data
         if ci_service == :travis_ci
@@ -30,6 +32,7 @@ module Slather
       def post
         f = File.open('coveralls_json_file', 'w+')
         f.write(coveralls_coverage_data)
+        f.close
         `curl -s --form json_file=@#{f.path} #{coveralls_api_jobs_path}`
         FileUtils.rm(f)
       end
@@ -37,6 +40,7 @@ module Slather
       def coveralls_api_jobs_path
         "https://coveralls.io/api/v1/jobs"
       end
+      private :coveralls_api_jobs_path
 
     end
   end

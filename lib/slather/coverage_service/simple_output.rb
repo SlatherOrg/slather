@@ -5,6 +5,7 @@ module Slather
       def coverage_file_class
         Slather::CoverallsCoverageFile
       end
+      private :coverage_file_class
 
       def post
         total_project_lines = 0
