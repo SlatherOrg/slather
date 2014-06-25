@@ -2,6 +2,9 @@
 
 Generate test coverage reports for Xcode projects. Apply tests liberally.
 
+| [Parsimmon](https://github.com/ayanonagon/Parsimmon) | [![Parsimmon Coverage](https://coveralls.io/repos/ayanonagon/Parsimmon/badge.png?branch=master)](https://coveralls.io/r/ayanonagon/Parsimmon?branch=master) |
+|------------------------------------------------------------|:----------------------------------------------------:|
+
 ## Installation
 
 Add this line to your application's Gemfile:
