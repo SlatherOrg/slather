@@ -9,7 +9,7 @@ Clamp do
 
   subcommand "coverage", "Computes coverage for the supplised project" do
 
-    option ["--project, -p"], "PROJECT", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+    parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
 
     option ["--travis", "-t"], :flag, "Indicate that the builds are running on Travis CI"
 
@@ -56,7 +56,7 @@ Clamp do
         if xcodeproj_path_to_open
           project = Slather::Project.open(xcodeproj_path_to_open)
         else
-          raise StandardError, "Must provide an xcodeproj through either --project or .slather.yml"
+          raise StandardError, "Must provide an xcodeproj through .slather.yml"
         end
       end
     end
