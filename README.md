@@ -1,6 +1,5 @@
-# Slather
+![Slather Logo](https://raw.githubusercontent.com/venmo/slather/master/docs/logo.png?token=2533239__eyJzY29wZSI6IlJhd0Jsb2I6dmVubW8vc2xhdGhlci9tYXN0ZXIvbGliL3NsYXRoZXIucmIiLCJleHBpcmVzIjoxNDA0MzQ0MDA2fQ%3D%3D--0e053f962e93c276f740c162411d6227a16799e5)
 
-TODO: Write a gem description
 
 ## Installation
 
