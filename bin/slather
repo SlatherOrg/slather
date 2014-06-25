@@ -30,7 +30,7 @@ Clamp do
 
       post
 
-      puts "Done slathering!"
+      puts "Slathered"
     end
 
     def setup_build_directory
