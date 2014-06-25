@@ -27,7 +27,9 @@ To test if you're ready to generate test coverage, run your test suite on your p
 
 ### Coveralls
 
-Right now, `slather` only supports coveralla via Travis CI.
+Right now, `slather` only supports coveralls via Travis CI.
+
+Login to https://coveralls.io/ and enable your repository.
 
 Make a `.slather.yml` file:
 
