@@ -1,3 +1,3 @@
 module Slather
-  VERSION = "0.0.3"
+  VERSION = "0.0.31"
 end

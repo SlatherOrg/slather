@@ -99,6 +99,12 @@ describe Slather::Project do
       expect(fixtures_project.ignore_list).to eq(["test", "ing"])
     end
 
+    it "should force the ignore_list into an array" do
+      Slather::Project.stub(:yml).and_return({"ignore" => "test" })
+      fixtures_project.configure_ignore_list_from_yml
+      expect(fixtures_project.ignore_list).to eq(["test"])
+    end
+
     it "should not set the ignore_list if it has already been set" do
       Slather::Project.stub(:yml).and_return({"ignore" => ["test", "ing"] })
       fixtures_project.ignore_list = ["already", "set"]
