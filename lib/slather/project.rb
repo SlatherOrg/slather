@@ -58,7 +58,7 @@ module Slather
     end
 
     def configure_ignore_list_from_yml
-      self.ignore_list = (self.class.yml["ignore"] || []) unless self.ignore_list
+      self.ignore_list = [(self.class.yml["ignore"] || [])].flatten unless self.ignore_list
     end
 
     def configure_ci_service_from_yml
