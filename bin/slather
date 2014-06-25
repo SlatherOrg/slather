@@ -60,9 +60,9 @@ Clamp do
 
     def setup_coverage_service
       if coveralls?
-        project.extend(Slather::CoverageService::Coveralls)
+        project.coverage_service = :coveralls
       elsif simple_output?
-        project.extend(Slather::CoverageService::SimpleOutput)
+        project.coverage_service = :terminal
       end
     end
 

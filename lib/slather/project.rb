@@ -6,7 +6,7 @@ require 'yaml'
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory, :ignore_list, :ci_service
+    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service
 
     def self.open(xcodeproj)
       proj = super
@@ -28,11 +28,7 @@ module Slather
         coverage_file = coverage_file_class.new(file)
         coverage_file.project = self
         # If there's no source file for this gcno, it probably belongs to another project.
-        if coverage_file.source_file_pathname && !coverage_file.ignored?
-          coverage_file
-        else
-          nil
-        end
+        coverage_file.source_file_pathname && !coverage_file.ignored? ? coverage_file : nil
       end.compact
 
       if coverage_files.empty?
@@ -47,31 +43,47 @@ module Slather
       '.slather.yml'
     end
 
-    def self.yml_file
-      @yml_file ||= begin
-        if File.exist?(yml_filename)
-          YAML.load_file(yml_filename)
-        else
-          nil
-        end
-      end
+    def self.yml
+      @yml ||= File.exist?(yml_filename) ? YAML.load_file(yml_filename) : {}
     end
 
     def configure_from_yml
-      if self.class.yml_file
-        self.build_directory = self.class.yml_file["build_directory"] if self.class.yml_file["build_directory"]
-        self.ignore_list = self.class.yml_file["ignore"] || []
-        self.ci_service = (self.class.yml_file["ci_service"] || :travis_ci).to_sym
+      configure_build_directory_from_yml
+      configure_ignore_list_from_yml
+      configure_ci_service_from_yml
+      configure_coverage_service_from_yml
+    end
 
-        coverage_service = self.class.yml_file["coverage_service"]
-        if coverage_service == "coveralls"
-          extend(Slather::CoverageService::Coveralls)
-        elsif coverage_service == "terminal"
-          extend(Slather::CoverageService::SimpleOutput)
-        elsif !self.class.method_defined?(:post)
-          raise ArgumentError, "value `#{coverage_service}` not valid for key `coverage_service` in #{self.class.yml_filename}. Try `terminal` or `coveralls`"
-        end
+    def configure_build_directory_from_yml
+      self.build_directory = self.class.yml["build_directory"] if self.class.yml["build_directory"] && !@build_directory
+    end
+
+    def configure_ignore_list_from_yml
+      self.ignore_list = (self.class.yml["ignore"] || []) unless self.ignore_list
+    end
+
+    def configure_ci_service_from_yml
+      self.ci_service = (self.class.yml["ci_service"] || :travis_ci) unless self.ci_service
+    end
+
+    def ci_service=(service)
+      @ci_service = service && service.to_sym
+    end
+
+    def configure_coverage_service_from_yml
+      self.coverage_service = (self.class.yml["coverage_service"] || :terminal) unless coverage_service
+    end
+
+    def coverage_service=(service)
+      service = service && service.to_sym
+      if service == :coveralls
+        extend(Slather::CoverageService::Coveralls)
+      elsif service == :terminal
+        extend(Slather::CoverageService::SimpleOutput)
+      else
+        raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal` or `coveralls`"
       end
+      @coverage_service = service
     end
 
     def setup_for_coverage
