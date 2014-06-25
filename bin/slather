@@ -53,7 +53,7 @@ Clamp do
 
     def project
       @project ||= begin
-        xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml_file["xcodeproj"]
+        xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml["xcodeproj"]
         project = Slather::Project.open(xcodeproj_path_to_open)
       end
     end
