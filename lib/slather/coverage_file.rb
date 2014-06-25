@@ -3,8 +3,9 @@ module Slather
 
     attr_accessor :project, :gcno_file_pathname
 
-    def initialize(gcno_file_pathname)
-      @gcno_file_pathname = Pathname(gcno_file_pathname)
+    def initialize(project, gcno_file_pathname)
+      self.project = project
+      self.gcno_file_pathname = Pathname(gcno_file_pathname)
     end
 
     def source_file_pathname

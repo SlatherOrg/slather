@@ -35,7 +35,7 @@ describe Slather::Project do
   end
 
   describe "::yml" do
-    after(:each) { Slather::Project.instance_variable_set("@yml", nil) }
+    before(:each) { Slather::Project.instance_variable_set("@yml", nil) }
 
     context ".slather.yml file exists" do
       before(:all) { File.open(".slather.yml", "w") { |f| f.write("two: 2") } }
