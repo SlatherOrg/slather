@@ -200,4 +200,14 @@ describe Slather::Project do
       expect { fixtures_project.coverage_service = "xcode bots, lol" }.to raise_error(StandardError)
     end
   end
+
+  describe "#setup_for_coverage" do
+    it "should enable the correct flags to generate test coverage on all of the build_configurations build settings" do
+      fixtures_project.setup_for_coverage
+      fixtures_project.build_configurations.each do |build_configuration|
+        expect(build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"]).to eq("YES")
+        expect(build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"]).to eq("YES")
+      end
+    end
+  end
 end
