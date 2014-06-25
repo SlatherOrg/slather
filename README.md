@@ -1,6 +1,6 @@
 # Slather
 
-TODO: Write a gem description
+Generate test coverage reports for Xcode projects. Apply tests liberally.
 
 ## Installation
 
@@ -12,13 +12,46 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install slather
-
 ## Usage
 
-TODO: Write usage instructions here
+Setup your project for test coverage:
+
+    $ slather setup path/to/project.xcodeproj
+
+This will enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project.
+
+
+To test if you're ready to generate test coverage, run your test suite on your project, and then run:
+
+    $ slather coverage -s path/to/project.xcodeproj
+
+### Coveralls
+
+Right now, `slather` only supports coveralla via Travis CI.
+
+Make a `.slather.yml` file:
+
+```yml
+# .slather.yml
+
+coverage_service: coveralls
+xcodeproj: path/to/project.xcodeproj
+ignore:
+  - ExamplePodCode/*
+  - ProjectTestsGroup/*
+```
+
+And then in your `.travis.yml`, call `slather` after a successful_build
+
+```yml
+# .travis.yml
+
+after_success: slather
+```
+
+### Custom Build Directory
+
+Slather will look for the test coverage files in `DerivedData` by default. If you send build output to a custom location, like [this](https://github.com/erikdoe/ocmock/blob/master/Tools/travis.sh#L12), then you should also set the `build_directory` property in `.slather.yml`
 
 ## Contributing
 
