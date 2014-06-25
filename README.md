@@ -66,4 +66,4 @@ Please make sure to follow our general coding style and add test coverage for ne
 ## Contributors
 
 * [@tpoulos](https://github.com/tpoulos), the perfect logo.
-* [@ayanonagon](https://github.com/ayanonagon) and [@kylef](https://github.com/benzguo), feedback and testing.
+* [@ayanonagon](https://github.com/ayanonagon) and [@kylef](https://github.com/kylef), feedback and testing.
