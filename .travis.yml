@@ -1,5 +1,5 @@
 language: objective-c
-script: bundle exec rspec
+script: scripts/travis.sh
 
 # Sets Travis to run the Ruby specs on OS X machines which are required to
 # build the native extensions of Xcodeproj.
