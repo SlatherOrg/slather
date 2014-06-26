@@ -85,6 +85,7 @@ describe Slather::Project do
     it "should configure all properties from the yml" do
       unstubbed_project = Slather::Project.open(FIXTURES_PROJECT_PATH)
       expect(unstubbed_project).to receive(:configure_build_directory_from_yml)
+      expect(unstubbed_project).to receive(:configure_source_directory_from_yml)
       expect(unstubbed_project).to receive(:configure_ignore_list_from_yml)
       expect(unstubbed_project).to receive(:configure_ci_service_from_yml)
       expect(unstubbed_project).to receive(:configure_coverage_service_from_yml)
@@ -137,6 +138,21 @@ describe Slather::Project do
       Slather::Project.stub(:yml).and_return({})
       fixtures_project.configure_build_directory_from_yml
       expect(fixtures_project.build_directory).to eq(fixtures_project.send(:derived_data_dir))
+    end
+  end
+
+  describe "#configure_source_directory_from_yml" do
+    it "should set the source_directory if it has been provided in the yml and has not already been set" do
+      Slather::Project.stub(:yml).and_return({"source_directory" => "/some/path"})
+      fixtures_project.configure_source_directory_from_yml
+      expect(fixtures_project.source_directory).to eq("/some/path")
+    end
+
+    it "should not set the source_directory if it has already been set" do
+      Slather::Project.stub(:yml).and_return({"source_directory" => "/some/path"})
+      fixtures_project.source_directory = "/already/set"
+      fixtures_project.configure_source_directory_from_yml
+      expect(fixtures_project.source_directory).to eq("/already/set")
     end
   end
 
@@ -207,9 +223,9 @@ describe Slather::Project do
     end
   end
 
-  describe "#setup_for_coverage" do
+  describe "#slather_setup_for_coverage" do
     it "should enable the correct flags to generate test coverage on all of the build_configurations build settings" do
-      fixtures_project.setup_for_coverage
+      fixtures_project.slather_setup_for_coverage
       fixtures_project.build_configurations.each do |build_configuration|
         expect(build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"]).to eq("YES")
         expect(build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"]).to eq("YES")

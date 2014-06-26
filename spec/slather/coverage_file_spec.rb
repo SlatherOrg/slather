@@ -22,6 +22,18 @@ describe Slather::CoverageFile do
       expect(coverage_file.source_file_pathname).to eq(fixtures_project["fixtures/fixtures.m"].real_path)
     end
 
+    it "should look in the source_directory if it has been set on the project" do
+      coverage_file = Slather::CoverageFile.new(fixtures_project, "fixtures.m")
+      fixtures_project.source_directory = Pathname(File.join(File.dirname(__FILE__), '../fixtures/')).realpath.to_s
+      expect(coverage_file.source_file_pathname).to eq(fixtures_project["fixtures/fixtures.m"].real_path)
+    end
+
+    it "should look in the source_directory if it has been set on the project" do
+      coverage_file = Slather::CoverageFile.new(fixtures_project, "fixtures.m")
+      fixtures_project.source_directory = Pathname(File.join(File.dirname(__FILE__), '../fixtures/fixturesTests')).realpath.to_s
+      expect(coverage_file.source_file_pathname).to be_nil
+    end
+
     it "should return nil if it couldn't find the coverage files's source implementation file in the project" do
       whoami_file = Slather::CoverageFile.new(fixtures_project, "/some/path/whoami.gcno")
       expect(whoami_file.source_file_pathname).to be_nil
