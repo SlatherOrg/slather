@@ -12,8 +12,8 @@ module Slather
       @source_file_pathname ||= begin
         base_filename = gcno_file_pathname.basename.sub_ext("")
         # TODO: Handle Swift
-        pbx_file = project.files.detect { |pbx_file| pbx_file.real_path.basename.to_s == "#{base_filename}.m" }        
-        pbx_file && pbx_file.real_path
+        path = Dir["./**/#{base_filename}.m"].first
+        path && Pathname(path)
       end
     end
 
@@ -26,7 +26,8 @@ module Slather
     end
 
     def source_file_pathname_relative_to_repo_root
-      source_file_pathname.relative_path_from(Pathname("./").realpath)
+      puts "pathhh: #{source_file_pathname.cleanpath}"
+      source_file_pathname.realpath.relative_path_from(Pathname("./").realpath)
     end
 
     def gcov_data
