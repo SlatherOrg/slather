@@ -9,4 +9,10 @@ module Slather
 
   Encoding.default_external = "utf-8"
 
+  def self.prepare_pods(pods)
+    pods.post_install do |installer|
+      installer.project.slather_setup_for_coverage
+    end
+  end
+
 end

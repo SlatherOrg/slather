@@ -17,6 +17,7 @@ Clamp do
     option ["--simple-output", "-s"], :flag, "Post coverage results to coveralls"
 
     option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
+    option ["--source-directory"], "SOURCE_DIRECTORY", "The directory where your source files are located."
     option ["--ignore", "-i"], "IGNORE", "ignore files conforming to a path", :multivalued => true
 
     def execute
@@ -25,6 +26,7 @@ Clamp do
       setup_service_name
       setup_ignore_list
       setup_build_directory
+      setup_source_directory
       setup_coverage_service
 
       post
@@ -34,6 +36,10 @@ Clamp do
 
     def setup_build_directory
       project.build_directory = build_directory if build_directory
+    end
+
+    def setup_source_directory
+      project.source_directory = source_directory if source_directory
     end
 
     def setup_ignore_list
