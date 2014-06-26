@@ -1,9 +1,13 @@
-# Slather
+![Slather Logo](https://raw.githubusercontent.com/venmo/slather/master/docs/logo.jpg)
 
-Generate test coverage reports for Xcode projects. Apply tests liberally.
+Generate test coverage reports for Xcode projects & hook it into CI.
 
+### Projects that use Slather
+
+| Project | Coverage |
+| ------- |:--------:|
 | [Parsimmon](https://github.com/ayanonagon/Parsimmon) | [![Parsimmon Coverage](https://coveralls.io/repos/ayanonagon/Parsimmon/badge.png?branch=master)](https://coveralls.io/r/ayanonagon/Parsimmon?branch=master) |
-|------------------------------------------------------------|:----------------------------------------------------:|
+| [VENCore](https://github.com/venmo/VENCore) | [![VENCore Coverage](https://coveralls.io/repos/venmo/VENCore/badge.png?branch=marklarr%2Fslather)](https://coveralls.io/r/venmo/VENCore?branch=marklarr%2Fslather) |
 
 ## Installation
 
@@ -65,4 +69,4 @@ Please make sure to follow our general coding style and add test coverage for ne
 ## Contributors
 
 * [@tpoulos](https://github.com/tpoulos), the perfect logo.
-* [@ayanonagon](https://github.com/ayanonagon) and [@kylef](https://github.com/benzguo), feedback and testing.
+* [@ayanonagon](https://github.com/ayanonagon) and [@kylef](https://github.com/kylef), feedback and testing.
