@@ -58,6 +58,8 @@ And then in your `.travis.yml`, call `slather` after a successful_build
 ```yml
 # .travis.yml
 
+before_install: rvm use $RVM_RUBY_VERSION
+install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: slather
 ```
 
