@@ -13,6 +13,7 @@ Generate test coverage reports for Xcode projects & hook it into CI.
 | ------- |:--------:|
 | [Parsimmon](https://github.com/ayanonagon/Parsimmon) | [![Parsimmon Coverage](https://coveralls.io/repos/ayanonagon/Parsimmon/badge.png?branch=master)](https://coveralls.io/r/ayanonagon/Parsimmon?branch=master) |
 | [VENCore](https://github.com/venmo/VENCore) | [![VENCore Coverage](https://coveralls.io/repos/venmo/VENCore/badge.png?branch=marklarr%2Fslather)](https://coveralls.io/r/venmo/VENCore?branch=marklarr%2Fslather) |
+| [CGFloatType](https://github.com/kylef/CGFloatType) | [![CGFloatType Coverage](https://coveralls.io/repos/kylef/CGFloatType/badge.png?branch=master)](https://coveralls.io/r/kylef/CGFloatType?branch=master) |
 
 ## Installation
 
