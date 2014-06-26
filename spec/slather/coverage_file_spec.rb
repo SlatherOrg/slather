@@ -7,13 +7,13 @@ describe Slather::CoverageFile do
   end
 
   let(:coverage_file) do
-    gcno_path = Pathname(File.join(File.dirname(__FILE__), "fixtures.gcno")).to_s
-    Slather::CoverageFile.new(fixtures_project, gcno_path)
+    fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "fixtures.m" }
   end
 
   describe "#initialize" do
     it "should convert the provided path string to a Pathname object, and set it as the gcno_file_pathname" do
-      expect(coverage_file.gcno_file_pathname).to eq(Pathname(File.join(File.dirname(__FILE__), "fixtures.gcno")))
+      expect(coverage_file.gcno_file_pathname.exist?).to be_truthy
+      expect(coverage_file.gcno_file_pathname.basename.to_s).to eq("fixtures.gcno")
     end
   end
 
@@ -98,37 +98,7 @@ OBJC
 
     describe "gcov_data" do
       it "should process the gcno file with gcov and return the contents of the file" do
-        expected = <<-GCOV
-        -:    0:Source:/Users/marklarsen/github.com/slather/spec/fixtures/fixtures/fixtures.m
-        -:    0:Graph:/Users/marklarsen/github.com/slather/spec/slather/fixtures.gcno
-        -:    0:Data:-
-        -:    0:Runs:0
-        -:    0:Programs:0
-        -:    1://
-        -:    2://  fixtures.m
-        -:    3://  fixtures
-        -:    4://
-        -:    5://  Created by Mark Larsen on 6/24/14.
-        -:    6://  Copyright (c) 2014 marklarr. All rights reserved.
-        -:    7://
-        -:    8:
-        -:    9:#import "fixtures.h"
-        -:   10:
-        -:   11:@implementation fixtures
-        -:   12:
-        -:   13:- (void)testedMethod
-        -:   14:{
-    #####:   15:    NSLog(@"tested");
-    #####:   16:}
-        -:   17:
-        -:   18:- (void)untestedMethod
-        -:   19:{
-    #####:   20:    NSLog(@"untested");
-    #####:   21:}
-        -:   22:
-        -:   23:@end
-GCOV
-        expect(coverage_file.gcov_data).to eq(expected)
+        expect(coverage_file.gcov_data.include?("1:   15:    NSLog(@\"tested\");")).to be_truthy
       end
     end
 
