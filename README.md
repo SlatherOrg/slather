@@ -3,8 +3,11 @@
 Generate test coverage reports for Xcode projects & hook it into CI.
 
 ### Projects that use Slather
-* [Parsimmon](https://github.com/ayanonagon/Parsimmon) [![Parsimmon Coverage](https://coveralls.io/repos/ayanonagon/Parsimmon/badge.png?branch=master)](https://coveralls.io/r/ayanonagon/Parsimmon?branch=master)
-* [VENCore](https://github.com/venmo/VENCore) [![Coverage Status](https://coveralls.io/repos/venmo/VENCore/badge.png?branch=marklarr%2Fslather)](https://coveralls.io/r/venmo/VENCore?branch=marklarr%2Fslather)
+
+| Project | Coverage |
+| ------- |:--------:|
+| [Parsimmon](https://github.com/ayanonagon/Parsimmon) | [![Parsimmon Coverage](https://coveralls.io/repos/ayanonagon/Parsimmon/badge.png?branch=master)](https://coveralls.io/r/ayanonagon/Parsimmon?branch=master) |
+| [VENCore](https://github.com/venmo/VENCore) | [![VENCore Coverage](https://coveralls.io/repos/venmo/VENCore/badge.png?branch=marklarr%2Fslather)](https://coveralls.io/r/venmo/VENCore?branch=marklarr%2Fslather) |
 
 ## Installation
 
