@@ -2,8 +2,8 @@
 
 ![Slather Logo](https://raw.githubusercontent.com/venmo/slather/master/docs/logo.jpg)
 
-![Gem Version](https://badge.fury.io/rb/slather.svg)](http://badge.fury.io/rb/slather)
- [![Build Status](https://travis-ci.org/venmo/slather.svg?branch=master)](https://travis-ci.org/venmo/slather)
+[![Gem Version](https://badge.fury.io/rb/slather.svg)](http://badge.fury.io/rb/slather)
+[![Build Status](https://travis-ci.org/venmo/slather.svg?branch=master)](https://travis-ci.org/venmo/slather)
 
 Generate test coverage reports for Xcode projects & hook it into CI.
 
