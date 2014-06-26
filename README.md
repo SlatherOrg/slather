@@ -1,4 +1,4 @@
-![Slather Logo](ttps://raw.githubusercontent.com/venmo/slather/master/docs/    logo.png)
+![Slather Logo](https://raw.githubusercontent.com/venmo/slather/master/docs/logo.jpg?token=760261__eyJzY29wZSI6IlJhd0Jsb2I6dmVubW8vc2xhdGhlci9tYXN0ZXIvZG9jcy9sb2dvLmpwZyIsImV4cGlyZXMiOjE0MDQzNDU3NzJ9--825fd039ab7c3fe638d8dc862afd790bcabd162f)
 
 Generate test coverage reports for Xcode projects. Apply tests liberally.
 
