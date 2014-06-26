@@ -58,11 +58,11 @@ module Slather
     end
 
     def configure_ignore_list_from_yml
-      self.ignore_list = [(self.class.yml["ignore"] || [])].flatten unless self.ignore_list
+      self.ignore_list ||= [(self.class.yml["ignore"] || [])].flatten
     end
 
     def configure_ci_service_from_yml
-      self.ci_service = (self.class.yml["ci_service"] || :travis_ci) unless self.ci_service
+      self.ci_service ||= (self.class.yml["ci_service"] || :travis_ci)
     end
 
     def ci_service=(service)
@@ -70,7 +70,7 @@ module Slather
     end
 
     def configure_coverage_service_from_yml
-      self.coverage_service = (self.class.yml["coverage_service"] || :terminal) unless coverage_service
+      self.coverage_service ||= (self.class.yml["coverage_service"] || :terminal)
     end
 
     def coverage_service=(service)
@@ -94,3 +94,4 @@ module Slather
 
   end
 end
+
