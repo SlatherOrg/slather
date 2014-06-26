@@ -1,0 +1,28 @@
+        -:    0:Source:/Users/marklarsen/github.com/slather/spec/fixtures/fixtures/fixtures.m
+        -:    0:Graph:/Users/marklarsen/Library/Developer/Xcode/DerivedData//fixtures-czazirttkkrssufgoautqjgkttgi/Build/Intermediates/fixtures.build/Debug/fixtures.build/Objects-normal/x86_64/fixtures.gcno
+        -:    0:Data:/Users/marklarsen/Library/Developer/Xcode/DerivedData//fixtures-czazirttkkrssufgoautqjgkttgi/Build/Intermediates/fixtures.build/Debug/fixtures.build/Objects-normal/x86_64/fixtures.gcda
+        -:    0:Runs:3
+        -:    0:Programs:1
+        -:    1://
+        -:    2://  fixtures.m
+        -:    3://  fixtures
+        -:    4://
+        -:    5://  Created by Mark Larsen on 6/24/14.
+        -:    6://  Copyright (c) 2014 marklarr. All rights reserved.
+        -:    7://
+        -:    8:
+        -:    9:#import "fixtures.h"
+        -:   10:
+        -:   11:@implementation fixtures
+        -:   12:
+        -:   13:- (void)testedMethod
+        -:   14:{
+        3:   15:    NSLog(@"tested");
+        3:   16:}
+        -:   17:
+        -:   18:- (void)untestedMethod
+        -:   19:{
+    #####:   20:    NSLog(@"untested");
+    #####:   21:}
+        -:   22:
+        -:   23:@end
