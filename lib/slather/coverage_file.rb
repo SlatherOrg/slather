@@ -31,7 +31,7 @@ module Slather
 
     def gcov_data
       @gcov_data ||= begin
-        gcov_output = `gcov #{source_file_pathname} --object-directory #{gcno_file_pathname.parent}`
+        gcov_output = `gcov "#{source_file_pathname}" --object-directory "#{gcno_file_pathname.parent}"`
         # Sometimes gcov makes gcov files for Cocoa Touch classes, like NSRange. Ignore and delete later.
         gcov_files_created = gcov_output.scan(/creating '(.+\..+\.gcov)'/)
 
