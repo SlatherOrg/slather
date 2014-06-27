@@ -79,7 +79,7 @@ rescue LoadError
 end
 ```
 
-Then, tell slather where to find the source files for your Pod
+Then, tell slather where to find the source files for your Pod.
 
 ```
 # .slather.yml
