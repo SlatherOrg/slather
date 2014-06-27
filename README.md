@@ -66,7 +66,7 @@ after_success: slather
 
 ### Coverage for code inlcuded via CocoaPods
 
-If you're trying to compute coverage for code that has been included via CocoaPods:
+If you're trying to compute the coverage of code that has been included via CocoaPods, you can add the following to your Podfile:
 
 ```
 # Podfile
