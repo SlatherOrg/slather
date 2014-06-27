@@ -64,6 +64,29 @@ install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: slather
 ```
 
+### Coverage for code inlcuded via CocoaPods
+
+If you're trying to compute the coverage of code that has been included via CocoaPods, you can add the following to your Podfile:
+
+```
+# Podfile
+
+begin
+  require 'slather'
+  Slather.prepare_pods(self)
+rescue LoadError
+  puts 'Slather has been disabled (not installed).'
+end
+```
+
+Then, tell slather where to find the source files for your Pod.
+
+```
+# .slather.yml
+
+source_directory: Pods/AFNetworking
+```
+
 ### Custom Build Directory
 
 Slather will look for the test coverage files in `DerivedData` by default. If you send build output to a custom location, like [this](https://github.com/erikdoe/ocmock/blob/master/Tools/travis.sh#L12), then you should also set the `build_directory` property in `.slather.yml`
