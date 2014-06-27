@@ -64,7 +64,7 @@ install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: slather
 ```
 
-### Coverage for code inlcuded via CocoaPods
+### Coverage for code included via CocoaPods
 
 If you're trying to compute the coverage of code that has been included via CocoaPods, you can add the following to your Podfile:
 
