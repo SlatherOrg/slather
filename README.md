@@ -68,7 +68,7 @@ after_success: slather
 
 If you're trying to compute the coverage of code that has been included via CocoaPods, you can add the following to your Podfile:
 
-```
+```ruby
 # Podfile
 
 begin
@@ -81,7 +81,7 @@ end
 
 Then, tell slather where to find the source files for your Pod.
 
-```
+```yml
 # .slather.yml
 
 source_directory: Pods/AFNetworking
