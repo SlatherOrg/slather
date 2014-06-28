@@ -3,7 +3,7 @@ module Slather
     module SimpleOutput
 
       def coverage_file_class
-        Slather::CoverallsCoverageFile
+        Slather::CoverageFile
       end
       private :coverage_file_class
 
@@ -12,11 +12,10 @@ module Slather
         total_project_lines_tested = 0
         coverage_files.each do |coverage_file|
           # ignore lines that don't count towards coverage (comments, whitespace, etc). These are nil in the array.
-          coverage_data = coverage_file.coverage_data.compact
 
-          lines_tested = coverage_data.select { |cd| cd > 0 }.count
-          total_lines = coverage_data.count
-          percentage = '%.2f' % [(lines_tested / total_lines.to_f) * 100.0]
+          lines_tested = coverage_file.num_lines_tested
+          total_lines = coverage_file.num_lines_testable
+          percentage = '%.2f' % [coverage_file.percentage_lines_tested]
 
           total_project_lines_tested += lines_tested
           total_project_lines += total_lines
