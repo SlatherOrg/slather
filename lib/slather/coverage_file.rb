@@ -74,13 +74,11 @@ module Slather
     end
 
     def num_lines_tested
-      coverage_data = self.coverage_data.compact
-      coverage_data.select { |cd| cd > 0 }.count
+      coverage_data.compact.select { |cd| cd > 0 }.count
     end
 
     def num_lines_testable
-      coverage_data = self.coverage_data.compact
-      coverage_data.count
+      coverage_data.compact.count
     end
 
     def percentage_lines_tested
