@@ -8,8 +8,8 @@ describe Slather::CoverageService::SimpleOutput do
   end
 
   describe '#coverage_file_class' do
-    it "should return CoverallsCoverageFile" do
-      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverallsCoverageFile)
+    it "should return CoverageFile" do
+      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverageFile)
     end
   end
 

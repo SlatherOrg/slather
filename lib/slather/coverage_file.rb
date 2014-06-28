@@ -51,6 +51,14 @@ module Slather
       end
     end
 
+    def coverage_data
+      first_line_start = gcov_data =~ /^\s+(-|#+|[0-9+]):\s+1:/
+
+      gcov_data[first_line_start..-1].split("\n").map do |line|
+        coverage_for_line(line)
+      end
+    end
+
     def coverage_for_line(line)
       line =~ /^(.+?):/
 
@@ -63,6 +71,20 @@ module Slather
       when "-"
         nil
       end
+    end
+
+    def num_lines_tested
+      coverage_data = self.coverage_data.compact
+      coverage_data.select { |cd| cd > 0 }.count
+    end
+
+    def num_lines_testable
+      coverage_data = self.coverage_data.compact
+      coverage_data.count
+    end
+
+    def percentage_lines_tested
+      (num_lines_tested / num_lines_testable.to_f) * 100.0
     end
 
     def ignored?

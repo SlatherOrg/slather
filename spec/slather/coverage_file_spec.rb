@@ -114,5 +114,23 @@ OBJC
       end
     end
 
+    describe "num_lines_tested" do
+      it "should return the correct number of lines tested" do
+        expect(coverage_file.num_lines_tested).to eq(2)
+      end
+    end
+
+    describe "num_lines_testable" do
+      it "should return the correct number of lines that are testable" do
+        expect(coverage_file.num_lines_testable).to eq(4)
+      end
+    end
+
+    describe "percentage_lines_tested" do
+      it "should return the correct percentage of lines that are tested" do
+        expect(coverage_file.percentage_lines_tested).to eq(50)
+      end
+    end
+
   end
 end
