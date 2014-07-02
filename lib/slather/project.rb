@@ -54,22 +54,7 @@ module Slather
     private :coverage_files
 
     def dedupe(coverage_files)
-      coverage_files_dict = {}
-      coverage_files.each do |coverage_file|
-        pathname = coverage_file.source_file_pathname
-        duplicate = coverage_files_dict[pathname]
-        if duplicate
-          duplicate_coverage = duplicate.percentage_lines_tested
-          coverage = coverage_file.percentage_lines_tested
-          # Favor the coverage file with higher coverage.
-          if coverage > duplicate_coverage
-            coverage_files_dict[pathname] = coverage_file
-          end
-        else
-          coverage_files_dict[pathname] = coverage_file
-        end
-      end
-      coverage_files_dict.values
+      coverage_files.group_by(&:source_file_pathname).values.map { |cf_array| cf_array.max_by(&:percentage_lines_tested) }
     end
     private :dedupe
 

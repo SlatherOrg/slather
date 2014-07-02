@@ -70,6 +70,7 @@ describe Slather::Project do
 
     it "should return coverage file objects of type coverage_file_class for unignored project files" do
       fixtures_project.ignore_list = ["*fixturesTests*"]
+      fixtures_project.stub(:dedupe) { |coverage_files| coverage_files }
       coverage_files = fixtures_project.send(:coverage_files)
       coverage_files.each { |cf| expect(cf.kind_of?(SpecCoverageFile)).to be_truthy }
       expect(coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["fixtures.m", "peekaview.m"])
