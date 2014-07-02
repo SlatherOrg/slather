@@ -83,15 +83,15 @@ describe Slather::Project do
 
   describe "#dedupe" do
     it "should return a deduplicated list of coverage files, favoring the file with higher coverage" do
-      coverage_file_1 = double("coverage_file_class")
+      coverage_file_1 = double(Slather::CoverageFile)
       coverage_file_1.stub(:source_file_pathname).and_return("some/path/class1.m")
       coverage_file_1.stub(:percentage_lines_tested).and_return(100)
 
-      coverage_file_2 = double("coverage_file_class")
+      coverage_file_2 = double(Slather::CoverageFile)
       coverage_file_2.stub(:source_file_pathname).and_return("some/path/class2.m")
       coverage_file_2.stub(:percentage_lines_tested).and_return(100)
 
-      coverage_file_2b = double("coverage_file_class")
+      coverage_file_2b = double(Slather::CoverageFile)
       coverage_file_2b.stub(:source_file_pathname).and_return("some/path/class2.m")
       coverage_file_2b.stub(:percentage_lines_tested).and_return(0)
 
