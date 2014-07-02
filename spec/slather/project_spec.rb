@@ -70,6 +70,7 @@ describe Slather::Project do
 
     it "should return coverage file objects of type coverage_file_class for unignored project files" do
       fixtures_project.ignore_list = ["*fixturesTests*"]
+      fixtures_project.stub(:dedupe) { |coverage_files| coverage_files }
       coverage_files = fixtures_project.send(:coverage_files)
       coverage_files.each { |cf| expect(cf.kind_of?(SpecCoverageFile)).to be_truthy }
       expect(coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["fixtures.m", "peekaview.m"])
@@ -78,6 +79,28 @@ describe Slather::Project do
     it "should raise an exception if no unignored project coverage file files were found" do
       fixtures_project.ignore_list = ["*fixturesTests*", "*fixtures*"]
       expect {fixtures_project.send(:coverage_files)}.to raise_error(StandardError)
+    end
+  end
+
+  describe "#dedupe" do
+    it "should return a deduplicated list of coverage files, favoring the file with higher coverage" do
+      coverage_file_1 = double(Slather::CoverageFile)
+      coverage_file_1.stub(:source_file_pathname).and_return("some/path/class1.m")
+      coverage_file_1.stub(:percentage_lines_tested).and_return(100)
+
+      coverage_file_2 = double(Slather::CoverageFile)
+      coverage_file_2.stub(:source_file_pathname).and_return("some/path/class2.m")
+      coverage_file_2.stub(:percentage_lines_tested).and_return(100)
+
+      coverage_file_2b = double(Slather::CoverageFile)
+      coverage_file_2b.stub(:source_file_pathname).and_return("some/path/class2.m")
+      coverage_file_2b.stub(:percentage_lines_tested).and_return(0)
+
+      coverage_files = [coverage_file_1, coverage_file_2, coverage_file_2b]
+      deduped_coverage_files = fixtures_project.send(:dedupe, coverage_files)
+      expect(deduped_coverage_files.size).to eq(2)
+      expect(deduped_coverage_files).to include(coverage_file_1)
+      expect(deduped_coverage_files).to include(coverage_file_2)
     end
   end
 

@@ -48,10 +48,15 @@ module Slather
       if coverage_files.empty?
         raise StandardError, "No coverage files found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.pbxproj`"
       else
-        coverage_files
+        dedupe(coverage_files)
       end
     end
     private :coverage_files
+
+    def dedupe(coverage_files)
+      coverage_files.group_by(&:source_file_pathname).values.map { |cf_array| cf_array.max_by(&:percentage_lines_tested) }
+    end
+    private :dedupe
 
     def self.yml_filename
       '.slather.yml'
