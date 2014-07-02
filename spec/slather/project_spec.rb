@@ -81,6 +81,28 @@ describe Slather::Project do
     end
   end
 
+  describe "#dedupe" do
+    it "should return a deduplicated list of coverage files, favoring the file with higher coverage" do
+      coverage_file_1 = double("coverage_file_class")
+      coverage_file_1.stub(:source_file_pathname).and_return("some/path/cf1.gcno")
+      coverage_file_1.stub(:percentage_lines_tested).and_return(100)
+
+      coverage_file_2 = double("coverage_file_class")
+      coverage_file_2.stub(:source_file_pathname).and_return("some/path/cf2.gcno")
+      coverage_file_2.stub(:percentage_lines_tested).and_return(100)
+
+      coverage_file_2b = double("coverage_file_class")
+      coverage_file_2b.stub(:source_file_pathname).and_return("some/path/cf2.gcno")
+      coverage_file_2b.stub(:percentage_lines_tested).and_return(0)
+
+      coverage_files = [coverage_file_1, coverage_file_2, coverage_file_2b]
+      deduped_coverage_files = fixtures_project.send(:dedupe, coverage_files)
+      expect(deduped_coverage_files.size).to eq(2)
+      expect(deduped_coverage_files).to include(coverage_file_1)
+      expect(deduped_coverage_files).to include(coverage_file_2)
+    end
+  end
+
   describe "#configure_from_yml" do
     it "should configure all properties from the yml" do
       unstubbed_project = Slather::Project.open(FIXTURES_PROJECT_PATH)

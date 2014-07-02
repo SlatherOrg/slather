@@ -48,10 +48,30 @@ module Slather
       if coverage_files.empty?
         raise StandardError, "No coverage files found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.pbxproj`"
       else
-        coverage_files
+        dedupe(coverage_files)
       end
     end
     private :coverage_files
+
+    def dedupe(coverage_files)
+      coverage_files_dict = {}
+      coverage_files.each do |coverage_file|
+        pathname = coverage_file.source_file_pathname
+        duplicate = coverage_files_dict[pathname]
+        if duplicate
+          duplicate_coverage = duplicate.percentage_lines_tested
+          coverage = coverage_file.percentage_lines_tested
+          # Favor the coverage file with higher coverage.
+          if coverage > duplicate_coverage
+            coverage_files_dict[pathname] = coverage_file
+          end
+        else
+          coverage_files_dict[pathname] = coverage_file
+        end
+      end
+      coverage_files_dict.values
+    end
+    private :dedupe
 
     def self.yml_filename
       '.slather.yml'
