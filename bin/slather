@@ -77,15 +77,17 @@ Clamp do
 
   end
 
-  subcommand "setup", "Configures an xcodeproj for test coverage generation" do
-
-    parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+  subcommand "install", "Configures all xcodeproj's for test coverage generation" do
 
     def execute
-      project = Slather::Project.open(xcodeproj_path)
-      project.setup_for_coverage
-      project.save
+      all_xcodeproj.each do |xcodeproj| 
+        xcodeproj;xcodeproj.setup_for_coverage
+        xcodeproj.save
+      end
     end
 
+    def all_xcodeproj
+      Dir["**/*.xcodeproj"].map { |xcodeproj_path| Slather::Project.open(xcodeproj_path) }
+    end
   end
 end
