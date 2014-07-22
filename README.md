@@ -19,24 +19,32 @@ Generate test coverage reports for Xcode projects & hook it into CI.
 
 Add this line to your application's Gemfile:
 
-    gem 'slather'
+```ruby
+gem 'slather'
+```
 
 And then execute:
 
-    $ bundle
+```sh
+$ bundle
+```
 
 ## Usage
 
 Setup your project for test coverage:
 
-    $ slather setup path/to/project.xcodeproj
+```sh
+$ slather setup path/to/project.xcodeproj
+```
 
 This will enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project.
 
 
 To test if you're ready to generate test coverage, run your test suite on your project, and then run:
 
-    $ slather coverage -s path/to/project.xcodeproj
+```sh
+$ slather coverage -s path/to/project.xcodeproj
+```
 
 ### Coveralls
 
