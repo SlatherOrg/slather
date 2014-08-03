@@ -7,7 +7,7 @@ Clamp do
 
   self.default_subcommand = "coverage"
 
-  subcommand "coverage", "Computes coverage for the supplised project" do
+  subcommand "coverage", "Computes coverage for the supplied project" do
 
     parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
 
