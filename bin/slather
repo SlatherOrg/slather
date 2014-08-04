@@ -14,7 +14,7 @@ Clamp do
     option ["--travis", "-t"], :flag, "Indicate that the builds are running on Travis CI"
 
     option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
-    option ["--simple-output", "-s"], :flag, "Post coverage results to coveralls"
+    option ["--simple-output", "-s"], :flag, "Output coverage results to the terminal"
 
     option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
     option ["--source-directory"], "SOURCE_DIRECTORY", "The directory where your source files are located."
