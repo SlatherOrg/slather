@@ -13,22 +13,13 @@ module Slather
       private :travis_job_id
 
       def coveralls_coverage_data
-        if ci_service == :travis_ci || ci_service == :travis_pro
+        if ci_service == :travis_ci
           if travis_job_id
-            if ci_service == :travis_ci
-              {
-                :service_job_id => travis_job_id,
-                :service_name => "travis-ci",
-                :source_files => coverage_files.map(&:as_json)
-              }.to_json
-            elsif ci_service == :travis_pro
-              {
-                :service_job_id => travis_job_id,
-                :service_name => "travis-pro",
-                :repo_token => ci_access_token,
-                :source_files => coverage_files.map(&:as_json)
-              }.to_json
-            end
+            {
+              :service_job_id => travis_job_id,
+              :service_name => "travis-ci",
+              :source_files => coverage_files.map(&:as_json)
+            }.to_json
           else
             raise StandardError, "Environment variable `TRAVIS_JOB_ID` not set. Is this running on a travis build?"
           end
