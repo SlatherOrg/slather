@@ -42,8 +42,12 @@ module Slather
         # Sometimes gcov makes gcov files for Cocoa Touch classes, like NSRange. Ignore and delete later.
         gcov_files_created = gcov_output.scan(/creating '(.+\..+\.gcov)'/)
 
-        gcov_file = File.new("./#{source_file_pathname.basename}.gcov")
-        gcov_data = gcov_file.read
+        gcov_data ||=begin
+          gcov_file = File.new("./#{source_file_pathname.basename}.gcov")
+          gcov_file.read
+        rescue
+          nil
+        end
 
         gcov_files_created.each { |file| FileUtils.rm(file) }
 
@@ -52,10 +56,14 @@ module Slather
     end
 
     def coverage_data
-      first_line_start = gcov_data =~ /^\s+(-|#+|[0-9+]):\s+1:/
+      if gcov_data
+        first_line_start = gcov_data =~ /^\s+(-|#+|[0-9+]):\s+1:/
 
-      gcov_data[first_line_start..-1].split("\n").map do |line|
-        coverage_for_line(line)
+        gcov_data[first_line_start..-1].split("\n").map do |line|
+          coverage_for_line(line)
+        end
+      else
+        []
       end
     end
 
