@@ -42,11 +42,9 @@ module Slather
         # Sometimes gcov makes gcov files for Cocoa Touch classes, like NSRange. Ignore and delete later.
         gcov_files_created = gcov_output.scan(/creating '(.+\..+\.gcov)'/)
 
-        gcov_data ||=begin
-          gcov_file = File.new("./#{source_file_pathname.basename}.gcov")
-          gcov_file.read
-        rescue
-          nil
+        gcov_file_name = "./#{source_file_pathname.basename}.gcov"
+        if File.exists?(gcov_file_name)
+          gcov_data = File.new(gcov_file_name).read
         end
 
         gcov_files_created.each { |file| FileUtils.rm(file) }
