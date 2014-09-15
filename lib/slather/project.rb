@@ -112,6 +112,8 @@ module Slather
       service = service && service.to_sym
       if service == :coveralls
         extend(Slather::CoverageService::Coveralls)
+      elsif service == :hardcover
+        extend(Slather::CoverageService::Hardcover)
       elsif service == :terminal
         extend(Slather::CoverageService::SimpleOutput)
       elsif service == :gutter_json
@@ -123,7 +125,6 @@ module Slather
       end
       @coverage_service = service
     end
-
   end
 end
 
