@@ -35,7 +35,7 @@ module Slather
             {
               :service_job_id => travis_job_id,
               :service_name => "travis-ci",
-              :repo_token => "#{@yml["repo_token"]}",
+              :repo_token => yml["repo_token"],
               :source_files => coverage_files.map(&:as_json)
             }.to_json
           else
@@ -46,7 +46,7 @@ module Slather
             {
               :service_job_id => jenkins_job_id,
               :service_name => "jenkins-ci",
-              :repo_token => "#{self.yml[:repo_token]}",
+              :repo_token => yml["repo_token"],
               :source_files => coverage_files.map(&:as_json)
             }.to_json
           else
@@ -77,7 +77,7 @@ module Slather
       private :hardcover_api_jobs_path
 
       def hardcover_base_url
-        url = @yml["base_url"]
+        url = yml["base_url"]
         unless url
           raise "No `base_url` configured. Please add it to your `.hardcover.yml`"
         end
