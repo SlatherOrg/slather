@@ -7,6 +7,7 @@ require 'coveralls'
 
 Coveralls.wear!
 
+FIXTURES_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/gutter.json')
 FIXTURES_PROJECT_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures.xcodeproj')
 
 RSpec.configure do |config|

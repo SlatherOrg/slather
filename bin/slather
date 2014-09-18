@@ -15,6 +15,7 @@ Clamp do
 
     option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
     option ["--simple-output", "-s"], :flag, "Output coverage results to the terminal"
+    option ["--gutter-json", "-g"], :flag, "Output coverage results as Gutter JSON format"
 
     option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
     option ["--source-directory"], "SOURCE_DIRECTORY", "The directory where your source files are located."
@@ -72,6 +73,8 @@ Clamp do
         project.coverage_service = :coveralls
       elsif simple_output?
         project.coverage_service = :terminal
+      elsif gutter_json?
+        project.coverage_service = :gutter_json
       end
     end
 
