@@ -23,9 +23,15 @@ module Slather
             line_number = data[1].to_i
             next unless line_number > 0
 
+            coverage = data[0].strip
+
             symbol = {  'line' => line_number,
                         'long_text' => '',
-                        'short_text' => data[0].strip }
+                        'short_text' => coverage }
+
+            if coverage != '-'
+              symbol['background_color'] = coverage.to_i > 0 ? '0x35CC4B' : '0xFC635E'
+            end
 
             if symbols.has_key?(filename)
               symbols[filename] << symbol
