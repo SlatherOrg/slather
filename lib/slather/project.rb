@@ -104,6 +104,8 @@ module Slather
         extend(Slather::CoverageService::Coveralls)
       elsif service == :terminal
         extend(Slather::CoverageService::SimpleOutput)
+      elsif service == :gutter_json
+        extend(Slather::CoverageService::GutterJsonOutput)
       else
         raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal` or `coveralls`"
       end
