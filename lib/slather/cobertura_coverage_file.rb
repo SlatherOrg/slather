@@ -7,19 +7,13 @@ module Slather
       scanning_for_method = false
 
       gcov_data.split("\n").each do |line|
-        if line.match(/(Data:)/) || line.match(/(Runs:)/) || line.match(/(Programs:)/)
+        if line.match(/(Source:)/) ||  line.match(/(Graph:)/) ||  line.match(/(Data:)/) || line.match(/(Runs:)/) || line.match(/(Programs:)/)
           next
         end
 
-        # TODO: more elegant
-        segments = line.split(':')
-        if (segments[2] != nil)
-          line_of_code = segments[2]
-        else
-          line_of_code = segments[1]
-        end
+        line_of_code = line.sub(/.*?:.*?:/, '')
         
-        # scan for instance or class methods TODO: better algoritm
+        # scan for instance or class methods
         if line_of_code[0] == '-' || line_of_code[0] == '+'
           current_method = Hash["name" => line_of_code, "lines_of_code" => Array.new]
           scanning_for_method = true
