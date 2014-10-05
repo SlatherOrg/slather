@@ -17,7 +17,7 @@ module Slather
         
         # scan for instance or class methods
         if line_of_code[0] == '-' || line_of_code[0] == '+'
-          current_method = Hash["name" => line_of_code, "lines_of_code" => Array.new]
+          current_method = create_new_method_from_line_of_code(line_of_code)
           scanning_for_method = true
         end
         
@@ -32,6 +32,22 @@ module Slather
         end
       end
       return scanned_methods
+    end
+
+    def create_new_method_from_line_of_code(line)
+      method_name = extract_method_name_from_line_of_code(line)
+      method = Hash["name" => method_name, "lines_of_code" => Array.new]
+      return method
+    end
+
+    def extract_method_name_from_line_of_code(line)
+      method_name = line.gsub(/\(.*?\)/, '')
+      method_name = method_name.gsub(/:.*? /, ':')
+      index = method_name.rindex(':')
+      if (index != nil)
+        method_name = method_name.slice(0..index)
+      end
+      return method_name
     end
 
     def rate_lines_tested
