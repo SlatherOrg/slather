@@ -54,7 +54,6 @@ module Slather
 
       methodsNode = Nokogiri::XML::Node.new "methods", xml_document
       methodsNode.parent = classNode
-      
       methods = lines_grouped_by_methods
       methods.each do |method|
         methodNode = create_method_node(method, xml_document)
