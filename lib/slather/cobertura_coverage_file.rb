@@ -1,7 +1,7 @@
 module Slather
   class CoberturaCoverageFile < CoverageFile
 
-    # TODO: ingnore methods that are commented out
+    # TODO: ignore methods that are commented out
     def lines_grouped_by_methods
       scanned_methods = Array.new
       current_method = nil
