@@ -24,8 +24,8 @@ module Slather
         packageNode = @doc.at_css "package"
         classesNode = @doc.at_css "classes"
         coverageNode['timestamp'] = DateTime.now.strftime('%s')
-        sourceNode.content = "TODO"
-        packageNode['name'] = "TODO"
+        sourceNode.content = "TODO" # TODO: provide source path
+        packageNode['name'] = "TODO" # TODO: provide package name equivalent
 
         coverage_files.each do |coverage_file|
           next unless coverage_file.gcov_data
@@ -37,10 +37,10 @@ module Slather
 
         total_line_rate = '%.2f' % (total_project_lines_rate / total_project_lines.to_f)
         coverageNode['line-rate'] = total_line_rate
-        coverageNode['branch-rate'] = '0.0'
+        coverageNode['branch-rate'] = '0.0' # TODO: calculate branch coverage rate
         packageNode['line-rate'] = total_line_rate
-        packageNode['branch-rate'] = '0.0'
-        packageNode['complexity'] = '1.0'
+        packageNode['branch-rate'] = '0.0' # TODO: calculate branch coverage rate
+        packageNode['complexity'] = '1.0' # TODO: calculate complexity
         return @doc.to_xml
       end
 
