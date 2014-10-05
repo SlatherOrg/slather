@@ -5,7 +5,7 @@ module Slather
     module CoberturaXmlOutput
 
       def coverage_file_class
-        Slather::CoverageFile
+        Slather::CoberturaCoverageFile
       end
       private :coverage_file_class
 

@@ -9,8 +9,8 @@ describe Slather::CoverageService::CoberturaXmlOutput do
   end
 
   describe '#coverage_file_class' do
-    it "should return CoverageFile" do
-      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverageFile)
+    it "should return CoberturaCoverageFile" do
+      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoberturaCoverageFile)
     end
   end
 
