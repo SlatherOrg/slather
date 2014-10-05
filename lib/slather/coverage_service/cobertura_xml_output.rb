@@ -10,54 +10,77 @@ module Slather
       private :coverage_file_class
 
       def post
-        output = { 'meta' => { 'timestamp' => DateTime.now.strftime('%Y-%m-%d %H:%M:%S.%6N') } }
 
-        @doc = Nokogiri::XML "<coverage></coverage>"
-        @doc.to_xml
+        cobertura_xml_report = create_xml_report(coverage_files)
+        puts cobertura_xml_report
+
+        File.open('cobertura.xml', 'w') { |file| file.write(cobertura_xml_report.to_s) }
+      end
+
+      def create_xml_report(coverage_files)
         
-        coverage = @doc.at_css "coverage"
-        coverage['line-rate'] = '20.0'
-        coverage['branch-rate'] = "0.0" 
-        coverage['version'] = "1.9"
-        coverage['timestamp'] = "1187353747005"
+        total_project_lines = 0
+        total_project_lines_rate = 0
 
-        sources  = Nokogiri::XML::Node.new "sources", @doc
-        packages = Nokogiri::XML::Node.new "packages", @doc
-        classes  = Nokogiri::XML::Node.new "classes", @doc
-        methods  = Nokogiri::XML::Node.new "methods", @doc
-        lines    = Nokogiri::XML::Node.new "lines", @doc
+        @doc = create_empty_xml_report
 
-        sources.parent = coverage
-        packages.parent = coverage
-        classes.parent = coverage
-        methods.parent = coverage
-        lines.parent = coverage
-
-        # <sources>
-        #   <source>C:/local/mvn-coverage-example/src/main/java</source>
-        # </sources>
+        coverageNode = @doc.at_css "coverage"
+        packageNode = @doc.at_css "package"
         
-        @doc.to_xml
-
-        puts @doc.to_xml
-
-
-
         coverage_files.each do |coverage_file|
           next unless coverage_file.gcov_data
 
-          filename = coverage_file.source_file_pathname.to_s
-          filename = filename.sub(Pathname.pwd.to_s, '')[1..-1]
+          classNode = coverage_file.create_class_node(@doc)
+          classNode.parent = packageNode
 
-          coverage_file.gcov_data.split("\n").each do |line|
-            
-
-          end
+          total_project_lines_rate += coverage_file.num_lines_tested
+          total_project_lines += coverage_file.num_lines_testable
         end
 
-        File.open('cobertura.xml', 'w') { |file| file.write(output.to_s) }
+        total_line_rate = '%.2f' % (total_project_lines_rate / total_project_lines.to_f)
+
+        coverageNode['line-rate'] = total_line_rate
+        coverageNode['branch-rate'] = '0.0'
+        packageNode['line-rate'] = total_line_rate
+        packageNode['branch-rate'] = '0.0'
+        packageNode['complexity'] = '1.0'
+
+        return @doc.to_xml
+      end
+
+      def create_empty_xml_report
+        @doc = Nokogiri::XML "<coverage version='1.9'></coverage>"
+        coverageNode = @doc.root
+        sourcesNode = Nokogiri::XML::Node.new "sources", @doc
+        sourcesNode.parent = coverageNode
+        packagesNode = Nokogiri::XML::Node.new "packages", @doc
+        packagesNode.parent = coverageNode
+        packageNode = Nokogiri::XML::Node.new "package", @doc
+        packageNode.parent = packagesNode
+        classesNode = Nokogiri::XML::Node.new "classes", @doc
+        classesNode.parent = packageNode
+        sourceNode  = Nokogiri::XML::Node.new "source", @doc
+        sourceNode.parent = sourcesNode
+        coverageNode['timestamp'] = DateTime.now.strftime('%s')
+        sourceNode.content = "TODO" # add project path
+        packageNode['name'] = "TODO" # add package name equivalent
+        return @doc
       end
 
     end
   end
 end
+
+
+# builder = Nokogiri::XML::Builder.new do |xml|
+#   xml.doc.create_internal_subset(
+#     'html',
+#     "-//W3C//DTD HTML 4.01 Transitional//EN",
+#     "http://www.w3.org/TR/html4/loose.dtd"
+#   )
+#   xml.root do
+#     xml.foo
+#   end
+# end
+
+# puts builder.to_xml
