@@ -11,16 +11,17 @@ module Slather
           next
         end
 
+        # TODO: more elegant
         segments = line.split(':')
         if (segments[2] != nil)
-          line_of_code = segments[2].strip
+          line_of_code = segments[2]
         else
-          line_of_code = segments[1].strip
+          line_of_code = segments[1]
         end
         
-        # scan for instance or class methods
+        # scan for instance or class methods TODO: better algoritm
         if line_of_code[0] == '-' || line_of_code[0] == '+'
-          current_method = Hash["method_name" => line_of_code, "lines_of_code" => Array.new]
+          current_method = Hash["name" => line_of_code, "lines_of_code" => Array.new]
           scanning_for_method = true
         end
         
@@ -64,7 +65,7 @@ module Slather
 
     def create_method_node(method, xml_document)
       methodNode = Nokogiri::XML::Node.new "method", xml_document
-      methodNode['name'] = method["method_name"]
+      methodNode['name'] = method["name"]
       methodNode['branch-rate'] = 0.0
       methodNode['signature'] = "()V" # TODO: parse method signature
 
