@@ -1,6 +1,7 @@
 module Slather
   class CoberturaCoverageFile < CoverageFile
 
+    # TODO: ingnore methods that are commented out
     def lines_grouped_by_methods
       scanned_methods = Array.new
       current_method = nil
@@ -11,6 +12,7 @@ module Slather
           next
         end
 
+        # extract code after second colon
         line_of_code = line.sub(/.*?:.*?:/, '')
         
         # scan for instance or class methods
@@ -36,13 +38,17 @@ module Slather
       (num_lines_tested / num_lines_testable.to_f)
     end
 
+    def source_file_basename
+      return File.basename(source_file_pathname, '.m')
+    end
+
     def create_class_node(xml_document)
-      filename = source_file_pathname.to_s
-      filename = filename.sub(Pathname.pwd.to_s, '')[1..-1]
+      filename = source_file_basename
+      filepath = source_file_pathname.to_s
 
       classNode = Nokogiri::XML::Node.new "class", xml_document
       classNode['name'] = filename
-      classNode['filename'] = filename
+      classNode['filename'] = filepath
       classNode['line-rate'] = '%.2f' % [rate_lines_tested]
       classNode['branch-rate'] = '0.0'
       classNode['complexity'] = '1.0'
