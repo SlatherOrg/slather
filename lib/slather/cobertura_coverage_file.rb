@@ -8,19 +8,22 @@ module Slather
       scanning_for_method = false
 
       gcov_data.split("\n").each do |line|
-        if line.match(/(Source:)/) ||  line.match(/(Graph:)/) ||  line.match(/(Data:)/) || line.match(/(Runs:)/) || line.match(/(Programs:)/)
-          next
-        end
 
         # extract code after second colon
         line_of_code = line.sub(/.*?:.*?:/, '')
         
+        # skip lines wich meta data
+        if line_of_code.match(/(^Source:)/) ||  line_of_code.match(/(^Graph:)/) ||  line_of_code.match(/(^Data:)/) || line_of_code.match(/(^Runs:)/) || line_of_code.match(/(^Programs:)/)
+          next
+        end
+
         # scan for instance or class methods
         if line_of_code[0] == '-' || line_of_code[0] == '+'
           current_method = create_new_method_from_line_of_code(line_of_code)
           scanning_for_method = true
         end
         
+        # collect line inside method
         if scanning_for_method == true
           current_method["lines_of_code"].push(line)
         end
@@ -41,8 +44,14 @@ module Slather
     end
 
     def extract_method_name_from_line_of_code(line)
+
+      # remove argument types including round brackets
       method_name = line.gsub(/\(.*?\)/, '')
+
+      # remove argument name and following space between colon and next keyword
       method_name = method_name.gsub(/:.*? /, ':')
+
+      # remove last argument name at the end including colon
       index = method_name.rindex(':')
       if (index != nil)
         method_name = method_name.slice(0..index)
@@ -83,7 +92,7 @@ module Slather
       methodNode = Nokogiri::XML::Node.new "method", xml_document
       methodNode['name'] = method["name"]
       methodNode['branch-rate'] = 0.0
-      methodNode['signature'] = "()V" # TODO: parse method signature
+      methodNode['signature'] = "()V" # TODO: parse method signature ? Actually not necessary in obj-c.
 
       linesNode = Nokogiri::XML::Node.new "lines", xml_document
       linesNode.parent = methodNode
