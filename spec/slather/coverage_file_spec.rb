@@ -130,6 +130,11 @@ OBJC
       it "should return the correct percentage of lines that are tested" do
         expect(coverage_file.percentage_lines_tested).to eq(50)
       end
+      
+      it "should return 0" do
+        coverage_file.stub(:num_lines_testable).and_return(0)
+        expect(coverage_file.percentage_lines_tested).to eq(0)
+      end
     end
 
   end
