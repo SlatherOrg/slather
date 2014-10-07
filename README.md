@@ -74,20 +74,9 @@ after_success: slather
 
 ### Coverage for code included via CocoaPods
 
-If you're trying to compute the coverage of code that has been included via CocoaPods, you can add the following to your Podfile:
-
-```ruby
-# Podfile
-
-begin
-  require 'slather'
-  Slather.prepare_pods(self)
-rescue LoadError
-  puts 'Slather has been disabled (not installed).'
-end
-```
-
-Then, tell slather where to find the source files for your Pod.
+If you're trying to compute the coverage of code that has been included via
+CocoaPods, you will need to tell slather where to find the source files for
+your Pod.
 
 ```yml
 # .slather.yml
