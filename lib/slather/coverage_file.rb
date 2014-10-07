@@ -47,7 +47,7 @@ module Slather
           gcov_data = File.new(gcov_file_name).read
         end
 
-        gcov_files_created.each { |file| FileUtils.rm(file) }
+        gcov_files_created.each { |file| FileUtils.rm_f(file) }
 
         gcov_data
       end
