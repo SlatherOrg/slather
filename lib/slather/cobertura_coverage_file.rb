@@ -13,7 +13,11 @@ module Slather
         line_of_code = line.sub(/.*?:.*?:/, '')
         
         # skip lines wich meta data
-        if line_of_code.match(/(^Source:)/) ||  line_of_code.match(/(^Graph:)/) ||  line_of_code.match(/(^Data:)/) || line_of_code.match(/(^Runs:)/) || line_of_code.match(/(^Programs:)/)
+        if line_of_code.match(/(^Source:)/) ||
+          line_of_code.match(/(^Graph:)/) ||
+          line_of_code.match(/(^Data:)/) ||
+          line_of_code.match(/(^Runs:)/) ||
+          line_of_code.match(/(^Programs:)/)
           next
         end
 

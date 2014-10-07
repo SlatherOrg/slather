@@ -18,18 +18,18 @@ module Slather
         total_project_lines = 0
         total_project_lines_rate = 0
 
-        @doc = create_empty_xml_report
-        coverageNode = @doc.at_css "coverage"
-        sourceNode = @doc.at_css "source"
-        packageNode = @doc.at_css "package"
-        classesNode = @doc.at_css "classes"
+        doc = create_empty_xml_report
+        coverageNode = doc.at_css "coverage"
+        sourceNode = doc.at_css "source"
+        packageNode = doc.at_css "package"
+        classesNode = doc.at_css "classes"
         coverageNode['timestamp'] = DateTime.now.strftime('%s')
         sourceNode.content = "TODO" # TODO: provide source path
         packageNode['name'] = "TODO" # TODO: provide package name equivalent
 
         coverage_files.each do |coverage_file|
           next unless coverage_file.gcov_data
-          classNode = coverage_file.create_class_node(@doc)
+          classNode = coverage_file.create_class_node(doc)
           classNode.parent = classesNode
           total_project_lines_rate += coverage_file.num_lines_tested
           total_project_lines += coverage_file.num_lines_testable
@@ -41,7 +41,7 @@ module Slather
         packageNode['line-rate'] = total_line_rate
         packageNode['branch-rate'] = '0.0' # TODO: calculate branch coverage rate
         packageNode['complexity'] = '1.0' # TODO: calculate complexity
-        return @doc.to_xml
+        return doc.to_xml
       end
 
       def create_empty_xml_report
