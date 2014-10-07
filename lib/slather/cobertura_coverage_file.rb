@@ -1,14 +1,16 @@
 module Slather
   class CoberturaCoverageFile < CoverageFile
 
+    def cleaned_gcov_data
+      return gcov_data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
+    end
+
     def lines_grouped_by_methods
       scanned_methods = Array.new
       current_method = nil
       scanning_for_method = false
 
       # remove lines that are commented out
-      cleaned_gcov_data = gcov_data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
-
       cleaned_gcov_data.split("\n").each do |line|
 
         # extract code after second colon
