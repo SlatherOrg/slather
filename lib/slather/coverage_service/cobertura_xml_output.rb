@@ -24,8 +24,8 @@ module Slather
         packageNode = doc.at_css "package"
         classesNode = doc.at_css "classes"
         coverageNode['timestamp'] = DateTime.now.strftime('%s')
-        sourceNode.content = "TODO" # TODO: provide source path
-        packageNode['name'] = "TODO" # TODO: provide package name equivalent
+        sourceNode.content = source_directory
+        packageNode['name'] = File.basename(path) # Project as package name?
 
         coverage_files.each do |coverage_file|
           next unless coverage_file.gcov_data
