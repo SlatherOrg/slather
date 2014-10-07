@@ -1,18 +1,20 @@
 module Slather
   class CoberturaCoverageFile < CoverageFile
 
-    # TODO: ignore methods that are commented out
     def lines_grouped_by_methods
       scanned_methods = Array.new
       current_method = nil
       scanning_for_method = false
 
-      gcov_data.split("\n").each do |line|
+      # remove lines that are commented out
+      cleaned_gcov_data = gcov_data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
+
+      cleaned_gcov_data.split("\n").each do |line|
 
         # extract code after second colon
         line_of_code = line.sub(/.*?:.*?:/, '')
         
-        # skip lines wich meta data
+        # skip lines with meta data
         if line_of_code.match(/(^Source:)/) ||
           line_of_code.match(/(^Graph:)/) ||
           line_of_code.match(/(^Data:)/) ||
