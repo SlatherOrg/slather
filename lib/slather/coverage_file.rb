@@ -47,7 +47,7 @@ module Slather
           gcov_data = File.new(gcov_file_name).read
         end
 
-        gcov_files_created.each { |file| FileUtils.rm(file) }
+        gcov_files_created.each { |file| FileUtils.rm_f(file) }
 
         gcov_data
       end
@@ -88,7 +88,11 @@ module Slather
     end
 
     def percentage_lines_tested
-      (num_lines_tested / num_lines_testable.to_f) * 100.0
+      if num_lines_testable > 0 
+        (num_lines_tested / num_lines_testable.to_f) * 100.0
+      else
+        0
+      end
     end
 
     def ignored?
