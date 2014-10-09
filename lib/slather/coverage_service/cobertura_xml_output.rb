@@ -19,28 +19,28 @@ module Slather
         total_project_lines_rate = 0
 
         doc = create_empty_xml_report
-        coverageNode = doc.at_css "coverage"
-        sourceNode = doc.at_css "source"
-        packageNode = doc.at_css "package"
-        classesNode = doc.at_css "classes"
-        coverageNode['timestamp'] = DateTime.now.strftime('%s')
-        sourceNode.content = source_directory
-        packageNode['name'] = File.basename(path) # Project as package name?
+        coverage_node = doc.at_css "coverage"
+        source_node = doc.at_css "source"
+        package_node = doc.at_css "package"
+        classes_node = doc.at_css "classes"
+        coverage_node['timestamp'] = DateTime.now.strftime('%s')
+        source_node.content = source_directory
+        package_node['name'] = File.basename(path) # Project as package name?
 
         coverage_files.each do |coverage_file|
           next unless coverage_file.gcov_data
-          classNode = coverage_file.create_class_node(doc)
-          classNode.parent = classesNode
+          class_node = coverage_file.create_class_node(doc)
+          class_node.parent = classes_node
           total_project_lines_rate += coverage_file.num_lines_tested
           total_project_lines += coverage_file.num_lines_testable
         end
 
         total_line_rate = '%.2f' % (total_project_lines_rate / total_project_lines.to_f)
-        coverageNode['line-rate'] = total_line_rate
-        coverageNode['branch-rate'] = '0.0' # TODO: calculate branch coverage rate
-        packageNode['line-rate'] = total_line_rate
-        packageNode['branch-rate'] = '0.0' # TODO: calculate branch coverage rate
-        packageNode['complexity'] = '1.0' # TODO: calculate complexity
+        coverage_node['line-rate'] = total_line_rate
+        coverage_node['branch-rate'] = '1.0' # TODO: calculate branch coverage rate
+        package_node['line-rate'] = total_line_rate
+        package_node['branch-rate'] = '1.0' # TODO: calculate branch coverage rate
+        package_node['complexity'] = '1.0' # TODO: calculate complexity
         return doc.to_xml
       end
 

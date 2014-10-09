@@ -117,31 +117,40 @@ module Slather
       filename = source_file_basename
       filepath = source_file_pathname.to_s
 
-      classNode = Nokogiri::XML::Node.new "class", xml_document
-      classNode['name'] = filename
-      classNode['filename'] = filepath
-      classNode['line-rate'] = '%.2f' % [rate_lines_tested]
-      classNode['branch-rate'] = '0.0' # TODO: calculate branch rate
-      classNode['complexity'] = '1.0'
+      class_node = Nokogiri::XML::Node.new "class", xml_document
+      class_node['name'] = filename
+      class_node['filename'] = filepath
+      class_node['line-rate'] = '%.2f' % [rate_lines_tested]
+      class_node['branch-rate'] = '1.0' # TODO: calculate branch rate
+      class_node['complexity'] = '1.0'
 
-      methodsNode = Nokogiri::XML::Node.new "methods", xml_document
-      methodsNode.parent = classNode
+      methods_node = Nokogiri::XML::Node.new "methods", xml_document
+      methods_node.parent = class_node
       methods = lines_grouped_by_methods
       methods.each do |method|
-        methodNode = create_method_node(method, xml_document)
-        methodNode.parent = methodsNode
+        method_node = create_method_node(method, xml_document)
+        method_node.parent = methods_node
       end
-      return classNode
+
+      # duplicate all lines below a separate node
+      lines_node = Nokogiri::XML::Node.new "lines", xml_document
+      lines_node.parent = class_node
+      lines = class_node.css("method line")
+      lines.each do |node|
+        node.dup.parent = lines_node
+      end
+
+      return class_node
     end
 
     def create_method_node(method, xml_document)
-      methodNode = Nokogiri::XML::Node.new "method", xml_document
-      methodNode['name'] = method["name"]
-      methodNode['branch-rate'] = '1.0'
-      methodNode['signature'] = "()V" # TODO: parse method signature ? Actually not necessary in obj-c.
+      method_node = Nokogiri::XML::Node.new "method", xml_document
+      method_node['name'] = method["name"]
+      method_node['branch-rate'] = '1.0'
+      method_node['signature'] = "()V" # TODO: parse method signature ? Actually not necessary in obj-c.
 
       linesNode = Nokogiri::XML::Node.new "lines", xml_document
-      linesNode.parent = methodNode
+      linesNode.parent = method_node
 
       method_lines = 0
       method_lines_tested = 0
@@ -205,12 +214,12 @@ module Slather
       end
 
       total_method_line_rate = '%.2f' % (method_lines_tested / method_lines.to_f)
-      methodNode['line-rate'] = total_method_line_rate
+      method_node['line-rate'] = total_method_line_rate
       if branches_tested > 0
         total_method_branch_rate = '%.2f' % [(branch_rates / branches_tested.to_f) / 100.0]
-        methodNode['branch-rate'] = total_method_branch_rate
+        method_node['branch-rate'] = total_method_branch_rate
       end
-      return methodNode
+      return method_node
     end
 
     def branch_coverage_for_line(block)
