@@ -36,6 +36,14 @@ module Slather
       end
     end
 
+    def rate_lines_tested
+      (num_lines_tested / num_lines_testable.to_f)
+    end
+
+    def source_file_basename
+      return File.basename(source_file_pathname, '.m')
+    end
+
     def cleaned_gcov_data
       cleaned_data = gcov_data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
       return cleaned_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
@@ -105,14 +113,6 @@ module Slather
       return method_name
     end
 
-    def rate_lines_tested
-      (num_lines_tested / num_lines_testable.to_f)
-    end
-
-    def source_file_basename
-      return File.basename(source_file_pathname, '.m')
-    end
-
     def create_class_node(xml_document)
       filename = source_file_basename
       filepath = source_file_pathname.to_s
@@ -120,26 +120,30 @@ module Slather
       class_node = Nokogiri::XML::Node.new "class", xml_document
       class_node['name'] = filename
       class_node['filename'] = filepath
-      class_node['line-rate'] = '%.2f' % [rate_lines_tested]
-      class_node['branch-rate'] = '1.0' # TODO: calculate branch rate
-      class_node['complexity'] = '1.0'
+      class_node['line-rate'] = '%.2f' % rate_lines_tested
+      class_node['complexity'] = '---'
 
       methods_node = Nokogiri::XML::Node.new "methods", xml_document
       methods_node.parent = class_node
       methods = lines_grouped_by_methods
+
+      total_class_branch_rate = 1.0
+      branch_rates = 0
       methods.each do |method|
         method_node = create_method_node(method, xml_document)
         method_node.parent = methods_node
+        branch_rates += method_node['branch-rate'].to_f
       end
 
       # duplicate all lines below a separate node
       lines_node = Nokogiri::XML::Node.new "lines", xml_document
       lines_node.parent = class_node
-      lines = class_node.css("method line")
+      lines = class_node.css "line"
       lines.each do |node|
         node.dup.parent = lines_node
       end
 
+      class_node['branch-rate'] = '%.2f' % (branch_rates / methods.length.to_f)
       return class_node
     end
 

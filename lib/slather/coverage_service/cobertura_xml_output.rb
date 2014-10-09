@@ -17,9 +17,10 @@ module Slather
       def create_xml_report(coverage_files)
         total_project_lines = 0
         total_project_lines_rate = 0
+        total_project_branch_rates = 0
 
         doc = create_empty_xml_report
-        coverage_node = doc.at_css "coverage"
+        coverage_node = doc.root
         source_node = doc.at_css "source"
         package_node = doc.at_css "package"
         classes_node = doc.at_css "classes"
@@ -33,14 +34,16 @@ module Slather
           class_node.parent = classes_node
           total_project_lines_rate += coverage_file.num_lines_tested
           total_project_lines += coverage_file.num_lines_testable
+          total_project_branch_rates += class_node['branch-rate'].to_f
         end
 
         total_line_rate = '%.2f' % (total_project_lines_rate / total_project_lines.to_f)
+        total_branch_rate = '%.2f' % (total_project_branch_rates / coverage_files.length.to_f)
         coverage_node['line-rate'] = total_line_rate
-        coverage_node['branch-rate'] = '1.0' # TODO: calculate branch coverage rate
+        coverage_node['branch-rate'] = total_branch_rate
         package_node['line-rate'] = total_line_rate
-        package_node['branch-rate'] = '1.0' # TODO: calculate branch coverage rate
-        package_node['complexity'] = '1.0' # TODO: calculate complexity
+        package_node['branch-rate'] = total_branch_rate
+        package_node['complexity'] = '---'
         return doc.to_xml
       end
 
