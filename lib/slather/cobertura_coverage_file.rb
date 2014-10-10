@@ -50,6 +50,9 @@ module Slather
       return cleaned_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
     end
 
+
+    # TODO: separate XML creation from model creation
+
     def create_class_node(xml_document)
       filename = source_file_basename
       filepath = source_file_pathname.to_s
@@ -68,26 +71,14 @@ module Slather
       lines_node = Nokogiri::XML::Node.new "lines", xml_document
       lines_node.parent = class_node
       
-      branch_rates = 0
+      total_branch_percentages = 0
       branches_tested = 0
 
       line_node = nil
-      branches = Array.new
+      branch_percentages = Array.new
       
       # remove lines that are commented out
       cleaned_gcov_data.split("\n").each do |line|
-
-        # extract code after second colon
-        line_of_code = line.sub(/.*?:.*?:/, '')
-        
-        # skip lines with meta data
-        if line_of_code.match(/(^Source:)/) ||
-          line_of_code.match(/(^Graph:)/) ||
-          line_of_code.match(/(^Data:)/) ||
-          line_of_code.match(/(^Runs:)/) ||
-          line_of_code.match(/(^Programs:)/)
-          next
-        end
 
         # process lines
         line_segments = line.split(':')
@@ -100,10 +91,10 @@ module Slather
         # process lines with branch information
         if line_segments[0].match(/^branch(.*)/)
           line_node['branch'] = "true"
-          branches.push(branch_coverage_for_line(line))
+          branch_percentages.push(branch_coverage_for_line(line))
         else
           # process collected branch data from previous line
-          if !branches.empty?
+          if !branch_percentages.empty?
             conditions_node = Nokogiri::XML::Node.new "conditions", xml_document
             conditions_node.parent = line_node
             condition_node = Nokogiri::XML::Node.new "condition", xml_document
@@ -113,18 +104,18 @@ module Slather
 
             condition_coverage = 0
             branch_hits = 0
-            branches.each do |branch|
+            branch_percentages.each do |branch|
               condition_coverage += branch
               if branch > 0
                 branch_hits += 1
               end
             end
-            condition_coverage = (branches.inject(:+) / branches.length)
+            condition_coverage = (branch_percentages.inject(:+) / branch_percentages.length)
             condition_node['coverage'] = "#{condition_coverage}%"
-            line_node['condition-coverage'] = "#{condition_coverage}% (#{branch_hits}/#{branches.length})"
+            line_node['condition-coverage'] = "#{condition_coverage}% (#{branch_hits}/#{branch_percentages.length})"
             branches_tested += 1
-            branch_rates += condition_coverage
-            branches.clear
+            total_branch_percentages += condition_coverage
+            branch_percentages.clear
           end
           line_node = Nokogiri::XML::Node.new "line", xml_document
           line_node.parent = lines_node
@@ -135,9 +126,9 @@ module Slather
         end
       end
       if branches_tested > 0
-        total_method_branch_rate = '%.16f' % [(branch_rates / branches_tested.to_f) / 100.0]
-        class_node['branch-rate'] = total_method_branch_rate
+        class_node['branch-rate'] = '%.16f' % [(total_branch_percentages / branches_tested.to_f) / 100.0]
       end
+
       # TODO: calculate complexity
       class_node['complexity'] = '---'
       return class_node
