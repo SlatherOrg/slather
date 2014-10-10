@@ -80,14 +80,14 @@ module Slather
         # collect line inside method
         if scanning_for_method == true
           current_method["lines_of_code"].push(line)
-        
+
           # scan for opening curly brace
-          if line_of_code.match(/.*{/)
+          if line_of_code.match(/\{/)
             branch_level += 1
           end
 
           # scan for closing curly brace
-          if line_of_code.match(/.*}/)
+          if line_of_code.match(/\}/)
             branch_level -= 1
 
             # if we are (back) on level 0 we have found our closing brace
