@@ -50,12 +50,30 @@ module Slather
       return cleaned_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
     end
 
-    def lines_grouped_by_methods
-      scanned_methods = Array.new
-      current_method = nil
-      scanning_for_method = false
-      branch_level = 0
+    def create_class_node(xml_document)
+      filename = source_file_basename
+      filepath = source_file_pathname.to_s
 
+      class_node = Nokogiri::XML::Node.new "class", xml_document
+      class_node['name'] = filename
+      class_node['filename'] = filepath
+      class_node['line-rate'] = '%.16f' % rate_lines_tested
+      class_node['branch-rate'] = '1.0'
+
+      # create empty methods node
+      methods_node = Nokogiri::XML::Node.new "methods", xml_document
+      methods_node.parent = class_node
+
+      # lines node will be filled
+      lines_node = Nokogiri::XML::Node.new "lines", xml_document
+      lines_node.parent = class_node
+      
+      branch_rates = 0
+      branches_tested = 0
+
+      line_node = nil
+      branches = Array.new
+      
       # remove lines that are commented out
       cleaned_gcov_data.split("\n").each do |line|
 
@@ -71,110 +89,7 @@ module Slather
           next
         end
 
-        # scan for instance or class methods
-        if line_of_code[0] == '-' || line_of_code[0] == '+'
-          current_method = create_method_hash_from_opening_line(line_of_code)
-          scanning_for_method = true
-        end
-        
-        # collect line inside method
-        if scanning_for_method == true
-          current_method["lines_of_code"].push(line)
-
-          # scan for opening curly brace
-          if line_of_code.match(/\{/)
-            branch_level += 1
-          end
-
-          # scan for closing curly brace
-          if line_of_code.match(/\}/)
-            branch_level -= 1
-
-            # if we are (back) on level 0 we have found our closing brace
-            if branch_level == 0
-              scanned_methods.push(current_method)
-              scanning_for_method = false
-            end
-          end
-        end
-      end
-      return scanned_methods
-    end
-
-    def create_method_hash_from_opening_line(line)
-      method_name = extract_method_name_from_opening_line(line)
-      method = Hash["name" => method_name, "lines_of_code" => Array.new]
-      return method
-    end
-
-    def extract_method_name_from_opening_line(line)
-
-      # remove argument types including round brackets
-      method_name = line.gsub(/\(.*?\)/, '')
-
-      # remove argument name and following space between colon and next keyword
-      method_name = method_name.gsub(/:.*? /, ':')
-
-      # remove last argument name at the end including colon
-      index = method_name.rindex(':')
-      if (index != nil)
-        method_name = method_name.slice(0..index)
-      end
-      return method_name
-    end
-
-    def create_class_node(xml_document)
-      filename = source_file_basename
-      filepath = source_file_pathname.to_s
-
-      class_node = Nokogiri::XML::Node.new "class", xml_document
-      class_node['name'] = filename
-      class_node['filename'] = filepath
-      class_node['line-rate'] = '%.16f' % rate_lines_tested
-      class_node['complexity'] = '---'
-
-      methods_node = Nokogiri::XML::Node.new "methods", xml_document
-      methods_node.parent = class_node
-      methods = lines_grouped_by_methods
-
-      total_class_branch_rate = 1.0
-      branch_rates = 0
-      methods.each do |method|
-        method_node = create_method_node(method, xml_document)
-        method_node.parent = methods_node
-        branch_rates += method_node['branch-rate'].to_f
-      end
-
-      class_node['branch-rate'] = '%.16f' % (branch_rates / methods.length.to_f)
-
-      # duplicate all method's lines inside below class node
-      lines_node = Nokogiri::XML::Node.new "lines", xml_document
-      lines_node.parent = class_node
-      lines = class_node.css "line"
-      lines.each do |node|
-        node.dup.parent = lines_node
-      end
-      return class_node
-    end
-
-    def create_method_node(method, xml_document)
-      method_node = Nokogiri::XML::Node.new "method", xml_document
-      method_node['name'] = method["name"]
-      method_node['branch-rate'] = '1.0'
-      method_node['signature'] = "()V" # TODO: parse method signature ? Actually not necessary in obj-c.
-
-      linesNode = Nokogiri::XML::Node.new "lines", xml_document
-      linesNode.parent = method_node
-
-      method_lines = 0
-      method_lines_tested = 0
-      branch_rates = 0
-      branches_tested = 0
-
-      line_node = nil
-      branches = Array.new
-      method["lines_of_code"].each do |line|
-
+        # process lines
         line_segments = line.split(':')
 
         # skip all lines which are not relevant
@@ -211,29 +126,21 @@ module Slather
             branch_rates += condition_coverage
             branches.clear
           end
-
           line_node = Nokogiri::XML::Node.new "line", xml_document
-          line_node.parent = linesNode
+          line_node.parent = lines_node
           line_node['number'] = line_segments[1].strip
           hits = coverage_for_line(line)
           line_node['hits'] = hits
           line_node['branch'] = "false"
-
-          method_lines += 1
-          if hits > 0
-            method_lines_tested += 1
-          end
-
         end
       end
-
-      total_method_line_rate = '%.16f' % (method_lines_tested / method_lines.to_f)
-      method_node['line-rate'] = total_method_line_rate
       if branches_tested > 0
         total_method_branch_rate = '%.16f' % [(branch_rates / branches_tested.to_f) / 100.0]
-        method_node['branch-rate'] = total_method_branch_rate
+        class_node['branch-rate'] = total_method_branch_rate
       end
-      return method_node
+      # TODO: calculate complexity
+      class_node['complexity'] = '---'
+      return class_node
     end
 
     def branch_coverage_for_line(block)
