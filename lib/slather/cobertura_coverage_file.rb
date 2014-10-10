@@ -21,6 +21,7 @@ module Slather
     def coverage_for_line(line)
       line =~ /^(.+?):/
 
+      # skip lines with annotations
       if line === nil || $1 === nil
         return nil
       end
@@ -53,11 +54,10 @@ module Slather
       scanned_methods = Array.new
       current_method = nil
       scanning_for_method = false
+      branch_level = 0
 
       # remove lines that are commented out
       cleaned_gcov_data.split("\n").each do |line|
-
-        # puts line
 
         # extract code after second colon
         line_of_code = line.sub(/.*?:.*?:/, '')
@@ -73,31 +73,41 @@ module Slather
 
         # scan for instance or class methods
         if line_of_code[0] == '-' || line_of_code[0] == '+'
-          current_method = create_new_method_from_line_of_code(line_of_code)
+          current_method = create_method_hash_from_opening_line(line_of_code)
           scanning_for_method = true
         end
         
         # collect line inside method
         if scanning_for_method == true
           current_method["lines_of_code"].push(line)
-        end
+        
+          # scan for opening curly brace
+          if line_of_code.match(/.*{/)
+            branch_level += 1
+          end
 
-        # scan for closing bracket of a method
-        if line_of_code[0] == '}'
-          scanned_methods.push(current_method)
-          scanning_for_method = false
+          # scan for closing curly brace
+          if line_of_code.match(/.*}/)
+            branch_level -= 1
+
+            # if we are (back) on level 0 we have found our closing brace
+            if branch_level == 0
+              scanned_methods.push(current_method)
+              scanning_for_method = false
+            end
+          end
         end
       end
       return scanned_methods
     end
 
-    def create_new_method_from_line_of_code(line)
-      method_name = extract_method_name_from_line_of_code(line)
+    def create_method_hash_from_opening_line(line)
+      method_name = extract_method_name_from_opening_line(line)
       method = Hash["name" => method_name, "lines_of_code" => Array.new]
       return method
     end
 
-    def extract_method_name_from_line_of_code(line)
+    def extract_method_name_from_opening_line(line)
 
       # remove argument types including round brackets
       method_name = line.gsub(/\(.*?\)/, '')
@@ -120,7 +130,7 @@ module Slather
       class_node = Nokogiri::XML::Node.new "class", xml_document
       class_node['name'] = filename
       class_node['filename'] = filepath
-      class_node['line-rate'] = '%.2f' % rate_lines_tested
+      class_node['line-rate'] = '%.16f' % rate_lines_tested
       class_node['complexity'] = '---'
 
       methods_node = Nokogiri::XML::Node.new "methods", xml_document
@@ -135,15 +145,15 @@ module Slather
         branch_rates += method_node['branch-rate'].to_f
       end
 
-      # duplicate all lines below a separate node
+      class_node['branch-rate'] = '%.16f' % (branch_rates / methods.length.to_f)
+
+      # duplicate all method's lines inside below class node
       lines_node = Nokogiri::XML::Node.new "lines", xml_document
       lines_node.parent = class_node
       lines = class_node.css "line"
       lines.each do |node|
         node.dup.parent = lines_node
       end
-
-      class_node['branch-rate'] = '%.2f' % (branch_rates / methods.length.to_f)
       return class_node
     end
 
@@ -217,10 +227,10 @@ module Slather
         end
       end
 
-      total_method_line_rate = '%.2f' % (method_lines_tested / method_lines.to_f)
+      total_method_line_rate = '%.16f' % (method_lines_tested / method_lines.to_f)
       method_node['line-rate'] = total_method_line_rate
       if branches_tested > 0
-        total_method_branch_rate = '%.2f' % [(branch_rates / branches_tested.to_f) / 100.0]
+        total_method_branch_rate = '%.16f' % [(branch_rates / branches_tested.to_f) / 100.0]
         method_node['branch-rate'] = total_method_branch_rate
       end
       return method_node

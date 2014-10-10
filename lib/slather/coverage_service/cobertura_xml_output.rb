@@ -37,8 +37,8 @@ module Slather
           total_project_branch_rates += class_node['branch-rate'].to_f
         end
 
-        total_line_rate = '%.2f' % (total_project_lines_rate / total_project_lines.to_f)
-        total_branch_rate = '%.2f' % (total_project_branch_rates / coverage_files.length.to_f)
+        total_line_rate = '%.16f' % (total_project_lines_rate / total_project_lines.to_f)
+        total_branch_rate = '%.16f' % (total_project_branch_rates / coverage_files.length.to_f)
         coverage_node['line-rate'] = total_line_rate
         coverage_node['branch-rate'] = total_branch_rate
         package_node['line-rate'] = total_line_rate
