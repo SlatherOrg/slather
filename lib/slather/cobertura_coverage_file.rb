@@ -18,11 +18,41 @@ module Slather
       end
     end
 
+    def branch_coverage_data
+      branch_coverage_data = Hash.new
+      branch_percentages = Array.new
+      line_number = nil
+
+      cleaned_gcov_data.split("\n").each do |line|
+        line_segments = line.split(':')
+        
+        if line_segments.length == 0 || line_segments[0].strip == '-'
+          next
+        end
+        
+        if line.match(/^branch(.*)/)
+          percentage = line.split(' ')[3].strip.gsub(/%/, '').to_i
+            branch_percentages.push(percentage)
+        else
+          if !branch_percentages.empty?
+            branch_coverage_data[line_number] = branch_percentages.dup
+            branch_percentages.clear
+          end
+          line_number = line_segments[1].strip
+        end
+      end
+      return branch_coverage_data
+    end
+
+    def cleaned_gcov_data
+      cleaned_gcov_data = gcov_data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
+      return cleaned_gcov_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
+    end
+
     def coverage_for_line(line)
       line =~ /^(.+?):/
 
-      # skip lines with annotations
-      if line === nil || $1 === nil
+      if $1 == nil
         return nil
       end
 
@@ -37,6 +67,38 @@ module Slather
       end
     end
 
+    def branch_coverage_data_for_statement_on_line(line_number)
+      return branch_coverage_data[line_number]
+    end
+
+    def branch_hits_for_statement_on_line(line_number)
+      branch_hits = 0
+      branch_coverage_data_for_statement_on_line(line_number).each do |branch_percentage|
+        if branch_percentage > 0
+          branch_hits += 1
+        end
+      end
+      return branch_hits
+    end
+
+    def branch_coverage_rate_for_statement_on_line(line_number)
+      return (branch_coverage_percentage_for_statement_on_line(line_number) / 100.0)
+    end
+
+    def branch_coverage_percentage_for_statement_on_line(line_number)
+      branch_data = branch_coverage_data_for_statement_on_line(line_number)
+      return (branch_data.inject(:+) / branch_data.length)
+    end
+
+    def rate_branches_tested
+      branches_tested = branch_coverage_data.keys.length
+      total_branch_rate = 0
+      branch_coverage_data.keys.each do |key|
+        total_branch_rate += branch_coverage_rate_for_statement_on_line(key)
+      end
+      return (total_branch_rate / branches_tested.to_f)
+    end
+
     def rate_lines_tested
       (num_lines_tested / num_lines_testable.to_f)
     end
@@ -44,99 +106,6 @@ module Slather
     def source_file_basename
       return File.basename(source_file_pathname, '.m')
     end
-
-    def cleaned_gcov_data
-      cleaned_data = gcov_data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
-      return cleaned_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
-    end
-
-
-    # TODO: separate XML creation from model creation
-
-    def create_class_node(xml_document)
-      filename = source_file_basename
-      filepath = source_file_pathname.to_s
-
-      class_node = Nokogiri::XML::Node.new "class", xml_document
-      class_node['name'] = filename
-      class_node['filename'] = filepath
-      class_node['line-rate'] = '%.16f' % rate_lines_tested
-      class_node['branch-rate'] = '1.0'
-
-      # create empty methods node
-      methods_node = Nokogiri::XML::Node.new "methods", xml_document
-      methods_node.parent = class_node
-
-      # lines node will be filled
-      lines_node = Nokogiri::XML::Node.new "lines", xml_document
-      lines_node.parent = class_node
-      
-      total_branch_percentages = 0
-      branches_tested = 0
-
-      line_node = nil
-      branch_percentages = Array.new
-      
-      # remove lines that are commented out
-      cleaned_gcov_data.split("\n").each do |line|
-
-        # process lines
-        line_segments = line.split(':')
-
-        # skip all lines which are not relevant
-        if line_segments.length === 0 || line_segments[0].strip === '-'
-          next
-        end
-
-        # process lines with branch information
-        if line_segments[0].match(/^branch(.*)/)
-          line_node['branch'] = "true"
-          branch_percentages.push(branch_coverage_for_line(line))
-        else
-          # process collected branch data from previous line
-          if !branch_percentages.empty?
-            conditions_node = Nokogiri::XML::Node.new "conditions", xml_document
-            conditions_node.parent = line_node
-            condition_node = Nokogiri::XML::Node.new "condition", xml_document
-            condition_node.parent = conditions_node
-            condition_node['number'] = "0"
-            condition_node['type'] = "jump"
-
-            condition_coverage = 0
-            branch_hits = 0
-            branch_percentages.each do |branch|
-              condition_coverage += branch
-              if branch > 0
-                branch_hits += 1
-              end
-            end
-            condition_coverage = (branch_percentages.inject(:+) / branch_percentages.length)
-            condition_node['coverage'] = "#{condition_coverage}%"
-            line_node['condition-coverage'] = "#{condition_coverage}% (#{branch_hits}/#{branch_percentages.length})"
-            branches_tested += 1
-            total_branch_percentages += condition_coverage
-            branch_percentages.clear
-          end
-          line_node = Nokogiri::XML::Node.new "line", xml_document
-          line_node.parent = lines_node
-          line_node['number'] = line_segments[1].strip
-          hits = coverage_for_line(line)
-          line_node['hits'] = hits
-          line_node['branch'] = "false"
-        end
-      end
-      if branches_tested > 0
-        class_node['branch-rate'] = '%.16f' % [(total_branch_percentages / branches_tested.to_f) / 100.0]
-      end
-
-      # TODO: calculate complexity
-      class_node['complexity'] = '---'
-      return class_node
-    end
-
-    def branch_coverage_for_line(block)
-      return block.split(' ')[3].strip.gsub(/%/, '').to_i
-    end
-
+    
   end
 end
