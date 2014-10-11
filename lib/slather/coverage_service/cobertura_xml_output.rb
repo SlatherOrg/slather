@@ -11,7 +11,9 @@ module Slather
 
       def post
         cobertura_xml_report = create_xml_report(coverage_files)
-        File.open('cobertura.xml', 'w') { |file| file.write(cobertura_xml_report.to_s) }
+        File.open('cobertura.xml', 'w') { |file|
+          file.write(cobertura_xml_report.to_s)
+        }
       end
 
       def create_xml_report(coverage_files)
