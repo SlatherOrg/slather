@@ -56,7 +56,7 @@ module Slather
         coverage_node['branches-valid'] = total_project_branches
         coverage_node['complexity'] = "0.0"
         coverage_node['timestamp'] = DateTime.now.strftime('%s')
-        coverage_node['version'] = "TODO:"
+        coverage_node['version'] = "Slather #{Slather::VERSION}"
         return @doc.to_xml
       end
 
