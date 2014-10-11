@@ -7,96 +7,94 @@ describe Slather::CoberturaCoverageFile do
   end
 
   let(:coverage_file) do
-    fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "peekaview.m" }
+    fixtures_project.coverage_service = "cobertura_xml"
+    fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "Branches.m" }
   end
 
   describe "#initialize" do
     it "should convert the provided path string to a Pathname object, and set it as the gcno_file_pathname" do
       expect(coverage_file.gcno_file_pathname.exist?).to be_truthy
-      expect(coverage_file.gcno_file_pathname.basename.to_s).to eq("peekaview.gcno")
+      expect(coverage_file.gcno_file_pathname.basename.to_s).to eq("Branches.gcno")
     end
   end
 
-  describe "#source_file_pathname" do
-    it "should return the path to the coverage files's source implementation file" do
-      expect(coverage_file.source_file_pathname).to eq(fixtures_project["fixtures/more_files/peekaview.m"].real_path)
+  describe "branch_coverage_data" do
+    it "should return a hash with keys representing the line number of a branch statement" do
+      expect(coverage_file.branch_coverage_data.keys[0]).to eq("15")
+      expect(coverage_file.branch_coverage_data.keys[1]).to eq("18")
     end
 
-    it "should look in the source_directory if it has been set on the project" do
-      coverage_file = Slather::CoberturaCoverageFile.new(fixtures_project, "peekaview.m")
-      fixtures_project.source_directory = Pathname(File.join(File.dirname(__FILE__), '../more_files/')).realpath.to_s
-      expect(coverage_file.source_file_pathname).to eq(fixtures_project["fixtures/more_files/fixtures.m"].real_path)
-    end
+    it "should store an array for each line number which contains the execution percentage of the branch" do
+      percentages = coverage_file.branch_coverage_data["15"]
+      expect(percentages.length).to eq(2)
+      expect(percentages[0]).to eq(50)
+      expect(percentages[1]).to eq(50)
 
-    it "should look in the source_directory if it has been set on the project" do
-      coverage_file = Slather::CoberturaCoverageFile.new(fixtures_project, "peekaview.m")
-      fixtures_project.source_directory = Pathname(File.join(File.dirname(__FILE__), '../fixtures//fixturesTests')).realpath.to_s
-      expect(coverage_file.source_file_pathname).to be_nil
-    end
-
-    it "should return nil if it couldn't find the coverage files's source implementation file in the project" do
-      whoami_file = Slather::CoberturaCoverageFile.new(fixtures_project, "/some/path/whoami.gcno")
-      expect(whoami_file.source_file_pathname).to be_nil
+      percentages = coverage_file.branch_coverage_data["18"]
+      expect(percentages.length).to eq(2)
+      expect(percentages[0]).to eq(0)
+      expect(percentages[1]).to eq(100)
     end
   end
 
-  describe "#source_file" do
-    it "should return a file object for the source_file_pathname" do
-      file = coverage_file.source_file
-      expect(file.kind_of?(File)).to be_truthy
-      expect(Pathname(file.path)).to eq(coverage_file.source_file_pathname)
+  describe "coverage_for_line" do
+    it "should return nil for lines without coverage data" do
+      line = "branch  0 taken 100%"
+      expect(coverage_file.coverage_for_line(line)).to eq(nil)
     end
   end
 
-  describe "#source_data" do
-    
-    describe "#coverage_for_line" do
-      
-      it "should return nil if the line is not relevant to coverage" do
-        expect(coverage_file.coverage_for_line("        -:   31: }")).to be_nil
-      end
-
-      it "should return the number of times the line was executed if the line is relevant to coverage" do
-        expect(coverage_file.coverage_for_line("        1:   75: }")).to eq(1)
-        expect(coverage_file.coverage_for_line("        15:   75: }")).to eq(15)
-        expect(coverage_file.coverage_for_line("        ####:   75: }")).to eq(0)
-      end
+  describe "branch_coverage_data_for_statement_on_line" do
+    it "return the array with branch percentages for statement at a given line number" do
+      data = coverage_file.branch_coverage_data_for_statement_on_line("15")
+      expect(data.length).to eq(2)
+      expect(data[0]).to eq(50)
+      expect(data[1]).to eq(50)
     end
-
-    describe "gcov_data" do
-      it "should process the gcno file with gcov and return the contents of the file" do
-        expect(coverage_file.gcov_data.include?("1:   15:    NSLog(@\"tested\");")).to be_truthy
-      end
-    end
-
-    describe "branch_coverage_data" do
-      it "should return a hash with keys representing the line number of a branch statement" do
-        # coverage_file.branch_coverage_data.keys
-      end
-    end
-
-    describe "num_lines_tested" do
-      it "should return the correct number of lines tested" do
-        expect(coverage_file.num_lines_tested).to eq(2)
-      end
-    end
-
-    describe "num_lines_testable" do
-      it "should return the correct number of lines that are testable" do
-        expect(coverage_file.num_lines_testable).to eq(4)
-      end
-    end
-
-    describe "percentage_lines_tested" do
-      it "should return the correct percentage of lines that are tested" do
-        expect(coverage_file.percentage_lines_tested).to eq(50)
-      end
-      
-      it "should return 0" do
-        coverage_file.stub(:num_lines_testable).and_return(0)
-        expect(coverage_file.percentage_lines_tested).to eq(0)
-      end
-    end
-
   end
+  
+  describe "branch_hits_for_statement_on_line" do
+    it "returns the number of branches executed below the statement at a given line number" do
+      expect(coverage_file.branch_hits_for_statement_on_line("18")).to eq(1)
+    end
+  end
+  
+  describe "branch_coverage_rate_for_statement_on_line" do
+    it "returns the ration bewteen execution percentage and number of branches divided by 100" do
+      expect(coverage_file.branch_coverage_rate_for_statement_on_line("15")).to eq(0.5)
+      expect(coverage_file.branch_coverage_rate_for_statement_on_line("18")).to eq(0.5)
+    end
+  end
+  
+  describe "branch_coverage_percentage_for_statement_on_line" do
+    it "returns the average percentage of all branches below the statement at a given line number" do
+      expect(coverage_file.branch_coverage_percentage_for_statement_on_line("15")).to eq(50)
+      expect(coverage_file.branch_coverage_percentage_for_statement_on_line("18")).to eq(50)
+    end
+  end
+  
+  describe "num_branches_testable" do
+    it "returns the number of testable branches inside the class" do
+      expect(coverage_file.num_branches_testable).to eq(4)
+    end
+  end
+
+  describe "num_branches_tested" do
+    it "returns the number of tested branches inside the class" do
+      expect(coverage_file.num_branches_tested).to eq(3)
+    end
+  end
+
+  describe "rate_branches_tested" do
+    it "returns the rate of tested branches inside the class" do
+      expect(coverage_file.rate_branches_tested).to eq(0.5)
+    end
+  end
+
+  describe "source_file_basename" do
+    it "returns the base name of the source file" do
+      expect(coverage_file.source_file_basename).to eq("Branches")
+    end
+  end
+
 end

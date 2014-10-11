@@ -33,7 +33,7 @@ module Slather
           
           if line.match(/^branch(.*)/)
             percentage = line.split(' ')[3].strip.gsub(/%/, '').to_i
-              branch_percentages.push(percentage)
+            branch_percentages.push(percentage)
           else
             if !branch_percentages.empty?
               branch_coverage_data[line_number] = branch_percentages.dup
@@ -93,7 +93,11 @@ module Slather
     end
 
     def num_branches_testable
-      branch_coverage_data.keys.length
+      branches_testable = 0
+      branch_coverage_data.keys.each do |line_number|
+        branches_testable += line_number.length
+      end
+      branches_testable
     end
 
     def num_branches_tested
@@ -105,7 +109,7 @@ module Slather
     end
 
     def rate_branches_tested
-      branches_testable = num_branches_testable
+      branches_testable = branch_coverage_data.keys.length
       if (branches_testable == 0)
         1.0
       else
