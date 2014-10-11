@@ -16,15 +16,17 @@ module Slather
 
       def create_xml_report(coverage_files)
         total_project_lines = 0
-        total_project_lines_rate = 0
-        total_project_branch_rates = 0
+        total_project_lines_tested = 0
+        total_project_lines_rate = 0.0
+        total_project_branches = 0
+        total_project_branches_tested = 0
+        total_project_branch_rate = 0.0
 
         create_empty_xml_report
         coverage_node = @doc.root
         source_node = @doc.at_css "source"
         package_node = @doc.at_css "package"
         classes_node = @doc.at_css "classes"
-        coverage_node['timestamp'] = DateTime.now.strftime('%s')
         source_node.content = source_directory
         package_node['name'] = File.basename(path) # Project as package name?
 
@@ -32,19 +34,29 @@ module Slather
           next unless coverage_file.gcov_data
           class_node = create_class_node(coverage_file)
           class_node.parent = classes_node
-          total_project_lines_rate += coverage_file.num_lines_tested
           total_project_lines += coverage_file.num_lines_testable
-          total_project_branch_rates += class_node['branch-rate'].to_f
-          coverage_file.branch_coverage_data
+          total_project_lines_tested += coverage_file.num_lines_tested
+          total_project_branches += coverage_file.num_branches_testable
+          total_project_branches_tested += coverage_file.num_branches_tested
+          total_project_branch_rate += coverage_file.rate_branches_tested
         end
 
-        total_line_rate = '%.16f' % (total_project_lines_rate / total_project_lines.to_f)
-        total_branch_rate = '%.16f' % (total_project_branch_rates / coverage_files.length.to_f)
-        coverage_node['line-rate'] = total_line_rate
-        coverage_node['branch-rate'] = total_branch_rate
+        total_line_rate = '%.16f' % (total_project_lines_tested / total_project_lines.to_f)
+        total_branch_rate = '%.16f' % (total_project_branch_rate / coverage_files.length.to_f)
+
         package_node['line-rate'] = total_line_rate
         package_node['branch-rate'] = total_branch_rate
-        package_node['complexity'] = '---'
+        package_node['complexity'] = '0.0'
+
+        coverage_node['line-rate'] = total_line_rate
+        coverage_node['branch-rate'] = total_branch_rate
+        coverage_node['lines-covered'] = total_project_lines_tested
+        coverage_node['lines-valid'] = total_project_lines
+        coverage_node['branches-covered'] = total_project_branches_tested
+        coverage_node['branches-valid'] = total_project_branches
+        coverage_node['complexity'] = "0.0"
+        coverage_node['timestamp'] = DateTime.now.strftime('%s')
+        coverage_node['version'] = "TODO:"
         return @doc.to_xml
       end
 
@@ -75,7 +87,7 @@ module Slather
         class_node['branch-rate'] = '%.16f' % [coverage_file.rate_branches_tested]
 
         # TODO: calculate complexity
-        class_node['complexity'] = '---'
+        class_node['complexity'] = '0.0'
         return class_node
       end
 
@@ -103,13 +115,12 @@ module Slather
         return line_node
       end
 
-      # TODO: update to DTD version 4.
       def create_empty_xml_report
         builder = Nokogiri::XML::Builder.new do |xml|
           xml.doc.create_internal_subset(
             'coverage',
             nil,
-            "http://cobertura.sourceforge.net/xml/coverage-03.dtd"
+            "http://cobertura.sourceforge.net/xml/coverage-04.dtd"
           )
           xml.coverage do
             xml.sources do

@@ -19,34 +19,36 @@ module Slather
     end
 
     def branch_coverage_data
-      branch_coverage_data = Hash.new
-      branch_percentages = Array.new
-      line_number = nil
+      @branch_coverage_data ||= begin
+        branch_coverage_data = Hash.new
+        branch_percentages = Array.new
+        line_number = nil
 
-      cleaned_gcov_data.split("\n").each do |line|
-        line_segments = line.split(':')
-        
-        if line_segments.length == 0 || line_segments[0].strip == '-'
-          next
-        end
-        
-        if line.match(/^branch(.*)/)
-          percentage = line.split(' ')[3].strip.gsub(/%/, '').to_i
-            branch_percentages.push(percentage)
-        else
-          if !branch_percentages.empty?
-            branch_coverage_data[line_number] = branch_percentages.dup
-            branch_percentages.clear
+        cleaned_gcov_data.split("\n").each do |line|
+          line_segments = line.split(':')
+          
+          if line_segments.length == 0 || line_segments[0].strip == '-'
+            next
           end
-          line_number = line_segments[1].strip
+          
+          if line.match(/^branch(.*)/)
+            percentage = line.split(' ')[3].strip.gsub(/%/, '').to_i
+              branch_percentages.push(percentage)
+          else
+            if !branch_percentages.empty?
+              branch_coverage_data[line_number] = branch_percentages.dup
+              branch_percentages.clear
+            end
+            line_number = line_segments[1].strip
+          end
         end
+        branch_coverage_data
       end
-      return branch_coverage_data
     end
 
     def cleaned_gcov_data
       cleaned_gcov_data = gcov_data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
-      return cleaned_gcov_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
+      cleaned_gcov_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
     end
 
     def coverage_for_line(line)
@@ -68,7 +70,7 @@ module Slather
     end
 
     def branch_coverage_data_for_statement_on_line(line_number)
-      return branch_coverage_data[line_number]
+      branch_coverage_data[line_number]
     end
 
     def branch_hits_for_statement_on_line(line_number)
@@ -78,25 +80,41 @@ module Slather
           branch_hits += 1
         end
       end
-      return branch_hits
+      branch_hits
     end
 
     def branch_coverage_rate_for_statement_on_line(line_number)
-      return (branch_coverage_percentage_for_statement_on_line(line_number) / 100.0)
+      (branch_coverage_percentage_for_statement_on_line(line_number) / 100.0)
     end
 
     def branch_coverage_percentage_for_statement_on_line(line_number)
       branch_data = branch_coverage_data_for_statement_on_line(line_number)
-      return (branch_data.inject(:+) / branch_data.length)
+      (branch_data.inject(:+) / branch_data.length)
+    end
+
+    def num_branches_testable
+      branch_coverage_data.keys.length
+    end
+
+    def num_branches_tested
+      branches_tested = 0
+      branch_coverage_data.keys.each do |line_number|
+        branches_tested += branch_hits_for_statement_on_line(line_number)
+      end
+      branches_tested
     end
 
     def rate_branches_tested
-      branches_tested = branch_coverage_data.keys.length
-      total_branch_rate = 0
-      branch_coverage_data.keys.each do |key|
-        total_branch_rate += branch_coverage_rate_for_statement_on_line(key)
+      branches_testable = num_branches_testable
+      if (branches_testable == 0)
+        1.0
+      else
+        total_branch_rate = 0.0
+        branch_coverage_data.keys.each do |line_number|
+          total_branch_rate += branch_coverage_rate_for_statement_on_line(line_number)
+        end
+        (total_branch_rate / branches_testable.to_f)
       end
-      return (total_branch_rate / branches_tested.to_f)
     end
 
     def rate_lines_tested
@@ -104,7 +122,7 @@ module Slather
     end
 
     def source_file_basename
-      return File.basename(source_file_pathname, '.m')
+      File.basename(source_file_pathname, '.m')
     end
     
   end
