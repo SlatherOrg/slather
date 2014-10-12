@@ -93,7 +93,7 @@ module Slather
       (num_branch_hits_for_statement_on_line(line_number) / branch_data.length.to_f)
     end
 
-    def percentagebranch_coverage_for_statement_on_line(line_number)
+    def percentage_branch_coverage_for_statement_on_line(line_number)
       rate_branch_coverage_for_statement_on_line(line_number) * 100.to_i
     end
 

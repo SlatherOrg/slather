@@ -104,11 +104,11 @@ module Slather
           condition_node.parent = conditions_node
           condition_node['number'] = "0"
           condition_node['type'] = "jump"
-          branch_testable = coverage_file.num_branches_for_statement_on_line(line_number)
+          branches_testable = coverage_file.num_branches_for_statement_on_line(line_number)
           branch_hits = coverage_file.num_branch_hits_for_statement_on_line(line_number)
-          condition_coverage = coverage_file.percentagebranch_coverage_for_statement_on_line(line_number)
+          condition_coverage = coverage_file.percentage_branch_coverage_for_statement_on_line(line_number)
           condition_node['coverage'] = "#{condition_coverage.to_i}%"
-          line_node['condition-coverage'] = "#{condition_coverage.to_i}% (#{branch_hits}/#{branch_testable})"
+          line_node['condition-coverage'] = "#{condition_coverage.to_i}% (#{branch_hits}/#{branches_testable})"
         end
         line_node
       end
