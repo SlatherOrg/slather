@@ -26,7 +26,7 @@ module Slather
 
         cleaned_gcov_data.split("\n").each do |line|
           line_segments = line.split(':')
-          
+
           if line_segments.length == 0 || line_segments[0].strip == '-'
             next
           end
@@ -85,7 +85,7 @@ module Slather
 
     def branch_coverage_rate_for_statement_on_line(line_number)
       branch_data = branch_coverage_data_for_statement_on_line(line_number)
-      (branch_data.inject(:+) / branch_data.length.to_f)
+      (branch_hits_for_statement_on_line(line_number) / branch_data.length.to_f)
     end
 
     def branch_coverage_percentage_for_statement_on_line(line_number)
