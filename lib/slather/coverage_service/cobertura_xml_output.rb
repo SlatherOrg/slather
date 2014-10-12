@@ -57,7 +57,7 @@ module Slather
         coverage_node['complexity'] = "0.0"
         coverage_node['timestamp'] = DateTime.now.strftime('%s')
         coverage_node['version'] = "Slather #{Slather::VERSION}"
-        return @doc.to_xml
+        @doc.to_xml
       end
 
       def create_class_node(coverage_file)
@@ -86,7 +86,7 @@ module Slather
         end
         class_node['branch-rate'] = '%.16f' % [coverage_file.rate_branches_tested]
         class_node['complexity'] = '0.0'
-        return class_node
+        class_node
       end
 
       def create_line_node(line, coverage_file)
@@ -96,8 +96,7 @@ module Slather
         line_node['branch'] = "false"
         line_node['hits'] = coverage_file.coverage_for_line(line)
       
-        branch_data = coverage_file.branch_coverage_data_for_statement_on_line(line_number)
-        if branch_data
+        if coverage_file.branch_coverage_data_for_statement_on_line(line_number)
           line_node['branch'] = "true"  
           conditions_node = Nokogiri::XML::Node.new "conditions", @doc
           conditions_node.parent = line_node
@@ -105,12 +104,13 @@ module Slather
           condition_node.parent = conditions_node
           condition_node['number'] = "0"
           condition_node['type'] = "jump"
-          branch_hits = coverage_file.branch_hits_for_statement_on_line(line_number)
-          condition_coverage = coverage_file.branch_coverage_percentage_for_statement_on_line(line_number)
+          branch_testable = coverage_file.num_branches_for_statement_on_line(line_number)
+          branch_hits = coverage_file.num_branch_hits_for_statement_on_line(line_number)
+          condition_coverage = coverage_file.percentagebranch_coverage_for_statement_on_line(line_number)
           condition_node['coverage'] = "#{condition_coverage.to_i}%"
-          line_node['condition-coverage'] = "#{condition_coverage.to_i}% (#{branch_hits}/#{branch_data.length})"
+          line_node['condition-coverage'] = "#{condition_coverage.to_i}% (#{branch_hits}/#{branch_testable})"
         end
-        return line_node
+        line_node
       end
 
       def create_empty_xml_report

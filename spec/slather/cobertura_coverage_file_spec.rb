@@ -53,25 +53,25 @@ describe Slather::CoberturaCoverageFile do
     end
   end
   
-  describe "branch_hits_for_statement_on_line" do
+  describe "num_branch_hits_for_statement_on_line" do
     it "returns the number of branches executed below the statement at a given line number" do
-      expect(coverage_file.branch_hits_for_statement_on_line("18")).to eq(1)
+      expect(coverage_file.num_branch_hits_for_statement_on_line("18")).to eq(1)
     end
   end
   
-  describe "branch_coverage_rate_for_statement_on_line" do
+  describe "rate_branch_coverage_for_statement_on_line" do
     it "returns the ratio between number of executed and number of total branches divided" do
-      expect(coverage_file.branch_coverage_rate_for_statement_on_line("15")).to eq(1.0)
-      expect(coverage_file.branch_coverage_rate_for_statement_on_line("18")).to eq(0.5)
-      expect(coverage_file.branch_coverage_rate_for_statement_on_line("29")).to eq(0.0)
+      expect(coverage_file.rate_branch_coverage_for_statement_on_line("15")).to eq(1.0)
+      expect(coverage_file.rate_branch_coverage_for_statement_on_line("18")).to eq(0.5)
+      expect(coverage_file.rate_branch_coverage_for_statement_on_line("29")).to eq(0.0)
     end
   end
   
-  describe "branch_coverage_percentage_for_statement_on_line" do
+  describe "percentagebranch_coverage_for_statement_on_line" do
     it "returns the average percentage of all branches below the statement at a given line number" do
-      expect(coverage_file.branch_coverage_percentage_for_statement_on_line("15")).to eq(100)
-      expect(coverage_file.branch_coverage_percentage_for_statement_on_line("18")).to eq(50)
-      expect(coverage_file.branch_coverage_percentage_for_statement_on_line("29")).to eq(0)
+      expect(coverage_file.percentagebranch_coverage_for_statement_on_line("15")).to eq(100)
+      expect(coverage_file.percentagebranch_coverage_for_statement_on_line("18")).to eq(50)
+      expect(coverage_file.percentagebranch_coverage_for_statement_on_line("29")).to eq(0)
     end
   end
   
