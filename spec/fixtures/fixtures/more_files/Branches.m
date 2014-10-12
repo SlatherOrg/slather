@@ -21,6 +21,25 @@
     } else {
         NSLog(@"bar.");
     }
+    
+    int i = 5;
+    if (i == 5) {
+        return;
+    }
+    switch (i) {
+        case 0:
+            NSLog(@"0");
+            break;
+            
+        case 1:
+            NSLog(@"1");
+            break;
+        case 5:
+            NSLog(@"5");
+            break;
+        default:
+            break;
+    }
 }
 
 @end

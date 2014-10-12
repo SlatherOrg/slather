@@ -17,11 +17,11 @@ describe Slather::CoverageService::SimpleOutput do
     it "should print out the coverage for each file, and then total coverage" do
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixtures/fixtures.m: 2 of 4 lines (50.00%)")
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixtures/more_files/peekaview.m: 0 of 6 lines (0.00%)")
-      expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixtures/more_files/Branches.m: 7 of 9 lines (77.78%)")
+      expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixtures/more_files/Branches.m: 10 of 20 lines (50.00%)")
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixturesTests/fixturesTests.m: 7 of 7 lines (100.00%)")
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixturesTests/peekaviewTests.m: 6 of 6 lines (100.00%)")
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixturesTests/BranchesTests.m: 10 of 10 lines (100.00%)")
-      expect(fixtures_project).to receive(:puts).with("Test Coverage: 76.19%")
+      expect(fixtures_project).to receive(:puts).with("Test Coverage: 66.04%")
       fixtures_project.post
     end
   end
