@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
+<coverage line-rate="0.6603773584905660" branch-rate="0.1190476190476190" lines-covered="35" lines-valid="53" branches-covered="5" branches-valid="42" complexity="0.0" timestamp="1413120040" version="Slather 1.3.0">
+  <sources>
+    <source/>
+  </sources>
+  <packages>
+    <package name="fixtures.xcodeproj" line-rate="0.6603773584905660" branch-rate="0.1190476190476190" complexity="0.0">
+      <classes>
+        <class name="Branches" filename="/Users/juliankrumow/Development/research/slather/spec/fixtures/fixtures/more_files/Branches.m" line-rate="0.5000000000000000" branch-rate="0.4000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="13" branch="false" hits="2"/>
+            <line number="15" branch="true" hits="2" condition-coverage="100% (2/2)">
+              <conditions>
+                <condition number="0" type="jump" coverage="100%"/>
+              </conditions>
+            </line>
+            <line number="16" branch="false" hits="1"/>
+            <line number="18" branch="true" hits="1" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="0" type="jump" coverage="50%"/>
+              </conditions>
+            </line>
+            <line number="19" branch="false" hits="0"/>
+            <line number="20" branch="false" hits="0"/>
+            <line number="21" branch="false" hits="1"/>
+            <line number="22" branch="false" hits="1"/>
+            <line number="25" branch="false" hits="2"/>
+            <line number="26" branch="true" hits="2" condition-coverage="50% (1/2)">
+              <conditions>
+                <condition number="0" type="jump" coverage="50%"/>
+              </conditions>
+            </line>
+            <line number="27" branch="false" hits="2"/>
+            <line number="29" branch="true" hits="0" condition-coverage="0% (0/4)">
+              <conditions>
+                <condition number="0" type="jump" coverage="0%"/>
+              </conditions>
+            </line>
+            <line number="31" branch="false" hits="0"/>
+            <line number="32" branch="false" hits="0"/>
+            <line number="35" branch="false" hits="0"/>
+            <line number="36" branch="false" hits="0"/>
+            <line number="38" branch="false" hits="0"/>
+            <line number="39" branch="false" hits="0"/>
+            <line number="41" branch="false" hits="0"/>
+            <line number="43" branch="false" hits="2"/>
+          </lines>
+        </class>
+        <class name="fixtures" filename="/Users/juliankrumow/Development/research/slather/spec/fixtures/fixtures/fixtures.m" line-rate="0.5000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="15" branch="false" hits="1"/>
+            <line number="16" branch="false" hits="1"/>
+            <line number="20" branch="false" hits="0"/>
+            <line number="21" branch="false" hits="0"/>
+          </lines>
+        </class>
+        <class name="peekaview" filename="/Users/juliankrumow/Development/research/slather/spec/fixtures/fixtures/more_files/peekaview.m" line-rate="0.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="13" branch="false" hits="0"/>
+            <line number="15" branch="false" hits="0"/>
+            <line number="16" branch="true" hits="0" condition-coverage="0% (0/2)">
+              <conditions>
+                <condition number="0" type="jump" coverage="0%"/>
+              </conditions>
+            </line>
+            <line number="18" branch="false" hits="0"/>
+            <line number="19" branch="false" hits="0"/>
+            <line number="20" branch="false" hits="0"/>
+          </lines>
+        </class>
+        <class name="BranchesTests" filename="/Users/juliankrumow/Development/research/slather/spec/fixtures/fixturesTests/BranchesTests.m" line-rate="1.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="19" branch="false" hits="2"/>
+            <line number="21" branch="false" hits="2"/>
+            <line number="25" branch="false" hits="2"/>
+            <line number="26" branch="false" hits="2"/>
+            <line number="29" branch="false" hits="1"/>
+            <line number="30" branch="false" hits="1"/>
+            <line number="31" branch="false" hits="1"/>
+            <line number="34" branch="false" hits="1"/>
+            <line number="35" branch="false" hits="1"/>
+            <line number="36" branch="false" hits="1"/>
+          </lines>
+        </class>
+        <class name="fixturesTests" filename="/Users/juliankrumow/Development/research/slather/spec/fixtures/fixturesTests/fixturesTests.m" line-rate="1.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="20" branch="false" hits="1"/>
+            <line number="22" branch="false" hits="1"/>
+            <line number="27" branch="false" hits="1"/>
+            <line number="28" branch="false" hits="1"/>
+            <line number="32" branch="false" hits="1"/>
+            <line number="33" branch="false" hits="1"/>
+            <line number="34" branch="false" hits="1"/>
+          </lines>
+        </class>
+        <class name="peekaviewTests" filename="/Users/juliankrumow/Development/research/slather/spec/fixtures/fixturesTests/peekaviewTests.m" line-rate="1.0000000000000000" branch-rate="0.0333333333333333" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="19" branch="false" hits="1"/>
+            <line number="21" branch="false" hits="1"/>
+            <line number="26" branch="false" hits="1"/>
+            <line number="27" branch="false" hits="1"/>
+            <line number="31" branch="true" hits="2" condition-coverage="3% (1/30)">
+              <conditions>
+                <condition number="0" type="jump" coverage="3%"/>
+              </conditions>
+            </line>
+            <line number="32" branch="false" hits="1"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>
