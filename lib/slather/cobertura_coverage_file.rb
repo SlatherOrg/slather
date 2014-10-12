@@ -13,7 +13,6 @@ module Slather
         end
 
         gcov_files_created.each { |file| FileUtils.rm_f(file) }
-
         gcov_data = cleaned_gcov_data(gcov_data)
       end
     end
@@ -26,11 +25,9 @@ module Slather
 
         @gcov_data.split("\n").each do |line|
           line_segments = line.split(':')
-          
           if line_segments.length == 0 || line_segments[0].strip == '-'
             next
           end
-          
           if line.match(/^branch/)
             if line.split(' ')[2].strip == "never"
               branch_percentages.push(0)
