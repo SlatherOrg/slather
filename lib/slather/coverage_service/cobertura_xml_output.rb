@@ -96,7 +96,7 @@ module Slather
 
       def create_class_node(coverage_file)
         filename = coverage_file.source_file_basename
-        filepath = coverage_file.source_file_pathname.to_s
+        filepath = coverage_file.source_file_pathname_relative_to_repo_root.to_s
 
         class_node = Nokogiri::XML::Node.new "class", @doc
         class_node['name'] = filename
