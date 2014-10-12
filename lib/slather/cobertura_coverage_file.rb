@@ -111,7 +111,7 @@ module Slather
     def rate_branches_tested
       branches_testable = branch_coverage_data.keys.length
       if (branches_testable == 0)
-        1.0
+        0.0
       else
         total_branch_rate = 0.0
         branch_coverage_data.keys.each do |line_number|
