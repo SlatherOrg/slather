@@ -22,7 +22,6 @@ module Slather
         total_project_lines_rate = 0.0
         total_project_branches = 0
         total_project_branches_tested = 0
-        total_project_branch_rate = 0.0
 
         create_empty_xml_report
         coverage_node = @doc.root
@@ -40,11 +39,10 @@ module Slather
           total_project_lines_tested += coverage_file.num_lines_tested
           total_project_branches += coverage_file.num_branches_testable
           total_project_branches_tested += coverage_file.num_branches_tested
-          total_project_branch_rate += coverage_file.rate_branches_tested
         end
 
         total_line_rate = '%.16f' % (total_project_lines_tested / total_project_lines.to_f)
-        total_branch_rate = '%.16f' % (total_project_branch_rate / coverage_files.length.to_f)
+        total_branch_rate = '%.16f' % (total_project_branches_tested / total_project_branches.to_f)
 
         package_node['line-rate'] = total_line_rate
         package_node['branch-rate'] = total_branch_rate

@@ -26,14 +26,18 @@ module Slather
 
         cleaned_gcov_data.split("\n").each do |line|
           line_segments = line.split(':')
-
+          
           if line_segments.length == 0 || line_segments[0].strip == '-'
             next
           end
           
-          if line.match(/^branch(.*)/)
-            taken = line.split(' ')[3].strip.to_i
-            branch_percentages.push(taken)
+          if line.match(/^branch/)
+            if line.split(' ')[2].strip == "never"
+              branch_percentages.push(0)
+            else
+              taken = line.split(' ')[3].strip.to_i
+              branch_percentages.push(taken)
+            end
           else
             if !branch_percentages.empty?
               branch_coverage_data[line_number] = branch_percentages.dup
@@ -95,7 +99,7 @@ module Slather
     def num_branches_testable
       branches_testable = 0
       branch_coverage_data.keys.each do |line_number|
-        branches_testable += line_number.length
+        branches_testable += branch_coverage_data[line_number].length
       end
       branches_testable
     end
@@ -113,11 +117,7 @@ module Slather
       if (branches_testable == 0)
         0.0
       else
-        total_branch_rate = 0.0
-        branch_coverage_data.keys.each do |line_number|
-          total_branch_rate += branch_coverage_rate_for_statement_on_line(line_number)
-        end
-        (total_branch_rate / branches_testable.to_f)
+        (num_branches_tested / num_branches_testable.to_f)
       end
     end
 
