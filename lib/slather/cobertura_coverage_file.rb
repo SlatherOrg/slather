@@ -14,7 +14,7 @@ module Slather
 
         gcov_files_created.each { |file| FileUtils.rm_f(file) }
 
-        gcov_data
+        gcov_data = cleaned_gcov_data(gcov_data)
       end
     end
 
@@ -24,7 +24,7 @@ module Slather
         branch_percentages = Array.new
         line_number = nil
 
-        cleaned_gcov_data.split("\n").each do |line|
+        @gcov_data.split("\n").each do |line|
           line_segments = line.split(':')
           
           if line_segments.length == 0 || line_segments[0].strip == '-'
@@ -50,9 +50,9 @@ module Slather
       end
     end
 
-    def cleaned_gcov_data
-      cleaned_gcov_data = gcov_data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
-      cleaned_gcov_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
+    def cleaned_gcov_data(data)
+      cleaned_data = data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
+      cleaned_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
     end
 
     def coverage_for_line(line)

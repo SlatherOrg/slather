@@ -76,7 +76,7 @@ module Slather
         lines_node.parent = class_node
         
         branch_percentages = Array.new
-        coverage_file.cleaned_gcov_data.split("\n").each do |line|
+        coverage_file.gcov_data.split("\n").each do |line|
           line_segments = line.split(':')
           if coverage_file.coverage_for_line(line) != nil
             line_number = line_segments[1].strip
