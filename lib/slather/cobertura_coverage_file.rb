@@ -3,7 +3,7 @@ module Slather
 
     def gcov_data
       @gcov_data ||= begin
-        gcov_output = `gcov "#{source_file_pathname}" --object-directory "#{gcno_file_pathname.parent}" --branch-probabilities`
+        gcov_output = `gcov "#{source_file_pathname}" --object-directory "#{gcno_file_pathname.parent}" --branch-probabilities --branch-counts`
         # Sometimes gcov makes gcov files for Cocoa Touch classes, like NSRange. Ignore and delete later.
         gcov_files_created = gcov_output.scan(/creating '(.+\..+\.gcov)'/)
 
@@ -32,8 +32,8 @@ module Slather
           end
           
           if line.match(/^branch(.*)/)
-            percentage = line.split(' ')[3].strip.gsub(/%/, '').to_i
-            branch_percentages.push(percentage)
+            taken = line.split(' ')[3].strip.to_i
+            branch_percentages.push(taken)
           else
             if !branch_percentages.empty?
               branch_coverage_data[line_number] = branch_percentages.dup
@@ -84,12 +84,12 @@ module Slather
     end
 
     def branch_coverage_rate_for_statement_on_line(line_number)
-      (branch_coverage_percentage_for_statement_on_line(line_number) / 100.0)
+      branch_data = branch_coverage_data_for_statement_on_line(line_number)
+      (branch_data.inject(:+) / branch_data.length.to_f)
     end
 
     def branch_coverage_percentage_for_statement_on_line(line_number)
-      branch_data = branch_coverage_data_for_statement_on_line(line_number)
-      (branch_data.inject(:+) / branch_data.length)
+      branch_coverage_rate_for_statement_on_line(line_number) * 100.to_i
     end
 
     def num_branches_testable

@@ -87,8 +87,6 @@ module Slather
           end
         end
         class_node['branch-rate'] = '%.16f' % [coverage_file.rate_branches_tested]
-
-        # TODO: calculate complexity
         class_node['complexity'] = '0.0'
         return class_node
       end
@@ -111,8 +109,8 @@ module Slather
           condition_node['type'] = "jump"
           branch_hits = coverage_file.branch_hits_for_statement_on_line(line_number)
           condition_coverage = coverage_file.branch_coverage_percentage_for_statement_on_line(line_number)
-          condition_node['coverage'] = "#{condition_coverage}%"
-          line_node['condition-coverage'] = "#{condition_coverage}% (#{branch_hits}/#{branch_data.length})"
+          condition_node['coverage'] = "#{condition_coverage.to_i}%"
+          line_node['condition-coverage'] = "#{condition_coverage.to_i}% (#{branch_hits}/#{branch_data.length})"
         end
         return line_node
       end

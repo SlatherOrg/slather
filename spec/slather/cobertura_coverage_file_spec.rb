@@ -27,19 +27,19 @@ describe Slather::CoberturaCoverageFile do
     it "should store an array for each line number which contains the execution percentage of the branch" do
       percentages = coverage_file.branch_coverage_data["15"]
       expect(percentages.length).to eq(2)
-      expect(percentages[0]).to eq(50)
-      expect(percentages[1]).to eq(50)
+      expect(percentages[0]).to eq(1)
+      expect(percentages[1]).to eq(1)
 
       percentages = coverage_file.branch_coverage_data["18"]
       expect(percentages.length).to eq(2)
       expect(percentages[0]).to eq(0)
-      expect(percentages[1]).to eq(100)
+      expect(percentages[1]).to eq(1)
     end
   end
 
   describe "coverage_for_line" do
     it "should return nil for lines without coverage data" do
-      line = "branch  0 taken 100%"
+      line = "branch  0 taken 1"
       expect(coverage_file.coverage_for_line(line)).to eq(nil)
     end
   end
@@ -48,8 +48,8 @@ describe Slather::CoberturaCoverageFile do
     it "return the array with branch percentages for statement at a given line number" do
       data = coverage_file.branch_coverage_data_for_statement_on_line("15")
       expect(data.length).to eq(2)
-      expect(data[0]).to eq(50)
-      expect(data[1]).to eq(50)
+      expect(data[0]).to eq(1)
+      expect(data[1]).to eq(1)
     end
   end
   
@@ -60,15 +60,15 @@ describe Slather::CoberturaCoverageFile do
   end
   
   describe "branch_coverage_rate_for_statement_on_line" do
-    it "returns the ration bewteen execution percentage and number of branches divided by 100" do
-      expect(coverage_file.branch_coverage_rate_for_statement_on_line("15")).to eq(0.5)
+    it "returns the ratio between number of executed and number of total branches divided" do
+      expect(coverage_file.branch_coverage_rate_for_statement_on_line("15")).to eq(1.0)
       expect(coverage_file.branch_coverage_rate_for_statement_on_line("18")).to eq(0.5)
     end
   end
   
   describe "branch_coverage_percentage_for_statement_on_line" do
     it "returns the average percentage of all branches below the statement at a given line number" do
-      expect(coverage_file.branch_coverage_percentage_for_statement_on_line("15")).to eq(50)
+      expect(coverage_file.branch_coverage_percentage_for_statement_on_line("15")).to eq(100)
       expect(coverage_file.branch_coverage_percentage_for_statement_on_line("18")).to eq(50)
     end
   end
@@ -87,7 +87,7 @@ describe Slather::CoberturaCoverageFile do
 
   describe "rate_branches_tested" do
     it "returns the rate of tested branches inside the class" do
-      expect(coverage_file.rate_branches_tested).to eq(0.5)
+      expect(coverage_file.rate_branches_tested).to eq(0.75)
     end
   end
 
