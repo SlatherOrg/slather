@@ -17,7 +17,7 @@ module Slather
           filename = coverage_file.source_file_pathname.to_s
           filename = filename.sub(Pathname.pwd.to_s, '')[1..-1]
 
-          coverage_file.gcov_data.split("\n").each do |line|
+          coverage_file.cleaned_gcov_data.split("\n").each do |line|
             data = line.split(':')
 
             line_number = data[1].to_i

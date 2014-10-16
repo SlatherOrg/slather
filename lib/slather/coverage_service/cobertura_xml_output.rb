@@ -5,7 +5,7 @@ module Slather
     module CoberturaXmlOutput
 
       def coverage_file_class
-        Slather::CoberturaCoverageFile
+        Slather::CoverageFile
       end
       private :coverage_file_class
 
@@ -109,7 +109,7 @@ module Slather
         lines_node = Nokogiri::XML::Node.new "lines", @doc
         lines_node.parent = class_node
         
-        coverage_file.gcov_data.split("\n").each do |line|
+        coverage_file.cleaned_gcov_data.split("\n").each do |line|
           line_segments = line.split(':')
           if coverage_file.coverage_for_line(line)
             line_number = line_segments[1].strip

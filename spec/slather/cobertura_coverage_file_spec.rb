@@ -30,13 +30,6 @@ describe Slather::CoberturaCoverageFile do
     end
   end
 
-  describe "coverage_for_line" do
-    it "should return nil for lines without coverage data" do
-      line = "branch  0 taken 1"
-      expect(coverage_file.coverage_for_line(line)).to eq(nil)
-    end
-  end
-
   describe "branch_coverage_data_for_statement_on_line" do
     it "return the array with branch hit counts for statement at a given line number" do
       data = coverage_file.branch_coverage_data_for_statement_on_line("15")
