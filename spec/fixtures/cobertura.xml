@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage line-rate="0.6603773584905660" branch-rate="0.1190476190476190" lines-covered="35" lines-valid="53" branches-covered="5" branches-valid="42" complexity="0.0" timestamp="1413141440" version="Slather 1.3.0">
+<coverage line-rate="0.6603773584905660" branch-rate="0.1190476190476190" lines-covered="35" lines-valid="53" branches-covered="5" branches-valid="42" complexity="0.0" timestamp="" version="">
   <sources>
-    <source/>
+    <source></source>
   </sources>
   <packages>
     <package name="spec.fixtures.fixtures.more_files" line-rate="0.3846153846153846" branch-rate="0.3333333333333333" complexity="0.0">

@@ -21,23 +21,15 @@ describe Slather::CoverageService::CoberturaXmlOutput do
       file = File.open(FIXTURES_XML_PATH)
       fixture_xml_doc = Nokogiri::XML(file)
       file.close
-      fixture_xml_doc.root['timestamp'] = ''
-      fixture_xml_doc.root['version'] = ''
-      source_nodes = fixture_xml_doc.at_css "source"
-      source_nodes.each do |source_node|
-        source_node.content = "."
-      end
 
       file = File.open('cobertura.xml')
       current_xml_doc = Nokogiri::XML(file)
       file.close
       current_xml_doc.root['timestamp'] = ''
       current_xml_doc.root['version'] = ''
-      source_nodes = current_xml_doc.at_css "source"
-      source_nodes.each do |source_node|
-        source_node.content = "."
-      end
-
+      source_node = current_xml_doc.at_css "source"
+      source_node.content = ''
+      
       expect(current_xml_doc.to_xml).to eq(fixture_xml_doc.to_xml)
       
       File.unlink('cobertura.xml')
