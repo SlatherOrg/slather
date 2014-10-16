@@ -37,16 +37,12 @@ module Slather
 
         create_empty_xml_report
         coverage_node = @doc.root
-        sources_node = @doc.at_css "sources"
+        source_node = @doc.at_css "source" 
+        source_node.content = Pathname.pwd.to_s
         packages_node = @doc.at_css "packages"
 
         # group files by path
         grouped_coverage_files.each do |path , package_coverage_files|
-
-          source_node = Nokogiri::XML::Node.new "source", @doc
-          source_node.parent = sources_node
-          source_node.content = "#{Pathname.pwd.to_s}/#{path}"
-
           package_node = Nokogiri::XML::Node.new "package", @doc
           package_node.parent = packages_node
           classes_node = Nokogiri::XML::Node.new "classes", @doc
@@ -100,7 +96,7 @@ module Slather
 
       def create_class_node(coverage_file)
         filename = coverage_file.source_file_basename
-        filepath = File.basename(coverage_file.source_file_pathname_relative_to_repo_root.to_s)
+        filepath = coverage_file.source_file_pathname_relative_to_repo_root.to_s
 
         class_node = Nokogiri::XML::Node.new "class", @doc
         class_node['name'] = filename
@@ -158,7 +154,9 @@ module Slather
             "http://cobertura.sourceforge.net/xml/coverage-04.dtd"
           )
           xml.coverage do
-            xml.sources
+            xml.sources do
+              xml.source
+            end
             xml.packages
           end
         end

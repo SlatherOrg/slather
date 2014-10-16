@@ -1,15 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage line-rate="0.6603773584905660" branch-rate="0.1190476190476190" lines-covered="35" lines-valid="53" branches-covered="5" branches-valid="42" complexity="0.0" timestamp="1413474549" version="Slather 1.3.0">
+<coverage line-rate="0.6603773584905660" branch-rate="0.1190476190476190" lines-covered="35" lines-valid="53" branches-covered="5" branches-valid="42" complexity="0.0" timestamp="1413141440" version="Slather 1.3.0">
   <sources>
-    <source>/Users/juliankrumow/Development/research/slather/spec/fixtures/fixtures/more_files</source>
-    <source>/Users/juliankrumow/Development/research/slather/spec/fixtures/fixtures</source>
-    <source>/Users/juliankrumow/Development/research/slather/spec/fixtures/fixturesTests</source>
+    <source/>
   </sources>
   <packages>
     <package name="spec.fixtures.fixtures.more_files" line-rate="0.3846153846153846" branch-rate="0.3333333333333333" complexity="0.0">
       <classes>
-        <class name="Branches" filename="Branches.m" line-rate="0.5000000000000000" branch-rate="0.4000000000000000" complexity="0.0">
+        <class name="Branches" filename="spec/fixtures/fixtures/more_files/Branches.m" line-rate="0.5000000000000000" branch-rate="0.4000000000000000" complexity="0.0">
           <methods/>
           <lines>
             <line number="13" branch="false" hits="2"/>
@@ -50,7 +48,7 @@
             <line number="43" branch="false" hits="2"/>
           </lines>
         </class>
-        <class name="peekaview" filename="peekaview.m" line-rate="0.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+        <class name="peekaview" filename="spec/fixtures/fixtures/more_files/peekaview.m" line-rate="0.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
             <line number="13" branch="false" hits="0"/>
@@ -69,7 +67,7 @@
     </package>
     <package name="spec.fixtures.fixtures" line-rate="0.5000000000000000" branch-rate="NaN" complexity="0.0">
       <classes>
-        <class name="fixtures" filename="fixtures.m" line-rate="0.5000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+        <class name="fixtures" filename="spec/fixtures/fixtures/fixtures.m" line-rate="0.5000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
             <line number="15" branch="false" hits="1"/>
@@ -82,7 +80,7 @@
     </package>
     <package name="spec.fixtures.fixturesTests" line-rate="1.0000000000000000" branch-rate="0.0333333333333333" complexity="0.0">
       <classes>
-        <class name="BranchesTests" filename="BranchesTests.m" line-rate="1.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+        <class name="BranchesTests" filename="spec/fixtures/fixturesTests/BranchesTests.m" line-rate="1.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
             <line number="19" branch="false" hits="2"/>
@@ -97,7 +95,7 @@
             <line number="36" branch="false" hits="1"/>
           </lines>
         </class>
-        <class name="fixturesTests" filename="fixturesTests.m" line-rate="1.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+        <class name="fixturesTests" filename="spec/fixtures/fixturesTests/fixturesTests.m" line-rate="1.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
             <line number="20" branch="false" hits="1"/>
@@ -109,7 +107,7 @@
             <line number="34" branch="false" hits="1"/>
           </lines>
         </class>
-        <class name="peekaviewTests" filename="peekaviewTests.m" line-rate="1.0000000000000000" branch-rate="0.0333333333333333" complexity="0.0">
+        <class name="peekaviewTests" filename="spec/fixtures/fixturesTests/peekaviewTests.m" line-rate="1.0000000000000000" branch-rate="0.0333333333333333" complexity="0.0">
           <methods/>
           <lines>
             <line number="19" branch="false" hits="1"/>
