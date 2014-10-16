@@ -72,6 +72,26 @@ install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: slather
 ```
 
+### Cobertura
+
+To create a Cobertura XML report set `cobertura_xml` as coverage service inside your `.slather.yml`:
+
+```yml
+# .slather.yml
+
+coverage_service: cobertura_xml
+xcodeproj: path/to/project.xcodeproj
+ignore:
+  - ExamplePodCode/*
+  - ProjectTestsGroup/*
+```
+
+Or use the command line options `--cobertura-xml` or `-x`:
+
+```sh
+$ slather coverage -x
+```
+
 ### Coverage for code included via CocoaPods
 
 If you're trying to compute the coverage of code that has been included via
