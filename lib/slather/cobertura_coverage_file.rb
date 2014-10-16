@@ -48,8 +48,7 @@ module Slather
     end
 
     def cleaned_gcov_data(data)
-      cleaned_data = data.gsub(/^.*?:.*?:\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*\/(.)*\s/, '')
-      cleaned_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
+      data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/, '')
     end
 
     def coverage_for_line(line)
