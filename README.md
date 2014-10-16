@@ -86,7 +86,7 @@ source_directory: Pods/AFNetworking
 
 ### Custom Build Directory
 
-Slather will look for the test coverage files in `DerivedData` by default. If you send build output to a custom location, like [this](https://github.com/erikdoe/ocmock/blob/master/Tools/travis.sh#L12), then you should also set the `build_directory` property in `.slather.yml`
+Slather will look for the test coverage files in `DerivedData` by default. If you send build output to a custom location, like [this](https://github.com/erikdoe/ocmock/blob/7f4d22b38eedf1bb9a12ab1591ac0a5d436db61a/Tools/travis.sh#L12), then you should also set the `build_directory` property in `.slather.yml`
 
 ## Contributing
 
