@@ -154,7 +154,6 @@ OBJC
   describe "branch coverage" do
 
     let(:branch_coverage_file) do
-      fixtures_project.coverage_service = "cobertura_xml"
       fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "Branches.m" }
     end
 
