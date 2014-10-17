@@ -112,7 +112,7 @@ module Slather
         coverage_file.cleaned_gcov_data.split("\n").each do |line|
           line_segments = line.split(':')
           if coverage_file.coverage_for_line(line)
-            line_number = line_segments[1].strip
+            line_number = line_segments[1].strip.to_i
             line_node = create_line_node(line, coverage_file)
             line_node.parent = lines_node
           end
@@ -123,7 +123,7 @@ module Slather
       end
 
       def create_line_node(line, coverage_file)
-        line_number = line.split(':')[1].strip
+        line_number = line.split(':')[1].strip.to_i
         line_node = Nokogiri::XML::Node.new "line", @doc
         line_node['number'] = line_number
         line_node['branch'] = "false"

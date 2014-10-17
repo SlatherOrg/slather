@@ -53,7 +53,7 @@ module Slather
     end
 
     def line_coverage_data
-      if gcov_data
+      if cleaned_gcov_data
         first_line_start = cleaned_gcov_data =~ /^\s+(-|#+|[0-9+]):\s+1:/
 
         cleaned_gcov_data[first_line_start..-1].split("\n").map do |line|
@@ -107,7 +107,7 @@ module Slather
       @branch_coverage_data ||= begin
         branch_coverage_data = Hash.new
         branch_hits = Array.new
-        line_number = nil
+        line_number = 0
 
         @gcov_data.split("\n").each do |line|
           line_segments = line.split(':')
@@ -128,7 +128,7 @@ module Slather
               branch_coverage_data[line_number] = branch_hits.dup
               branch_hits.clear
             end
-            line_number = line_segments[1].strip
+            line_number = line_segments[1].strip.to_i
           end
         end
         branch_coverage_data
@@ -144,18 +144,16 @@ module Slather
     end
 
     def num_branch_hits_for_statement_on_line(line_number)
-      branch_hits = 0
-      branch_coverage_data_for_statement_on_line(line_number).each do |hit_count|
-        if hit_count > 0
-          branch_hits += 1
-        end
-      end
-      branch_hits
+      branch_coverage_data_for_statement_on_line(line_number).count { |hit_count| hit_count > 0 }
     end
 
     def rate_branch_coverage_for_statement_on_line(line_number)
       branch_data = branch_coverage_data_for_statement_on_line(line_number)
-      (num_branch_hits_for_statement_on_line(line_number) / branch_data.length.to_f)
+      if branch_data == nil
+        0.0
+      else
+        (num_branch_hits_for_statement_on_line(line_number) / branch_data.length.to_f)
+      end
     end
 
     def percentage_branch_coverage_for_statement_on_line(line_number)
@@ -163,23 +161,19 @@ module Slather
     end
 
     def num_branches_testable
-      branches_testable = 0
-      branch_coverage_data.keys.each do |line_number|
-        branches_testable += num_branches_for_statement_on_line(line_number)
+      branch_coverage_data.keys.reduce(0) do |sum, line_number|
+        sum += num_branches_for_statement_on_line(line_number)
       end
-      branches_testable
     end
 
     def num_branches_tested
-      branches_tested = 0
-      branch_coverage_data.keys.each do |line_number|
-        branches_tested += num_branch_hits_for_statement_on_line(line_number)
+      branch_coverage_data.keys.reduce(0) do |sum, line_number|
+        sum += num_branch_hits_for_statement_on_line(line_number)
       end
-      branches_tested
     end
 
     def rate_branches_tested
-      if (branch_coverage_data.keys.length == 0)
+      if (num_branches_testable == 0)
         0.0
       else
         (num_branches_tested / num_branches_testable.to_f)
