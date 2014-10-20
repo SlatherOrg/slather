@@ -106,31 +106,21 @@ module Slather
     def branch_coverage_data
       @branch_coverage_data ||= begin
         branch_coverage_data = Hash.new
-        branch_hits = Array.new
-        line_number = 0
+        
+        @gcov_data.scan(/(^(\s+(-|#+|[0-9]+):\s+[1-9]+:(.*)$\r?\n)(^branch\s+[0-9]+\s+[a-zA-Z0-9]+\s+[a-zA-Z0-9]+$\r?\n)+)+/) {|data|
+          lines = data[0].split("\n")
+          line_number = lines[0].split(':')[1].strip.to_i
+          branch_coverage_data[line_number] = Array.new
 
-        @gcov_data.split("\n").each do |line|
-          line_segments = line.split(':')
-          if line_segments.length == 0 || line_segments[0].strip == '-'
-            next
-          end
-          if line.match(/^branch/)
+          lines.drop(1).each do |line|
             if line.split(' ')[2].strip == "never"
-              branch_hits.push(0)
+              branch_coverage_data[line_number].push(0)
             else
-              taken = line.split(' ')[3].strip.to_i
-              branch_hits.push(taken)
+              hits = line.split(' ')[3].strip.to_i
+              branch_coverage_data[line_number].push(hits)
             end
-          elsif line.match(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$/)
-            next
-          else
-            if !branch_hits.empty?
-              branch_coverage_data[line_number] = branch_hits.dup
-              branch_hits.clear
-            end
-            line_number = line_segments[1].strip.to_i
           end
-        end
+        }
         branch_coverage_data
       end
     end
