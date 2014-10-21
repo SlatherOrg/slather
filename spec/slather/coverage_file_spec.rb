@@ -161,6 +161,8 @@ OBJC
       it "should return a hash with keys representing the line number of a branch statement" do
         expect(branch_coverage_file.branch_coverage_data.keys[0]).to eq(15)
         expect(branch_coverage_file.branch_coverage_data.keys[1]).to eq(18)
+        expect(branch_coverage_file.branch_coverage_data.keys[2]).to eq(26)
+        expect(branch_coverage_file.branch_coverage_data.keys[3]).to eq(29)
       end
 
       it "should store an array for each line number which contains the hit count for each branch" do
@@ -173,21 +175,53 @@ OBJC
         expect(data.length).to eq(2)
         expect(data[0]).to eq(0)
         expect(data[1]).to eq(1)
+
+        data = branch_coverage_file.branch_coverage_data[26]
+        expect(data.length).to eq(2)
+        expect(data[0]).to eq(2)
+        expect(data[1]).to eq(0)
+
+        data = branch_coverage_file.branch_coverage_data[29]
+        expect(data.length).to eq(4)
+        expect(data[0]).to eq(0)
+        expect(data[1]).to eq(0)
+        expect(data[2]).to eq(0)
+        expect(data[3]).to eq(0)
       end
     end
 
     describe "branch_coverage_data_for_statement_on_line" do
       it "return the array with branch hit counts for statement at a given line number" do
-        data = branch_coverage_file.branch_coverage_data_for_statement_on_line(15)
+        data = branch_coverage_file.branch_coverage_data[15]
         expect(data.length).to eq(2)
         expect(data[0]).to eq(1)
         expect(data[1]).to eq(1)
+
+        data = branch_coverage_file.branch_coverage_data[18]
+        expect(data.length).to eq(2)
+        expect(data[0]).to eq(0)
+        expect(data[1]).to eq(1)
+
+        data = branch_coverage_file.branch_coverage_data[26]
+        expect(data.length).to eq(2)
+        expect(data[0]).to eq(2)
+        expect(data[1]).to eq(0)
+
+        data = branch_coverage_file.branch_coverage_data[29]
+        expect(data.length).to eq(4)
+        expect(data[0]).to eq(0)
+        expect(data[1]).to eq(0)
+        expect(data[2]).to eq(0)
+        expect(data[3]).to eq(0)
       end
     end
     
     describe "num_branch_hits_for_statement_on_line" do
       it "returns the number of branches executed below the statement at a given line number" do
+        expect(branch_coverage_file.num_branch_hits_for_statement_on_line(15)).to eq(2)
         expect(branch_coverage_file.num_branch_hits_for_statement_on_line(18)).to eq(1)
+        expect(branch_coverage_file.num_branch_hits_for_statement_on_line(26)).to eq(1)
+        expect(branch_coverage_file.num_branch_hits_for_statement_on_line(29)).to eq(0)
       end
     end
     
@@ -195,6 +229,7 @@ OBJC
       it "returns the ratio between number of executed and number of total branches at a given line number" do
         expect(branch_coverage_file.rate_branch_coverage_for_statement_on_line(15)).to eq(1.0)
         expect(branch_coverage_file.rate_branch_coverage_for_statement_on_line(18)).to eq(0.5)
+        expect(branch_coverage_file.rate_branch_coverage_for_statement_on_line(26)).to eq(0.5)
         expect(branch_coverage_file.rate_branch_coverage_for_statement_on_line(29)).to eq(0.0)
       end
 
@@ -207,6 +242,7 @@ OBJC
       it "returns the average hit percentage of all branches below the statement at a given line number" do
         expect(branch_coverage_file.percentage_branch_coverage_for_statement_on_line(15)).to eq(100)
         expect(branch_coverage_file.percentage_branch_coverage_for_statement_on_line(18)).to eq(50)
+        expect(branch_coverage_file.percentage_branch_coverage_for_statement_on_line(26)).to eq(50)
         expect(branch_coverage_file.percentage_branch_coverage_for_statement_on_line(29)).to eq(0)
       end
     end
