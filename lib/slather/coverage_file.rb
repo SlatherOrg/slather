@@ -38,7 +38,7 @@ module Slather
 
     def gcov_data
       @gcov_data ||= begin
-        gcov_output = `gcov "#{source_file_pathname}" --object-directory "#{gcno_file_pathname.parent}"`
+        gcov_output = `gcov "#{source_file_pathname}" --object-directory "#{gcno_file_pathname.parent}" --branch-probabilities --branch-counts`
         # Sometimes gcov makes gcov files for Cocoa Touch classes, like NSRange. Ignore and delete later.
         gcov_files_created = gcov_output.scan(/creating '(.+\..+\.gcov)'/)
 
@@ -48,21 +48,25 @@ module Slather
         end
 
         gcov_files_created.each { |file| FileUtils.rm_f(file) }
-
         gcov_data
       end
     end
 
-    def coverage_data
-      if gcov_data
-        first_line_start = gcov_data =~ /^\s+(-|#+|[0-9+]):\s+1:/
+    def line_coverage_data
+      if cleaned_gcov_data
+        first_line_start = cleaned_gcov_data =~ /^\s+(-|#+|[0-9+]):\s+1:/
 
-        gcov_data[first_line_start..-1].split("\n").map do |line|
+        cleaned_gcov_data[first_line_start..-1].split("\n").map do |line|
           coverage_for_line(line)
         end
       else
         []
       end
+    end
+
+    def cleaned_gcov_data
+      data = gcov_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$\r?\n/, '')
+      data.gsub(/^branch(.*)$\r?\n/, '')
     end
 
     def coverage_for_line(line)
@@ -80,11 +84,15 @@ module Slather
     end
 
     def num_lines_tested
-      coverage_data.compact.select { |cd| cd > 0 }.count
+      line_coverage_data.compact.select { |cd| cd > 0 }.count
     end
 
     def num_lines_testable
-      coverage_data.compact.count
+      line_coverage_data.compact.count
+    end
+
+    def rate_lines_tested
+      (num_lines_tested / num_lines_testable.to_f)
     end
 
     def percentage_lines_tested
@@ -93,6 +101,74 @@ module Slather
       else
         0
       end
+    end
+
+    def branch_coverage_data
+      @branch_coverage_data ||= begin
+        branch_coverage_data = Hash.new
+        
+        @gcov_data.scan(/(^(\s+(-|#+|[0-9]+):\s+[1-9]+:(.*)$\r?\n)(^branch\s+[0-9]+\s+[a-zA-Z0-9]+\s+[a-zA-Z0-9]+$\r?\n)+)+/) {|data|
+          lines = data[0].split("\n")
+          line_number = lines[0].split(':')[1].strip.to_i
+          branch_coverage_data[line_number] = lines[1..-1].map do |line|
+            if line.split(' ')[2].strip == "never"
+              0
+            else
+              line.split(' ')[3].strip.to_i
+            end
+          end
+        }
+        branch_coverage_data
+      end
+    end
+
+    def branch_coverage_data_for_statement_on_line(line_number)
+      branch_coverage_data[line_number]
+    end
+
+    def num_branches_for_statement_on_line(line_number)
+      branch_coverage_data_for_statement_on_line(line_number).length
+    end
+
+    def num_branch_hits_for_statement_on_line(line_number)
+      branch_coverage_data_for_statement_on_line(line_number).count { |hit_count| hit_count > 0 }
+    end
+
+    def rate_branch_coverage_for_statement_on_line(line_number)
+      branch_data = branch_coverage_data_for_statement_on_line(line_number)
+      if branch_data == nil
+        0.0
+      else
+        (num_branch_hits_for_statement_on_line(line_number) / branch_data.length.to_f)
+      end
+    end
+
+    def percentage_branch_coverage_for_statement_on_line(line_number)
+      rate_branch_coverage_for_statement_on_line(line_number) * 100
+    end
+
+    def num_branches_testable
+      branch_coverage_data.keys.reduce(0) do |sum, line_number|
+        sum += num_branches_for_statement_on_line(line_number)
+      end
+    end
+
+    def num_branches_tested
+      branch_coverage_data.keys.reduce(0) do |sum, line_number|
+        sum += num_branch_hits_for_statement_on_line(line_number)
+      end
+    end
+
+    def rate_branches_tested
+      if (num_branches_testable == 0)
+        0.0
+      else
+        (num_branches_tested / num_branches_testable.to_f)
+      end
+    end
+
+    def source_file_basename
+      File.basename(source_file_pathname, '.m')
     end
 
     def ignored?
