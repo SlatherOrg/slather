@@ -144,7 +144,7 @@ module Slather
     end
 
     def percentage_branch_coverage_for_statement_on_line(line_number)
-      rate_branch_coverage_for_statement_on_line(line_number) * 100.to_i
+      rate_branch_coverage_for_statement_on_line(line_number) * 100
     end
 
     def num_branches_testable

@@ -76,7 +76,6 @@ module Slather
           total_project_lines_tested += total_package_lines_tested
           total_project_branches += total_package_branches
           total_project_branches_tested += total_package_branches_tested
-
         end
 
         total_project_line_rate = '%.16f' % (total_project_lines_tested / total_project_lines.to_f)
