@@ -110,14 +110,11 @@ module Slather
         @gcov_data.scan(/(^(\s+(-|#+|[0-9]+):\s+[1-9]+:(.*)$\r?\n)(^branch\s+[0-9]+\s+[a-zA-Z0-9]+\s+[a-zA-Z0-9]+$\r?\n)+)+/) {|data|
           lines = data[0].split("\n")
           line_number = lines[0].split(':')[1].strip.to_i
-          branch_coverage_data[line_number] = Array.new
-
-          lines.drop(1).each do |line|
+          branch_coverage_data[line_number] = lines.drop(1).map do |line|
             if line.split(' ')[2].strip == "never"
-              branch_coverage_data[line_number].push(0)
+              0
             else
               hits = line.split(' ')[3].strip.to_i
-              branch_coverage_data[line_number].push(hits)
             end
           end
         }
