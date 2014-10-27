@@ -266,4 +266,54 @@ OBJC
     end
   end
 
+  describe "empty coverage data" do
+
+    let(:empty_file) do
+      fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "Empty.m" }
+    end
+
+    describe "branch_coverage_data" do
+      it "returns an empty hash for branch_coverage_data of an empty file" do
+        data = empty_file.branch_coverage_data
+        expect(data).to be_empty
+      end
+    end
+
+    describe "num_branch_hits_for_statement_on_line" do
+      it "returns 0.0 when no data is available" do
+        expect(empty_file.num_branch_hits_for_statement_on_line(1)).to eq(0)
+      end
+    end
+    
+    describe "rate_branch_coverage_for_statement_on_line" do
+      it "returns 0.0 when no data is available" do
+        expect(empty_file.rate_branch_coverage_for_statement_on_line(1)).to eq(0.0)
+      end
+    end
+    
+    describe "percentage_branch_coverage_for_statement_on_line" do
+      it "returns 0 when no data is available" do
+        expect(empty_file.percentage_branch_coverage_for_statement_on_line(1)).to eq(0)
+      end
+    end
+    
+    describe "num_branches_testable" do
+      it "returns 0 when no data is available" do
+        expect(empty_file.num_branches_testable).to eq(0)
+      end
+    end
+
+    describe "num_branches_tested" do
+      it "returns 0 when no data is available" do
+        expect(empty_file.num_branches_tested).to eq(0)
+      end
+    end
+
+    describe "rate_branches_tested" do
+      it "returns 0.0 when no data is available" do
+        expect(empty_file.rate_branches_tested).to eq(0.0)
+      end
+    end
+  end
+
 end

@@ -18,6 +18,7 @@ describe Slather::CoverageService::SimpleOutput do
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixtures/fixtures.m: 2 of 4 lines (50.00%)")
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixtures/more_files/peekaview.m: 0 of 6 lines (0.00%)")
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixtures/more_files/Branches.m: 10 of 20 lines (50.00%)")
+      expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixtures/more_files/Empty.m: 0 of 0 lines (0.00%)")
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixturesTests/fixturesTests.m: 7 of 7 lines (100.00%)")
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixturesTests/peekaviewTests.m: 6 of 6 lines (100.00%)")
       expect(fixtures_project).to receive(:puts).with("spec/fixtures/fixturesTests/BranchesTests.m: 10 of 10 lines (100.00%)")

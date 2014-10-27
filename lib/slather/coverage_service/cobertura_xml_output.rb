@@ -56,7 +56,7 @@ module Slather
           total_package_branches_tested = 0
 
           package_coverage_files.each do |package_coverage_file|
-            next unless package_coverage_file.gcov_data
+            # next unless package_coverage_file.gcov_data
             class_node = create_class_node(package_coverage_file)
             class_node.parent = classes_node
             total_package_lines += package_coverage_file.num_lines_testable
@@ -108,12 +108,14 @@ module Slather
         lines_node = Nokogiri::XML::Node.new "lines", @doc
         lines_node.parent = class_node
         
-        coverage_file.cleaned_gcov_data.split("\n").each do |line|
-          line_segments = line.split(':')
-          if coverage_file.coverage_for_line(line)
-            line_number = line_segments[1].strip.to_i
-            line_node = create_line_node(line, coverage_file)
-            line_node.parent = lines_node
+        if coverage_file.cleaned_gcov_data
+          coverage_file.cleaned_gcov_data.split("\n").each do |line|
+            line_segments = line.split(':')
+            if coverage_file.coverage_for_line(line)
+              line_number = line_segments[1].strip.to_i
+              line_node = create_line_node(line, coverage_file)
+              line_node.parent = lines_node
+            end
           end
         end
         class_node['branch-rate'] = '%.16f' % [coverage_file.rate_branches_tested]
