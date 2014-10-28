@@ -272,6 +272,20 @@ OBJC
       fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "Empty.m" }
     end
 
+    describe "gcov_data" do
+      it "returns an empty string" do
+        gcov_data = empty_file.gcov_data
+        expect(gcov_data).to be_empty
+      end
+    end
+
+    describe "cleaned_gcov_data" do
+      it "returns an empty string" do
+        cleaned_gcov_data = empty_file.cleaned_gcov_data
+        expect(cleaned_gcov_data).to be_empty
+      end
+    end
+
     describe "branch_coverage_data" do
       it "returns an empty hash for branch_coverage_data of an empty file" do
         data = empty_file.branch_coverage_data
