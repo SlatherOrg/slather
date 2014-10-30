@@ -56,7 +56,6 @@ module Slather
           total_package_branches_tested = 0
 
           package_coverage_files.each do |package_coverage_file|
-            next unless package_coverage_file.gcov_data
             class_node = create_class_node(package_coverage_file)
             class_node.parent = classes_node
             total_package_lines += package_coverage_file.num_lines_testable
@@ -128,7 +127,7 @@ module Slather
         line_node['branch'] = "false"
         line_node['hits'] = coverage_file.coverage_for_line(line)
       
-        if coverage_file.branch_coverage_data_for_statement_on_line(line_number)
+        unless coverage_file.branch_coverage_data_for_statement_on_line(line_number).empty?
           line_node['branch'] = "true"  
           conditions_node = Nokogiri::XML::Node.new "conditions", @doc
           conditions_node.parent = line_node

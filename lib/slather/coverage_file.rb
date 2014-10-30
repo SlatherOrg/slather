@@ -45,6 +45,8 @@ module Slather
         gcov_file_name = "./#{source_file_pathname.basename}.gcov"
         if File.exists?(gcov_file_name)
           gcov_data = File.new(gcov_file_name).read
+        else
+          gcov_data = ""
         end
 
         gcov_files_created.each { |file| FileUtils.rm_f(file) }
@@ -53,7 +55,7 @@ module Slather
     end
 
     def line_coverage_data
-      if cleaned_gcov_data
+      unless cleaned_gcov_data.empty?
         first_line_start = cleaned_gcov_data =~ /^\s+(-|#+|[0-9+]):\s+1:/
 
         cleaned_gcov_data[first_line_start..-1].split("\n").map do |line|
@@ -92,38 +94,38 @@ module Slather
     end
 
     def rate_lines_tested
-      (num_lines_tested / num_lines_testable.to_f)
-    end
-
-    def percentage_lines_tested
-      if num_lines_testable > 0 
-        (num_lines_tested / num_lines_testable.to_f) * 100.0
+      if num_lines_testable > 0
+        (num_lines_tested / num_lines_testable.to_f)
       else
         0
       end
+    end
+
+    def percentage_lines_tested
+      rate_lines_tested * 100
     end
 
     def branch_coverage_data
       @branch_coverage_data ||= begin
         branch_coverage_data = Hash.new
         
-        @gcov_data.scan(/(^(\s+(-|#+|[0-9]+):\s+[1-9]+:(.*)$\r?\n)(^branch\s+[0-9]+\s+[a-zA-Z0-9]+\s+[a-zA-Z0-9]+$\r?\n)+)+/) {|data|
-          lines = data[0].split("\n")
-          line_number = lines[0].split(':')[1].strip.to_i
-          branch_coverage_data[line_number] = lines[1..-1].map do |line|
-            if line.split(' ')[2].strip == "never"
-              0
-            else
-              line.split(' ')[3].strip.to_i
+          gcov_data.scan(/(^(\s+(-|#+|[0-9]+):\s+[1-9]+:(.*)$\r?\n)(^branch\s+[0-9]+\s+[a-zA-Z0-9]+\s+[a-zA-Z0-9]+$\r?\n)+)+/) do |data|
+            lines = data[0].split("\n")
+            line_number = lines[0].split(':')[1].strip.to_i
+            branch_coverage_data[line_number] = lines[1..-1].map do |line|
+              if line.split(' ')[2].strip == "never"
+                0
+              else
+                line.split(' ')[3].strip.to_i
+              end
             end
           end
-        }
         branch_coverage_data
       end
     end
 
     def branch_coverage_data_for_statement_on_line(line_number)
-      branch_coverage_data[line_number]
+      branch_coverage_data[line_number] || []
     end
 
     def num_branches_for_statement_on_line(line_number)
@@ -136,7 +138,7 @@ module Slather
 
     def rate_branch_coverage_for_statement_on_line(line_number)
       branch_data = branch_coverage_data_for_statement_on_line(line_number)
-      if branch_data == nil
+      if branch_data.empty?
         0.0
       else
         (num_branch_hits_for_statement_on_line(line_number) / branch_data.length.to_f)
@@ -160,10 +162,10 @@ module Slather
     end
 
     def rate_branches_tested
-      if (num_branches_testable == 0)
-        0.0
-      else
+      if (num_branches_testable > 0)
         (num_branches_tested / num_branches_testable.to_f)
+      else
+        0.0
       end
     end
 

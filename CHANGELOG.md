@@ -2,9 +2,16 @@
 
 ## master
 
+## v1.5.1
+
+* Avoid crashes when coverage data is empty
+* Fix bug which prevented source files without coverage data to be included in Cobertura xml report  
+  [Julian Krumow](https://github.com/tarbrain)
+  [#34](https://github.com/venmo/slather/pull/34)
+
 ## v1.5.0
 
-* Add support for Cobertura.  
+* Add support for Cobertura  
   [Julian Krumow](https://github.com/tarbrain)
   [#30](https://github.com/venmo/slather/pull/30)
 
