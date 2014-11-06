@@ -34,5 +34,15 @@ describe Slather::CoverageService::CoberturaXmlOutput do
       
       File.unlink('cobertura.xml')
     end
+
+    it "should create an XML report in the given output directory" do
+      fixtures_project.output_directory = "./output"
+      fixtures_project.post
+      
+      filepath = "#{fixtures_project.output_directory}/cobertura.xml"
+      expect(File.exists?(filepath)).to be_truthy
+
+      FileUtils.rm_rf(fixtures_project.output_directory)
+    end
   end
 end

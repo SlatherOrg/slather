@@ -2,6 +2,12 @@
 
 ## master
 
+## v1.6.0
+
+* Add an option to define the output directory for cobertura xml reports  
+  [Julian Krumow](https://github.com/tarbrain)
+  [#37](https://github.com/venmo/slather/pull/37)
+
 ## v1.5.1
 
 * Avoid crashes when coverage data is empty

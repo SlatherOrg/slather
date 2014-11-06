@@ -19,7 +19,7 @@ end
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :source_directory
+    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :source_directory, :output_directory
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -72,6 +72,7 @@ module Slather
       configure_ci_service_from_yml
       configure_coverage_service_from_yml
       configure_source_directory_from_yml
+      configure_output_directory_from_yml
     end
 
     def configure_build_directory_from_yml
@@ -80,6 +81,10 @@ module Slather
 
     def configure_source_directory_from_yml
       self.source_directory ||= self.class.yml["source_directory"] if self.class.yml["source_directory"]
+    end
+
+    def configure_output_directory_from_yml
+      self.output_directory ||= self.class.yml["output_directory"] if self.class.yml["output_directory"]
     end
 
     def configure_ignore_list_from_yml

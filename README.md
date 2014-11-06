@@ -74,22 +74,24 @@ after_success: slather
 
 ### Cobertura
 
-To create a Cobertura XML report set `cobertura_xml` as coverage service inside your `.slather.yml`:
+To create a Cobertura XML report set `cobertura_xml` as coverage service inside your `.slather.yml`. Optionally you can define an output directory for the XML report:
 
 ```yml
 # .slather.yml
 
 coverage_service: cobertura_xml
 xcodeproj: path/to/project.xcodeproj
+source_directory: path/to/sources/to/include
+output_directory: path/to/xml_report
 ignore:
   - ExamplePodCode/*
   - ProjectTestsGroup/*
 ```
 
-Or use the command line options `--cobertura-xml` or `-x`:
+Or use the command line options `--cobertura-xml` or `-x` and `--output_directory`:
 
 ```sh
-$ slather coverage -x
+$ slather coverage -x --output-directory path/to/xml_report
 ```
 
 ### Coverage for code included via CocoaPods

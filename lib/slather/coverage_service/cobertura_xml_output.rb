@@ -11,9 +11,16 @@ module Slather
 
       def post
         cobertura_xml_report = create_xml_report(coverage_files)
-        File.open('cobertura.xml', 'w') { |file|
-          file.write(cobertura_xml_report.to_s)
-        }
+        store_report(cobertura_xml_report)
+      end
+
+      def store_report(report)
+        output_file = 'cobertura.xml'
+        if output_directory
+          FileUtils.mkdir_p(output_directory) unless File.exists?(output_directory)
+          output_file = "#{output_directory}/#{output_file}"
+        end
+        File.open(output_file, 'w') { |file| file.write(report.to_s) }
       end
 
       def grouped_coverage_files
