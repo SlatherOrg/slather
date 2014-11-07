@@ -72,6 +72,19 @@ install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: slather
 ```
 
+#### Travis CI Pro
+
+To use Coveralls with Travis CI Pro (for private repos), add following lines along with other settings to `.slather.yml`:
+
+```yml
+# .slather.yml
+
+ci_service: travis_pro
+ci_access_token: <YOUR ACCESS TOKEN>
+```
+
+Repo token can be found at https://coveralls.io/ repo page.
+
 ### Cobertura
 
 To create a Cobertura XML report set `cobertura_xml` as coverage service inside your `.slather.yml`:
