@@ -17,10 +17,10 @@ module Slather
       def store_report(report)
         output_file = 'cobertura.xml'
         if output_directory
-          FileUtils.mkdir_p(output_directory) unless File.exists?(output_directory)
-          output_file = "#{output_directory}/#{output_file}"
+          FileUtils.mkdir_p(output_directory)
+          output_file = File.join(output_directory, output_file)
         end
-        File.open(output_file, 'w') { |file| file.write(report.to_s) }
+        File.write(output_file, report.to_s)
       end
 
       def grouped_coverage_files
