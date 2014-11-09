@@ -243,6 +243,14 @@ describe Slather::Project do
     end
   end
 
+  describe "#configure_ci_access_token_from_yml" do
+    it "should set the ci_access_token if it has been provided by the yml" do
+      Slather::Project.stub(:yml).and_return({"ci_access_token" => "abc123"})
+      expect(fixtures_project).to receive(:ci_access_token=).with("abc123")
+      fixtures_project.configure_ci_access_token_from_yml
+    end
+  end
+
   describe "#coverage_service=" do
     it "should extend Slather::CoverageService::Coveralls and set coverage_service = :coveralls if given coveralls" do
       expect(fixtures_project).to receive(:extend).with(Slather::CoverageService::Coveralls)
