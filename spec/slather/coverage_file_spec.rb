@@ -12,7 +12,7 @@ describe Slather::CoverageFile do
 
   describe "#initialize" do
     it "should convert the provided path string to a Pathname object, and set it as the gcno_file_pathname" do
-      expect(coverage_file.gcno_file_pathname.exist?).to be_truthy
+      expect(coverage_file.gcno_file_pathname).to be_exist
       expect(coverage_file.gcno_file_pathname.basename.to_s).to eq("fixtures.gcno")
     end
   end
@@ -43,7 +43,7 @@ describe Slather::CoverageFile do
   describe "#source_file" do
     it "should return a file object for the source_file_pathname" do
       file = coverage_file.source_file
-      expect(file.kind_of?(File)).to be_truthy
+      expect(file).to be_a File
       expect(Pathname(file.path)).to eq(coverage_file.source_file_pathname)
     end
   end
@@ -94,18 +94,18 @@ OBJC
   describe "#ignored" do
     it "should return true if the source_file_pathname globs against anything in the project.ignore_list" do
       coverage_file.project.ignore_list = ["*spec*", "*test*"]
-      expect(coverage_file.ignored?).to be_truthy
+      expect(coverage_file).to be_ignored
     end
 
     it "should return false if the source_file_pathname does not glob against anything in the project.ignore_list" do
       coverage_file.project.ignore_list = ["*test*", "*XCTest*"]
-      expect(coverage_file.ignored?).to be_falsy
+      expect(coverage_file).not_to be_ignored
     end
   end
 
   describe "gcov_data" do
     it "should process the gcno file with gcov and return the contents of the file" do
-      expect(coverage_file.gcov_data.include?("1:   15:    NSLog(@\"tested\");")).to be_truthy
+      expect(coverage_file.gcov_data).to include("1:   15:    NSLog(@\"tested\");")
     end
   end
 
