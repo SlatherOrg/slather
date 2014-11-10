@@ -179,6 +179,21 @@ describe Slather::Project do
     end
   end
 
+  describe "#configure_output_directory_from_yml" do
+    it "should set the output_directory if it has been provided in the yml and has not already been set" do
+      Slather::Project.stub(:yml).and_return({"output_directory" => "/some/path"})
+      fixtures_project.configure_output_directory_from_yml
+      expect(fixtures_project.output_directory).to eq("/some/path")
+    end
+
+    it "should not set the output_directory if it has already been set" do
+      Slather::Project.stub(:yml).and_return({"output_directory" => "/some/path"})
+      fixtures_project.output_directory = "/already/set"
+      fixtures_project.configure_output_directory_from_yml
+      expect(fixtures_project.output_directory).to eq("/already/set")
+    end
+  end
+
   describe "#configure_ci_service_from_yml" do
     it "should set the ci_service if it has been provided in the yml and has not already been set" do
       Slather::Project.stub(:yml).and_return({"ci_service" => "some_service"})
