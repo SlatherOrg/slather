@@ -4,6 +4,7 @@ Bundler.setup
 require 'slather'
 require 'pry'
 require 'coveralls'
+require 'json_spec'
 
 Coveralls.wear!
 
@@ -15,4 +16,8 @@ RSpec.configure do |config|
   config.after(:suite) do
     FileUtils.rm_rf(Dir[File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/fixture*"].first)
   end
+end
+
+JsonSpec.configure do
+  exclude_keys "timestamp"
 end
