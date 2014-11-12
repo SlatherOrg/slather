@@ -64,6 +64,7 @@ describe Slather::CoverageService::Coveralls do
       fixtures_project.stub(:travis_job_id).and_return("9182")
       expect(fixtures_project).to receive(:`) do |cmd|
         expect(cmd).to eq("curl -s --form json_file=@coveralls_json_file https://coveralls.io/api/v1/jobs")
+        expect(File.read('coveralls_json_file')).to be_json_eql(fixtures_project.send(:coveralls_coverage_data))
       end.once
       fixtures_project.post
     end
