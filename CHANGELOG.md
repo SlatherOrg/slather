@@ -6,7 +6,7 @@
 
 * Fix calculation of branch coverage when a class has no branches  
   [Julian Krumow](https://github.com/tarbrain)
-  [#38](https://github.com/venmo/slather/pull/38)
+  [#40](https://github.com/venmo/slather/pull/40)
 
 ## v1.5.2
 
