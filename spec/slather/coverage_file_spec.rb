@@ -233,8 +233,8 @@ OBJC
         expect(branch_coverage_file.rate_branch_coverage_for_statement_on_line(29)).to eq(0.0)
       end
 
-      it "return 0.0 for a line without branch data" do
-        expect(branch_coverage_file.rate_branch_coverage_for_statement_on_line(1)).to eq(0.0)
+      it "return 1.0 for a line without branch data" do
+        expect(branch_coverage_file.rate_branch_coverage_for_statement_on_line(1)).to eq(1.0)
       end
     end
     
@@ -300,14 +300,14 @@ OBJC
     end
     
     describe "rate_branch_coverage_for_statement_on_line" do
-      it "returns 0.0 when no data is available" do
-        expect(empty_file.rate_branch_coverage_for_statement_on_line(1)).to eq(0.0)
+      it "returns 1.0 when no data is available" do
+        expect(empty_file.rate_branch_coverage_for_statement_on_line(1)).to eq(1.0)
       end
     end
     
     describe "percentage_branch_coverage_for_statement_on_line" do
-      it "returns 0 when no data is available" do
-        expect(empty_file.percentage_branch_coverage_for_statement_on_line(1)).to eq(0)
+      it "returns 100 when no data is available" do
+        expect(empty_file.percentage_branch_coverage_for_statement_on_line(1)).to eq(100)
       end
     end
     
@@ -324,8 +324,8 @@ OBJC
     end
 
     describe "rate_branches_tested" do
-      it "returns 0.0 when no data is available" do
-        expect(empty_file.rate_branches_tested).to eq(0.0)
+      it "returns 1.0 when no data is available" do
+        expect(empty_file.rate_branches_tested).to eq(1.0)
       end
     end
   end

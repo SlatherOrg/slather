@@ -139,7 +139,7 @@ module Slather
     def rate_branch_coverage_for_statement_on_line(line_number)
       branch_data = branch_coverage_data_for_statement_on_line(line_number)
       if branch_data.empty?
-        0.0
+        1.0
       else
         (num_branch_hits_for_statement_on_line(line_number) / branch_data.length.to_f)
       end
@@ -165,7 +165,7 @@ module Slather
       if (num_branches_testable > 0)
         (num_branches_tested / num_branches_testable.to_f)
       else
-        0.0
+        1.0
       end
     end
 

@@ -2,7 +2,13 @@
 
 ## master
 
-## v1.6.0
+## v1.5.3
+
+* Fix calculation of branch coverage when a class has no branches  
+  [Julian Krumow](https://github.com/tarbrain)
+  [#38](https://github.com/venmo/slather/pull/38)
+
+## v1.5.2
 
 * Add an option to define the output directory for cobertura xml reports  
   [Julian Krumow](https://github.com/tarbrain)

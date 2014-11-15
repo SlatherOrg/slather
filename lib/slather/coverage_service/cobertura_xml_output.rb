@@ -41,6 +41,7 @@ module Slather
         total_project_line_rate = 0.0
         total_project_branches = 0
         total_project_branches_tested = 0
+        total_project_branch_rate = '%.16f' % 1.0
 
         create_empty_xml_report
         coverage_node = @doc.root
@@ -61,6 +62,7 @@ module Slather
           total_package_lines_rate = 0.0
           total_package_branches = 0
           total_package_branches_tested = 0
+          total_package_branch_rate = '%.16f' % 1.0
 
           package_coverage_files.each do |package_coverage_file|
             class_node = create_class_node(package_coverage_file)
@@ -72,7 +74,10 @@ module Slather
           end
 
           total_package_line_rate = '%.16f' % (total_package_lines_tested / total_package_lines.to_f)
-          total_package_branch_rate = '%.16f' % (total_package_branches_tested / total_package_branches.to_f)
+
+          if (total_package_branches > 0)
+            total_package_branch_rate = '%.16f' % (total_package_branches_tested / total_package_branches.to_f)
+          end
 
           package_node['line-rate'] = total_package_line_rate
           package_node['branch-rate'] = total_package_branch_rate
@@ -85,7 +90,10 @@ module Slather
         end
 
         total_project_line_rate = '%.16f' % (total_project_lines_tested / total_project_lines.to_f)
-        total_project_branch_rate = '%.16f' % (total_project_branches_tested / total_project_branches.to_f)
+
+        if (total_project_branches > 0)
+          total_project_branch_rate = '%.16f' % (total_project_branches_tested / total_project_branches.to_f)
+        end
 
         coverage_node['line-rate'] = total_project_line_rate
         coverage_node['branch-rate'] = total_project_branch_rate
