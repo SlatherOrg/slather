@@ -38,7 +38,7 @@ module Slather
       def create_xml_report(coverage_files)
         total_project_lines = 0
         total_project_lines_tested = 0
-        total_project_line_rate = 0.0
+        total_project_line_rate = '%.16f' % 1.0
         total_project_branches = 0
         total_project_branches_tested = 0
         total_project_branch_rate = '%.16f' % 1.0
@@ -59,7 +59,7 @@ module Slather
 
           total_package_lines = 0
           total_package_lines_tested = 0
-          total_package_lines_rate = 0.0
+          total_package_lines_rate = '%.16f' % 1.0
           total_package_branches = 0
           total_package_branches_tested = 0
           total_package_branch_rate = '%.16f' % 1.0
@@ -73,7 +73,9 @@ module Slather
             total_package_branches_tested += package_coverage_file.num_branches_tested
           end
 
-          total_package_line_rate = '%.16f' % (total_package_lines_tested / total_package_lines.to_f)
+          if (total_package_lines > 0)
+            total_package_line_rate = '%.16f' % (total_package_lines_tested / total_package_lines.to_f)
+          end
 
           if (total_package_branches > 0)
             total_package_branch_rate = '%.16f' % (total_package_branches_tested / total_package_branches.to_f)
@@ -89,7 +91,9 @@ module Slather
           total_project_branches_tested += total_package_branches_tested
         end
 
-        total_project_line_rate = '%.16f' % (total_project_lines_tested / total_project_lines.to_f)
+        if (total_project_lines > 0)
+          total_project_line_rate = '%.16f' % (total_project_lines_tested / total_project_lines.to_f)
+        end
 
         if (total_project_branches > 0)
           total_project_branch_rate = '%.16f' % (total_project_branches_tested / total_project_branches.to_f)
@@ -114,8 +118,9 @@ module Slather
         class_node = Nokogiri::XML::Node.new "class", @doc
         class_node['name'] = filename
         class_node['filename'] = filepath
-        class_node['line-rate'] = '%.16f' % coverage_file.rate_lines_tested
-        class_node['branch-rate'] = '1.0'
+        class_node['line-rate'] = '%.16f' %  [(coverage_file.num_lines_testable > 0) ? coverage_file.rate_lines_tested : 1.0]
+        class_node['branch-rate'] = '%.16f' % [(coverage_file.num_branches_testable > 0) ? coverage_file.rate_branches_tested : 1.0]
+        class_node['complexity'] = '0.0'
 
         methods_node = Nokogiri::XML::Node.new "methods", @doc
         methods_node.parent = class_node
@@ -125,13 +130,10 @@ module Slather
         coverage_file.cleaned_gcov_data.split("\n").each do |line|
           line_segments = line.split(':')
           if coverage_file.coverage_for_line(line)
-            line_number = line_segments[1].strip.to_i
             line_node = create_line_node(line, coverage_file)
             line_node.parent = lines_node
           end
         end
-        class_node['branch-rate'] = '%.16f' % [coverage_file.rate_branches_tested]
-        class_node['complexity'] = '0.0'
         class_node
       end
 

@@ -48,7 +48,7 @@
             <line number="43" branch="false" hits="2"/>
           </lines>
         </class>
-        <class name="Empty" filename="spec/fixtures/fixtures/more_files/Empty.m" line-rate="0.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+        <class name="Empty" filename="spec/fixtures/fixtures/more_files/Empty.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
           <methods/>
           <lines/>
         </class>
