@@ -26,6 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "json_spec", "~> 1.1.4"
 
   spec.add_dependency "clamp", "~> 0.6"
-  spec.add_dependency "xcodeproj", "~> 0.19.2"
+  spec.add_dependency "xcodeproj", "~> 0.20.0"
   spec.add_dependency "nokogiri", "~> 1.6.3"
 end
