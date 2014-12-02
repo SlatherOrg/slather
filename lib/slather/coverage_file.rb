@@ -102,7 +102,11 @@ module Slather
     end
 
     def percentage_lines_tested
-      rate_lines_tested * 100
+      if num_lines_testable == 0
+        100
+      else
+        rate_lines_tested * 100
+      end
     end
 
     def branch_coverage_data
