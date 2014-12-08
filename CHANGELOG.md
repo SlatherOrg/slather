@@ -2,7 +2,7 @@
 
 ## master
 
-## v1.5.3
+## v1.5.4
 
 * Fix calculation of branch coverage when a class has no branches  
   [Julian Krumow](https://github.com/tarbrain)
