@@ -8,6 +8,10 @@
   [Julian Krumow](https://github.com/tarbrain)
   [#40](https://github.com/venmo/slather/pull/40)
 
+* Always consider empty files as 100% tested
+  [Boris Bügling](https://github.com/neonichu)
+  [#45](https://github.com/venmo/slather/pull/45)
+
 ## v1.5.2
 
 * Add an option to define the output directory for cobertura xml reports  
