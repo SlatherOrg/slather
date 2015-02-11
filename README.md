@@ -72,22 +72,31 @@ install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: slather
 ```
 
-### Coverage for code included via CocoaPods
+### Cobertura
 
-If you're trying to compute the coverage of code that has been included via CocoaPods, you can add the following to your Podfile:
+To create a Cobertura XML report set `cobertura_xml` as coverage service inside your `.slather.yml`:
 
-```ruby
-# Podfile
+```yml
+# .slather.yml
 
-begin
-  require 'slather'
-  Slather.prepare_pods(self)
-rescue LoadError
-  puts 'Slather has been disabled (not installed).'
-end
+coverage_service: cobertura_xml
+xcodeproj: path/to/project.xcodeproj
+ignore:
+  - ExamplePodCode/*
+  - ProjectTestsGroup/*
 ```
 
-Then, tell slather where to find the source files for your Pod.
+Or use the command line options `--cobertura-xml` or `-x`:
+
+```sh
+$ slather coverage -x
+```
+
+### Coverage for code included via CocoaPods
+
+If you're trying to compute the coverage of code that has been included via
+CocoaPods, you will need to tell slather where to find the source files for
+your Pod.
 
 ```yml
 # .slather.yml
@@ -97,7 +106,7 @@ source_directory: Pods/AFNetworking
 
 ### Custom Build Directory
 
-Slather will look for the test coverage files in `DerivedData` by default. If you send build output to a custom location, like [this](https://github.com/erikdoe/ocmock/blob/master/Tools/travis.sh#L12), then you should also set the `build_directory` property in `.slather.yml`
+Slather will look for the test coverage files in `DerivedData` by default. If you send build output to a custom location, like [this](https://github.com/erikdoe/ocmock/blob/7f4d22b38eedf1bb9a12ab1591ac0a5d436db61a/Tools/travis.sh#L12), then you should also set the `build_directory` property in `.slather.yml`
 
 ## Contributing
 
