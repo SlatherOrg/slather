@@ -63,7 +63,7 @@ module Slather
         begin
           f.write(hardcover_coverage_data)
           f.close
-          `curl -s --form json_file=@#{f.path} #{hardcover_api_jobs_path}`
+          `curl --form json_file=@#{f.path} #{hardcover_api_jobs_path}`
         rescue StandardError => e
           FileUtils.rm(f)
           raise e
