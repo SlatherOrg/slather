@@ -51,7 +51,7 @@ $ slather coverage -s path/to/project.xcodeproj
 
 ### Coveralls
 
-Login to https://coveralls.io/ and enable your repository. Right now, `slather` only supports coveralls via Travis CI.
+Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` only supports Coveralls via Travis CI.
 
 Make a `.slather.yml` file:
 
@@ -86,7 +86,7 @@ ci_service: travis_pro
 ci_access_token: <YOUR ACCESS TOKEN>
 ```
 
-Repo token can be found at https://coveralls.io/ repo page.
+Repo token can be found at [Coveralls](https://coveralls.io/) repo page.
 
 ### Cobertura
 
@@ -112,7 +112,7 @@ $ slather coverage -x --output-directory path/to/xml_report
 
 ### Coverage for code included via CocoaPods
 
-If you're trying to compute the coverage of code that has been included via
+If you’re trying to compute the coverage of code that has been included via
 CocoaPods, you will need to tell slather where to find the source files for
 your Pod.
 
@@ -128,7 +128,7 @@ Slather will look for the test coverage files in `DerivedData` by default. If yo
 
 ## Contributing
 
-We'd love to see your ideas for improving this library! The best way to contribute is by submitting a pull request. We'll do our best to respond to your patch as soon as possible. You can also submit a [new Github issue](https://github.com/venmo/slather/issues/new) if you find bugs or have questions. :octocat:
+We’d love to see your ideas for improving this library! The best way to contribute is by submitting a pull request. We’ll do our best to respond to your patch as soon as possible. You can also submit a [new GitHub issue](https://github.com/venmo/slather/issues/new) if you find bugs or have questions. :octocat:
 
 Please make sure to follow our general coding style and add test coverage for new features!
 
