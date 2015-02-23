@@ -13,13 +13,6 @@ describe Slather::CoverageService::Coveralls do
     end
   end
 
-  describe "#travis_job_id" do
-    it "should return the TRAVIS_JOB_ID environment variable" do
-      ENV['TRAVIS_JOB_ID'] = "9182"
-      expect(fixtures_project.send(:travis_job_id)).to eq("9182")
-    end
-  end
-
   describe '#coveralls_coverage_data' do
 
     context "coverage_service is :travis_ci" do
