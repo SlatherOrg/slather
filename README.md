@@ -4,6 +4,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/slather.svg)](http://badge.fury.io/rb/slather)
 [![Build Status](https://travis-ci.org/venmo/slather.svg?branch=master)](https://travis-ci.org/venmo/slather)
+[![Coverage Status](https://coveralls.io/repos/venmo/slather/badge.svg?branch=ayanonagon%2Fcoveralls)](https://coveralls.io/r/venmo/slather?branch=ayanonagon%2Fcoveralls)
 
 Generate test coverage reports for Xcode projects & hook it into CI.
 
