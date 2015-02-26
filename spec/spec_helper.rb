@@ -1,10 +1,15 @@
 require 'coveralls'
-Coveralls.wear!
+require 'simplecov'
+
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+
+SimpleCov.start do
+  add_filter "/gemfiles/vendor"
+end
 
 require 'slather'
 require 'pry'
 require 'json_spec'
-
 
 FIXTURES_XML_PATH = File.join(File.dirname(__FILE__), 'fixtures/cobertura.xml')
 FIXTURES_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/gutter.json')
