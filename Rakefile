@@ -7,7 +7,7 @@ end
 
 desc "Run all the specs"
 task :specs do
-  sh "rspec"
+  sh "bundle exec rspec"
 end
 
 task :default => [:generate_fixtures, :specs]
