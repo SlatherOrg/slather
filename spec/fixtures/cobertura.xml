@@ -48,6 +48,10 @@
             <line number="43" branch="false" hits="2"/>
           </lines>
         </class>
+        <class name="Empty" filename="spec/fixtures/fixtures/more_files/Empty.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines/>
+        </class>
         <class name="peekaview" filename="spec/fixtures/fixtures/more_files/peekaview.m" line-rate="0.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
@@ -65,9 +69,9 @@
         </class>
       </classes>
     </package>
-    <package name="spec.fixtures.fixtures" line-rate="0.5000000000000000" branch-rate="NaN" complexity="0.0">
+    <package name="spec.fixtures.fixtures" line-rate="0.5000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
       <classes>
-        <class name="fixtures" filename="spec/fixtures/fixtures/fixtures.m" line-rate="0.5000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+        <class name="fixtures" filename="spec/fixtures/fixtures/fixtures.m" line-rate="0.5000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
             <line number="15" branch="false" hits="1"/>
@@ -80,7 +84,7 @@
     </package>
     <package name="spec.fixtures.fixturesTests" line-rate="1.0000000000000000" branch-rate="0.0333333333333333" complexity="0.0">
       <classes>
-        <class name="BranchesTests" filename="spec/fixtures/fixturesTests/BranchesTests.m" line-rate="1.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+        <class name="BranchesTests" filename="spec/fixtures/fixturesTests/BranchesTests.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
             <line number="19" branch="false" hits="2"/>
@@ -95,7 +99,7 @@
             <line number="36" branch="false" hits="1"/>
           </lines>
         </class>
-        <class name="fixturesTests" filename="spec/fixtures/fixturesTests/fixturesTests.m" line-rate="1.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
+        <class name="fixturesTests" filename="spec/fixtures/fixturesTests/fixturesTests.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
             <line number="20" branch="false" hits="1"/>

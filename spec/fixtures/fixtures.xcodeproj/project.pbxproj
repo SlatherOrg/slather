@@ -10,6 +10,8 @@
 		155BBCA519E9CB6700BACB13 /* Branches.h in Headers */ = {isa = PBXBuildFile; fileRef = 155BBCA319E9CB6700BACB13 /* Branches.h */; };
 		155BBCA619E9CB6700BACB13 /* Branches.m in Sources */ = {isa = PBXBuildFile; fileRef = 155BBCA419E9CB6700BACB13 /* Branches.m */; };
 		155BBCA819E9CCC500BACB13 /* BranchesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 155BBCA719E9CCC500BACB13 /* BranchesTests.m */; };
+		155D8AFE19FED984004666BA /* Empty.h in Headers */ = {isa = PBXBuildFile; fileRef = 155D8AFC19FED984004666BA /* Empty.h */; };
+		155D8AFF19FED984004666BA /* Empty.m in Sources */ = {isa = PBXBuildFile; fileRef = 155D8AFD19FED984004666BA /* Empty.m */; };
 		8C52AEF7195AAE32008A882A /* peekaview.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C52AEF5195AAE32008A882A /* peekaview.h */; };
 		8C52AEF8195AAE33008A882A /* peekaview.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C52AEF6195AAE32008A882A /* peekaview.m */; };
 		8C52AEFA195AAE70008A882A /* peekaviewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C52AEF9195AAE70008A882A /* peekaviewTests.m */; };
@@ -36,6 +38,8 @@
 		155BBCA319E9CB6700BACB13 /* Branches.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Branches.h; sourceTree = "<group>"; };
 		155BBCA419E9CB6700BACB13 /* Branches.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Branches.m; sourceTree = "<group>"; };
 		155BBCA719E9CCC500BACB13 /* BranchesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BranchesTests.m; sourceTree = "<group>"; };
+		155D8AFC19FED984004666BA /* Empty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Empty.h; sourceTree = "<group>"; };
+		155D8AFD19FED984004666BA /* Empty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Empty.m; sourceTree = "<group>"; };
 		8C52AEF5195AAE32008A882A /* peekaview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = peekaview.h; sourceTree = "<group>"; };
 		8C52AEF6195AAE32008A882A /* peekaview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = peekaview.m; sourceTree = "<group>"; };
 		8C52AEF9195AAE70008A882A /* peekaviewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = peekaviewTests.m; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 				8C52AEF6195AAE32008A882A /* peekaview.m */,
 				155BBCA319E9CB6700BACB13 /* Branches.h */,
 				155BBCA419E9CB6700BACB13 /* Branches.m */,
+				155D8AFC19FED984004666BA /* Empty.h */,
+				155D8AFD19FED984004666BA /* Empty.m */,
 			);
 			path = more_files;
 			sourceTree = "<group>";
@@ -172,6 +178,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				155D8AFE19FED984004666BA /* Empty.h in Headers */,
 				155BBCA519E9CB6700BACB13 /* Branches.h in Headers */,
 				8C52AEF7195AAE32008A882A /* peekaview.h in Headers */,
 			);
@@ -259,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C9A203B195965F10013B6B3 /* fixtures.m in Sources */,
+				155D8AFF19FED984004666BA /* Empty.m in Sources */,
 				155BBCA619E9CB6700BACB13 /* Branches.m in Sources */,
 				8C52AEF8195AAE33008A882A /* peekaview.m in Sources */,
 			);

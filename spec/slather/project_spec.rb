@@ -179,6 +179,21 @@ describe Slather::Project do
     end
   end
 
+  describe "#configure_output_directory_from_yml" do
+    it "should set the output_directory if it has been provided in the yml and has not already been set" do
+      Slather::Project.stub(:yml).and_return({"output_directory" => "/some/path"})
+      fixtures_project.configure_output_directory_from_yml
+      expect(fixtures_project.output_directory).to eq("/some/path")
+    end
+
+    it "should not set the output_directory if it has already been set" do
+      Slather::Project.stub(:yml).and_return({"output_directory" => "/some/path"})
+      fixtures_project.output_directory = "/already/set"
+      fixtures_project.configure_output_directory_from_yml
+      expect(fixtures_project.output_directory).to eq("/already/set")
+    end
+  end
+
   describe "#configure_ci_service_from_yml" do
     it "should set the ci_service if it has been provided in the yml and has not already been set" do
       Slather::Project.stub(:yml).and_return({"ci_service" => "some_service"})
@@ -225,6 +240,14 @@ describe Slather::Project do
       fixtures_project.stub(:coverage_service).and_return("already set")
       expect(fixtures_project).to_not receive(:coverage_service=)
       fixtures_project.configure_coverage_service_from_yml
+    end
+  end
+
+  describe "#configure_ci_access_token_from_yml" do
+    it "should set the ci_access_token if it has been provided by the yml" do
+      Slather::Project.stub(:yml).and_return({"ci_access_token" => "abc123"})
+      expect(fixtures_project).to receive(:ci_access_token=).with("abc123")
+      fixtures_project.configure_ci_access_token_from_yml
     end
   end
 

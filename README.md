@@ -4,6 +4,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/slather.svg)](http://badge.fury.io/rb/slather)
 [![Build Status](https://travis-ci.org/venmo/slather.svg?branch=master)](https://travis-ci.org/venmo/slather)
+[![Coverage Status](https://coveralls.io/repos/venmo/slather/badge.svg?branch=ayanonagon%2Fcoveralls)](https://coveralls.io/r/venmo/slather?branch=ayanonagon%2Fcoveralls)
 
 Generate test coverage reports for Xcode projects & hook it into CI.
 
@@ -14,6 +15,8 @@ Generate test coverage reports for Xcode projects & hook it into CI.
 | [Parsimmon](https://github.com/ayanonagon/Parsimmon) | [![Parsimmon Coverage](https://coveralls.io/repos/ayanonagon/Parsimmon/badge.png?branch=master)](https://coveralls.io/r/ayanonagon/Parsimmon?branch=master) |
 | [VENCore](https://github.com/venmo/VENCore) | [![VENCore Coverage](https://coveralls.io/repos/venmo/VENCore/badge.png?branch=master)](https://coveralls.io/r/venmo/VENCore?branch=master) |
 | [CGFloatType](https://github.com/kylef/CGFloatType) | [![CGFloatType Coverage](https://coveralls.io/repos/kylef/CGFloatType/badge.png?branch=master)](https://coveralls.io/r/kylef/CGFloatType?branch=master) |
+| [DAZABTest](https://github.com/dasmer/DAZABTest) | [![DAZABTest Coverage](https://coveralls.io/repos/dasmer/DAZABTest/badge.png?branch=master)](https://coveralls.io/r/dasmer/DAZABTest?branch=master) |
+| [TBStateMachine](https://github.com/tarbrain/TBStateMachine) | [![TBStateMachine Coverage](https://coveralls.io/repos/tarbrain/TBStateMachine/badge.png?branch=master)](https://coveralls.io/r/tarbrain/TBStateMachine?branch=master) |
 
 ## Installation
 
@@ -48,7 +51,7 @@ $ slather coverage -s path/to/project.xcodeproj
 
 ### Coveralls
 
-Login to https://coveralls.io/ and enable your repository. Right now, `slather` only supports coveralls via Travis CI.
+Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` only supports Coveralls via Travis CI.
 
 Make a `.slather.yml` file:
 
@@ -72,29 +75,44 @@ install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: slather
 ```
 
+#### Travis CI Pro
+
+To use Coveralls with Travis CI Pro (for private repos), add following lines along with other settings to `.slather.yml`:
+
+```yml
+# .slather.yml
+
+ci_service: travis_pro
+ci_access_token: <YOUR ACCESS TOKEN>
+```
+
+Repo token can be found at [Coveralls](https://coveralls.io/) repo page.
+
 ### Cobertura
 
-To create a Cobertura XML report set `cobertura_xml` as coverage service inside your `.slather.yml`:
+To create a Cobertura XML report set `cobertura_xml` as coverage service inside your `.slather.yml`. Optionally you can define an output directory for the XML report:
 
 ```yml
 # .slather.yml
 
 coverage_service: cobertura_xml
 xcodeproj: path/to/project.xcodeproj
+source_directory: path/to/sources/to/include
+output_directory: path/to/xml_report
 ignore:
   - ExamplePodCode/*
   - ProjectTestsGroup/*
 ```
 
-Or use the command line options `--cobertura-xml` or `-x`:
+Or use the command line options `--cobertura-xml` or `-x` and `--output_directory`:
 
 ```sh
-$ slather coverage -x
+$ slather coverage -x --output-directory path/to/xml_report
 ```
 
 ### Coverage for code included via CocoaPods
 
-If you're trying to compute the coverage of code that has been included via
+If you’re trying to compute the coverage of code that has been included via
 CocoaPods, you will need to tell slather where to find the source files for
 your Pod.
 
@@ -110,7 +128,7 @@ Slather will look for the test coverage files in `DerivedData` by default. If yo
 
 ## Contributing
 
-We'd love to see your ideas for improving this library! The best way to contribute is by submitting a pull request. We'll do our best to respond to your patch as soon as possible. You can also submit a [new Github issue](https://github.com/venmo/slather/issues/new) if you find bugs or have questions. :octocat:
+We’d love to see your ideas for improving this library! The best way to contribute is by submitting a pull request. We’ll do our best to respond to your patch as soon as possible. You can also submit a [new GitHub issue](https://github.com/venmo/slather/issues/new) if you find bugs or have questions. :octocat:
 
 Please make sure to follow our general coding style and add test coverage for new features!
 
