@@ -15,7 +15,7 @@ module Slather
           next unless coverage_file.gcov_data
 
           filename = coverage_file.source_file_pathname.to_s
-          filename = filename.sub(Pathname.pwd.to_s, '')[1..-1]
+          filename = filename.sub(Pathname.pwd.to_s, '').reverse.chomp("/").reverse
 
           coverage_file.cleaned_gcov_data.split("\n").each do |line|
             data = line.split(':')
