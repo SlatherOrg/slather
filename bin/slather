@@ -12,6 +12,7 @@ Clamp do
     parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
 
     option ["--travis", "-t"], :flag, "Indicate that the builds are running on Travis CI"
+    option ["--circleci"], :flag, "Indicate that the builds are running on CircleCI"
 
     option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
     option ["--simple-output", "-s"], :flag, "Output coverage results to the terminal"
@@ -57,6 +58,8 @@ Clamp do
     def setup_service_name
       if travis?
         project.ci_service = :travis_ci
+      elsif circleci?
+        project.ci_service = :circleci
       end
     end
 
