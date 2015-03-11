@@ -1,5 +1,12 @@
 require 'coveralls'
+require 'simplecov'
+
 Coveralls.wear!
+
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+SimpleCov.start do
+  coverage_path = File.join(File.dirname(__FILE__), "../lib")
+end
 
 require 'slather'
 require 'pry'
