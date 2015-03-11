@@ -27,7 +27,7 @@ module Slather
           :head => {
             :id => (ENV['CIRCLE_SHA1'] || ""),
             :author_name => (ENV['CIRCLE_USERNAME'] || ""),
-            :message => (`git log --format=%B -n 1 HEAD`.chomp || "")
+            :message => (`git log --format=%s -n 1 HEAD`.chomp || "")
           },
           :branch => (ENV['CIRCLE_BRANCH'] || "")
         }
