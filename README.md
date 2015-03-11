@@ -112,9 +112,15 @@ $ slather coverage -x --output-directory path/to/xml_report
 
 ### Coverage for code included via CocoaPods
 
-If you’re trying to compute the coverage of code that has been included via
-CocoaPods, you will need to tell slather where to find the source files for
-your Pod.
+If you're trying to compute the coverage of code that has been included via
+CocoaPods, you will need to tell CocoaPods to use the slather plugin by
+adding the following to your `Podfile`.
+
+```ruby
+plugin 'slather'
+```
+
+You will also need to tell slather where to find the source files for your Pod.
 
 ```yml
 # .slather.yml
