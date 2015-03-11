@@ -51,7 +51,7 @@ $ slather coverage -s path/to/project.xcodeproj
 
 ### Coveralls
 
-Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` only supports Coveralls via Travis CI.
+Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` supports Coveralls via [Travis CI](https://travis-ci.org) and [CircleCI](https://circleci.org).
 
 Make a `.slather.yml` file:
 
@@ -65,7 +65,7 @@ ignore:
   - ProjectTestsGroup/*
 ```
 
-And then in your `.travis.yml`, call `slather` after a successful_build
+And then in your `.travis.yml` or `circle.yml`, call `slather` after a successful build:
 
 ```yml
 # .travis.yml
@@ -73,6 +73,15 @@ And then in your `.travis.yml`, call `slather` after a successful_build
 before_install: rvm use $RVM_RUBY_VERSION
 install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: slather
+```
+
+```yml
+# circle.yml
+
+test:
+  post:
+    - bundle exec slather
+
 ```
 
 #### Travis CI Pro
