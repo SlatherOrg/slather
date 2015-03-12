@@ -151,3 +151,4 @@ Please make sure to follow our general coding style and add test coverage for ne
 
 * [@tpoulos](https://github.com/tpoulos), the perfect logo.
 * [@ayanonagon](https://github.com/ayanonagon) and [@kylef](https://github.com/kylef), feedback and testing.
+* [@jhersh](https://github.com/jhersh), CircleCI support.
