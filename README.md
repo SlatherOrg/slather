@@ -51,7 +51,7 @@ $ slather coverage -s path/to/project.xcodeproj
 
 ### Coveralls
 
-Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` supports Coveralls via [Travis CI](https://travis-ci.org) and [CircleCI](https://circleci.org).
+Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` supports Coveralls via [Travis CI](https://travis-ci.org) and [CircleCI](https://circleci.com).
 
 Make a `.slather.yml` file:
 
