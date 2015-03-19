@@ -2,6 +2,11 @@
 
 ## master
 
+## v1.6.0
+* Add CircleCI support  
+  [Jonathan Hersh](https://github.com/jhersh)
+  [#55](https://github.com/venmo/slather/pull/55)
+
 ## v1.5.4
 
 * Fix calculation of branch coverage when a class has no branches  

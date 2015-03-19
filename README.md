@@ -12,11 +12,11 @@ Generate test coverage reports for Xcode projects & hook it into CI.
 
 | Project | Coverage |
 | ------- |:--------:|
-| [Parsimmon](https://github.com/ayanonagon/Parsimmon) | [![Parsimmon Coverage](https://coveralls.io/repos/ayanonagon/Parsimmon/badge.png?branch=master)](https://coveralls.io/r/ayanonagon/Parsimmon?branch=master) |
-| [VENCore](https://github.com/venmo/VENCore) | [![VENCore Coverage](https://coveralls.io/repos/venmo/VENCore/badge.png?branch=master)](https://coveralls.io/r/venmo/VENCore?branch=master) |
-| [CGFloatType](https://github.com/kylef/CGFloatType) | [![CGFloatType Coverage](https://coveralls.io/repos/kylef/CGFloatType/badge.png?branch=master)](https://coveralls.io/r/kylef/CGFloatType?branch=master) |
-| [DAZABTest](https://github.com/dasmer/DAZABTest) | [![DAZABTest Coverage](https://coveralls.io/repos/dasmer/DAZABTest/badge.png?branch=master)](https://coveralls.io/r/dasmer/DAZABTest?branch=master) |
-| [TBStateMachine](https://github.com/tarbrain/TBStateMachine) | [![TBStateMachine Coverage](https://coveralls.io/repos/tarbrain/TBStateMachine/badge.png?branch=master)](https://coveralls.io/r/tarbrain/TBStateMachine?branch=master) |
+| [Parsimmon](https://github.com/ayanonagon/Parsimmon) | [![Parsimmon Coverage](https://coveralls.io/repos/ayanonagon/Parsimmon/badge.svg?branch=master)](https://coveralls.io/r/ayanonagon/Parsimmon?branch=master) |
+| [VENCore](https://github.com/venmo/VENCore) | [![VENCore Coverage](https://coveralls.io/repos/venmo/VENCore/badge.svg?branch=master)](https://coveralls.io/r/venmo/VENCore?branch=master) |
+| [CGFloatType](https://github.com/kylef/CGFloatType) | [![CGFloatType Coverage](https://coveralls.io/repos/kylef/CGFloatType/badge.svg?branch=master)](https://coveralls.io/r/kylef/CGFloatType?branch=master) |
+| [DAZABTest](https://github.com/dasmer/DAZABTest) | [![DAZABTest Coverage](https://coveralls.io/repos/dasmer/DAZABTest/badge.svg?branch=master)](https://coveralls.io/r/dasmer/DAZABTest?branch=master) |
+| [TBStateMachine](https://github.com/tarbrain/TBStateMachine) | [![TBStateMachine Coverage](https://coveralls.io/repos/tarbrain/TBStateMachine/badge.svg?branch=master)](https://coveralls.io/r/tarbrain/TBStateMachine?branch=master) |
 
 ## Installation
 
@@ -51,7 +51,7 @@ $ slather coverage -s path/to/project.xcodeproj
 
 ### Coveralls
 
-Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` only supports Coveralls via Travis CI.
+Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` supports Coveralls via [Travis CI](https://travis-ci.org) and [CircleCI](https://circleci.com).
 
 Make a `.slather.yml` file:
 
@@ -65,7 +65,7 @@ ignore:
   - ProjectTestsGroup/*
 ```
 
-And then in your `.travis.yml`, call `slather` after a successful_build
+And then in your `.travis.yml` or `circle.yml`, call `slather` after a successful build:
 
 ```yml
 # .travis.yml
@@ -73,6 +73,15 @@ And then in your `.travis.yml`, call `slather` after a successful_build
 before_install: rvm use $RVM_RUBY_VERSION
 install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: slather
+```
+
+```yml
+# circle.yml
+
+test:
+  post:
+    - bundle exec slather
+
 ```
 
 #### Travis CI Pro
@@ -112,9 +121,15 @@ $ slather coverage -x --output-directory path/to/xml_report
 
 ### Coverage for code included via CocoaPods
 
-If you’re trying to compute the coverage of code that has been included via
-CocoaPods, you will need to tell slather where to find the source files for
-your Pod.
+If you're trying to compute the coverage of code that has been included via
+CocoaPods, you will need to tell CocoaPods to use the slather plugin by
+adding the following to your `Podfile`.
+
+```ruby
+plugin 'slather'
+```
+
+You will also need to tell slather where to find the source files for your Pod.
 
 ```yml
 # .slather.yml
@@ -136,3 +151,4 @@ Please make sure to follow our general coding style and add test coverage for ne
 
 * [@tpoulos](https://github.com/tpoulos), the perfect logo.
 * [@ayanonagon](https://github.com/ayanonagon) and [@kylef](https://github.com/kylef), feedback and testing.
+* [@jhersh](https://github.com/jhersh), CircleCI support.

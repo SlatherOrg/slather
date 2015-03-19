@@ -14,7 +14,7 @@ describe Slather do
       sandbox_root = 'Pods'
       sandbox = Pod::Sandbox.new(sandbox_root)
       context = Pod::Installer::HooksContext.generate(sandbox, [])
-      Pod::HooksManager.run(:post_install, context)
+      Pod::HooksManager.run(:post_install, context, {'slather' => nil})
     end
   end
 end

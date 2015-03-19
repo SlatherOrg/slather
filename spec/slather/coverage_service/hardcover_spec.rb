@@ -29,7 +29,10 @@ describe Slather::CoverageService::Hardcover do
   describe '#hardcover_coverage_data' do
 
     context "coverage_service is :travis_ci" do
-      before(:each) { fixtures_project.ci_service = :travis_ci }
+      before(:each) do
+        fixtures_project.ci_service = :travis_ci
+        fixtures_project.stub(:yml).and_return({})
+      end
 
       it "should return valid json for hardcover coverage data" do
         fixtures_project.stub(:travis_job_id).and_return("9182")
@@ -56,6 +59,10 @@ describe Slather::CoverageService::Hardcover do
   end
 
   describe '#post' do
+    before(:each) do
+        fixtures_project.stub(:yml).and_return({})
+    end
+
     it "should save the hardcover_coverage_data to a file and post it to hardcover" do
       fixtures_project.stub(:travis_job_id).and_return("9182")
       fixtures_project.stub(:coverage_service_url).and_return("http://api.hardcover.io")
