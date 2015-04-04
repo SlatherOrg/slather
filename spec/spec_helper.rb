@@ -4,6 +4,7 @@ Coveralls.wear!
 require 'slather'
 require 'pry'
 require 'json_spec'
+require 'equivalent-xml'
 
 
 FIXTURES_XML_PATH = File.join(File.dirname(__FILE__), 'fixtures/cobertura.xml')

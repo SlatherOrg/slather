@@ -18,10 +18,6 @@ describe Slather::CoverageFile do
   end
 
   describe "#source_file_pathname" do
-    it "should return the path to the coverage files's source implementation file" do
-      expect(coverage_file.source_file_pathname).to eq(fixtures_project["fixtures/fixtures.m"].real_path)
-    end
-
     it "should look in the source_directory if it has been set on the project" do
       coverage_file = Slather::CoverageFile.new(fixtures_project, "fixtures.m")
       fixtures_project.source_directory = Pathname(File.join(File.dirname(__FILE__), '../fixtures/')).realpath.to_s
@@ -37,6 +33,14 @@ describe Slather::CoverageFile do
     it "should return nil if it couldn't find the coverage files's source implementation file in the project" do
       whoami_file = Slather::CoverageFile.new(fixtures_project, "/some/path/whoami.gcno")
       expect(whoami_file.source_file_pathname).to be_nil
+    end
+
+    ["cpp", "mm", "m"].each do |file_ext|
+      it "should work for #{file_ext} files" do
+        file_name = "fixtures_#{file_ext}.#{file_ext}"
+        coverage_file = fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == file_name }
+        expect(coverage_file.source_file_pathname).to eq(fixtures_project["fixtures/#{file_name}"].real_path)
+      end
     end
   end
 
@@ -78,7 +82,7 @@ OBJC
       expect(coverage_file.source_data).to eq(expected)
     end
   end
-  
+
   describe "source_file_basename" do
     it "returns the base name of the source file" do
       expect(coverage_file.source_file_basename).to eq("fixtures")
@@ -143,7 +147,7 @@ OBJC
       it "should return the correct percentage of lines that are tested" do
         expect(line_coverage_file.percentage_lines_tested).to eq(50)
       end
-      
+
       it "should return 100 if no testable lines" do
         line_coverage_file.stub(:num_lines_testable).and_return(0)
         expect(line_coverage_file.percentage_lines_tested).to eq(100)
@@ -215,7 +219,7 @@ OBJC
         expect(data[3]).to eq(0)
       end
     end
-    
+
     describe "num_branch_hits_for_statement_on_line" do
       it "returns the number of branches executed below the statement at a given line number" do
         expect(branch_coverage_file.num_branch_hits_for_statement_on_line(15)).to eq(2)
@@ -224,7 +228,7 @@ OBJC
         expect(branch_coverage_file.num_branch_hits_for_statement_on_line(29)).to eq(0)
       end
     end
-    
+
     describe "rate_branch_coverage_for_statement_on_line" do
       it "returns the ratio between number of executed and number of total branches at a given line number" do
         expect(branch_coverage_file.rate_branch_coverage_for_statement_on_line(15)).to eq(1.0)
@@ -237,7 +241,7 @@ OBJC
         expect(branch_coverage_file.rate_branch_coverage_for_statement_on_line(1)).to eq(0.0)
       end
     end
-    
+
     describe "percentage_branch_coverage_for_statement_on_line" do
       it "returns the average hit percentage of all branches below the statement at a given line number" do
         expect(branch_coverage_file.percentage_branch_coverage_for_statement_on_line(15)).to eq(100)
@@ -246,7 +250,7 @@ OBJC
         expect(branch_coverage_file.percentage_branch_coverage_for_statement_on_line(29)).to eq(0)
       end
     end
-    
+
     describe "num_branches_testable" do
       it "returns the number of testable branches inside the class" do
         expect(branch_coverage_file.num_branches_testable).to eq(10)
@@ -298,19 +302,19 @@ OBJC
         expect(empty_file.num_branch_hits_for_statement_on_line(1)).to eq(0)
       end
     end
-    
+
     describe "rate_branch_coverage_for_statement_on_line" do
       it "returns 0.0 when no data is available" do
         expect(empty_file.rate_branch_coverage_for_statement_on_line(1)).to eq(0.0)
       end
     end
-    
+
     describe "percentage_branch_coverage_for_statement_on_line" do
       it "returns 0 when no data is available" do
         expect(empty_file.percentage_branch_coverage_for_statement_on_line(1)).to eq(0)
       end
     end
-    
+
     describe "num_branches_testable" do
       it "returns 0 when no data is available" do
         expect(empty_file.num_branches_testable).to eq(0)

@@ -17,7 +17,7 @@ describe Slather::CoverageService::CoberturaXmlOutput do
   describe '#post' do
     it "should create an XML report spanning all coverage files" do
       fixtures_project.post
-      
+
       file = File.open(FIXTURES_XML_PATH)
       fixture_xml_doc = Nokogiri::XML(file)
       file.close
@@ -25,20 +25,21 @@ describe Slather::CoverageService::CoberturaXmlOutput do
       file = File.open('cobertura.xml')
       current_xml_doc = Nokogiri::XML(file)
       file.close
-      current_xml_doc.root['timestamp'] = ''
-      current_xml_doc.root['version'] = ''
-      source_node = current_xml_doc.at_css "source"
-      source_node.content = ''
-      
-      expect(current_xml_doc.to_xml).to eq(fixture_xml_doc.to_xml)
-      
-      File.unlink('cobertura.xml')
+
+      [current_xml_doc, fixture_xml_doc].each do |xml_doc|
+        xml_doc.root['timestamp'] = ''
+        xml_doc.root['version'] = ''
+        source_node = xml_doc.at_css "source"
+        source_node.content = ''
+      end
+
+      EquivalentXml.equivalent?(current_xml_doc, fixture_xml_doc).should be_truthy
     end
 
     it "should create an XML report in the given output directory" do
       fixtures_project.output_directory = "./output"
       fixtures_project.post
-      
+
       filepath = "#{fixtures_project.output_directory}/cobertura.xml"
       expect(File.exists?(filepath)).to be_truthy
 

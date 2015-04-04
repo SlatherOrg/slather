@@ -14,12 +14,13 @@ module Slather
         # TODO: Handle Swift
         path = nil
         if project.source_directory
-          path = Dir["#{project.source_directory}/**/#{base_filename}.{m,mm,cpp,hpp}"].first
+          path = Dir["#{project.source_directory}/**/#{base_filename}.{#{supported_file_extensions.join(",")}}"].first
           path &&= Pathname(path)
         else
           pbx_file = project.files.detect { |pbx_file|
-            t = Regexp.new(Regexp.escape(base_filename.to_s) + "\.(m|mm|cpp|hpp)$")
-            !t.match(pbx_file.real_path.basename.to_s).nil?
+            current_base_filename = pbx_file.real_path.basename
+            ext_name = File.extname(current_base_filename.to_s)[1..-1]
+            current_base_filename.sub_ext("") == base_filename && supported_file_extensions.include?(ext_name)
           }
           path = pbx_file && pbx_file.real_path
         end
@@ -186,5 +187,9 @@ module Slather
       end
     end
 
+    def supported_file_extensions
+      ["cpp", "mm", "m"]
+    end
+    private :supported_file_extensions
   end
 end
