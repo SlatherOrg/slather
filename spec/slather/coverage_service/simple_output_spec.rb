@@ -17,6 +17,9 @@ describe Slather::CoverageService::SimpleOutput do
     it "should print out the coverage for each file, and then total coverage" do
       ["spec/fixtures/fixtures/fixtures.m: 2 of 4 lines (50.00%)",
       "spec/fixtures/fixtures/more_files/peekaview.m: 0 of 6 lines (0.00%)",
+      "spec/fixtures/fixtures/fixtures_cpp.cpp: 0 of 0 lines (100.00%)",
+      "spec/fixtures/fixtures/fixtures_mm.mm: 0 of 0 lines (100.00%)",
+      "spec/fixtures/fixtures/fixtures_m.m: 0 of 0 lines (100.00%)",
       "spec/fixtures/fixtures/more_files/Branches.m: 10 of 20 lines (50.00%)",
       "spec/fixtures/fixtures/more_files/Empty.m: 0 of 0 lines (100.00%)",
       "spec/fixtures/fixturesTests/fixturesTests.m: 7 of 7 lines (100.00%)",

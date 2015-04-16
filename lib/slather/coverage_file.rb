@@ -14,10 +14,14 @@ module Slather
         # TODO: Handle Swift
         path = nil
         if project.source_directory
-          path = Dir["#{project.source_directory}/**/#{base_filename}.m"].first
+          path = Dir["#{project.source_directory}/**/#{base_filename}.{#{supported_file_extensions.join(",")}}"].first
           path &&= Pathname(path)
         else
-          pbx_file = project.files.detect { |pbx_file| pbx_file.real_path.basename.to_s == "#{base_filename}.m" }
+          pbx_file = project.files.detect { |pbx_file|
+            current_base_filename = pbx_file.real_path.basename
+            ext_name = File.extname(current_base_filename.to_s)[1..-1]
+            current_base_filename.sub_ext("") == base_filename && supported_file_extensions.include?(ext_name)
+          }
           path = pbx_file && pbx_file.real_path
         end
         path
@@ -112,7 +116,7 @@ module Slather
     def branch_coverage_data
       @branch_coverage_data ||= begin
         branch_coverage_data = Hash.new
-        
+
           gcov_data.scan(/(^(\s+(-|#+|[0-9]+):\s+[1-9]+:(.*)$\r?\n)(^branch\s+[0-9]+\s+[a-zA-Z0-9]+\s+[a-zA-Z0-9]+$\r?\n)+)+/) do |data|
             lines = data[0].split("\n")
             line_number = lines[0].split(':')[1].strip.to_i
@@ -183,5 +187,9 @@ module Slather
       end
     end
 
+    def supported_file_extensions
+      ["cpp", "mm", "m"]
+    end
+    private :supported_file_extensions
   end
 end

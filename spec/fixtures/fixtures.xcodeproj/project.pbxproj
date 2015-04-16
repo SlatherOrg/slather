@@ -12,6 +12,12 @@
 		155BBCA819E9CCC500BACB13 /* BranchesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 155BBCA719E9CCC500BACB13 /* BranchesTests.m */; };
 		155D8AFE19FED984004666BA /* Empty.h in Headers */ = {isa = PBXBuildFile; fileRef = 155D8AFC19FED984004666BA /* Empty.h */; };
 		155D8AFF19FED984004666BA /* Empty.m in Sources */ = {isa = PBXBuildFile; fileRef = 155D8AFD19FED984004666BA /* Empty.m */; };
+		8C0F0B401ACF43A300793B7D /* fixtures_m.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C0F0B3E1ACF43A300793B7D /* fixtures_m.h */; };
+		8C0F0B411ACF43A300793B7D /* fixtures_m.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F0B3F1ACF43A300793B7D /* fixtures_m.m */; };
+		8C0F0B441ACF44E000793B7D /* fixtures_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F0B421ACF44E000793B7D /* fixtures_cpp.cpp */; };
+		8C0F0B451ACF44E000793B7D /* fixtures_cpp.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C0F0B431ACF44E000793B7D /* fixtures_cpp.h */; };
+		8C0F0B481ACF44F200793B7D /* fixtures_mm.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C0F0B461ACF44F200793B7D /* fixtures_mm.h */; };
+		8C0F0B491ACF44F200793B7D /* fixtures_mm.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F0B471ACF44F200793B7D /* fixtures_mm.mm */; };
 		8C52AEF7195AAE32008A882A /* peekaview.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C52AEF5195AAE32008A882A /* peekaview.h */; };
 		8C52AEF8195AAE33008A882A /* peekaview.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C52AEF6195AAE32008A882A /* peekaview.m */; };
 		8C52AEFA195AAE70008A882A /* peekaviewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C52AEF9195AAE70008A882A /* peekaviewTests.m */; };
@@ -40,6 +46,12 @@
 		155BBCA719E9CCC500BACB13 /* BranchesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BranchesTests.m; sourceTree = "<group>"; };
 		155D8AFC19FED984004666BA /* Empty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Empty.h; sourceTree = "<group>"; };
 		155D8AFD19FED984004666BA /* Empty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Empty.m; sourceTree = "<group>"; };
+		8C0F0B3E1ACF43A300793B7D /* fixtures_m.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fixtures_m.h; sourceTree = "<group>"; };
+		8C0F0B3F1ACF43A300793B7D /* fixtures_m.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fixtures_m.m; sourceTree = "<group>"; };
+		8C0F0B421ACF44E000793B7D /* fixtures_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fixtures_cpp.cpp; sourceTree = "<group>"; };
+		8C0F0B431ACF44E000793B7D /* fixtures_cpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fixtures_cpp.h; sourceTree = "<group>"; };
+		8C0F0B461ACF44F200793B7D /* fixtures_mm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fixtures_mm.h; sourceTree = "<group>"; };
+		8C0F0B471ACF44F200793B7D /* fixtures_mm.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = fixtures_mm.mm; sourceTree = "<group>"; };
 		8C52AEF5195AAE32008A882A /* peekaview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = peekaview.h; sourceTree = "<group>"; };
 		8C52AEF6195AAE32008A882A /* peekaview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = peekaview.m; sourceTree = "<group>"; };
 		8C52AEF9195AAE70008A882A /* peekaviewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = peekaviewTests.m; sourceTree = "<group>"; };
@@ -138,7 +150,13 @@
 				8C52AEF4195AAE16008A882A /* more_files */,
 				8C9A2039195965F10013B6B3 /* fixtures.h */,
 				8C9A203A195965F10013B6B3 /* fixtures.m */,
+				8C0F0B3E1ACF43A300793B7D /* fixtures_m.h */,
+				8C0F0B3F1ACF43A300793B7D /* fixtures_m.m */,
 				8C9A2037195965F10013B6B3 /* Supporting Files */,
+				8C0F0B421ACF44E000793B7D /* fixtures_cpp.cpp */,
+				8C0F0B431ACF44E000793B7D /* fixtures_cpp.h */,
+				8C0F0B461ACF44F200793B7D /* fixtures_mm.h */,
+				8C0F0B471ACF44F200793B7D /* fixtures_mm.mm */,
 			);
 			path = fixtures;
 			sourceTree = "<group>";
@@ -178,8 +196,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C0F0B481ACF44F200793B7D /* fixtures_mm.h in Headers */,
+				8C0F0B401ACF43A300793B7D /* fixtures_m.h in Headers */,
 				155D8AFE19FED984004666BA /* Empty.h in Headers */,
 				155BBCA519E9CB6700BACB13 /* Branches.h in Headers */,
+				8C0F0B451ACF44E000793B7D /* fixtures_cpp.h in Headers */,
 				8C52AEF7195AAE32008A882A /* peekaview.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -267,7 +288,10 @@
 			files = (
 				8C9A203B195965F10013B6B3 /* fixtures.m in Sources */,
 				155D8AFF19FED984004666BA /* Empty.m in Sources */,
+				8C0F0B411ACF43A300793B7D /* fixtures_m.m in Sources */,
+				8C0F0B441ACF44E000793B7D /* fixtures_cpp.cpp in Sources */,
 				155BBCA619E9CB6700BACB13 /* Branches.m in Sources */,
+				8C0F0B491ACF44F200793B7D /* fixtures_mm.mm in Sources */,
 				8C52AEF8195AAE33008A882A /* peekaview.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -40,3 +40,4 @@ DerivedData
 *.ipa
 *.xcuserstate
 *.DS_Store
+cobertura.xml

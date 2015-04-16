@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage line-rate="0.6603773584905660" branch-rate="0.1190476190476190" lines-covered="35" lines-valid="53" branches-covered="5" branches-valid="42" complexity="0.0" timestamp="" version="">
+<coverage line-rate="0.6603773584905660" branch-rate="0.1190476190476190" lines-covered="35" lines-valid="53" branches-covered="5" branches-valid="42" complexity="0.0" timestamp="1428118535" version="Slather 1.6.0">
   <sources>
-    <source></source>
+    <source>/Users/marklarsen/programming/slather</source>
   </sources>
   <packages>
     <package name="spec.fixtures.fixtures.more_files" line-rate="0.3846153846153846" branch-rate="0.3333333333333333" complexity="0.0">
@@ -79,6 +79,18 @@
             <line number="20" branch="false" hits="0"/>
             <line number="21" branch="false" hits="0"/>
           </lines>
+        </class>
+        <class name="fixtures_cpp.cpp" filename="spec/fixtures/fixtures/fixtures_cpp.cpp" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines/>
+        </class>
+        <class name="fixtures_m" filename="spec/fixtures/fixtures/fixtures_m.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines/>
+        </class>
+        <class name="fixtures_mm.mm" filename="spec/fixtures/fixtures/fixtures_mm.mm" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines/>
         </class>
       </classes>
     </package>
