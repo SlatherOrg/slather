@@ -2,6 +2,11 @@
 
 ## master
 
+## v1.7.0
+* Objective-C++ support 
+  [ben-ng](https://github.com/ben-ng)
+  [#63](https://github.com/venmo/slather/pull/63)
+
 ## v1.6.0
 * Add CircleCI support  
   [Jonathan Hersh](https://github.com/jhersh)
@@ -13,7 +18,7 @@
   [Julian Krumow](https://github.com/tarbrain)
   [#40](https://github.com/venmo/slather/pull/40)
 
-* Always consider empty files as 100% tested
+* Always consider empty files as 100% tested  
   [Boris Bügling](https://github.com/neonichu)
   [#45](https://github.com/venmo/slather/pull/45)
 
