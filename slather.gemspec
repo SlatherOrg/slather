@@ -27,6 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "equivalent-xml", "~> 0.5.1"
 
   spec.add_dependency "clamp", "~> 0.6"
-  spec.add_dependency "xcodeproj", "~> 0.23.0"
-  spec.add_dependency "nokogiri", "~> 1.6.3"
+  spec.add_dependency "xcodeproj", "~> 0.23"
+  spec.add_dependency "nokogiri", "~> 1.6"
 end
