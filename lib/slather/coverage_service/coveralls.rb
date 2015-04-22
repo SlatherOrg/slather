@@ -5,23 +5,22 @@ module Slather
       def coverage_file_class
         Slather::CoverallsCoverageFile
       end
-      private :coverage_file_class
 
       def travis_job_id
         ENV['TRAVIS_JOB_ID']
       end
       private :travis_job_id
-      
+
       def circleci_job_id
         ENV['CIRCLE_BUILD_NUM']
       end
       private :circleci_job_id
-      
+
       def circleci_pull_request
         ENV['CI_PULL_REQUEST']
       end
       private :circleci_pull_request
-      
+
       def circleci_git_info
         {
           :head => {
@@ -63,11 +62,11 @@ module Slather
               :source_files => coverage_files.map(&:as_json),
               :git => circleci_git_info
             }
-            
+
             if circleci_pull_request != nil && circleci_pull_request.length > 0
               coveralls_hash[:service_pull_request] = circleci_pull_request.split("/").last
             end
-            
+
             coveralls_hash.to_json
           else
             raise StandardError, "Environment variable `CIRCLE_BUILD_NUM` not set. Is this running on a circleci build?"

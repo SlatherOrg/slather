@@ -19,7 +19,11 @@ end
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :ci_access_token, :source_directory, :output_directory
+    attr_accessor :build_directory, :ignore_list, :ci_service, :ci_access_token, :source_directory, :output_directory
+
+    attr_reader :coverage_service
+
+    delegate :post, :to => :coverage_service
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -101,25 +105,25 @@ module Slather
     end
 
     def configure_coverage_service_from_yml
-      self.coverage_service ||= (self.class.yml["coverage_service"] || :terminal)
+      self.set_coverage_service!(self.class.yml["coverage_service"] || :terminal)
     end
 
     def configure_ci_access_token_from_yml
       self.ci_access_token ||= (self.class.yml["ci_access_token"] || "")
     end
 
-    def coverage_service=(service)
+    def set_coverage_service!(service)
       service = service && service.to_sym
-      if service == :coveralls
-        extend(Slather::CoverageService::Coveralls)
+      @coverage_service = if service == :coveralls
+        Slather::CoverageService::Coveralls.new
       elsif service == :hardcover
-        extend(Slather::CoverageService::Hardcover)
+        Slather::CoverageService::Hardcover.new
       elsif service == :terminal
-        extend(Slather::CoverageService::SimpleOutput)
+        Slather::CoverageService::SimpleOutput.new
       elsif service == :gutter_json
-        extend(Slather::CoverageService::GutterJsonOutput)
+        Slather::CoverageService::GutterJsonOutput.new
       elsif service == :cobertura_xml
-        extend(Slather::CoverageService::CoberturaXmlOutput)
+        Slather::CoverageService::CoberturaXmlOutput.new
       else
         raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json` or `cobertura_xml`"
       end
