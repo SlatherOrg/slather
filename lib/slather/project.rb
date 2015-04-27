@@ -105,7 +105,7 @@ module Slather
     end
 
     def configure_ci_access_token_from_yml
-      self.ci_access_token ||= (self.class.yml["ci_access_token"] || "")
+      self.ci_access_token ||= (ENV["COVERAGE_ACCESS_TOKEN"] || self.class.yml["ci_access_token"] || "")
     end
 
     def coverage_service=(service)

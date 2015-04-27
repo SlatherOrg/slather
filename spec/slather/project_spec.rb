@@ -243,12 +243,19 @@ describe Slather::Project do
     end
   end
 
-  describe "#configure_ci_access_token_from_yml" do
+  describe "#configure_ci_access_token" do
     it "should set the ci_access_token if it has been provided by the yml" do
       Slather::Project.stub(:yml).and_return({"ci_access_token" => "abc123"})
       expect(fixtures_project).to receive(:ci_access_token=).with("abc123")
       fixtures_project.configure_ci_access_token_from_yml
     end
+    
+    it "should set the ci_access_token if it is in the ENV" do
+      stub_const('ENV', ENV.to_hash.merge('COVERAGE_ACCESS_TOKEN' => 'asdf456'))
+      expect(fixtures_project).to receive(:ci_access_token=).with("asdf456")
+      fixtures_project.configure_ci_access_token_from_yml
+    end
+    
   end
 
   describe "#coverage_service=" do

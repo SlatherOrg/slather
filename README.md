@@ -95,7 +95,7 @@ ci_service: travis_pro
 ci_access_token: <YOUR ACCESS TOKEN>
 ```
 
-Repo token can be found at [Coveralls](https://coveralls.io/) repo page.
+Repo token can be found at [Coveralls](https://coveralls.io/) repo page. It can also be passed in via the `COVERAGE_ACCESS_TOKEN` environment var.
 
 ### Cobertura
 
