@@ -13,7 +13,7 @@ FIXTURES_PROJECT_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures.xco
 
 RSpec.configure do |config|
   config.before(:suite) do
-    `xcodebuild -project #{FIXTURES_PROJECT_PATH} -scheme fixtures -configuration Debug test`
+    `xcodebuild -project "#{FIXTURES_PROJECT_PATH}" -scheme fixtures -configuration Debug test`
   end
 
   config.after(:suite) do
