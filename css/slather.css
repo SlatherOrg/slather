@@ -1,0 +1,70 @@
+/* --------------------------------------------------------
+Slather stylesheet
+
+version: 0.1
+author: Ikhsan Assaat (@ixnixnixn)
+----------------------------------------------------------*/
+
+/* General */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  font: 16px "Helvetica", sans-serif;
+  margin: 0 0 100px;
+  color: #333;
+}
+.row { margin: 0 2em; }
+
+/* Header */
+header { margin-top: 1em; }
+header img { width: auto; height: 100px; }
+
+/* Content */
+#coverage h1, #coverage h2, #coverage h3 { text-transform: uppercase; }
+.table { width: 650px; }
+.table th,
+.table td {
+  padding: .6em .5em;
+  text-align: left;
+}
+.table th.col_num { width: 10%; }
+.table th.col_percent { width: 50px; }
+.table thead, tfoot { background: #FDCD9B; }
+.table tbody tr:hover { background: #FCF2E6; }
+.table tbody td { border-bottom: 1px solid #CCC; }
+.table td a {
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px dotted;
+}
+.table td a:hover {
+  border-bottom: none;
+}
+
+.percentage {
+  padding: 4px ;
+  font-weight: bold;
+}
+.cov_high { color: #67CF7C; }
+.cov_medium { color: #F89404; }
+.cov_low { color: #F86769; }
+
+/* Footer */
+footer {
+  background-color: #67CDCF;
+  height: 80px;
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  overflow:hidden;
+}
+
+footer p, footer a {
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+}
