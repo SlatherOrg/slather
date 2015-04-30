@@ -3,6 +3,8 @@ require 'nokogiri'
 
 describe Slather::CoverageService::HtmlOutput do
 
+  let(:output_directorypath) { "html" }
+
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
     proj.extend(Slather::CoverageService::HtmlOutput)
@@ -15,21 +17,45 @@ describe Slather::CoverageService::HtmlOutput do
   end
 
   describe '#post' do
-    it "should create index html that includes coverage file index" do
+    it "should create all coverage as static html files" do
       fixtures_project.post
+
+      ["index",
+      "fixtures.m",
+      "peekaview.m",
+      "fixtures_cpp.cpp",
+      "fixtures_mm.mm",
+      "fixtures_m.m",
+      "Branches.m",
+      "Empty.m",
+      "fixturesTests.m",
+      "peekaviewTests.m",
+      "BranchesTests.m"].map { |filename|
+        File.join(output_directorypath, "#{filename}.html")
+      }.each { |filepath|
+        expect(File.exists?(filepath)).to be_truthy
+      }
+
+      FileUtils.rm_rf output_directorypath if File.exists? output_directorypath
     end
 
-    it "should create html coverage for each file with correct coverage" do
+    skip "should create index html with correct coverage information" do
+      #
     end
 
-    it "should create an HTML report folder in the given output directory" do
-      # fixtures_project.output_directory = "./output"
-      # fixtures_project.post
+    skip "should create html coverage for each file with correct coverage" do
       #
-      # filepath = "#{fixtures_project.output_directory}/html"
-      # expect(File.exists?(filepath)).to be_truthy
-      #
-      # FileUtils.rm_rf(fixtures_project.output_directory)
     end
+
+    it "should create an HTML report directory in the given output directory" do
+      fixtures_project.output_directory = "./output"
+      fixtures_project.post
+
+      directorypath = File.join(fixtures_project.output_directory, output_directorypath)
+      expect(File.exists?(directorypath)).to be_truthy
+
+      FileUtils.rm_rf(fixtures_project.output_directory)
+    end
+
   end
 end

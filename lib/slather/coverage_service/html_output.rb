@@ -9,6 +9,11 @@ module Slather
       end
       private :coverage_file_class
 
+      def html_directory
+        "html"
+      end
+      private :html_directory
+
       def post
         create_html_reports(coverage_files)
         generate_reports(@docs)
@@ -16,24 +21,24 @@ module Slather
 
       def create_html_reports(coverage_files)
         create_index_html(coverage_files)
+        create_htmls_from_files(coverage_files)
       end
 
       def generate_reports(reports)
-        html_directory = 'html'
+        directory_path = html_directory
         if output_directory
-          html_directory = File.join(output_directory, html_directory)
+          directory_path = File.join(output_directory, html_directory)
         end
 
-        FileUtils.rm_rf(html_directory) if File.exists?(html_directory)
-        FileUtils.mkdir_p(html_directory)
+        FileUtils.rm_rf(directory_path) if File.exists?(directory_path)
+        FileUtils.mkdir_p(directory_path)
 
-        puts Dir.pwd
-        css_path = File.join html_directory, "slather.css"
-        css_content = File.read "css/slather.css"
+        css_path = File.join(directory_path, "slather.css")
+        css_content = File.read("css/slather.css")
         File.write(css_path, css_content)
 
         reports.each do |name, doc|
-          html_file = File.join html_directory,"#{name}.html"
+          html_file = File.join(directory_path, "#{name}.html")
           File.write(html_file, doc.to_html)
         end
       end
@@ -62,7 +67,6 @@ module Slather
             }
 
             cov.tbody {
-
               coverage_files.each { |coverage_file|
                 filename = File.basename(coverage_file.source_file_pathname_relative_to_repo_root)
                 filename_link = "#{filename}.html"
@@ -87,9 +91,8 @@ module Slather
           }
 
           cov.h3 {
-            cov.span "Total Coverage : "
-
             percentage = '%.2f%%' % [(total_tested_lines / total_relevant_lines.to_f) * 100.0]
+            cov.span "Total Coverage : "
             cov.span percentage, :class => "cov_medium"
           }
         }
@@ -98,35 +101,23 @@ module Slather
         @docs[:index] = builder.doc
       end
 
-      # def create_htmls_from_files(coverage_files)
-      #   coverage_files.map { |file| create_html_from_file file }
-      # end
-      #
-      # def create_html_from_file(coverage_file)
-      #   filepath = coverage_file.source_file_pathname_relative_to_repo_root
-      #   filename = File.basename(filepath)
-      #   doc = generate_html_template(filename)
-      #
-      #   Nokogiri::HTML::Builder.with(doc.at('.coverage')) { |cov|
-      #     cov.h1 "Slather - #{filename}"
-      #     cov.h3 "#{filepath}"
-      #
-      #     cov.table {
-      #       coverage_file.cleaned_gcov_data.split("\n").each do |line|
-      #         data = line.split(':')
-      #
-      #         line_number = data[1].to_i
-      #         next unless line_number > 0
-      #
-      #         cov.tr {
-      #           data.each { |x| cov.td x }
-      #         }
-      #       end
-      #     }
-      #   }
-      #
-      #   @docs[filename] = doc
-      # end
+      def create_htmls_from_files(coverage_files)
+        coverage_files.map { |file| create_html_from_file file }
+      end
+
+      def create_html_from_file(coverage_file)
+        filepath = coverage_file.source_file_pathname_relative_to_repo_root
+        filename = File.basename(filepath)
+
+        template = generate_html_template(filename)
+
+        builder = Nokogiri::HTML::Builder.with(template.at('#coverage')) { |cov|
+          cov.h2 "Coverage for #{filename}"
+          cov.h4 "File path : #{filepath}"
+        }
+
+        @docs[filename] = builder.doc
+      end
 
       def generate_html_template(title)
         builder = Nokogiri::HTML::Builder.new do |doc|
