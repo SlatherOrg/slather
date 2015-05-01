@@ -14,6 +14,16 @@ module Slather
       end
       private :html_directory
 
+      def class_for_coverage_percentage(percentage)
+        if percentage > 85
+          "cov_high"
+        elsif percentage > 70
+          "cov_medium"
+        else
+          "cov_low"
+        end
+      end
+
       def post
         create_html_reports(coverage_files)
         generate_reports(@docs)
@@ -44,7 +54,7 @@ module Slather
       end
 
       def create_index_html(coverage_files)
-        project_name = "fixtures.xcodeproj"
+        project_name = File.basename(self.xcodeproj)
         template = generate_html_template(project_name)
 
         builder = Nokogiri::HTML::Builder.with(template.at('#coverage')) { |cov|
@@ -76,10 +86,9 @@ module Slather
                 total_tested_lines += tested_lines
                 total_relevant_lines += relevant_lines
 
-                percentage = '%.2f' % [coverage_file.percentage_lines_tested]
-
                 cov.tr {
-                  cov.td { cov.span "#{percentage}", :class => "percentage cov_low" }
+                  percentage = coverage_file.percentage_lines_tested
+                  cov.td { cov.span '%.2f' % percentage, :class => "percentage #{class_for_coverage_percentage(percentage)}" }
                   cov.td { cov.a filename, :href => filename_link }
                   cov.td "#{coverage_file.line_coverage_data.count}"
                   cov.td "#{relevant_lines}"
@@ -91,9 +100,9 @@ module Slather
           }
 
           cov.h3 {
-            percentage = '%.2f%%' % [(total_tested_lines / total_relevant_lines.to_f) * 100.0]
+            percentage = (total_tested_lines / total_relevant_lines.to_f) * 100.0
             cov.span "Total Coverage : "
-            cov.span percentage, :class => "cov_medium"
+            cov.span '%.2f%%' % percentage, :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
           }
         }
 

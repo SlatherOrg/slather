@@ -39,8 +39,36 @@ describe Slather::CoverageService::HtmlOutput do
       FileUtils.rm_rf output_directorypath if File.exists? output_directorypath
     end
 
-    skip "should create index html with correct coverage information" do
-      #
+    it "should create index html with correct coverage information" do
+      def extract_table(doc)
+        doc.css("table.table > tbody > tr").map { |tr|
+          tr.css("td").map { |td|
+            if span = td.at_css("span")
+              td.text + "-" + span["class"]
+            else
+              td.text
+            end
+          }.join(", ")
+        }
+      end
+
+      fixtures_project.post
+
+      fixture_doc = Nokogiri::HTML(open(File.join(FIXTURES_HTML_FOLDER_PATH, "index.html")))
+      current_doc = Nokogiri::HTML(open(File.join(output_directorypath, "index.html")))
+
+      fixture_title = fixture_doc.at_css('#coverage > h2').text
+      current_title = current_doc.at_css('#coverage > h2').text
+      expect(current_title).to eq(fixture_title)
+
+      fixture_coverage = fixture_doc.at_css('#total_coverage')
+      current_coverage = current_doc.at_css('#total_coverage')
+      expect(current_coverage.text).to eq(fixture_coverage.text)
+      expect(current_coverage["class"]).to eq(fixture_coverage["class"])
+
+      fixture_data = extract_table(fixture_doc)
+      current_data = extract_table(current_doc)
+      expect(current_data).to eq(fixture_data)
     end
 
     skip "should create html coverage for each file with correct coverage" do

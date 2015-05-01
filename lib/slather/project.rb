@@ -19,13 +19,14 @@ end
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :ci_access_token, :source_directory, :output_directory
+    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :ci_access_token, :source_directory, :output_directory, :xcodeproj
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
     def self.open(xcodeproj)
       proj = super
       proj.configure_from_yml
+      proj.xcodeproj = xcodeproj
       proj
     end
 
