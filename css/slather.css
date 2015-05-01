@@ -21,28 +21,8 @@ body {
 header { margin-top: 1em; }
 header img { width: auto; height: 100px; }
 
-/* Content */
-#coverage h1, #coverage h2, #coverage h3 { text-transform: uppercase; }
-.table { width: 650px; }
-.table th,
-.table td {
-  padding: .6em .5em;
-  text-align: left;
-}
-.table th.col_num { width: 10%; }
-.table th.col_percent { width: 50px; }
-.table thead, tfoot { background: #FDCD9B; }
-.table tbody tr:hover { background: #FCF2E6; }
-.table tbody td { border-bottom: 1px solid #CCC; }
-.table td a {
-  color: #333;
-  text-decoration: none;
-  border-bottom: 1px dotted;
-}
-.table td a:hover {
-  border-bottom: none;
-}
-
+/* Coverage */
+h4.filepath { font-style: italic; }
 .percentage {
   padding: 4px ;
   font-weight: bold;
@@ -50,6 +30,57 @@ header img { width: auto; height: 100px; }
 .cov_high { color: #67CF7C; }
 .cov_medium { color: #F89404; }
 .cov_low { color: #F86769; }
+
+/* Index Table */
+table.table { width: 90% }
+table.table th,
+table.table td {
+  padding: .6em .5em;
+  text-align: left;
+}
+table.table th.col_num { width: 10%; }
+table.table th.col_percent { width: 50px; }
+table.table thead, tfoot { background: #FDCD9B; }
+table.table tbody tr:hover { background: #FCF2E6; }
+table.table tbody td { border-bottom: 1px solid #CCC; }
+table.table td a {
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px dotted;
+}
+table.table td a:hover {
+  border-bottom: none;
+}
+
+/* Source Code */
+table.source_code {
+  width: 90%;
+  font-size: 13px;
+  border-spacing: 0;
+  background: #FCF2E6;
+  padding: 1.2em 1em;
+}
+table.source_code pre {
+  font: 13px "Menlo"
+}
+table.source_code td {
+  padding-bottom: 0.3em;
+}
+table.source_code tr.missed td { background-color: rgba(248, 103, 105, 0.3); }
+table.source_code tr.covered td { background-color: rgba(103, 207, 124, 0.3); }
+table.source_code td.num {
+  border-right: 1px rgba(0,0,0,0.1) solid;
+  text-align: right;
+  padding-right: 1em;
+}
+table.source_code td.src {
+  border-left: 1px rgba(255,255,255,0.7) solid;
+  padding-left: 1em;
+}
+table.source_code td.coverage {
+  text-align: right;
+  padding-right: 0.5em;
+}
 
 /* Footer */
 footer {

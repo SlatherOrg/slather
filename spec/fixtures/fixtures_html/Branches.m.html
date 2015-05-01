@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+  <head>
+    <title>Slather - Branches.m</title>
+    <link href="../../../css/slather.css" media="all" rel="stylesheet">
+  </head>
+
+  <body>
+    <header>
+      <div class="row">
+        <img src="../../../docs/logo.jpg" alt="Slather logo">
+      </div>
+    </header>
+
+    <div class="row">
+      <div id="coverage">
+        <h2>
+          <span>Coverage for "Branches.m" : </span>
+          <span class="percentage cov_low">47.37%</span>
+        </h2>
+        <h4 class="filepath">spec/fixtures/fixtures/more_files/Branches.m</h4>
+
+        <table class="source_code">
+          <tr class="never">
+            <td class="num">1</td>
+            <td class="src"><pre>//</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">2</td>
+            <td class="src"><pre>//  Branches.m</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">3</td>
+            <td class="src"><pre>//  fixtures</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">4</td>
+            <td class="src"><pre>//</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">5</td>
+            <td class="src"><pre>//  Created by Julian Krumow on 11.10.14.</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">6</td>
+            <td class="src"><pre>//  Copyright (c) 2014 marklarr. All rights reserved.</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">7</td>
+            <td class="src"><pre>//</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">8</td>
+            <td class="src"><pre></pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">9</td>
+            <td class="src"><pre>#import "Branches.h"</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">10</td>
+            <td class="src"><pre></pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">11</td>
+            <td class="src"><pre>@implementation Branches</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">12</td>
+            <td class="src"><pre></pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">13</td>
+            <td class="src"><pre>- (void)branches:(BOOL)goIf skipBranches:(BOOL)skipBranches</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">14</td>
+            <td class="src"><pre>{</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="covered">
+            <td class="num">15</td>
+            <td class="src"><pre>    if (goIf) {</pre></td>
+            <td class="coverage">2x</td>
+          </tr>
+          <tr class="covered">
+            <td class="num">16</td>
+            <td class="src"><pre>        NSLog(@"foo.");</pre></td>
+            <td class="coverage">1x</td>
+          </tr>
+          <tr class="never">
+            <td class="num">17</td>
+            <td class="src"><pre>        </pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="covered">
+            <td class="num">18</td>
+            <td class="src"><pre>        if (!skipBranches) {</pre></td>
+            <td class="coverage">1x</td>
+          </tr>
+          <tr class="missed">
+            <td class="num">19</td>
+            <td class="src"><pre>            NSLog(@"not skipped.");</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="missed">
+            <td class="num">20</td>
+            <td class="src"><pre>        }</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="covered">
+            <td class="num">21</td>
+            <td class="src"><pre>    } else {</pre></td>
+            <td class="coverage">1x</td>
+          </tr>
+          <tr class="covered">
+            <td class="num">22</td>
+            <td class="src"><pre>        NSLog(@"bar.");</pre></td>
+            <td class="coverage">1x</td>
+          </tr>
+          <tr class="never">
+            <td class="num">23</td>
+            <td class="src"><pre>    }</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">24</td>
+            <td class="src"><pre>    </pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="covered">
+            <td class="num">25</td>
+            <td class="src"><pre>    int i = 5;</pre></td>
+            <td class="coverage">2x</td>
+          </tr>
+          <tr class="covered">
+            <td class="num">26</td>
+            <td class="src"><pre>    if (i == 5) {</pre></td>
+            <td class="coverage">2x</td>
+          </tr>
+          <tr class="covered">
+            <td class="num">27</td>
+            <td class="src"><pre>        return;</pre></td>
+            <td class="coverage">2x</td>
+          </tr>
+          <tr class="never">
+            <td class="num">28</td>
+            <td class="src"><pre>    }</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="missed">
+            <td class="num">29</td>
+            <td class="src"><pre>    switch (i) {</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="never">
+            <td class="num">30</td>
+            <td class="src"><pre>        case 0:</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="missed">
+            <td class="num">31</td>
+            <td class="src"><pre>            NSLog(@"0");</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="missed">
+            <td class="num">32</td>
+            <td class="src"><pre>            break;</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="never">
+            <td class="num">33</td>
+            <td class="src"><pre>            </pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">34</td>
+            <td class="src"><pre>        case 1:</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="missed">
+            <td class="num">35</td>
+            <td class="src"><pre>            NSLog(@"1");</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="missed">
+            <td class="num">36</td>
+            <td class="src"><pre>            break;</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="never">
+            <td class="num">37</td>
+            <td class="src"><pre>        case 5:</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="missed">
+            <td class="num">38</td>
+            <td class="src"><pre>            NSLog(@"5");</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="missed">
+            <td class="num">39</td>
+            <td class="src"><pre>            break;</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="never">
+            <td class="num">40</td>
+            <td class="src"><pre>        default:</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="missed">
+            <td class="num">41</td>
+            <td class="src"><pre>            break;</pre></td>
+            <td class="coverage">!</td>
+          </tr>
+          <tr class="never">
+            <td class="num">42</td>
+            <td class="src"><pre>    }</pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="covered">
+            <td class="num">43</td>
+            <td class="src"><pre>}</pre></td>
+            <td class="coverage">2x</td>
+          </tr>
+          <tr class="never">
+            <td class="num">44</td>
+            <td class="src"><pre></pre></td>
+            <td class="coverage"></td>
+          </tr>
+          <tr class="never">
+            <td class="num">45</td>
+            <td class="src"><pre>@end</pre></td>
+            <td class="coverage"></td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+
+    <footer>
+      <div class="row">
+        <p><a href="https://github.com/venmo/slather">Fork me on Github</a></p>
+        <p>&copy; 2015 Slather</p>
+      </div>
+    </footer>
+
+  </body>
+</html>

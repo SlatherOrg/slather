@@ -69,10 +69,28 @@ describe Slather::CoverageService::HtmlOutput do
       fixture_data = extract_table(fixture_doc)
       current_data = extract_table(current_doc)
       expect(current_data).to eq(fixture_data)
+
+      FileUtils.rm_rf output_directorypath if File.exists? output_directorypath
     end
 
-    skip "should create html coverage for each file with correct coverage" do
-      #
+    it "should create html coverage for each file with correct coverage" do
+
+      fixtures_project.post
+
+      filename = "Branches.m.html"
+
+      fixture_doc = Nokogiri::HTML(open(File.join(FIXTURES_HTML_FOLDER_PATH, filename)))
+      current_doc = Nokogiri::HTML(open(File.join(output_directorypath, filename)))
+
+      fixture_title = fixture_doc.at_css('#coverage > h2 > span').text
+      current_title = current_doc.at_css('#coverage > h2 > span').text
+      expect(current_title).to eq(fixture_title)
+
+      fixture_title = fixture_doc.at_css('#coverage > h4').text
+      current_title = current_doc.at_css('#coverage > h4').text
+      expect(current_title).to eq(fixture_title)
+
+      # FileUtils.rm_rf output_directorypath if File.exists? output_directorypath
     end
 
     it "should create an HTML report directory in the given output directory" do
