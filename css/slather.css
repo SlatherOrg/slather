@@ -22,7 +22,6 @@ header { margin-top: 1em; }
 header img { width: auto; height: 100px; }
 
 /* Coverage */
-h4.filepath { font-style: italic; }
 .percentage {
   padding: 4px ;
   font-weight: bold;
@@ -30,6 +29,9 @@ h4.filepath { font-style: italic; }
 .cov_high { color: #67CF7C; }
 .cov_medium { color: #F89404; }
 .cov_low { color: #F86769; }
+.cov_title { margin-bottom: 0; }
+.cov_subtitle { margin-top: 0.2em; }
+.cov_filepath { font-style: italic; }
 
 /* Index Table */
 table.table { width: 90% }

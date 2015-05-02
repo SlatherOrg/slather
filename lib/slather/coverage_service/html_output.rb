@@ -38,8 +38,8 @@ module Slather
           File.write(html_file, doc.to_html)
         end
 
-        index_html = File.join(directory_path, "index.html")
-        `open #{index_html}` if File.exists?(index_html)
+        # index_html = File.join(directory_path, "index.html")
+        # `open #{index_html}` if File.exists?(index_html)
       end
 
       def create_index_html(coverage_files)
@@ -113,7 +113,9 @@ module Slather
             cov.span("Coverage for \"#{filename}\" : ")
             cov.span("#{'%.2f' % percentage}%", :class => class_for_coverage_percentage(percentage))
           }
-          cov.h4("#{filepath}", :class => "filepath")
+
+          cov.h4("(#{coverage_file.num_lines_tested} of #{coverage_file.num_lines_testable} relevant lines covered)", :class => "cov_subtitle")
+          cov.h4("~", :class => "cov_filepath")
 
           cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
 
@@ -173,8 +175,11 @@ module Slather
             }
           }
         end
-
         builder.doc
+      end
+
+      def gem_root_path
+        File.expand_path File.join(File.dirname(__dir__), "../..")
       end
 
       def class_for_coverage_data(coverage_data)
@@ -191,10 +196,6 @@ module Slather
         when /#/ then "!"
         else ""
         end
-      end
-
-      def gem_root_path
-        File.expand_path File.join(File.dirname(__dir__), "../..")
       end
 
       def class_for_coverage_percentage(percentage)
