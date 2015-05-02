@@ -33,10 +33,6 @@ module Slather
         FileUtils.rm_rf(directory_path) if File.exists?(directory_path)
         FileUtils.mkdir_p(directory_path)
 
-        source_css_path = File.join(gem_root_path, "css/slather.css")
-        destination_css_path = File.join(directory_path, "slather.css")
-        File.write(destination_css_path, File.read(source_css_path))
-
         reports.each do |name, doc|
           html_file = File.join(directory_path, "#{name}.html")
           File.write(html_file, doc.to_html)
@@ -44,10 +40,6 @@ module Slather
 
         index_html = File.join(directory_path, "index.html")
         `open #{index_html}` if File.exists?(index_html)
-      end
-
-      def gem_root_path
-        File.expand_path File.join(File.dirname(__dir__), "../..")
       end
 
       def create_index_html(coverage_files)
@@ -106,14 +98,6 @@ module Slather
         @docs[:index] = builder.doc
       end
 
-      def class_for_coverage_percentage(percentage)
-        case
-        when percentage > 85 then "cov_high"
-        when percentage > 70 then "cov_medium"
-        else "cov_low"
-        end
-      end
-
       def create_htmls_from_files(coverage_files)
         coverage_files.map { |file| create_html_from_file file }
       end
@@ -163,30 +147,15 @@ module Slather
         @docs[filename] = builder.doc
       end
 
-      def class_for_coverage_data(coverage_data)
-        case coverage_data
-        when /\d/ then "covered"
-        when /#/ then "missed"
-        else "never"
-        end
-      end
-
-      def hits_for_coverage_data(coverage_data)
-        case coverage_data
-        when /\d/ then (coverage_data.to_i > 0) ? "#{coverage_data}x" : ""
-        when /#/ then "!"
-        else ""
-        end
-      end
-
       def generate_html_template(title)
         logo_path = File.join(gem_root_path, "docs/logo.jpg")
+        css_path = File.join(gem_root_path, "css/slather.css")
 
         builder = Nokogiri::HTML::Builder.new do |doc|
           doc.html {
             doc.head {
               doc.title "Slather - #{title}"
-              doc.link :href => "slather.css", :media => "all", :rel => "stylesheet"
+              doc.link :href => css_path, :media => "all", :rel => "stylesheet"
             }
             doc.body {
               doc.header {
@@ -206,6 +175,34 @@ module Slather
         end
 
         builder.doc
+      end
+
+      def class_for_coverage_data(coverage_data)
+        case coverage_data
+        when /\d/ then "covered"
+        when /#/ then "missed"
+        else "never"
+        end
+      end
+
+      def hits_for_coverage_data(coverage_data)
+        case coverage_data
+        when /\d/ then (coverage_data.to_i > 0) ? "#{coverage_data}x" : ""
+        when /#/ then "!"
+        else ""
+        end
+      end
+
+      def gem_root_path
+        File.expand_path File.join(File.dirname(__dir__), "../..")
+      end
+
+      def class_for_coverage_percentage(percentage)
+        case
+        when percentage > 85 then "cov_high"
+        when percentage > 70 then "cov_medium"
+        else "cov_low"
+        end
       end
 
     end
