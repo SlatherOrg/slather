@@ -33,14 +33,21 @@ module Slather
         FileUtils.rm_rf(directory_path) if File.exists?(directory_path)
         FileUtils.mkdir_p(directory_path)
 
-        css_path = File.join(directory_path, "slather.css")
-        css_content = File.read("css/slather.css")
-        File.write(css_path, css_content)
+        source_css_path = File.join(gem_root_path, "css/slather.css")
+        destination_css_path = File.join(directory_path, "slather.css")
+        File.write(destination_css_path, File.read(source_css_path))
 
         reports.each do |name, doc|
           html_file = File.join(directory_path, "#{name}.html")
           File.write(html_file, doc.to_html)
         end
+
+        index_html = File.join(directory_path, "index.html")
+        `open #{index_html}` if File.exists?(index_html)
+      end
+
+      def gem_root_path
+        File.expand_path File.join(File.dirname(__dir__), "../..")
       end
 
       def create_index_html(coverage_files)
@@ -122,12 +129,12 @@ module Slather
             cov.span("Coverage for \"#{filename}\" : ")
             cov.span("#{'%.2f' % percentage}%", :class => class_for_coverage_percentage(percentage))
           }
-          cov.h4 "#{filepath}"
+          cov.h4("#{filepath}", :class => "filepath")
 
           cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
 
           if cleaned_gcov_lines.count <= 0
-            cov.p "Files is empty"
+            cov.p "¯\\_(ツ)_/¯"
             next
           end
 
@@ -173,6 +180,8 @@ module Slather
       end
 
       def generate_html_template(title)
+        logo_path = File.join(gem_root_path, "docs/logo.jpg")
+
         builder = Nokogiri::HTML::Builder.new do |doc|
           doc.html {
             doc.head {
@@ -182,7 +191,7 @@ module Slather
             doc.body {
               doc.header {
                 doc.div(:class => "row") {
-                  doc.a(:href => "/index.html") { doc.img(:src => "../docs/logo.jpg", :alt => "Slather logo") }                  
+                  doc.a(:href => "index.html") { doc.img(:src => logo_path, :alt => "Slather logo") }
                 }
               }
               doc.div(:class => "row") { doc.div(:id => "coverage") }
