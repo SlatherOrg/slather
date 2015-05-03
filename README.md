@@ -127,7 +127,7 @@ To create a report as static html pages, use the command line options `--html` o
 $ slather coverage -h path/to/project.xcodeproj
 ```
 
-This will make a folder called `html` (unless output directory is specified) and generate all the static html pages inside
+This will make a directory called `html` in your directory (unless output directory is specified) and generate all the static html pages inside the directory.
 
 ### Coverage for code included via CocoaPods
 
