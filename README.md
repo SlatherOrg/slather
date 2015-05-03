@@ -119,6 +119,16 @@ Or use the command line options `--cobertura-xml` or `-x` and `--output_director
 $ slather coverage -x --output-directory path/to/xml_report
 ```
 
+### Static HTML
+
+To create a report as static html pages, use the command line options `--html` or `-h`:
+
+```sh
+$ slather coverage -h path/to/project.xcodeproj
+```
+
+This will make a folder called `html` (unless output directory is specified) and generate all the static html pages inside
+
 ### Coverage for code included via CocoaPods
 
 If you're trying to compute the coverage of code that has been included via
@@ -152,3 +162,4 @@ Please make sure to follow our general coding style and add test coverage for ne
 * [@tpoulos](https://github.com/tpoulos), the perfect logo.
 * [@ayanonagon](https://github.com/ayanonagon) and [@kylef](https://github.com/kylef), feedback and testing.
 * [@jhersh](https://github.com/jhersh), CircleCI support.
+* [@ixnixnixn](https://github.com/ixnixnixn), html support.

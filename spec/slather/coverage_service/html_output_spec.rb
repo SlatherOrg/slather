@@ -71,8 +71,13 @@ describe Slather::CoverageService::HtmlOutput do
 
       fixtures_project.post
 
-      fixture_doc = Nokogiri::HTML(open(File.join(FIXTURES_HTML_FOLDER_PATH, "index.html")))
-      current_doc = Nokogiri::HTML(open(File.join(OUTPUT_DIR_PATH, "index.html")))
+      file = File.open(File.join(FIXTURES_HTML_FOLDER_PATH, "index.html"))
+      fixture_doc = Nokogiri::HTML(file)
+      file.close
+
+      file = File.open(File.join(OUTPUT_DIR_PATH, "index.html"))
+      current_doc = Nokogiri::HTML(file)
+      file.close
 
       expect(extract_header_title(fixture_doc)).to eq(extract_header_title(current_doc))
       expect(extract_title(fixture_doc)).to eq(extract_title(current_doc))
@@ -105,8 +110,13 @@ describe Slather::CoverageService::HtmlOutput do
       fixtures_project.post
 
       fixture_html_files.each { |filename|
-        fixture_doc = Nokogiri::HTML(open(File.join(FIXTURES_HTML_FOLDER_PATH, filename)))
-        current_doc = Nokogiri::HTML(open(File.join(OUTPUT_DIR_PATH, filename)))
+        file = File.open(File.join(FIXTURES_HTML_FOLDER_PATH, filename))
+        fixture_doc = Nokogiri::HTML(file)
+        file.close
+
+        file = File.open(File.join(OUTPUT_DIR_PATH, filename))
+        current_doc = Nokogiri::HTML(file)
+        file.close
 
         expect(extract_title(fixture_doc)).to eq(extract_title(current_doc))
         expect(extract_subtitle(fixture_doc)).to eq(extract_subtitle(current_doc))

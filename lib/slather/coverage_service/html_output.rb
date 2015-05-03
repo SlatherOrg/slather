@@ -17,6 +17,15 @@ module Slather
       def post
         create_html_reports(coverage_files)
         generate_reports(@docs)
+
+        index_html = File.join(directory_path, "index.html")
+        puts "HTML files are generated, index at #{index_html}"
+
+        # Alternatively we could open 'index.html' automatically, although I don't know how to disable it for testing
+        # unless ENV["CI"]
+        #   index_html = File.join(directory_path, "index.html")
+        #   `open #{index_html}` if File.exists?(index_html)
+        # end
       end
 
       def create_html_reports(coverage_files)
@@ -37,9 +46,6 @@ module Slather
           html_file = File.join(directory_path, "#{name}.html")
           File.write(html_file, doc.to_html)
         end
-
-        # index_html = File.join(directory_path, "index.html")
-        # `open #{index_html}` if File.exists?(index_html)
       end
 
       def create_index_html(coverage_files)
