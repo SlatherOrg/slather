@@ -31,7 +31,6 @@ describe Slather::CoverageService::HtmlOutput do
   end
 
   describe '#post' do
-
     def extract_header_title(doc)
       doc.at_css('title').text
     end
@@ -115,7 +114,7 @@ describe Slather::CoverageService::HtmlOutput do
         expect(extract_cov_data(fixture_doc)).to eq(extract_cov_data(current_doc))
       }
 
-      # FileUtils.rm_rf OUTPUT_DIR_PATH if File.exists? OUTPUT_DIR_PATH
+      FileUtils.rm_rf OUTPUT_DIR_PATH if File.exists? OUTPUT_DIR_PATH
     end
 
     it "should create an HTML report directory in the given output directory" do

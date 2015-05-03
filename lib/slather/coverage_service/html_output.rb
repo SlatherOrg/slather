@@ -107,19 +107,19 @@ module Slather
         filename = File.basename(filepath)
         template = generate_html_template(filename)
         percentage = coverage_file.percentage_lines_tested
+        cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
+        is_file_empty = (cleaned_gcov_lines.count <= 0)
 
         builder = Nokogiri::HTML::Builder.with(template.at('#coverage')) { |cov|
           cov.h2(:class => "cov_title") {
-            cov.span("Coverage for \"#{filename}\" : ")
-            cov.span("#{'%.2f' % percentage}%", :class => class_for_coverage_percentage(percentage))
+            cov.span("Coverage for \"#{filename}\"" + (!is_file_empty ? " : " : ""))
+            cov.span("#{'%.2f' % percentage}%", :class => class_for_coverage_percentage(percentage)) unless is_file_empty
           }
 
           cov.h4("(#{coverage_file.num_lines_tested} of #{coverage_file.num_lines_testable} relevant lines covered)", :class => "cov_subtitle")
           cov.h4(filepath, :class => "cov_filepath")
 
-          cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
-
-          if cleaned_gcov_lines.count <= 0
+          if is_file_empty
             cov.p "¯\\_(ツ)_/¯"
             next
           end

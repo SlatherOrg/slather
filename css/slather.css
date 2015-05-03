@@ -64,7 +64,7 @@ table.source_code {
   margin-bottom: 2em;
 }
 table.source_code pre {
-  font: 13px "Menlo"
+  font: 13px "Menlo", "Courier New"
 }
 table.source_code td {
   padding-bottom: 0.3em;
