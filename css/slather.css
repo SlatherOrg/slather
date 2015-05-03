@@ -12,14 +12,14 @@ html {
 }
 body {
   font: 16px "Helvetica", sans-serif;
-  margin: 0 0 100px;
+  margin: 0 0 120px;
   color: #333;
 }
 .row { margin: 0 2em; }
 
 /* Header */
 header { margin-top: 1em; }
-header img { width: auto; height: 100px; }
+header img { width: auto; height: 120px; }
 
 /* Coverage */
 .percentage {
@@ -61,6 +61,7 @@ table.source_code {
   border-spacing: 0;
   background: #FCF2E6;
   padding: 1.2em 1em;
+  margin-bottom: 2em;
 }
 table.source_code pre {
   font: 13px "Menlo"

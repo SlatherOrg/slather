@@ -109,13 +109,13 @@ module Slather
         percentage = coverage_file.percentage_lines_tested
 
         builder = Nokogiri::HTML::Builder.with(template.at('#coverage')) { |cov|
-          cov.h2 {
+          cov.h2(:class => "cov_title") {
             cov.span("Coverage for \"#{filename}\" : ")
             cov.span("#{'%.2f' % percentage}%", :class => class_for_coverage_percentage(percentage))
           }
 
           cov.h4("(#{coverage_file.num_lines_tested} of #{coverage_file.num_lines_testable} relevant lines covered)", :class => "cov_subtitle")
-          cov.h4("~", :class => "cov_filepath")
+          cov.h4(filepath, :class => "cov_filepath")
 
           cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
 
@@ -156,7 +156,7 @@ module Slather
         builder = Nokogiri::HTML::Builder.new do |doc|
           doc.html {
             doc.head {
-              doc.title "Slather - #{title}"
+              doc.title "#{title} - Slather"
               doc.link :href => css_path, :media => "all", :rel => "stylesheet"
             }
             doc.body {
