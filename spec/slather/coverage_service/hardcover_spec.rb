@@ -7,6 +7,14 @@ describe Slather::CoverageService::Hardcover do
     proj.extend(Slather::CoverageService::Hardcover)
   end
 
+  let(:fixture_yaml) do
+      yaml_text = <<-EOF
+        hardcover_repo_token: "27dd855e706b22126ec6daaaf7bb40b5"
+        hardcover_base_url: "http://api.hardcover.io"
+      EOF
+      yaml = YAML.load(yaml_text)
+  end
+
   describe "#coverage_file_class" do
     it "should return CoverallsCoverageFile" do
       expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverallsCoverageFile)
@@ -26,11 +34,15 @@ describe Slather::CoverageService::Hardcover do
     context "coverage_service is :jenkins_ci" do
       before(:each) do
         fixtures_project.ci_service = :jenkins_ci
-        fixtures_project.stub(:yml).and_return({})
+        fixtures_project.stub(:yml).and_return(fixture_yaml)
       end
 
       it "should return a valid json" do
-        skip
+        json = JSON(fixtures_project.send(:hardcover_coverage_data))
+        expect(json["service_job_id"]).to eq("slather-master/9182")
+        expect(json["service_name"]).to eq("jenkins-ci")
+        expect(json["repo_token"]).to eq("27dd855e706b22126ec6daaaf7bb40b5")
+        expect(json["source_files"]).to_not be_empty
       end
 
       it "should raise an error if there is no BUILD_NUMBER or JOB_NAME" do
@@ -47,12 +59,7 @@ describe Slather::CoverageService::Hardcover do
 
   describe '#post' do
     before(:each) do
-      yaml_text = <<-EOF
-        hardcover_repo_token: "27dd855e706b22126ec6daaaf7bb40b5"
-        hardcover_base_url: "http://api.hardcover.io"
-      EOF
-      yaml = YAML.load(yaml_text)
-      fixtures_project.stub(:yml).and_return(yaml)
+      fixtures_project.stub(:yml).and_return(fixture_yaml)
       fixtures_project.ci_service = :jenkins_ci
     end
 
