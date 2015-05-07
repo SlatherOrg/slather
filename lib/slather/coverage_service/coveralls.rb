@@ -18,7 +18,7 @@ module Slather
       private :circleci_job_id
 
       def circleci_pull_request
-        ENV['CI_PULL_REQUEST']
+        ENV['CIRCLE_PR_NUMBER'] || ENV['CI_PULL_REQUEST'] || ""
       end
       private :circleci_pull_request
 
@@ -39,11 +39,16 @@ module Slather
       end
       private :jenkins_git_info
 
+      def circleci_build_url
+        "https://circleci.com/gh/" + ENV['CIRCLE_PROJECT_USERNAME'] || "" + "/" + ENV['CIRCLE_PROJECT_REPONAME'] || "" + "/" + ENV['CIRCLE_BUILD_NUM'] || ""
+      end
+      private :circleci_build_url
+
       def circleci_git_info
         {
           :head => {
             :id => (ENV['CIRCLE_SHA1'] || ""),
-            :author_name => (ENV['CIRCLE_USERNAME'] || ""),
+            :author_name => (ENV['CIRCLE_PR_USERNAME'] || ENV['CIRCLE_USERNAME'] || ""),
             :message => (`git log --format=%s -n 1 HEAD`.chomp || "")
           },
           :branch => (ENV['CIRCLE_BRANCH'] || "")
@@ -78,7 +83,8 @@ module Slather
               :service_name => "circleci",
               :repo_token => ci_access_token,
               :source_files => coverage_files.map(&:as_json),
-              :git => circleci_git_info
+              :git => circleci_git_info,
+              :service_build_url => circleci_build_url
             }
 
             if circleci_pull_request != nil && circleci_pull_request.length > 0
