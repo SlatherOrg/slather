@@ -11,22 +11,39 @@ module Slather
         ENV['TRAVIS_JOB_ID']
       end
       private :travis_job_id
-      
+
       def circleci_job_id
         ENV['CIRCLE_BUILD_NUM']
       end
       private :circleci_job_id
-      
+
       def circleci_pull_request
         ENV['CIRCLE_PR_NUMBER'] || ENV['CI_PULL_REQUEST'] || ""
       end
       private :circleci_pull_request
-      
+
+      def jenkins_job_id
+        ENV['BUILD_ID']
+      end
+      private :jenkins_job_id
+
+      def jenkins_git_info
+        {
+          head: {
+            id: ENV['sha1'],
+            author_name: ENV['ghprbActualCommitAuthor'],
+            message: ENV['ghprbPullTitle']
+          },
+          branch: ENV['ghprbSourceBranch']
+        }
+      end
+      private :jenkins_git_info
+
       def circleci_build_url
         "https://circleci.com/gh/" + ENV['CIRCLE_PROJECT_USERNAME'] || "" + "/" + ENV['CIRCLE_PROJECT_REPONAME'] || "" + "/" + ENV['CIRCLE_BUILD_NUM'] || ""
       end
       private :circleci_build_url
-      
+
       def circleci_git_info
         {
           :head => {
@@ -69,14 +86,26 @@ module Slather
               :git => circleci_git_info,
               :service_build_url => circleci_build_url
             }
-            
+
             if circleci_pull_request != nil && circleci_pull_request.length > 0
               coveralls_hash[:service_pull_request] = circleci_pull_request.split("/").last
             end
-            
+
             coveralls_hash.to_json
           else
             raise StandardError, "Environment variable `CIRCLE_BUILD_NUM` not set. Is this running on a circleci build?"
+          end
+        elsif ci_service == :jenkins
+          if jenkins_job_id
+            {
+              service_job_id: jenkins_job_id,
+              service_name: "jenkins",
+              repo_token: ci_access_token,
+              source_files: coverage_files.map(&:as_json),
+              git: jenkins_git_info
+            }.to_json
+          else
+            raise StandardError, "Environment variable `BUILD_ID` not set. Is this running on a jenkins build?"
           end
         else
           raise StandardError, "No support for ci named #{ci_service}"
@@ -89,7 +118,7 @@ module Slather
         begin
           f.write(coveralls_coverage_data)
           f.close
-          `curl -s --form json_file=@#{f.path} #{coveralls_api_jobs_path}`
+          `curl -s -v --form json_file=@#{f.path} #{coveralls_api_jobs_path}`
         rescue StandardError => e
           FileUtils.rm(f)
           raise e
