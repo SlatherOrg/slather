@@ -91,17 +91,13 @@ module Slather
           end
         elsif ci_service == :jenkins
           if jenkins_job_id
-            coveralls_hash = {
+            {
               service_job_id: jenkins_job_id,
               service_name: "jenkins",
               repo_token: ci_access_token,
               source_files: coverage_files.map(&:as_json),
               git: jenkins_git_info
-            }
-            puts '*******************'
-            puts coveralls_hash.to_json
-            puts '*******************'
-            coveralls_hash.to_json
+            }.to_json
           else
             raise StandardError, "Environment variable `BUILD_ID` not set. Is this running on a jenkins build?"
           end
