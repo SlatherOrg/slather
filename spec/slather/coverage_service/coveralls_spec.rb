@@ -62,8 +62,9 @@ describe Slather::CoverageService::Coveralls do
         fixtures_project.stub(:circleci_job_id).and_return("9182")
         fixtures_project.stub(:ci_access_token).and_return("abc123")
         fixtures_project.stub(:circleci_pull_request).and_return("1")
+        fixtures_project.stub(:circleci_build_url).and_return("https://circleci.com/gh/Bruce/Wayne/1")
         fixtures_project.stub(:circleci_git_info).and_return({ :head => { :id => "ababa123", :author_name => "bwayne", :message => "hello" }, :branch => "master" })
-        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"circleci\",\"repo_token\":\"abc123\",\"service_pull_request\":\"1\",\"git\":{\"head\":{\"id\":\"ababa123\",\"author_name\":\"bwayne\",\"message\":\"hello\"},\"branch\":\"master\"}}").excluding("source_files")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"circleci\",\"repo_token\":\"abc123\",\"service_pull_request\":\"1\",\"service_build_url\":\"https://circleci.com/gh/Bruce/Wayne/1\",\"git\":{\"head\":{\"id\":\"ababa123\",\"author_name\":\"bwayne\",\"message\":\"hello\"},\"branch\":\"master\"}}").excluding("source_files")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
       end
     
