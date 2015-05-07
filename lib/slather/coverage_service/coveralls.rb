@@ -97,7 +97,7 @@ module Slather
               service_job_id: jenkins_job_id,
               service_name: "jenkins",
               repo_token: ci_access_token,
-              source_files: coverage_files.map {&:as_json},
+              source_files: coverage_files.map(&:as_json),
               git: jenkins_git_info
             }.to_json
           else
