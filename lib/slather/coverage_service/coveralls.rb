@@ -1,3 +1,4 @@
+require 'byebug'
 module Slather
   module CoverageService
     module Coveralls
@@ -36,8 +37,6 @@ module Slather
           },
           branch: ENV['ghprbSourceBranch']
         }
-
-        ENV['GIT_BRANCH']
       end
       private :jenkins_git_info
 
@@ -93,15 +92,14 @@ module Slather
           end
         elsif ci_service == :jenkins
           if jenkins_job_id
-            json = {
+            byebug
+            {
               service_job_id: jenkins_job_id,
               service_name: "jenkins",
               repo_token: ci_access_token,
               source_files: coverage_files.map(&:as_json),
               git: jenkins_git_info
             }.to_json
-            puts json
-            json
           else
             raise StandardError, "Environment variable `BUILD_ID` not set. Is this running on a jenkins build?"
           end
