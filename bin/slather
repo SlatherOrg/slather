@@ -61,7 +61,7 @@ Clamp do
         project.ci_service = :travis_ci
       elsif circleci?
         project.ci_service = :circleci
-      elsif jenksin?
+      elsif jenkins?
         project.ci_service = :jenkins
       end
     end
