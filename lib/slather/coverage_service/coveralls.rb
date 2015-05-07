@@ -101,7 +101,7 @@ module Slather
             puts '*******************'
             puts coveralls_hash.to_json
             puts '*******************'
-            coveralls_hash
+            coveralls_hash.to_json
           else
             raise StandardError, "Environment variable `BUILD_ID` not set. Is this running on a jenkins build?"
           end
