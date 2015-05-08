@@ -19,7 +19,7 @@ end
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :ci_access_token, :source_directory, :output_directory
+    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory, :output_directory
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -70,7 +70,7 @@ module Slather
       configure_build_directory_from_yml
       configure_ignore_list_from_yml
       configure_ci_service_from_yml
-      configure_ci_access_token_from_yml
+      configure_coverage_access_token_from_yml
       configure_coverage_service_from_yml
       configure_source_directory_from_yml
       configure_output_directory_from_yml
@@ -104,8 +104,8 @@ module Slather
       self.coverage_service ||= (self.class.yml["coverage_service"] || :terminal)
     end
 
-    def configure_ci_access_token_from_yml
-      self.ci_access_token ||= (self.class.yml["ci_access_token"] || "")
+    def configure_coverage_access_token_from_yml
+      self.coverage_access_token ||= (ENV["COVERAGE_ACCESS_TOKEN"] || self.class.yml["coverage_access_token"] || "")
     end
 
     def coverage_service=(service)
