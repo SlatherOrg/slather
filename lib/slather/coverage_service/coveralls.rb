@@ -47,7 +47,7 @@ module Slather
               {
                 :service_job_id => travis_job_id,
                 :service_name => "travis-pro",
-                :repo_token => ci_access_token,
+                :repo_token => coverage_access_token,
                 :source_files => coverage_files.map(&:as_json)
               }.to_json
             end
@@ -59,7 +59,7 @@ module Slather
             coveralls_hash = {
               :service_job_id => circleci_job_id,
               :service_name => "circleci",
-              :repo_token => ci_access_token,
+              :repo_token => coverage_access_token,
               :source_files => coverage_files.map(&:as_json),
               :git => circleci_git_info
             }

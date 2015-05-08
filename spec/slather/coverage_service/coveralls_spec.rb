@@ -44,7 +44,7 @@ describe Slather::CoverageService::Coveralls do
 
       it "should return valid json for coveralls coverage data" do
         fixtures_project.stub(:travis_job_id).and_return("9182")
-        fixtures_project.stub(:ci_access_token).and_return("abc123")
+        fixtures_project.stub(:coverage_access_token).and_return("abc123")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"travis-pro\",\"repo_token\":\"abc123\"}").excluding("source_files")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
       end
@@ -60,7 +60,7 @@ describe Slather::CoverageService::Coveralls do
     
       it "should return valid json for coveralls coverage data" do
         fixtures_project.stub(:circleci_job_id).and_return("9182")
-        fixtures_project.stub(:ci_access_token).and_return("abc123")
+        fixtures_project.stub(:coverage_access_token).and_return("abc123")
         fixtures_project.stub(:circleci_pull_request).and_return("1")
         fixtures_project.stub(:circleci_git_info).and_return({ :head => { :id => "ababa123", :author_name => "bwayne", :message => "hello" }, :branch => "master" })
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"circleci\",\"repo_token\":\"abc123\",\"service_pull_request\":\"1\",\"git\":{\"head\":{\"id\":\"ababa123\",\"author_name\":\"bwayne\",\"message\":\"hello\"},\"branch\":\"master\"}}").excluding("source_files")

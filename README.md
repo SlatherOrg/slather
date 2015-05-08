@@ -92,10 +92,10 @@ To use Coveralls with Travis CI Pro (for private repos), add following lines alo
 # .slather.yml
 
 ci_service: travis_pro
-ci_access_token: <YOUR ACCESS TOKEN>
+coverage_access_token: <YOUR ACCESS TOKEN>
 ```
 
-Repo token can be found at [Coveralls](https://coveralls.io/) repo page. It can also be passed in via the `COVERAGE_ACCESS_TOKEN` environment var.
+The coverage token can be found at [Coveralls](https://coveralls.io/) repo page. Or it can be passed in via the `COVERAGE_ACCESS_TOKEN` environment var.
 
 ### Cobertura
 
