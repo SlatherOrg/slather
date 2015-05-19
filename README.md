@@ -43,7 +43,7 @@ $ slather setup path/to/project.xcodeproj
 This will enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project.
 
 
-To verify if you're ready to generate test coverage, run your test suite on your project, and then run:
+To verify you're ready to generate test coverage, run your test suite on your project, and then run:
 
 ```sh
 $ slather coverage -s path/to/project.xcodeproj
