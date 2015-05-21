@@ -34,7 +34,7 @@ $ bundle
 
 ## Usage
 
-Setup your project for test coverage:
+Set up your project for test coverage:
 
 ```sh
 $ slather setup path/to/project.xcodeproj
@@ -43,13 +43,13 @@ $ slather setup path/to/project.xcodeproj
 This will enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project.
 
 
-To test if you're ready to generate test coverage, run your test suite on your project, and then run:
+To verify you're ready to generate test coverage, run your test suite on your project, and then run:
 
 ```sh
 $ slather coverage -s path/to/project.xcodeproj
 ```
 
-### Coveralls
+### Usage with Coveralls
 
 Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` supports Coveralls via [Travis CI](https://travis-ci.org) and [CircleCI](https://circleci.com).
 
@@ -84,7 +84,7 @@ test:
 
 ```
 
-#### Travis CI Pro
+#### Usage with Travis CI Pro
 
 To use Coveralls with Travis CI Pro (for private repos), add following lines along with other settings to `.slather.yml`:
 
@@ -122,14 +122,14 @@ $ slather coverage -x --output-directory path/to/xml_report
 ### Coverage for code included via CocoaPods
 
 If you're trying to compute the coverage of code that has been included via
-CocoaPods, you will need to tell CocoaPods to use the slather plugin by
+CocoaPods, you will need to tell CocoaPods to use the Slather plugin by
 adding the following to your `Podfile`.
 
 ```ruby
 plugin 'slather'
 ```
 
-You will also need to tell slather where to find the source files for your Pod.
+You will also need to tell Slather where to find the source files for your Pod.
 
 ```yml
 # .slather.yml
