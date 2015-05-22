@@ -34,7 +34,7 @@ describe Slather::CoverageService::Hardcover do
     context "coverage_service is :jenkins_ci" do
       before(:each) do
         fixtures_project.ci_service = :jenkins_ci
-        fixtures_project.stub(:yml).and_return(fixture_yaml)
+        Slather::Project.stub(:yml).and_return(fixture_yaml)
       end
 
       it "should return a valid json" do
@@ -59,7 +59,7 @@ describe Slather::CoverageService::Hardcover do
 
   describe '#post' do
     before(:each) do
-      fixtures_project.stub(:yml).and_return(fixture_yaml)
+      Slather::Project.stub(:yml).and_return(fixture_yaml)
       fixtures_project.ci_service = :jenkins_ci
     end
 
