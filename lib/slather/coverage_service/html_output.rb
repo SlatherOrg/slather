@@ -42,7 +42,7 @@ module Slather
 
       def create_index_html(coverage_files)
         project_name = File.basename(self.xcodeproj)
-        template = generate_html_template(project_name)
+        template = generate_html_template(project_name, false)
 
         total_relevant_lines = 0
         total_tested_lines = 0
@@ -103,10 +103,12 @@ module Slather
       def create_html_from_file(coverage_file)
         filepath = coverage_file.source_file_pathname_relative_to_repo_root
         filename = File.basename(filepath)
-        template = generate_html_template(filename)
         percentage = coverage_file.percentage_lines_tested
+
         cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
         is_file_empty = (cleaned_gcov_lines.count <= 0)
+
+        template = generate_html_template(filename, is_file_empty)
 
         builder = Nokogiri::HTML::Builder.with(template.at('#coverage')) { |cov|
           cov.h2(:class => "cov_title") {
@@ -135,8 +137,12 @@ module Slather
 
               cov.tr(:class => class_for_coverage_data(coverage_data)) {
                 line_data.each_with_index { |line, idx|
-                  if idx != 1 then cov.td(line, :class => classes[idx])
-                  else cov.td(:class => classes[idx]) { cov.pre line }
+                  if idx != 1
+                    cov.td(line, :class => classes[idx])
+                  else
+                    cov.td(:class => classes[idx]) {
+                      cov.pre { cov.code(line, :class => "objc") }
+                    }
                   end
                 }
               }
@@ -147,9 +153,10 @@ module Slather
         @docs[filename] = builder.doc
       end
 
-      def generate_html_template(title)
+      def generate_html_template(title, is_file_empty)
         logo_path = File.join(gem_root_path, "docs/logo.jpg")
-        css_path = File.join(gem_root_path, "css/slather.css")
+        css_path = File.join(gem_root_path, "assets/slather.css")
+        js_path = File.join(gem_root_path, "assets/highlight.pack.js")
 
         builder = Nokogiri::HTML::Builder.new do |doc|
           doc.html {
@@ -170,6 +177,11 @@ module Slather
                   doc.p("© #{Date.today.year} Slather")
                 }
               }
+
+              unless is_file_empty
+                doc.script :src => js_path
+                doc.script "hljs.initHighlightingOnLoad();"
+              end
             }
           }
         end
