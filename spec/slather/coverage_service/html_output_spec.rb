@@ -31,6 +31,10 @@ describe Slather::CoverageService::HtmlOutput do
   end
 
   describe '#post' do
+    before(:each) {
+      fixtures_project.stub(:open_coverage)
+    }
+
     def extract_header_title(doc)
       doc.at_css('title').text
     end
@@ -41,10 +45,10 @@ describe Slather::CoverageService::HtmlOutput do
       fixture_html_files.map { |filename|
         File.join(OUTPUT_DIR_PATH, filename)
       }.each { |filepath|
-        expect(File.exists?(filepath)).to be_truthy
+        expect(File.exist?(filepath)).to be_truthy
       }
 
-      FileUtils.rm_rf OUTPUT_DIR_PATH if File.exists? OUTPUT_DIR_PATH
+      FileUtils.rm_rf(OUTPUT_DIR_PATH) if Dir.exist?(OUTPUT_DIR_PATH)
     end
 
     it "should create index html with correct coverage information" do
@@ -85,7 +89,7 @@ describe Slather::CoverageService::HtmlOutput do
       expect(extract_coverage_class(fixture_doc)).to eq(extract_coverage_class(current_doc))
       expect(extract_cov_index(fixture_doc)).to eq(extract_cov_index(current_doc))
 
-      FileUtils.rm_rf OUTPUT_DIR_PATH if File.exists? OUTPUT_DIR_PATH
+      FileUtils.rm_rf(OUTPUT_DIR_PATH) if Dir.exist?(OUTPUT_DIR_PATH)
     end
 
     it "should create html coverage for each file with correct coverage" do
@@ -124,18 +128,26 @@ describe Slather::CoverageService::HtmlOutput do
         expect(extract_cov_data(fixture_doc)).to eq(extract_cov_data(current_doc))
       }
 
-      FileUtils.rm_rf OUTPUT_DIR_PATH if File.exists? OUTPUT_DIR_PATH
+      FileUtils.rm_rf OUTPUT_DIR_PATH if Dir.exist? OUTPUT_DIR_PATH
     end
 
     it "should create an HTML report directory in the given output directory" do
       fixtures_project.output_directory = "./output"
       fixtures_project.post
 
-      directorypath = File.join(fixtures_project.output_directory, OUTPUT_DIR_PATH)
-      expect(File.exists?(directorypath)).to be_truthy
+      expect(Dir.exist?(fixtures_project.output_directory)).to be_truthy
 
-      FileUtils.rm_rf(fixtures_project.output_directory)
+      FileUtils.rm_rf(fixtures_project.output_directory) if Dir.exist?(fixtures_project.output_directory)
     end
+
+    it "should create the default directory (html) if output directory is faulty" do
+      fixtures_project.output_directory = "  "
+      fixtures_project.post
+
+      expect(Dir.exist?(OUTPUT_DIR_PATH)).to be_truthy
+
+      FileUtils.rm_rf(OUTPUT_DIR_PATH) if Dir.exist?(OUTPUT_DIR_PATH)
+     end
 
   end
 end

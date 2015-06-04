@@ -9,14 +9,20 @@ module Slather
       end
       private :coverage_file_class
 
-      def html_directory
-        "html"
+      def directory_path
+        is_path_valid = !output_directory.nil? && !output_directory.strip.eql?("")
+        is_path_valid ? File.expand_path(output_directory) : "html"
       end
-      private :html_directory
+      private :directory_path
 
       def post
         create_html_reports(coverage_files)
         generate_reports(@docs)
+        open_coverage(File.join(directory_path, "index.html"))
+      end
+
+      def open_coverage(index_html)
+        `open #{index_html}` if File.exist?(index_html)
       end
 
       def create_html_reports(coverage_files)
@@ -25,24 +31,13 @@ module Slather
       end
 
       def generate_reports(reports)
-        directory_path = html_directory
-        if output_directory
-          directory_path = File.join(output_directory, html_directory)
-        end
-
-        FileUtils.rm_rf(directory_path) if File.exists?(directory_path)
+        FileUtils.rm_rf(directory_path) if Dir.exist?(directory_path)
         FileUtils.mkdir_p(directory_path)
 
         reports.each do |name, doc|
           html_file = File.join(directory_path, "#{name}.html")
           File.write(html_file, doc.to_html)
         end
-
-        # We could open 'index.html' automatically, although I don't know how to disable it for testing
-        # unless ENV["CI"]
-        #   index_html = File.join(directory_path, "index.html")
-        #   `open #{index_html}` if File.exists?(index_html)
-        # end
       end
 
       def create_index_html(coverage_files)
