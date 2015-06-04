@@ -56,15 +56,23 @@ table.table td a:hover {
 
 /* Source Code */
 table.source_code {
-  width: 90%;
+  width: 100%;
+  max-width: 1200px;
+  min-width: 400px;
   font-size: 13px;
   border-spacing: 0;
   background: #FCF2E6;
   padding: 1.2em 1em;
   margin-bottom: 2em;
 }
-table.source_code pre {
-  font: 13px "Menlo", "Courier New"
+
+table.source_code td.src pre {
+  font: 13px "Menlo", "Courier New";
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }
 table.source_code td {
   padding-bottom: 0.3em;

@@ -113,7 +113,7 @@ ignore:
   - ProjectTestsGroup/*
 ```
 
-Or use the command line options `--cobertura-xml` or `-x` and `--output_directory`:
+Or use the command line options `--cobertura-xml` or `-x` and `--output-directory`:
 
 ```sh
 $ slather coverage -x --output-directory path/to/xml_report
