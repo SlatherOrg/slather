@@ -13,6 +13,7 @@ Clamp do
 
     option ["--travis", "-t"], :flag, "Indicate that the builds are running on Travis CI"
     option ["--circleci"], :flag, "Indicate that the builds are running on CircleCI"
+    option ["--jenkins"], :flag, "Indicate that the builds are running on Jenkins"
 
     option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
     option ["--simple-output", "-s"], :flag, "Output coverage results to the terminal"
@@ -61,6 +62,8 @@ Clamp do
         project.ci_service = :travis_ci
       elsif circleci?
         project.ci_service = :circleci
+      elsif jenkins?
+        project.ci_service = :jenkins
       end
     end
 
