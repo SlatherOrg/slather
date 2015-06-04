@@ -18,11 +18,23 @@ module Slather
       def post
         create_html_reports(coverage_files)
         generate_reports(@docs)
-        open_coverage(File.join(directory_path, "index.html"))
+
+        index_html_path = File.join(directory_path, "index.html")
+        if show_html
+          open_coverage index_html_path
+        else
+          print_path_coverage index_html_path
+        end
+      end
+
+      def print_path_coverage(index_html)
+        path = File.expand_path index_html
+        puts "\nTo open the html reports, use \n\nopen '#{path}'\n\nor use '--show' flag to open it automatically.\n\n"
       end
 
       def open_coverage(index_html)
-        `open #{index_html}` if File.exist?(index_html)
+        path = File.expand_path index_html
+        `open '#{path}'` if File.exist?(path)
       end
 
       def create_html_reports(coverage_files)

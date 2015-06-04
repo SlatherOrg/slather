@@ -32,7 +32,11 @@ describe Slather::CoverageService::HtmlOutput do
 
   describe '#post' do
     before(:each) {
-      fixtures_project.stub(:open_coverage)
+      fixtures_project.stub(:print_path_coverage)
+    }
+
+    after(:each) {
+      FileUtils.rm_rf(OUTPUT_DIR_PATH) if Dir.exist?(OUTPUT_DIR_PATH)
     }
 
     def extract_header_title(doc)
@@ -47,8 +51,21 @@ describe Slather::CoverageService::HtmlOutput do
       }.each { |filepath|
         expect(File.exist?(filepath)).to be_truthy
       }
+    end
 
-      FileUtils.rm_rf(OUTPUT_DIR_PATH) if Dir.exist?(OUTPUT_DIR_PATH)
+    it "should print out the path of the html folder by default" do
+      fixtures_project.post
+
+      expect(fixtures_project).to have_received(:print_path_coverage).with("html/index.html")
+    end
+
+    it "should open the index.html automatically if --show is flagged" do
+      fixtures_project.stub(:open_coverage)
+
+      fixtures_project.show_html = true
+      fixtures_project.post
+
+      expect(fixtures_project).to have_received(:open_coverage).with("html/index.html")
     end
 
     it "should create index html with correct coverage information" do
@@ -88,8 +105,6 @@ describe Slather::CoverageService::HtmlOutput do
       expect(extract_coverage_text(fixture_doc)).to eq(extract_coverage_text(current_doc))
       expect(extract_coverage_class(fixture_doc)).to eq(extract_coverage_class(current_doc))
       expect(extract_cov_index(fixture_doc)).to eq(extract_cov_index(current_doc))
-
-      FileUtils.rm_rf(OUTPUT_DIR_PATH) if Dir.exist?(OUTPUT_DIR_PATH)
     end
 
     it "should create html coverage for each file with correct coverage" do
@@ -127,8 +142,6 @@ describe Slather::CoverageService::HtmlOutput do
         expect(extract_filepath(fixture_doc)).to eq(extract_filepath(current_doc))
         expect(extract_cov_data(fixture_doc)).to eq(extract_cov_data(current_doc))
       }
-
-      FileUtils.rm_rf OUTPUT_DIR_PATH if Dir.exist? OUTPUT_DIR_PATH
     end
 
     it "should create an HTML report directory in the given output directory" do
@@ -145,8 +158,6 @@ describe Slather::CoverageService::HtmlOutput do
       fixtures_project.post
 
       expect(Dir.exist?(OUTPUT_DIR_PATH)).to be_truthy
-
-      FileUtils.rm_rf(OUTPUT_DIR_PATH) if Dir.exist?(OUTPUT_DIR_PATH)
      end
 
   end

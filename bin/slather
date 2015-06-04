@@ -20,6 +20,7 @@ Clamp do
     option ["--gutter-json", "-g"], :flag, "Output coverage results as Gutter JSON format"
     option ["--cobertura-xml", "-x"], :flag, "Output coverage results as Cobertura XML format"
     option ["--html", "-h"], :flag, "Output coverage results as static html pages"
+    option ["--show"], :flag, "Indicate that the static html pages will open automatically"
 
     option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
     option ["--source-directory"], "SOURCE_DIRECTORY", "The directory where your source files are located."
@@ -93,6 +94,7 @@ Clamp do
         project.coverage_service = :cobertura_xml
       elsif html?
         project.coverage_service = :html
+        project.show_html = show?
       end
     end
 
