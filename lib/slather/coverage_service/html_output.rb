@@ -54,7 +54,7 @@ module Slather
 
       def create_index_html(coverage_files)
         project_name = File.basename(self.xcodeproj)
-        template = generate_html_template(project_name, false)
+        template = generate_html_template(project_name, true, false)
 
         total_relevant_lines = 0
         total_tested_lines = 0
@@ -87,7 +87,7 @@ module Slather
               }
             }
 
-            cov.tbody {
+            cov.tbody(:class => "list") {
               coverage_files.each { |coverage_file|
                 filename = File.basename(coverage_file.source_file_pathname_relative_to_repo_root)
                 filename_link = "#{filename}.html"
@@ -125,7 +125,7 @@ module Slather
         cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
         is_file_empty = (cleaned_gcov_lines.count <= 0)
 
-        template = generate_html_template(filename, is_file_empty)
+        template = generate_html_template(filename, false, is_file_empty)
 
         builder = Nokogiri::HTML::Builder.with(template.at('#reports')) { |cov|
           cov.h2(:class => "cov_title") {
@@ -170,10 +170,11 @@ module Slather
         @docs[filename] = builder.doc
       end
 
-      def generate_html_template(title, is_file_empty)
+      def generate_html_template(title, is_index, is_file_empty)
         logo_path = File.join(gem_root_path, "docs/logo.jpg")
         css_path = File.join(gem_root_path, "assets/slather.css")
-        js_path = File.join(gem_root_path, "assets/highlight.pack.js")
+        highlight_js_path = File.join(gem_root_path, "assets/highlight.pack.js")
+        list_js_path = File.join(gem_root_path, "assets/list.min.js")
 
         builder = Nokogiri::HTML::Builder.new do |doc|
           doc.html {
@@ -195,9 +196,14 @@ module Slather
                 }
               }
 
-              unless is_file_empty
-                doc.script :src => js_path
-                doc.script "hljs.initHighlightingOnLoad();"
+              if is_index
+                doc.script :src => list_js_path
+                doc.script "var reports = new List('reports', { valueNames: [ 'data_percentage', 'data_filename', 'data_lines', 'data_relevant', 'data_covered', 'data_missed' ]});"
+              else
+                unless is_file_empty
+                  doc.script :src => highlight_js_path
+                  doc.script "hljs.initHighlightingOnLoad();"
+                end
               end
             }
           }
