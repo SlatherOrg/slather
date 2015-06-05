@@ -114,11 +114,11 @@ describe Slather::CoverageService::HtmlOutput do
       current_doc = Nokogiri::HTML(file)
       file.close
 
-      # expect(extract_header_title(current_doc)).to eq(extract_header_title(fixture_doc))
-      # expect(extract_title(current_doc)).to eq(extract_title(fixture_doc))
-      # expect(extract_coverage_text(current_doc)).to eq(extract_coverage_text(fixture_doc))
-      # expect(extract_coverage_class(current_doc)).to eq(extract_coverage_class(fixture_doc))
-      # expect(extract_cov_header(current_doc)).to eq(extract_cov_header(fixture_doc))
+      expect(extract_header_title(current_doc)).to eq(extract_header_title(fixture_doc))
+      expect(extract_title(current_doc)).to eq(extract_title(fixture_doc))
+      expect(extract_coverage_text(current_doc)).to eq(extract_coverage_text(fixture_doc))
+      expect(extract_coverage_class(current_doc)).to eq(extract_coverage_class(fixture_doc))
+      expect(extract_cov_header(current_doc)).to eq(extract_cov_header(fixture_doc))
       expect(extract_cov_index(current_doc)).to eq(extract_cov_index(fixture_doc))
     end
 
