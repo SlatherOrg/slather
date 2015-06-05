@@ -22,6 +22,8 @@ header { margin-top: 1em; }
 header img { width: auto; height: 120px; }
 
 /* Coverage */
+#reports > h2 { margin-bottom: 0; }
+#reports > h4 { margin-top: 5px; }
 .percentage {
   padding: 4px ;
   font-weight: bold;
@@ -34,23 +36,26 @@ header img { width: auto; height: 120px; }
 .cov_filepath { font-style: italic; }
 
 /* Index Table */
-table.table { width: 90% }
-table.table th,
-table.table td {
+table.coverage_list {
+  width: 90%;
+  min-width: 400px;
+}
+table.coverage_list th,
+table.coverage_list td {
   padding: .6em .5em;
   text-align: left;
 }
-table.table th.col_num { width: 10%; }
-table.table th.col_percent { width: 50px; }
-table.table thead, tfoot { background: #FDCD9B; }
-table.table tbody tr:hover { background: #FCF2E6; }
-table.table tbody td { border-bottom: 1px solid #CCC; }
-table.table td a {
+table.coverage_list th.col_num { width: 70px; }
+table.coverage_list th.col_percent { width: 75px; }
+table.coverage_list thead, tfoot { background: #FDCD9B; }
+table.coverage_list tbody tr:hover { background: #FCF2E6; }
+table.coverage_list tbody td { border-bottom: 1px solid #CCC; }
+table.coverage_list td a {
   color: #333;
   text-decoration: none;
   border-bottom: 1px dotted;
 }
-table.table td a:hover {
+table.coverage_list td a:hover {
   border-bottom: none;
 }
 
@@ -115,9 +120,9 @@ footer p, footer a {
 }
 
 
-/* --------------------------------------------------------
+/* ----------------------------------------------------------
 Syntax Highlighting using highlight.js (https://highlightjs.org)
--------------------------------------------------------- */
+------------------------------------------------------------- */
 .hljs {
   display: block;
   overflow-x: auto;
@@ -264,4 +269,48 @@ Syntax Highlighting using highlight.js (https://highlightjs.org)
 .xml .css,
 .xml .hljs-cdata {
   opacity: 0.5;
+}
+
+/* -------------------------------------------------------
+Sorting & Filtering with List.js (http://www.listjs.com/)
+------------------------------------------------------- */
+
+input.search {
+  border:solid 1px #ccc;
+  border-radius: 4px;
+  padding:7px;
+  margin-bottom:10px;
+  font-size: 12px;
+}
+input.search:focus {
+  outline:none;
+  border-color:#aaa;
+}
+
+th.sort::-moz-selection { background:transparent; }
+th.sort::selection      { background:transparent; }
+th.sort { cursor:pointer; }
+th.sort:after {
+  content:'';
+  display:inline-block;
+  width: 0;
+  height: 0;
+  position: relative;
+  top: -3px;
+  right: -6px;
+  border-width:0 4px 4px;
+  border-style:solid;
+  border-color:#404040 transparent;
+  visibility:hidden;
+}
+ th.sort:hover:after { visibility:visible; }
+ th.sort.desc:after,
+ th.sort.asc:after,
+ th.sort.asc:hover:after {
+  visibility:visible;
+  opacity:0.6;
+}
+ th.sort.desc:after {
+  border-bottom:none;
+  border-width:4px 4px 0;
 }

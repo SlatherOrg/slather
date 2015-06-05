@@ -63,7 +63,7 @@ module Slather
           total_relevant_lines += coverage_file.num_lines_testable
         }
 
-        builder = Nokogiri::HTML::Builder.with(template.at('#coverage')) { |cov|
+        builder = Nokogiri::HTML::Builder.with(template.at('#reports')) { |cov|
           cov.h2 "Files for \"#{project_name}\""
 
           cov.h4 {
@@ -72,16 +72,18 @@ module Slather
             cov.span '%.2f%%' % percentage, :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
           }
 
-          cov.table(:class => "table", :cellspacing => 0,  :cellpadding => 0) {
+          cov.input(:class => "search", :placeholder => "Search")
+
+          cov.table(:class => "coverage_list", :cellspacing => 0,  :cellpadding => 0) {
 
             cov.thead {
               cov.tr {
-                cov.th "%", :class => "col_num"
-                cov.th "File"
-                cov.th "Lines", :class => "col_percent"
-                cov.th "Relevant", :class => "col_percent"
-                cov.th "Covered", :class => "col_percent"
-                cov.th "Missed", :class => "col_percent"
+                cov.th "%", :class => "col_num sort", "data-sort" => "data_percentage"
+                cov.th "File", :class => "sort", "data-sort" => "data_filename"
+                cov.th "Lines", :class => "col_percent sort", "data-sort" => "data_lines"
+                cov.th "Relevant", :class => "col_percent sort", "data-sort" => "data_relevant"
+                cov.th "Covered", :class => "col_percent sort", "data-sort" => "data_covered"
+                cov.th "Missed", :class => "col_percent sort", "data-sort" => "data_missed"
               }
             }
 
@@ -92,12 +94,15 @@ module Slather
 
                 cov.tr {
                   percentage = coverage_file.percentage_lines_tested
-                  cov.td { cov.span '%.2f' % percentage, :class => "percentage #{class_for_coverage_percentage(percentage)}" }
-                  cov.td { cov.a filename, :href => filename_link }
-                  cov.td "#{coverage_file.line_coverage_data.count}"
-                  cov.td "#{coverage_file.num_lines_testable}"
-                  cov.td "#{coverage_file.num_lines_tested}"
-                  cov.td "#{(coverage_file.num_lines_testable - coverage_file.num_lines_tested)}"
+
+                  cov.td { cov.span '%.2f' % percentage, :class => "percentage #{class_for_coverage_percentage(percentage)} data_percentage" }
+                  cov.td(:class => "data_filename") {
+                    cov.a filename, :href => filename_link
+                  }
+                  cov.td "#{coverage_file.line_coverage_data.count}", :class => "data_lines"
+                  cov.td "#{coverage_file.num_lines_testable}", :class => "data_relevant"
+                  cov.td "#{coverage_file.num_lines_tested}", :class => "data_covered"
+                  cov.td "#{(coverage_file.num_lines_testable - coverage_file.num_lines_tested)}", :class => "data_missed"
                 }
               }
             }
@@ -122,7 +127,7 @@ module Slather
 
         template = generate_html_template(filename, is_file_empty)
 
-        builder = Nokogiri::HTML::Builder.with(template.at('#coverage')) { |cov|
+        builder = Nokogiri::HTML::Builder.with(template.at('#reports')) { |cov|
           cov.h2(:class => "cov_title") {
             cov.span("Coverage for \"#{filename}\"" + (!is_file_empty ? " : " : ""))
             cov.span("#{'%.2f' % percentage}%", :class => class_for_coverage_percentage(percentage)) unless is_file_empty
@@ -182,7 +187,7 @@ module Slather
                   doc.a(:href => "index.html") { doc.img(:src => logo_path, :alt => "Slather logo") }
                 }
               }
-              doc.div(:class => "row") { doc.div(:id => "coverage") }
+              doc.div(:class => "row") { doc.div(:id => "reports") }
               doc.footer {
                 doc.div(:class => "row") {
                   doc.p { doc.a("Fork me on Github", :href => "https://github.com/venmo/slather") }

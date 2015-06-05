@@ -13,103 +13,106 @@
     </header>
 
     <div class="row">
-      <div id="coverage">
+      <div id="reports">
         <h2>Files for "fixtures.xcodeproj"</h2>
         <h4>
           <span>Total Coverage : </span>
           <span class="cov_low" id="total_coverage">66.04%</span>
         </h4>
-        <table class="table" cellspacing="0" cellpadding="0">
+
+        <input class="search" placeholder="Search" />
+
+        <table class="coverage_list" cellspacing="0" cellpadding="0">
           <thead>
             <tr>
-              <th class="col_num">%</th>
-              <th>File</th>
-              <th class="col_percent">Lines</th>
-              <th class="col_percent">Relevant</th>
-              <th class="col_percent">Covered</th>
-              <th class="col_percent">Missed</th>
+              <th class="col_num sort" data-sort="data_percentage">%</span></th>
+              <th class="sort" data-sort="data_filename">File</th>
+              <th class="col_percent sort" data-sort="data_lines">Lines</th>
+              <th class="col_percent sort" data-sort="data_relevant">Relevant</th>
+              <th class="col_percent sort" data-sort="data_covered">Covered</th>
+              <th class="col_percent sort" data-sort="data_missed">Missed</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="list">
             <tr>
-              <td><span class="percentage cov_low">50.00</span></td>
-              <td><a href="Branches.m.html">Branches.m</a></td>
-              <td>45</td>
-              <td>20</td>
-              <td>10</td>
-              <td>10</td>
+              <td><span class="percentage cov_low data_percentage">50.00</span></td>
+              <td class="data_filename"><a href="Branches.m.html">Branches.m</a></td>
+              <td class="data_lines">45</td>
+              <td class="data_relevant">20</td>
+              <td class="data_covered">10</td>
+              <td class="data_missed">10</td>
             </tr>
             <tr>
-              <td><span class="percentage cov_high">100.00</span></td>
-              <td><a href="Empty.m.html">Empty.m</a></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
+              <td class=""><span class="percentage cov_high data_percentage">100.00</span></td>
+              <td class="data_filename"><a href="Empty.m.html">Empty.m</a></td>
+              <td class="data_lines">0</td>
+              <td class="data_relevant">0</td>
+              <td class="data_covered">0</td>
+              <td class="data_missed">0</td>
             </tr>
             <tr>
-              <td><span class="percentage cov_low">50.00</span></td>
-              <td><a href="fixtures.m.html">fixtures.m</a></td>
-              <td>23</td>
-              <td>4</td>
-              <td>2</td>
-              <td>2</td>
+              <td><span class="percentage cov_low data_percentage">50.00</span></td>
+              <td class="data_filename"><a href="fixtures.m.html">fixtures.m</a></td>
+              <td class="data_lines">23</td>
+              <td class="data_relevant">4</td>
+              <td class="data_covered">2</td>
+              <td class="data_missed">2</td>
             </tr>
             <tr>
-              <td><span class="percentage cov_high">100.00</span></td>
-              <td><a href="fixtures_cpp.cpp.html">fixtures_cpp.cpp</a></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
+              <td><span class="percentage cov_high data_percentage">100.00</span></td>
+              <td class="data_filename"><a href="fixtures_cpp.cpp.html">fixtures_cpp.cpp</a></td>
+              <td class="data_lines">0</td>
+              <td class="data_relevant">0</td>
+              <td class="data_covered">0</td>
+              <td class="data_missed">0</td>
             </tr>
             <tr>
-              <td><span class="percentage cov_high">100.00</span></td>
-              <td><a href="fixtures_m.m.html">fixtures_m.m</a></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
+              <td><span class="percentage cov_high data_percentage">100.00</span></td>
+              <td class="data_filename"><a href="fixtures_m.m.html">fixtures_m.m</a></td>
+              <td class="data_lines">0</td>
+              <td class="data_relevant">0</td>
+              <td class="data_covered">0</td>
+              <td class="data_missed">0</td>
             </tr>
             <tr>
-              <td><span class="percentage cov_high">100.00</span></td>
-              <td><a href="fixtures_mm.mm.html">fixtures_mm.mm</a></td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
-              <td>0</td>
+              <td><span class="percentage cov_high data_percentage">100.00</span></td>
+              <td class="data_filename"><a href="fixtures_mm.mm.html">fixtures_mm.mm</a></td>
+              <td class="data_lines">0</td>
+              <td class="data_relevant">0</td>
+              <td class="data_covered">0</td>
+              <td class="data_missed">0</td>
             </tr>
             <tr>
-              <td><span class="percentage cov_low">0.00</span></td>
-              <td><a href="peekaview.m.html">peekaview.m</a></td>
-              <td>31</td>
-              <td>6</td>
-              <td>0</td>
-              <td>6</td>
+              <td><span class="percentage cov_low data_percentage">0.00</span></td>
+              <td class="data_filename"><a href="peekaview.m.html">peekaview.m</a></td>
+              <td class="data_lines">31</td>
+              <td class="data_relevant">6</td>
+              <td class="data_covered">0</td>
+              <td class="data_missed">6</td>
             </tr>
             <tr>
-              <td><span class="percentage cov_high">100.00</span></td>
-              <td><a href="BranchesTests.m.html">BranchesTests.m</a></td>
-              <td>38</td>
-              <td>10</td>
-              <td>10</td>
-              <td>0</td>
+              <td><span class="percentage cov_high data_percentage">100.00</span></td>
+              <td class="data_filename"><a href="BranchesTests.m.html">BranchesTests.m</a></td>
+              <td class="data_lines">38</td>
+              <td class="data_relevant">10</td>
+              <td class="data_covered">10</td>
+              <td class="data_missed">0</td>
             </tr>
             <tr>
-              <td><span class="percentage cov_high">100.00</span></td>
-              <td><a href="fixturesTests.m.html">fixturesTests.m</a></td>
-              <td>36</td>
-              <td>7</td>
-              <td>7</td>
-              <td>0</td>
+              <td><span class="percentage cov_high data_percentage">100.00</span></td>
+              <td class="data_filename"><a href="fixturesTests.m.html">fixturesTests.m</a></td>
+              <td class="data_lines">36</td>
+              <td class="data_relevant">7</td>
+              <td class="data_covered">7</td>
+              <td class="data_missed">0</td>
             </tr>
             <tr>
-              <td><span class="percentage cov_high">100.00</span></td>
-              <td><a href="peekaviewTests.m.html">peekaviewTests.m</a></td>
-              <td>34</td>
-              <td>6</td>
-              <td>6</td>
-              <td>0</td>
+              <td><span class="percentage cov_high data_percentage">100.00</span></td>
+              <td class="data_filename"><a href="peekaviewTests.m.html">peekaviewTests.m</a></td>
+              <td class="data_lines">34</td>
+              <td class="data_relevant">6</td>
+              <td class="data_covered">6</td>
+              <td class="data_missed">0</td>
             </tr>
           </tbody>
         </table>
@@ -122,5 +125,19 @@
         <p>&copy; 2015 Slather</p>
       </div>
     </footer>
+
+    <script src="../../../assets/list.min.js" charset="utf-8"></script>
+    <script>
+      var reports = new List('reports', {
+        valueNames: [
+          'data_percentage',
+          'data_filename',
+          'data_lines',
+          'data_relevant',
+          'data_covered',
+          'data_missed'
+        ]
+      });
+    </script>
   </body>
 </html>

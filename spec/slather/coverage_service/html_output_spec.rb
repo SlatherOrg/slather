@@ -70,7 +70,7 @@ describe Slather::CoverageService::HtmlOutput do
 
     it "should create index html with correct coverage information" do
       def extract_title(doc)
-        doc.at_css('#coverage > h2').text
+        doc.at_css('#reports > h2').text
       end
 
       def extract_coverage_text(doc)
@@ -81,12 +81,23 @@ describe Slather::CoverageService::HtmlOutput do
         doc.at_css('#total_coverage').attribute("class").to_s
       end
 
+      def extract_cov_header(doc)
+        doc.css("table.coverage_list > thead > tr > th").map { |header|
+          [header.text, header.attribute("data-sort")].join(", ")
+        }.join("; ")
+      end
+
       def extract_cov_index(doc)
-        doc.css("table.table > tbody > tr").map { |tr|
+        doc.css("table.coverage_list > tbody > tr").map { |tr|
           tr.css("td").map { |td|
-            td.text
-            if span = td.at_css("span"); td.text + "-" + span.attribute("class") end
-          }.join(", ")
+            if td.attribute("class")
+              td.attribute("class").to_s.split.join(", ") + ", #{td.text}"
+            elsif span = td.at_css("span")
+              span.attribute("class").to_s.split.join(", ")  + ", #{td.text}"
+            else
+              td.text
+            end
+          }.join("; ")
         }
       end
 
@@ -104,6 +115,7 @@ describe Slather::CoverageService::HtmlOutput do
       expect(extract_title(fixture_doc)).to eq(extract_title(current_doc))
       expect(extract_coverage_text(fixture_doc)).to eq(extract_coverage_text(current_doc))
       expect(extract_coverage_class(fixture_doc)).to eq(extract_coverage_class(current_doc))
+      expect(extract_cov_header(fixture_doc)).to eq(extract_cov_header(current_doc))
       expect(extract_cov_index(fixture_doc)).to eq(extract_cov_index(current_doc))
     end
 
@@ -158,7 +170,7 @@ describe Slather::CoverageService::HtmlOutput do
       fixtures_project.post
 
       expect(Dir.exist?(OUTPUT_DIR_PATH)).to be_truthy
-     end
+    end
 
   end
 end
