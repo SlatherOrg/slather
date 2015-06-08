@@ -71,7 +71,7 @@ module Slather
     end
 
     def cleaned_gcov_data
-      data = gcov_data.gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$\r?\n/, '')
+      data = gcov_data.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$\r?\n/, '')
       data.gsub(/^branch(.*)$\r?\n/, '')
     end
 
