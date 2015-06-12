@@ -19,13 +19,14 @@ end
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory, :output_directory
+    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory, :output_directory, :xcodeproj, :show_html
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
     def self.open(xcodeproj)
       proj = super
       proj.configure_from_yml
+      proj.xcodeproj = xcodeproj
       proj
     end
 
@@ -120,11 +121,12 @@ module Slather
         extend(Slather::CoverageService::GutterJsonOutput)
       elsif service == :cobertura_xml
         extend(Slather::CoverageService::CoberturaXmlOutput)
+      elsif service == :html
+        extend(Slather::CoverageService::HtmlOutput)
       else
-        raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json` or `cobertura_xml`"
+        raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json`, `cobertura_xml` or `html`"
       end
       @coverage_service = service
     end
   end
 end
-

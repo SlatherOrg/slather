@@ -41,3 +41,5 @@ DerivedData
 *.xcuserstate
 *.DS_Store
 cobertura.xml
+.gutter.json
+html

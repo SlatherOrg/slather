@@ -1,0 +1,316 @@
+/* --------------------------------------------------------
+Slather stylesheet
+
+version: 0.1
+author: Ikhsan Assaat (@ixnixnixn)
+----------------------------------------------------------*/
+
+/* General */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  font: 16px "Helvetica", sans-serif;
+  margin: 0 0 120px;
+  color: #333;
+}
+.row { margin: 0 2em; }
+
+/* Header */
+header { margin-top: 1em; }
+header img { width: auto; height: 120px; }
+
+/* Coverage */
+#reports > h2 { margin-bottom: 0; }
+#reports > h4 { margin-top: 5px; }
+.percentage {
+  padding: 4px ;
+  font-weight: bold;
+}
+.cov_high { color: #67CF7C; }
+.cov_medium { color: #F89404; }
+.cov_low { color: #F86769; }
+.cov_title { margin-bottom: 0; }
+.cov_subtitle { margin-top: 0.2em; }
+.cov_filepath { font-style: italic; }
+
+/* Index Table */
+table.coverage_list {
+  width: 90%;
+  min-width: 400px;
+}
+table.coverage_list th,
+table.coverage_list td {
+  padding: .6em .5em;
+  text-align: left;
+}
+table.coverage_list th.col_num { width: 70px; }
+table.coverage_list th.col_percent { width: 75px; }
+table.coverage_list thead, tfoot { background: #FDCD9B; }
+table.coverage_list tbody tr:hover { background: #FCF2E6; }
+table.coverage_list tbody td { border-bottom: 1px solid #CCC; }
+table.coverage_list td a {
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px dotted;
+}
+table.coverage_list td a:hover {
+  border-bottom: none;
+}
+
+/* Source Code */
+table.source_code {
+  width: 100%;
+  max-width: 1200px;
+  min-width: 400px;
+  font-size: 13px;
+  border-spacing: 0;
+  background: #FCF2E6;
+  padding: 1.2em 1em;
+  margin-bottom: 2em;
+}
+
+table.source_code td {
+  padding-bottom: 0.3em;
+}
+table.source_code tr.missed td { background-color: rgba(248, 103, 105, 0.2); }
+table.source_code tr.covered td { background-color: rgba(103, 207, 124, 0.2); }
+table.source_code td.num {
+  border-right: 1px rgba(0,0,0,0.1) solid;
+  text-align: right;
+  padding-right: 1em;
+  width: 30px;
+}
+table.source_code td.src {
+  border-left: 1px rgba(255,255,255,0.7) solid;
+  padding-left: 1em;
+}
+table.source_code td.src pre {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
+}
+table.source_code td.src pre code { font: 13px "Menlo", "Courier New"; }
+
+table.source_code td.coverage {
+  text-align: right;
+  padding-right: 0.5em;
+}
+
+/* Footer */
+footer {
+  background-color: #67CDCF;
+  height: 80px;
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  overflow:hidden;
+}
+
+footer p, footer a {
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+}
+
+
+/* ----------------------------------------------------------
+Syntax Highlighting using highlight.js (https://highlightjs.org)
+------------------------------------------------------------- */
+.hljs {
+  display: block;
+  overflow-x: auto;
+  -webkit-text-size-adjust: none;
+}
+
+.hljs,
+.hljs-subst,
+.hljs-tag .hljs-title,
+.nginx .hljs-title {
+  color: #333;
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-constant,
+.hljs-parent,
+.hljs-tag .hljs-value,
+.hljs-rule .hljs-value,
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-name,
+.haml .hljs-symbol,
+.ruby .hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.hljs-template_tag,
+.django .hljs-variable,
+.smalltalk .hljs-class,
+.hljs-addition,
+.hljs-flow,
+.hljs-stream,
+.bash .hljs-variable,
+.pf .hljs-variable,
+.apache .hljs-tag,
+.apache .hljs-cbracket,
+.tex .hljs-command,
+.tex .hljs-special,
+.erlang_repl .hljs-function_or_atom,
+.asciidoc .hljs-header,
+.markdown .hljs-header,
+.coffeescript .hljs-attribute,
+.tp .hljs-variable {
+  color: #D14F4F;
+}
+
+.smartquote,
+.hljs-comment,
+.hljs-annotation,
+.diff .hljs-header,
+.hljs-chunk,
+.asciidoc .hljs-blockquote,
+.markdown .hljs-blockquote {
+  color: #888;
+}
+
+.hljs-number,
+.hljs-date,
+.hljs-regexp,
+.hljs-literal,
+.hljs-hexcolor,
+.smalltalk .hljs-symbol,
+.smalltalk .hljs-char,
+.go .hljs-constant,
+.hljs-change,
+.lasso .hljs-variable,
+.makefile .hljs-variable,
+.asciidoc .hljs-bullet,
+.markdown .hljs-bullet,
+.asciidoc .hljs-link_url,
+.markdown .hljs-link_url {
+  color: #05A5A8;
+}
+
+.hljs-label,
+.ruby .hljs-string,
+.hljs-decorator,
+.hljs-filter .hljs-argument,
+.hljs-localvars,
+.hljs-array,
+.hljs-attr_selector,
+.hljs-important,
+.hljs-pseudo,
+.hljs-pi,
+.haml .hljs-bullet,
+.hljs-doctype,
+.hljs-deletion,
+.hljs-envvar,
+.hljs-shebang,
+.apache .hljs-sqbracket,
+.nginx .hljs-built_in,
+.tex .hljs-formula,
+.erlang_repl .hljs-reserved,
+.hljs-prompt,
+.asciidoc .hljs-link_label,
+.markdown .hljs-link_label,
+.vhdl .hljs-attribute,
+.clojure .hljs-attribute,
+.asciidoc .hljs-attribute,
+.lasso .hljs-attribute,
+.coffeescript .hljs-property,
+.hljs-phony {
+  color: #087599;
+}
+
+.hljs-keyword,
+.hljs-id,
+.hljs-title,
+.hljs-built_in,
+.css .hljs-tag,
+.hljs-doctag,
+.smalltalk .hljs-class,
+.hljs-winutils,
+.bash .hljs-variable,
+.pf .hljs-variable,
+.apache .hljs-tag,
+.hljs-type,
+.hljs-typename,
+.tex .hljs-command,
+.asciidoc .hljs-strong,
+.markdown .hljs-strong,
+.hljs-request,
+.hljs-status,
+.tp .hljs-data,
+.tp .hljs-io {
+  font-weight: bold;
+}
+
+.asciidoc .hljs-emphasis,
+.markdown .hljs-emphasis,
+.tp .hljs-units {
+  font-style: italic;
+}
+
+.nginx .hljs-built_in {
+  font-weight: normal;
+}
+
+.coffeescript .javascript,
+.javascript .xml,
+.lasso .markup,
+.tex .hljs-formula,
+.xml .javascript,
+.xml .vbscript,
+.xml .css,
+.xml .hljs-cdata {
+  opacity: 0.5;
+}
+
+/* -------------------------------------------------------
+Sorting & Filtering with List.js (http://www.listjs.com/)
+------------------------------------------------------- */
+
+input.search {
+  border:solid 1px #ccc;
+  border-radius: 4px;
+  padding:7px;
+  margin-bottom:10px;
+  font-size: 12px;
+}
+input.search:focus {
+  outline:none;
+  border-color:#aaa;
+}
+
+th.sort::-moz-selection { background:transparent; }
+th.sort::selection      { background:transparent; }
+th.sort { cursor:pointer; }
+th.sort:after {
+  content:'';
+  display:inline-block;
+  width: 0;
+  height: 0;
+  position: relative;
+  top: -3px;
+  right: -6px;
+  border-width:0 4px 4px;
+  border-style:solid;
+  border-color:#404040 transparent;
+  visibility:hidden;
+}
+ th.sort:hover:after { visibility:visible; }
+ th.sort.desc:after,
+ th.sort.asc:after,
+ th.sort.asc:hover:after {
+  visibility:visible;
+  opacity:0.6;
+}
+ th.sort.desc:after {
+  border-bottom:none;
+  border-width:4px 4px 0;
+}

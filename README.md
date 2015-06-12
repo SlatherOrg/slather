@@ -113,11 +113,21 @@ ignore:
   - ProjectTestsGroup/*
 ```
 
-Or use the command line options `--cobertura-xml` or `-x` and `--output_directory`:
+Or use the command line options `--cobertura-xml` or `-x` and `--output-directory`:
 
 ```sh
 $ slather coverage -x --output-directory path/to/xml_report
 ```
+
+### Static HTML
+
+To create a report as static html pages, use the command line options `--html` or `-h`:
+
+```sh
+$ slather coverage -h path/to/project.xcodeproj
+```
+
+This will make a directory called `html` in your directory (unless output directory is specified) and generate all the static html pages inside the directory.
 
 ### Coverage for code included via CocoaPods
 
@@ -152,3 +162,4 @@ Please make sure to follow our general coding style and add test coverage for ne
 * [@tpoulos](https://github.com/tpoulos), the perfect logo.
 * [@ayanonagon](https://github.com/ayanonagon) and [@kylef](https://github.com/kylef), feedback and testing.
 * [@jhersh](https://github.com/jhersh), CircleCI support.
+* [@ixnixnixn](https://github.com/ixnixnixn), html support.
