@@ -82,6 +82,59 @@ describe Slather::Project do
     end
   end
 
+  describe "#profdata_coverage_files" do
+    class SpecXcode7CoverageFile < Slather::ProfdataCoverageFile
+    end
+
+    before(:each) do
+      Dir.stub(:[]).and_call_original
+      Dir.stub(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
+      fixtures_project.stub(:profdata_llvm_cov_output).and_return("/Users/venmo/ExampleProject/AppDelegate.swift:
+       |    8|
+       |    9|import UIKit
+       |   10|
+       |   11|@UIApplicationMain
+       |   12|class AppDelegate: UIResponder, UIApplicationDelegate {
+       |   13|
+       |   14|    var window: UIWindow?
+       |   16|
+      1|   17|    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+      1|   19|        return true
+      1|   20|    }
+       |   21|
+      0|   22|    func applicationWillResignActive(application: UIApplication) {
+      0|   25|    }")
+      fixtures_project.stub(:coverage_file_class).and_return(SpecXcode7CoverageFile)
+      fixtures_project.stub(:ignore_list).and_return([])
+    end
+
+    it "should return Coverage.profdata file objects" do
+      profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
+      profdata_coverage_files.each { |cf| expect(cf.kind_of?(SpecXcode7CoverageFile)).to be_truthy }
+      expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["AppDelegate.swift"])
+    end
+  end
+
+  describe "#binary_file" do
+    before(:each) do
+      Dir.stub(:[]).and_call_original
+      fixtures_project.stub(:scheme).and_return("FixtureScheme")
+      Dir.stub(:[]).with("#{fixtures_project.build_directory}/**/CodeCoverage/FixtureScheme").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme"])
+      Dir.stub(:[]).with("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/**/*.xctest").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest"])
+    end
+
+    it "should return the binary file location for a test bundle provided a scheme" do
+      binary_file_location = fixtures_project.send(:binary_file)
+      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/FixtureAppTests")
+    end
+
+    it "should return the binary file location for an app bundle provided a scheme" do
+      Dir.stub(:[]).with("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/*.app").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureApp.app"])
+      binary_file_location = fixtures_project.send(:binary_file)
+      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureApp.app/FixtureApp")
+    end
+  end
+
   describe "#dedupe" do
     it "should return a deduplicated list of coverage files, favoring the file with higher coverage" do
       coverage_file_1 = double(Slather::CoverageFile)
@@ -112,6 +165,8 @@ describe Slather::Project do
       expect(unstubbed_project).to receive(:configure_ignore_list_from_yml)
       expect(unstubbed_project).to receive(:configure_ci_service_from_yml)
       expect(unstubbed_project).to receive(:configure_coverage_service_from_yml)
+      expect(unstubbed_project).to receive(:configure_input_format_from_yml)
+      expect(unstubbed_project).to receive(:configure_scheme_from_yml)
       unstubbed_project.configure_from_yml
     end
   end

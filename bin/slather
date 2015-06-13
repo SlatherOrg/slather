@@ -28,6 +28,9 @@ Clamp do
     option ["--output-directory"], "OUTPUT_DIRECTORY", "The directory where your Cobertura XML report will be written to."
     option ["--ignore", "-i"], "IGNORE", "ignore files conforming to a path", :multivalued => true
 
+    option ["--input-format"], "INPUT_FORMAT", "Input format (gcov, profdata)"
+    option ["--scheme"], "SCHEME", "The scheme for which the coverage was generated"
+
     def execute
       puts "Slathering..."
 
@@ -37,6 +40,8 @@ Clamp do
       setup_source_directory
       setup_output_directory
       setup_coverage_service
+      setup_input_format
+      setup_scheme
 
       post
 
@@ -99,6 +104,14 @@ Clamp do
         project.coverage_service = :html
         project.show_html = show?
       end
+    end
+
+    def setup_input_format
+      project.input_format = input_format
+    end
+
+    def setup_scheme
+      project.scheme = scheme
     end
 
   end

@@ -3,7 +3,11 @@ module Slather
     module GutterJsonOutput
 
       def coverage_file_class
-        Slather::CoverageFile
+        if input_format == "profdata"
+          Slather::ProfdataCoverageFile
+        else
+          Slather::CoverageFile
+        end
       end
       private :coverage_file_class
 
@@ -17,7 +21,7 @@ module Slather
           filename = coverage_file.source_file_pathname.to_s
           filename = filename.sub(Pathname.pwd.to_s, '').reverse.chomp("/").reverse
 
-          coverage_file.cleaned_gcov_data.split("\n").each do |line|
+          coverage_file.all_lines.each do |line|
             data = line.split(':')
 
             line_number = data[1].to_i

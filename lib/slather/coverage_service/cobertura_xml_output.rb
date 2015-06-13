@@ -5,7 +5,11 @@ module Slather
     module CoberturaXmlOutput
 
       def coverage_file_class
-        Slather::CoverageFile
+        if input_format == "profdata"
+          Slather::ProfdataCoverageFile
+        else
+          Slather::CoverageFile
+        end
       end
       private :coverage_file_class
 
@@ -26,6 +30,7 @@ module Slather
       def grouped_coverage_files
         groups = Hash.new
         coverage_files.each do |coverage_file|
+          next if coverage_file == nil
           path = File.dirname(coverage_file.source_file_pathname_relative_to_repo_root)
           if groups[path] == nil
             groups[path] = Array.new
@@ -127,8 +132,7 @@ module Slather
         lines_node = Nokogiri::XML::Node.new "lines", @doc
         lines_node.parent = class_node
         
-        coverage_file.cleaned_gcov_data.split("\n").each do |line|
-          line_segments = line.split(':')
+        coverage_file.all_lines.each do |line|
           if coverage_file.coverage_for_line(line)
             line_node = create_line_node(line, coverage_file)
             line_node.parent = lines_node
@@ -138,7 +142,7 @@ module Slather
       end
 
       def create_line_node(line, coverage_file)
-        line_number = line.split(':')[1].strip.to_i
+        line_number = coverage_file.line_number_in_line(line)
         line_node = Nokogiri::XML::Node.new "line", @doc
         line_node['number'] = line_number
         line_node['branch'] = "false"
