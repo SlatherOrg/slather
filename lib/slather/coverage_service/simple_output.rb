@@ -3,7 +3,11 @@ module Slather
     module SimpleOutput
 
       def coverage_file_class
-        Slather::CoverageFile
+        if input_format == "profdata"
+          Slather::ProfdataCoverageFile
+        else
+          Slather::CoverageFile
+        end
       end
       private :coverage_file_class
 

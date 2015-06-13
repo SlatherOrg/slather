@@ -1,5 +1,5 @@
 module Slather
-  class CoverallsCoverageFile < CoverageFile
+  module CoverallsCoverage
 
     def as_json
       {
