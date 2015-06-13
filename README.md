@@ -49,6 +49,47 @@ To verify you're ready to generate test coverage, run your test suite on your pr
 $ slather coverage -s path/to/project.xcodeproj
 ```
 
+### Usage with Codecov
+
+Login to [Codecov](https://codecov.io/) (no need to activate a repository, this happens automatically). Right now, `slather` supports Codecov via **all** supported CI providers [listed here](https://github.com/codecov/codecov-bash#ci-providers).
+
+Make a `.slather.yml` file:
+
+```yml
+# .slather.yml
+
+coverage_service: cobertura_xml
+xcodeproj: path/to/project.xcodeproj
+source_directory: path/to/sources/to/include
+output_directory: path/to/xml_report
+ignore:
+  - ExamplePodCode/*
+  - ProjectTestsGroup/*
+```
+
+And then in your `.travis.yml`, `circle.yml` (or after test commands in other CI providers), call `slather` after a successful build:
+
+```yml
+# .travis.yml
+
+before_install: rvm use $RVM_RUBY_VERSION
+install: bundle install --without=documentation --path ../travis_bundle_dir
+after_success: 
+  - slather
+  - bash <(curl -s https://codecov.io/bash)
+```
+
+```yml
+# circle.yml
+
+test:
+  post:
+    - bundle exec slather
+    - bash <(curl -s https://codecov.io/bash)
+```
+
+> Private repo? Add `-t :uuid-repo-token` to the codecov uploader. Read more about uploading report to Codecov [here](https://github.com/codecov/codecov-bash)
+
 ### Usage with Coveralls
 
 Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` supports Coveralls via [Travis CI](https://travis-ci.org) and [CircleCI](https://circleci.com).
