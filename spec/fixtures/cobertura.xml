@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage line-rate="0.6603773584905660" branch-rate="0.1190476190476190" lines-covered="35" lines-valid="53" branches-covered="5" branches-valid="42" complexity="0.0" timestamp="1428118535" version="Slather 1.6.0">
+<coverage line-rate="0.6666666666666666" branch-rate="0.1190476190476190" lines-covered="34" lines-valid="51" branches-covered="5" branches-valid="42" complexity="0.0" timestamp="1428118535" version="Slather 1.6.0">
   <sources>
     <source>/Users/marklarsen/programming/slather</source>
   </sources>
   <packages>
-    <package name="spec.fixtures.fixtures.more_files" line-rate="0.3846153846153846" branch-rate="0.3333333333333333" complexity="0.0">
+    <package name="spec.fixtures.fixtures.more_files" line-rate="0.3750000000000000" branch-rate="0.3333333333333333" complexity="0.0">
       <classes>
-        <class name="Branches" filename="spec/fixtures/fixtures/more_files/Branches.m" line-rate="0.5000000000000000" branch-rate="0.4000000000000000" complexity="0.0">
+        <class name="Branches" filename="spec/fixtures/fixtures/more_files/Branches.m" line-rate="0.4736842105263158" branch-rate="0.4000000000000000" complexity="0.0">
           <methods/>
           <lines>
-            <line number="13" branch="false" hits="2"/>
             <line number="15" branch="true" hits="2" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="0" type="jump" coverage="100%"/>
@@ -55,7 +54,6 @@
         <class name="peekaview" filename="spec/fixtures/fixtures/more_files/peekaview.m" line-rate="0.0000000000000000" branch-rate="0.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
-            <line number="13" branch="false" hits="0"/>
             <line number="15" branch="false" hits="0"/>
             <line number="16" branch="true" hits="0" condition-coverage="0% (0/2)">
               <conditions>

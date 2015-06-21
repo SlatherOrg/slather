@@ -68,7 +68,7 @@ module Slather
       files.map do |source|
         coverage_file = coverage_file_class.new(self, source)
         !coverage_file.ignored? ? coverage_file : nil
-      end
+      end.compact
     end
     private :profdata_coverage_files
 

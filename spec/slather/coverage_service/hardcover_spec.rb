@@ -17,7 +17,7 @@ describe Slather::CoverageService::Hardcover do
 
   describe "#coverage_file_class" do
     it "should return CoverallsCoverageFile" do
-      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverallsCoverageFile)
+      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverageFile)
     end
   end
 

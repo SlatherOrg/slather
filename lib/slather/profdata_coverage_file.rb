@@ -45,6 +45,10 @@ module Slather
       @all_lines
     end
 
+    def raw_data
+      self.source
+    end
+
     def line_number_in_line(line)
       line =~ /^(\s*)(\d*)\|(\s*)(\d+)\|/
       if $4 != nil

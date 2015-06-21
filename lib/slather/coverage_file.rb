@@ -68,8 +68,13 @@ module Slather
       end
     end
 
-    def line_number_in_line(line)
-      line.split(':')[1].strip.to_i
+    def cleaned_gcov_data
+      data = gcov_data.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$\r?\n/, '')
+      data.gsub(/^branch(.*)$\r?\n/, '')
+    end
+
+    def raw_data
+      self.gcov_data
     end
 
     def line_coverage_data
@@ -84,9 +89,8 @@ module Slather
       end
     end
 
-    def cleaned_gcov_data
-      data = gcov_data.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '').gsub(/^function(.*) called [0-9]+ returned [0-9]+% blocks executed(.*)$\r?\n/, '')
-      data.gsub(/^branch(.*)$\r?\n/, '')
+    def line_number_in_line(line)
+      line.split(':')[1].strip.to_i
     end
 
     def coverage_for_line(line)

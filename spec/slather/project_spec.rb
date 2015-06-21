@@ -89,21 +89,22 @@ describe Slather::Project do
     before(:each) do
       Dir.stub(:[]).and_call_original
       Dir.stub(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
-      fixtures_project.stub(:profdata_llvm_cov_output).and_return("/Users/venmo/ExampleProject/AppDelegate.swift:
-       |    8|
-       |    9|import UIKit
-       |   10|
-       |   11|@UIApplicationMain
-       |   12|class AppDelegate: UIResponder, UIApplicationDelegate {
-       |   13|
-       |   14|    var window: UIWindow?
-       |   16|
-      1|   17|    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-      1|   19|        return true
-      1|   20|    }
-       |   21|
-      0|   22|    func applicationWillResignActive(application: UIApplication) {
-      0|   25|    }")
+      fixtures_project.stub(:profdata_llvm_cov_output).and_return("#{FIXTURES_SWIFT_FILE_PATH}:
+       |    0|
+       |    1|import UIKit
+       |    2|
+       |    3|@UIApplicationMain
+       |    4|class AppDelegate: UIResponder, UIApplicationDelegate {
+       |    5|
+       |    6|    var window: UIWindow?
+       |    7|
+      1|    8|    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+      1|    9|        return true
+      1|   10|    }
+       |   11|
+      0|   12|    func applicationWillResignActive(application: UIApplication) {
+      0|   13|    }
+      0|   14|}")
       fixtures_project.stub(:coverage_file_class).and_return(SpecXcode7CoverageFile)
       fixtures_project.stub(:ignore_list).and_return([])
     end
@@ -111,7 +112,13 @@ describe Slather::Project do
     it "should return Coverage.profdata file objects" do
       profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
       profdata_coverage_files.each { |cf| expect(cf.kind_of?(SpecXcode7CoverageFile)).to be_truthy }
-      expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["AppDelegate.swift"])
+      expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["Fixtures.swift"])
+    end
+
+    it "should ignore files from the ignore list" do
+      fixtures_project.stub(:ignore_list).and_return(["**/Fixtures.swift"])
+      profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
+      expect(profdata_coverage_files.count).to eq(0)
     end
   end
 
