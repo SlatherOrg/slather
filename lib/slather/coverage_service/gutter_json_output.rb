@@ -16,24 +16,24 @@ module Slather
         symbols = {}
 
         coverage_files.each do |coverage_file|
-          next unless coverage_file.gcov_data
+          next unless coverage_file.raw_data
 
           filename = coverage_file.source_file_pathname.to_s
           filename = filename.sub(Pathname.pwd.to_s, '').reverse.chomp("/").reverse
 
           coverage_file.all_lines.each do |line|
-            data = line.split(':')
 
-            line_number = data[1].to_i
+            line_number = coverage_file.line_number_in_line(line)
             next unless line_number > 0
 
-            coverage = data[0].strip
+            coverage = coverage_file.coverage_for_line(line)
+            short_text = coverage != nil ? coverage.to_s : "-"
 
             symbol = {  'line' => line_number,
                         'long_text' => '',
-                        'short_text' => coverage }
+                        'short_text' => short_text }
 
-            if coverage != '-'
+            if coverage != nil
               symbol['background_color'] = coverage.to_i > 0 ? '0x35CC4B' : '0xFC635E'
             end
 
