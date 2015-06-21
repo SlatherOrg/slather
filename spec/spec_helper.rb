@@ -10,6 +10,7 @@ require 'equivalent-xml'
 FIXTURES_XML_PATH = File.join(File.dirname(__FILE__), 'fixtures/cobertura.xml')
 FIXTURES_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/gutter.json')
 FIXTURES_PROJECT_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures.xcodeproj')
+FIXTURES_SWIFT_FILE_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures/Fixtures.swift')
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -17,7 +18,10 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    FileUtils.rm_rf(Dir[File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/fixture*"].first)
+    dir = Dir[File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/fixture*"].first
+    if dir
+      FileUtils.rm_rf(dir)
+    end
   end
 end
 
