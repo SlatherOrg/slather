@@ -2,6 +2,12 @@
 
 ## master
 
+## v1.8.1
+* Fixed dependency conflict with CocoaPods v0.38
+* Updated usage of cocoapods plugin API since it has changed in v0.38
+  [Julian Krumow](https://github.com/tarbrain)
+  [#93](https://github.com/venmo/slather/pull/93)
+
 ## v1.7.0
 * Objective-C++ support  
   [ben-ng](https://github.com/ben-ng)
