@@ -204,4 +204,4 @@ Please make sure to follow our general coding style and add test coverage for ne
 * [@ayanonagon](https://github.com/ayanonagon) and [@kylef](https://github.com/kylef), feedback and testing.
 * [@jhersh](https://github.com/jhersh), CircleCI support.
 * [@ixnixnixn](https://github.com/ixnixnixn), html support.
-* [@tarbrain](https://github.com/tarbrain), Cobertura support, bugfixing.
+* [@tarbrain](https://github.com/tarbrain), Cobertura support and bugfixing.
