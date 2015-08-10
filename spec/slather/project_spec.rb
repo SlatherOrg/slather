@@ -140,6 +140,12 @@ describe Slather::Project do
       binary_file_location = fixtures_project.send(:binary_file)
       expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureApp.app/FixtureApp")
     end
+
+    it "should return the binary file location for a framework bundle provided a scheme" do
+      Dir.stub(:[]).with("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/*.framework").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureFramework.framework"])
+      binary_file_location = fixtures_project.send(:binary_file)
+      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureFramework.framework/FixtureFramework")
+    end
   end
 
   describe "#dedupe" do

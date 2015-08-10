@@ -90,9 +90,13 @@ module Slather
       xctest_bundle_file_directory = Pathname.new(xctest_bundle_file).dirname
 
       app_bundle_file = Dir["#{xctest_bundle_file_directory}/*.app"].first
+      framework_bundle_file = Dir["#{xctest_bundle_file_directory}/*.framework"].first
       if app_bundle_file != nil
         app_bundle_file_name_noext = Pathname.new(app_bundle_file).basename.to_s.gsub(".app", "")
         "#{app_bundle_file}/#{app_bundle_file_name_noext}"
+      elsif framework_bundle_file != nil
+          framework_bundle_file_name_noext = Pathname.new(framework_bundle_file).basename.to_s.gsub(".framework", "")
+          "#{framework_bundle_file}/#{framework_bundle_file_name_noext}"
       else
         xctest_bundle_file_name_noext = Pathname.new(xctest_bundle_file).basename.to_s.gsub(".xctest", "")
         "#{xctest_bundle_file}/#{xctest_bundle_file_name_noext}"
@@ -106,7 +110,7 @@ module Slather
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
       end
       xcode_path = `xcode-select -p`.strip
-      llvm_cov_command = "\"#{xcode_path}/Toolchains/XcodeDefault.xctoolchain/usr/bin/llvm-cov\" show -instr-profile \"#{coverage_profdata}\" \"#{binary_file}\""
+      llvm_cov_command = File.join(xcode_path, "Toolchains/XcodeDefault.xctoolchain/usr/bin/llvm-cov show -instr-profile #{coverage_profdata} #{binary_file}")
       `#{llvm_cov_command}`
     end
     private :profdata_llvm_cov_output
@@ -195,4 +199,3 @@ module Slather
     end
   end
 end
-
