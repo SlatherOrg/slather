@@ -76,7 +76,7 @@ before_install: rvm use $RVM_RUBY_VERSION
 install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: 
   - slather
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -f path/to/xml_report/cobertura.xml
 ```
 
 ```yml
