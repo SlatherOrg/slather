@@ -12,9 +12,26 @@ module Xcodeproj
         build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"] = "YES"
         if input_format == "profdata"
           build_configuration.build_settings["CLANG_ENABLE_CODE_COVERAGE"] = "YES"
-          # @todo also activate codeCoverageEnabled = "YES" in every xcscheme's TestAction
         else
           build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"] = "YES"
+        end
+      end
+
+      # Patch xcschemes too
+      if input_format == "profdata"
+        if Gem::Requirement.new('~> 0.27') =~ Gem::Version.new(Xcodeproj::VERSION)
+          # @todo This will require to bump the xcodeproj dependency to ~> 0.27
+          # (which would require to bump cocoapods too)
+          schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
+          Xcodeproj::Project.schemes(self.path).each do |scheme_name|
+            xcscheme_path = "#{schemes_path + scheme_name}.xcscheme"
+            xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
+            xcscheme.test_action.xml_element.attributes['codeCoverageEnabled'] = 'YES'
+            xcscheme.save_as(self.path, scheme_name)
+          end
+        else
+          # @todo In the meantime, simply inform the user to do it manually
+          puts %Q(Ensure you enabled "Gather coverage data" in each of your scheme's Test action)
         end
       end
     end
