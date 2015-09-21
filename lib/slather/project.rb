@@ -7,10 +7,15 @@ require 'shellwords'
 module Xcodeproj
   class Project
 
-    def slather_setup_for_coverage
+    def slather_setup_for_coverage(input_format = "gcov")
       build_configurations.each do |build_configuration|
         build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"] = "YES"
-        build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"] = "YES"
+        if input_format == "profdata"
+          build_configuration.build_settings["CLANG_ENABLE_CODE_COVERAGE"] = "YES"
+          # @todo also activate codeCoverageEnabled = "YES" in every xcscheme's TestAction
+        else
+          build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"] = "YES"
+        end
       end
     end
 
@@ -22,7 +27,9 @@ module Slather
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory, :output_directory, :xcodeproj, :show_html, :input_format, :scheme
 
-    alias_method :setup_for_coverage, :slather_setup_for_coverage
+    def setup_for_coverage
+      slather_setup_for_coverage(self.input_format)
+    end
 
     def self.open(xcodeproj)
       proj = super

@@ -120,8 +120,15 @@ Clamp do
 
     parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
 
+    option ["--input-format"], "INPUT_FORMAT", "Input format (gcov, profdata)"
+
     def execute
-      project = Slather::Project.open(xcodeproj_path)
+      xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml["xcodeproj"]
+      unless xcodeproj_path_to_open
+        raise StandardError, "Must provide an xcodeproj through .slather.yml"
+      end
+      project = Slather::Project.open(xcodeproj_path_to_open)
+      project.input_format = input_format
       project.setup_for_coverage
       project.save
     end
