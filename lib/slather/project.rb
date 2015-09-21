@@ -2,6 +2,7 @@ require 'fileutils'
 require 'xcodeproj'
 require 'json'
 require 'yaml'
+require 'shellwords'
 
 module Xcodeproj
   class Project
@@ -111,8 +112,9 @@ module Slather
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
       end
       xcode_path = `xcode-select -p`.strip
-      llvm_cov_command = File.join(xcode_path, "Toolchains/XcodeDefault.xctoolchain/usr/bin/llvm-cov show -instr-profile #{coverage_profdata} #{binary_file}")
-      `#{llvm_cov_command}`
+      llvm_cov_path = File.join(xcode_path, "Toolchains/XcodeDefault.xctoolchain/usr/bin/llvm-cov")
+      llvm_cov_args = %W(show -instr-profile #{coverage_profdata} #{binary_file})
+      `#{llvm_cov_path.shellescape} #{llvm_cov_args.shelljoin}`
     end
     private :profdata_llvm_cov_output
 
