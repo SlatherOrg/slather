@@ -5,20 +5,28 @@ require 'yaml'
 require 'shellwords'
 
 module Xcodeproj
+
   class Project
 
-    def slather_setup_for_coverage(input_format = "gcov")
+    def slather_setup_for_coverage(format = :auto)
+      unless [:gcov, :clang, :auto].include?(format)
+        raise StandardError, "Only supported formats for setup are gcov, clang or auto"
+      end
+      if format == :auto
+        format = Slather.xcode_version[0] < 7 ? :gcov : :clang
+      end
+
       build_configurations.each do |build_configuration|
-        build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"] = "YES"
-        if input_format == "profdata"
+        if format == :clang
           build_configuration.build_settings["CLANG_ENABLE_CODE_COVERAGE"] = "YES"
         else
+          build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"] = "YES"
           build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"] = "YES"
         end
       end
 
       # Patch xcschemes too
-      if input_format == "profdata"
+      if format == :clang
         if Gem::Requirement.new('~> 0.27') =~ Gem::Version.new(Xcodeproj::VERSION)
           # @todo This will require to bump the xcodeproj dependency to ~> 0.27
           # (which would require to bump cocoapods too)
@@ -44,9 +52,7 @@ module Slather
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory, :output_directory, :xcodeproj, :show_html, :input_format, :scheme
 
-    def setup_for_coverage
-      slather_setup_for_coverage(self.input_format)
-    end
+    alias_method :setup_for_coverage, :slather_setup_for_coverage
 
     def self.open(xcodeproj)
       proj = super
@@ -225,6 +231,18 @@ module Slather
         raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json`, `cobertura_xml` or `html`"
       end
       @coverage_service = service
+    end
+
+    def input_format=(format)
+      format ||= "auto"
+      unless %w(gcov profdata auto).include?(format)
+        raise StandardError, "Only supported input formats are gcov, profdata or auto"
+      end
+      if format == "auto"
+        @input_format = Slather.xcode_version[0] < 7 ? "gcov" : "profdata"
+      else
+        @input_format = format
+      end
     end
   end
 end
