@@ -2,14 +2,45 @@ require 'fileutils'
 require 'xcodeproj'
 require 'json'
 require 'yaml'
+require 'shellwords'
 
 module Xcodeproj
+
   class Project
 
-    def slather_setup_for_coverage
+    def slather_setup_for_coverage(format = :auto)
+      unless [:gcov, :clang, :auto].include?(format)
+        raise StandardError, "Only supported formats for setup are gcov, clang or auto"
+      end
+      if format == :auto
+        format = Slather.xcode_version[0] < 7 ? :gcov : :clang
+      end
+
       build_configurations.each do |build_configuration|
-        build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"] = "YES"
-        build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"] = "YES"
+        if format == :clang
+          build_configuration.build_settings["CLANG_ENABLE_CODE_COVERAGE"] = "YES"
+        else
+          build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"] = "YES"
+          build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"] = "YES"
+        end
+      end
+
+      # Patch xcschemes too
+      if format == :clang
+        if Gem::Requirement.new('~> 0.27') =~ Gem::Version.new(Xcodeproj::VERSION)
+          # @todo This will require to bump the xcodeproj dependency to ~> 0.27
+          # (which would require to bump cocoapods too)
+          schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
+          Xcodeproj::Project.schemes(self.path).each do |scheme_name|
+            xcscheme_path = "#{schemes_path + scheme_name}.xcscheme"
+            xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
+            xcscheme.test_action.xml_element.attributes['codeCoverageEnabled'] = 'YES'
+            xcscheme.save_as(self.path, scheme_name)
+          end
+        else
+          # @todo In the meantime, simply inform the user to do it manually
+          puts %Q(Ensure you enabled "Gather coverage data" in each of your scheme's Test action)
+        end
       end
     end
 
@@ -110,9 +141,8 @@ module Slather
       if profdata_coverage_dir == nil || (coverage_profdata = Dir["#{profdata_coverage_dir}/**/Coverage.profdata"].first) == nil
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
       end
-      xcode_path = `xcode-select -p`.strip
-      llvm_cov_command = File.join(xcode_path, "Toolchains/XcodeDefault.xctoolchain/usr/bin/llvm-cov show -instr-profile #{coverage_profdata} #{binary_file}")
-      `#{llvm_cov_command}`
+      llvm_cov_args = %W(show -instr-profile #{coverage_profdata} #{binary_file})
+      `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
     end
     private :profdata_llvm_cov_output
 
@@ -199,6 +229,18 @@ module Slather
         raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json`, `cobertura_xml` or `html`"
       end
       @coverage_service = service
+    end
+
+    def input_format=(format)
+      format ||= "auto"
+      unless %w(gcov profdata auto).include?(format)
+        raise StandardError, "Only supported input formats are gcov, profdata or auto"
+      end
+      if format == "auto"
+        @input_format = Slather.xcode_version[0] < 7 ? "gcov" : "profdata"
+      else
+        @input_format = format
+      end
     end
   end
 end

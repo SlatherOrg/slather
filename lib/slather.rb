@@ -19,4 +19,10 @@ module Slather
     Pod::UI.warn("[Slather] prepare_pods is now deprecated. The call to prepare_pods in your Podfile can simply be ommitted.")
   end
 
+  def self.xcode_version
+    xcode_path = `xcode-select -p`.strip
+    xcode_version = `mdls -name kMDItemVersion -raw #{xcode_path.shellescape}/../..`.strip
+    xcode_version.split('.').map(&:to_i)
+  end
+
 end
