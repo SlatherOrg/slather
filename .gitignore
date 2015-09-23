@@ -43,3 +43,5 @@ DerivedData
 cobertura.xml
 .gutter.json
 html
+*.gcda
+*.gcno
