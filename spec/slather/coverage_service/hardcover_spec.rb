@@ -80,7 +80,7 @@ describe Slather::CoverageService::Hardcover do
       fixtures_project.post
       expect(File.exist?("hardcover_json_file")).to be_falsy
       fixtures_project.stub(:jenkins_job_id).and_return(nil)
-      expect { fixtures_project.post }.to raise_error
+      expect { fixtures_project.post }.to raise_error(StandardError)
       expect(File.exist?("hardcover_json_file")).to be_falsy
     end
   end
