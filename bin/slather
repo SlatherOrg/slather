@@ -14,12 +14,13 @@ Clamp do
     option ["--travis", "-t"], :flag, "Indicate that the builds are running on Travis CI"
     option ["--circleci"], :flag, "Indicate that the builds are running on CircleCI"
     option ["--jenkins"], :flag, "Indicate that the builds are running on Jenkins"
+    option ["--buildkite"], :flag, "Indicate that the builds are running on Buildkite"
 
     option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
     option ["--simple-output", "-s"], :flag, "Output coverage results to the terminal"
     option ["--gutter-json", "-g"], :flag, "Output coverage results as Gutter JSON format"
     option ["--cobertura-xml", "-x"], :flag, "Output coverage results as Cobertura XML format"
-    option ["--html", "-h"], :flag, "Output coverage results as static html pages"
+    option ["--html"], :flag, "Output coverage results as static html pages"
     option ["--show"], :flag, "Indicate that the static html pages will open automatically"
 
     option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
@@ -65,6 +66,8 @@ Clamp do
         project.ci_service = :circleci
       elsif jenkins?
         project.ci_service = :jenkins
+      elsif buildkite?
+        project.ci_service = :buildkite
       end
     end
 
