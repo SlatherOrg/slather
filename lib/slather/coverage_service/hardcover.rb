@@ -3,7 +3,7 @@ module Slather
     module Hardcover
 
       def coverage_file_class
-        Slather::CoverallsCoverageFile
+        Slather::CoverageFile
       end
       private :coverage_file_class
 

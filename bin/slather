@@ -28,6 +28,9 @@ Clamp do
     option ["--output-directory"], "OUTPUT_DIRECTORY", "The directory where your Cobertura XML report will be written to."
     option ["--ignore", "-i"], "IGNORE", "ignore files conforming to a path", :multivalued => true
 
+    option ["--input-format"], "INPUT_FORMAT", "Input format (gcov, profdata)"
+    option ["--scheme"], "SCHEME", "The scheme for which the coverage was generated"
+
     def execute
       puts "Slathering..."
 
@@ -37,6 +40,8 @@ Clamp do
       setup_source_directory
       setup_output_directory
       setup_coverage_service
+      setup_input_format
+      setup_scheme
 
       post
 
@@ -101,15 +106,29 @@ Clamp do
       end
     end
 
+    def setup_input_format
+      project.input_format = input_format
+    end
+
+    def setup_scheme
+      project.scheme = scheme
+    end
+
   end
 
   subcommand "setup", "Configures an xcodeproj for test coverage generation" do
 
     parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
 
+    option ["--format"], "FORMAT", "Type of coverage to use (gcov, clang, auto)"
+
     def execute
-      project = Slather::Project.open(xcodeproj_path)
-      project.setup_for_coverage
+      xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml["xcodeproj"]
+      unless xcodeproj_path_to_open
+        raise StandardError, "Must provide an xcodeproj through .slather.yml"
+      end
+      project = Slather::Project.open(xcodeproj_path_to_open)
+      project.setup_for_coverage(format ? format.to_sym : :auto)
       project.save
     end
 

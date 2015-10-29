@@ -9,7 +9,7 @@ describe Slather::CoverageService::Coveralls do
 
   describe "#coverage_file_class" do
     it "should return CoverallsCoverageFile" do
-      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverallsCoverageFile)
+      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverageFile)
     end
   end
 
@@ -27,8 +27,15 @@ describe Slather::CoverageService::Coveralls do
     context "coverage_service is :travis_ci" do
       before(:each) { fixtures_project.ci_service = :travis_ci }
 
-      it "should return valid json for coveralls coverage data" do
+      it "should return valid json for coveralls coverage gcov data" do
         fixtures_project.stub(:travis_job_id).and_return("9182")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"travis-ci\"}").excluding("source_files")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
+      end
+
+      it "should return valid json for coveralls coverage profdata data" do
+        fixtures_project.stub(:travis_job_id).and_return("9182")
+        fixtures_project.stub(:input_format).and_return("profdata")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"travis-ci\"}").excluding("source_files")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
       end
@@ -115,7 +122,7 @@ describe Slather::CoverageService::Coveralls do
       fixtures_project.post
       expect(File.exist?("coveralls_json_file")).to be_falsy
       fixtures_project.stub(:travis_job_id).and_return(nil)
-      expect { fixtures_project.post }.to raise_error
+      expect { fixtures_project.post }.to raise_error(StandardError)
       expect(File.exist?("coveralls_json_file")).to be_falsy
     end
   end

@@ -17,7 +17,7 @@ describe Slather::CoverageService::Hardcover do
 
   describe "#coverage_file_class" do
     it "should return CoverallsCoverageFile" do
-      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverallsCoverageFile)
+      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverageFile)
     end
   end
 
@@ -80,7 +80,7 @@ describe Slather::CoverageService::Hardcover do
       fixtures_project.post
       expect(File.exist?("hardcover_json_file")).to be_falsy
       fixtures_project.stub(:jenkins_job_id).and_return(nil)
-      expect { fixtures_project.post }.to raise_error
+      expect { fixtures_project.post }.to raise_error(StandardError)
       expect(File.exist?("hardcover_json_file")).to be_falsy
     end
   end
