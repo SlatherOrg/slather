@@ -127,21 +127,28 @@ module Slather
         app_bundle_file_name_noext = Pathname.new(app_bundle_file).basename.to_s.gsub(".app", "")
         "#{app_bundle_file}/#{app_bundle_file_name_noext}"
       elsif framework_bundle_file != nil
-          framework_bundle_file_name_noext = Pathname.new(framework_bundle_file).basename.to_s.gsub(".framework", "")
-          "#{framework_bundle_file}/#{framework_bundle_file_name_noext}"
+        framework_bundle_file_name_noext = Pathname.new(framework_bundle_file).basename.to_s.gsub(".framework", "")
+        "#{framework_bundle_file}/#{framework_bundle_file_name_noext}"
       else
         xctest_bundle_file_name_noext = Pathname.new(xctest_bundle_file).basename.to_s.gsub(".xctest", "")
-        "#{xctest_bundle_file}/#{xctest_bundle_file_name_noext}"
+        Dir["#{xctest_bundle_file}/**/#{xctest_bundle_file_name_noext}"].first
       end
     end
     private :binary_file
 
     def profdata_llvm_cov_output
       profdata_coverage_dir = self.profdata_coverage_dir
-      if profdata_coverage_dir == nil || (coverage_profdata = Dir["#{profdata_coverage_dir}/**/Coverage.profdata"].first) == nil
+      binary_file_arg = binary_file
+
+      if profdata_coverage_dir == nil || (profdata_file_arg = Dir["#{profdata_coverage_dir}/**/Coverage.profdata"].first) == nil
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
       end
-      llvm_cov_args = %W(show -instr-profile #{coverage_profdata} #{binary_file})
+
+      if binary_file_arg == nil
+        raise StandardError, "No binary file found. Please help slather by adding the \"scheme\" argument"
+      end
+
+      llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_file_arg})
       `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
     end
     private :profdata_llvm_cov_output
