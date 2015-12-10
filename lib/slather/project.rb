@@ -61,13 +61,13 @@ module Slather
       proj
     end
 
-    def derived_data_dir
+    def derived_data_path
       File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
     end
-    private :derived_data_dir
+    private :derived_data_path
 
     def build_directory
-      @build_directory || derived_data_dir
+      @build_directory || derived_data_path
     end
 
     def coverage_files
