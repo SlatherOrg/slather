@@ -135,13 +135,13 @@ OBJC
 
     describe "num_lines_tested" do
       it "should return the correct number of lines tested" do
-        expect(line_coverage_file.num_lines_tested).to eq(3)
+        expect(line_coverage_file.num_lines_tested).to eq(2)
       end
     end
 
     describe "num_lines_testable" do
       it "should return the correct number of lines that are testable" do
-        expect(line_coverage_file.num_lines_testable).to eq(6)
+        expect(line_coverage_file.num_lines_testable).to eq(4)
       end
     end
 
