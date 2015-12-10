@@ -28,7 +28,7 @@ describe Slather::Project do
     end
 
     it "should return the derived_data_path if no build_directory has been set" do
-      derived_data_path = double(String)
+      derived_data_path_mock = double(String)
       fixtures_project.stub(:derived_data_path).and_return(derived_data_path_mock)
       expect(fixtures_project.build_directory).to eq(derived_data_path_mock)
     end
