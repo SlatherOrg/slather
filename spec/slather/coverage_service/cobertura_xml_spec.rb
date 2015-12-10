@@ -6,6 +6,8 @@ describe Slather::CoverageService::CoberturaXmlOutput do
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
     proj.extend(Slather::CoverageService::CoberturaXmlOutput)
+    proj.build_directory = FIXTURES_DERIVED_DATA_PATH
+    proj
   end
 
   describe '#coverage_file_class' do
