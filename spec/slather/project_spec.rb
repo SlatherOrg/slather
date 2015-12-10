@@ -14,9 +14,9 @@ describe Slather::Project do
     end
   end
 
-  describe "#derived_data_dir" do
+  describe "#derived_data_path" do
     it "should return the system's derived data directory" do
-      expect(fixtures_project.send(:derived_data_dir)).to eq(File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/")
+      expect(fixtures_project.send(:derived_data_path)).to eq(File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/")
     end
   end
 
@@ -27,10 +27,10 @@ describe Slather::Project do
       expect(fixtures_project.build_directory).to eq(build_directory_mock)
     end
 
-    it "should return the derived_data_dir if no build_directory has been set" do
-      derived_data_dir_mock = double(String)
-      fixtures_project.stub(:derived_data_dir).and_return(derived_data_dir_mock)
-      expect(fixtures_project.build_directory).to eq(derived_data_dir_mock)
+    it "should return the derived_data_path if no build_directory has been set" do
+      derived_data_path = double(String)
+      fixtures_project.stub(:derived_data_path).and_return(derived_data_path_mock)
+      expect(fixtures_project.build_directory).to eq(derived_data_path_mock)
     end
   end
 
@@ -228,7 +228,7 @@ describe Slather::Project do
     it "should default the build_directory to derived data if nothing is provided in the yml" do
       Slather::Project.stub(:yml).and_return({})
       fixtures_project.configure_build_directory_from_yml
-      expect(fixtures_project.build_directory).to eq(fixtures_project.send(:derived_data_dir))
+      expect(fixtures_project.build_directory).to eq(fixtures_project.send(:derived_data_path))
     end
   end
 
