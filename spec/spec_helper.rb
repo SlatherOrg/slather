@@ -7,30 +7,31 @@ require 'json_spec'
 require 'equivalent-xml'
 
 
-FIXTURES_OBJC_GCNO_PATH = File.join(File.dirname(__FILE__), 'fixtures/ObjectiveC.gcno')
-FIXTURES_OBJC_GCDA_PATH = File.join(File.dirname(__FILE__), 'fixtures/ObjectiveC.gcda')
+FIXTURES_DERIVED_DATA_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures_DerivedData')
 FIXTURES_XML_PATH = File.join(File.dirname(__FILE__), 'fixtures/cobertura.xml')
 FIXTURES_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/gutter.json')
 FIXTURES_HTML_FOLDER_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures_html')
 FIXTURES_PROJECT_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures.xcodeproj')
 FIXTURES_SWIFT_FILE_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures/Fixtures.swift')
-FIXTURES_DERIVED_DATA_PATH = File.join(File.dirname(__FILE__), 'DerivedData/')
+TEMP_DERIVED_DATA_PATH = File.join(File.dirname(__FILE__), 'DerivedData/')
+TEMP_OBJC_GCNO_PATH = File.join(File.dirname(__FILE__), 'fixtures/ObjectiveC.gcno')
+TEMP_OBJC_GCDA_PATH = File.join(File.dirname(__FILE__), 'fixtures/ObjectiveC.gcda')
 
 module FixtureHelpers
   def self.delete_derived_data
-    dir = Dir[FIXTURES_DERIVED_DATA_PATH].first
+    dir = Dir[TEMP_DERIVED_DATA_PATH].first
     if dir
       FileUtils.rm_rf(dir)
     end
   end
 
   def self.delete_temp_gcov_files
-    if File.file?(FIXTURES_OBJC_GCNO_PATH)
-      FileUtils.rm(FIXTURES_OBJC_GCNO_PATH)
+    if File.file?(TEMP_OBJC_GCNO_PATH)
+      FileUtils.rm(TEMP_OBJC_GCNO_PATH)
     end
 
-    if File.file?(FIXTURES_OBJC_GCDA_PATH)
-      FileUtils.rm_f(FIXTURES_OBJC_GCDA_PATH)
+    if File.file?(TEMP_OBJC_GCDA_PATH)
+      FileUtils.rm_f(TEMP_OBJC_GCDA_PATH)
     end
   end
 end
@@ -39,7 +40,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     FixtureHelpers.delete_derived_data
     FixtureHelpers.delete_temp_gcov_files
-    `xcodebuild -project "#{FIXTURES_PROJECT_PATH}" -scheme fixtures -configuration Debug -derivedDataPath #{FIXTURES_DERIVED_DATA_PATH} clean test`
+    `xcodebuild -project "#{FIXTURES_PROJECT_PATH}" -scheme fixtures -configuration Debug -derivedDataPath #{TEMP_DERIVED_DATA_PATH} clean test`
   end
 
   config.after(:suite) do

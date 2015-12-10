@@ -5,7 +5,7 @@ describe Slather::CoverageService::Hardcover do
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
     proj.extend(Slather::CoverageService::Hardcover)
-    proj.build_directory = FIXTURES_DERIVED_DATA_PATH
+    proj.build_directory = TEMP_DERIVED_DATA_PATH
     proj
   end
 

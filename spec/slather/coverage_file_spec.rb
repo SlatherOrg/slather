@@ -4,7 +4,7 @@ describe Slather::CoverageFile do
 
   let(:fixtures_project) do
     project = Slather::Project.open(FIXTURES_PROJECT_PATH)
-    project.build_directory = FIXTURES_DERIVED_DATA_PATH
+    project.build_directory = TEMP_DERIVED_DATA_PATH
     project
   end
 
