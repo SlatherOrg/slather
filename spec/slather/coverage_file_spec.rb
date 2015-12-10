@@ -3,7 +3,9 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 describe Slather::CoverageFile do
 
   let(:fixtures_project) do
-    Slather::Project.open(FIXTURES_PROJECT_PATH)
+    project = Slather::Project.open(FIXTURES_PROJECT_PATH)
+    project.build_directory = FIXTURES_DERIVED_DATA_PATH
+    project
   end
 
   let(:coverage_file) do

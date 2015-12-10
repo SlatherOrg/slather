@@ -12,14 +12,15 @@ FIXTURES_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/gutter.json')
 FIXTURES_HTML_FOLDER_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures_html')
 FIXTURES_PROJECT_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures.xcodeproj')
 FIXTURES_SWIFT_FILE_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures/Fixtures.swift')
+FIXTURES_DERIVED_DATA_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures/DerivedData/')
 
 RSpec.configure do |config|
   config.before(:suite) do
-    `xcodebuild -project "#{FIXTURES_PROJECT_PATH}" -scheme fixtures -configuration Debug test`
+    `xcodebuild -project "#{FIXTURES_PROJECT_PATH}" -scheme fixtures -configuration Debug -derivedDataPath #{FIXTURES_DERIVED_DATA_PATH} test`
   end
 
   config.after(:suite) do
-    dir = Dir[File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/fixture*"].first
+    dir = Dir[FIXTURES_DERIVED_DATA_PATH].first
     if dir
       FileUtils.rm_rf(dir)
     end
