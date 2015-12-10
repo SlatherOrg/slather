@@ -115,7 +115,7 @@ module Slather
     def binary_file
       xctest_bundle_file = Dir["#{profdata_coverage_dir}/**/*.xctest"].first
       if xctest_bundle_file == nil
-        raise StandardError, "No product binary found in #{profdata_coverage_dir}"
+        raise StandardError, "No product binary found in profdata_coverage_dir"
       end
 
       # Find the matching .app, if any
