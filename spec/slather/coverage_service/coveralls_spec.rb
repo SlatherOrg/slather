@@ -5,6 +5,8 @@ describe Slather::CoverageService::Coveralls do
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
     proj.extend(Slather::CoverageService::Coveralls)
+    proj.build_directory = TEMP_DERIVED_DATA_PATH
+    proj
   end
 
   describe "#coverage_file_class" do
@@ -34,6 +36,7 @@ describe Slather::CoverageService::Coveralls do
       end
 
       it "should return valid json for coveralls coverage profdata data" do
+        fixtures_project.stub(:build_directory).and_return(FIXTURES_DERIVED_DATA_PATH)
         fixtures_project.stub(:travis_job_id).and_return("9182")
         fixtures_project.stub(:input_format).and_return("profdata")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"travis-ci\"}").excluding("source_files")
@@ -122,7 +125,7 @@ describe Slather::CoverageService::Coveralls do
       fixtures_project.post
       expect(File.exist?("coveralls_json_file")).to be_falsy
       fixtures_project.stub(:travis_job_id).and_return(nil)
-      expect { fixtures_project.post }.to raise_error
+      expect { fixtures_project.post }.to raise_error(StandardError)
       expect(File.exist?("coveralls_json_file")).to be_falsy
     end
   end

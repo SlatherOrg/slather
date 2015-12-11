@@ -23,7 +23,6 @@ mkmf.log
 
 # Xcode
 #
-build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -41,3 +40,7 @@ DerivedData
 *.xcuserstate
 *.DS_Store
 cobertura.xml
+.gutter.json
+html
+*.gcda
+*.gcno

@@ -41,6 +41,16 @@ module Slather
       end
       private :jenkins_branch_name
 
+      def buildkite_job_id
+        ENV['BUILDKITE_BUILD_NUMBER']
+      end
+      private :buildkite_job_id
+
+      def buildkite_pull_request
+        ENV['BUILDKITE_PULL_REQUEST']
+      end
+      private :buildkite_pull_request
+
       def jenkins_git_info
         {
           head: {
@@ -69,6 +79,22 @@ module Slather
         }
       end
       private :circleci_git_info
+
+      def buildkite_git_info
+        {
+          :head => {
+            :id => ENV['BUILDKITE_COMMIT'],
+            :author_name => (`git log --format=%an -n 1 HEAD`.chomp || ""),
+            :author_email => (`git log --format=%ae -n 1 HEAD`.chomp || ""),
+            :message => (`git log --format=%s -n 1 HEAD`.chomp || "")
+          },
+          :branch => ENV['BUILDKITE_BRANCH']
+        }
+      end
+
+      def buildkite_build_url
+        "https://buildkite.com/" + ENV['BUILDKITE_PROJECT_SLUG'] + "/builds/" + ENV['BUILDKITE_BUILD_NUMBER'] + "#"
+      end
 
       def coveralls_coverage_data
         if ci_service == :travis_ci || ci_service == :travis_pro
@@ -120,6 +146,20 @@ module Slather
             }.to_json
           else
             raise StandardError, "Environment variable `BUILD_ID` not set. Is this running on a jenkins build?"
+          end
+        elsif ci_service == :buildkite
+          if buildkite_job_id
+            {
+              :service_job_id => buildkite_job_id,
+              :service_name => "buildkite",
+              :repo_token => coverage_access_token,
+              :source_files => coverage_files.map(&:as_json),
+              :git => buildkite_git_info,
+              :service_build_url => buildkite_build_url,
+              :service_pull_request => buildkite_pull_request
+            }.to_json
+          else
+            raise StandardError, "Environment variable `BUILDKITE_BUILD_NUMBER` not set. Is this running on a buildkite build?"
           end
         else
           raise StandardError, "No support for ci named #{ci_service}"

@@ -6,6 +6,8 @@ describe Slather::CoverageService::CoberturaXmlOutput do
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
     proj.extend(Slather::CoverageService::CoberturaXmlOutput)
+    proj.build_directory = TEMP_DERIVED_DATA_PATH
+    proj
   end
 
   describe '#coverage_file_class' do
@@ -33,7 +35,7 @@ describe Slather::CoverageService::CoberturaXmlOutput do
         source_node.content = ''
       end
 
-      EquivalentXml.equivalent?(current_xml_doc, fixture_xml_doc).should be_truthy
+      expect(EquivalentXml.equivalent?(current_xml_doc, fixture_xml_doc)).to be_truthy
     end
 
     it "should create an XML report in the given output directory" do

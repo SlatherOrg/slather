@@ -2,6 +2,8 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
 describe Slather::Project do
 
+  FIXTURES_PROJECT_SETUP_PATH = 'fixtures_setup.xcodeproj'
+
   let(:fixtures_project) do
     Slather::Project.any_instance.stub(:configure_from_yml)
     Slather::Project.open(FIXTURES_PROJECT_PATH)
@@ -14,9 +16,9 @@ describe Slather::Project do
     end
   end
 
-  describe "#derived_data_dir" do
+  describe "#derived_data_path" do
     it "should return the system's derived data directory" do
-      expect(fixtures_project.send(:derived_data_dir)).to eq(File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/")
+      expect(fixtures_project.send(:derived_data_path)).to eq(File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/")
     end
   end
 
@@ -27,10 +29,10 @@ describe Slather::Project do
       expect(fixtures_project.build_directory).to eq(build_directory_mock)
     end
 
-    it "should return the derived_data_dir if no build_directory has been set" do
-      derived_data_dir_mock = double(String)
-      fixtures_project.stub(:derived_data_dir).and_return(derived_data_dir_mock)
-      expect(fixtures_project.build_directory).to eq(derived_data_dir_mock)
+    it "should return the derived_data_path if no build_directory has been set" do
+      derived_data_path_mock = double(String)
+      fixtures_project.stub(:derived_data_path).and_return(derived_data_path_mock)
+      expect(fixtures_project.build_directory).to eq(derived_data_path_mock)
     end
   end
 
@@ -131,8 +133,9 @@ describe Slather::Project do
     end
 
     it "should return the binary file location for a test bundle provided a scheme" do
+      Dir.stub(:[]).with("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/**/FixtureAppTests").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests"])
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/FixtureAppTests")
+      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests")
     end
 
     it "should return the binary file location for an app bundle provided a scheme" do
@@ -228,7 +231,7 @@ describe Slather::Project do
     it "should default the build_directory to derived data if nothing is provided in the yml" do
       Slather::Project.stub(:yml).and_return({})
       fixtures_project.configure_build_directory_from_yml
-      expect(fixtures_project.build_directory).to eq(fixtures_project.send(:derived_data_dir))
+      expect(fixtures_project.build_directory).to eq(fixtures_project.send(:derived_data_path))
     end
   end
 
@@ -345,12 +348,34 @@ describe Slather::Project do
   end
 
   describe "#slather_setup_for_coverage" do
+
+    let(:fixtures_project_setup) do
+      FileUtils.cp_r "#{FIXTURES_PROJECT_PATH}/", "#{FIXTURES_PROJECT_SETUP_PATH}/"
+      Slather::Project.any_instance.stub(:configure_from_yml)
+      Slather::Project.open(FIXTURES_PROJECT_SETUP_PATH)
+    end
+
+    after(:each) do
+      FileUtils.rm_rf(FIXTURES_PROJECT_SETUP_PATH)
+    end
+
     it "should enable the correct flags to generate test coverage on all of the build_configurations build settings" do
-      fixtures_project.slather_setup_for_coverage
-      fixtures_project.build_configurations.each do |build_configuration|
+      fixtures_project_setup.slather_setup_for_coverage
+      fixtures_project_setup.build_configurations.each do |build_configuration|
         expect(build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"]).to eq("YES")
         expect(build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"]).to eq("YES")
       end
+    end
+
+    it "should apply Xcode7 enableCodeCoverage setting" do
+      fixtures_project_setup.slather_setup_for_coverage
+      schemes_path = Xcodeproj::XCScheme.shared_data_dir(fixtures_project_setup.path)
+      Xcodeproj::Project.schemes(fixtures_project_setup.path).each do |scheme_name|
+        xcscheme_path = "#{schemes_path + scheme_name}.xcscheme"
+        xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
+        expect(xcscheme.test_action.xml_element.attributes['codeCoverageEnabled']).to eq("YES")
+      end
+
     end
   end
 end

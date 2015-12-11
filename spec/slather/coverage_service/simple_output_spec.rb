@@ -5,6 +5,8 @@ describe Slather::CoverageService::SimpleOutput do
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
     proj.extend(Slather::CoverageService::SimpleOutput)
+    proj.build_directory = TEMP_DERIVED_DATA_PATH
+    proj
   end
 
   describe '#coverage_file_class' do

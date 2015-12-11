@@ -10,28 +10,28 @@
         <class name="Branches" filename="spec/fixtures/fixtures/more_files/Branches.m" line-rate="0.4736842105263158" branch-rate="0.4000000000000000" complexity="0.0">
           <methods/>
           <lines>
-            <line number="15" branch="true" hits="2" condition-coverage="100% (2/2)">
+            <line number="15" branch="true" hits="65536" condition-coverage="100% (2/2)">
               <conditions>
                 <condition number="0" type="jump" coverage="100%"/>
               </conditions>
             </line>
-            <line number="16" branch="false" hits="1"/>
-            <line number="18" branch="true" hits="1" condition-coverage="50% (1/2)">
+            <line number="16" branch="false" hits="32768"/>
+            <line number="18" branch="true" hits="32768" condition-coverage="50% (1/2)">
               <conditions>
                 <condition number="0" type="jump" coverage="50%"/>
               </conditions>
             </line>
             <line number="19" branch="false" hits="0"/>
             <line number="20" branch="false" hits="0"/>
-            <line number="21" branch="false" hits="1"/>
-            <line number="22" branch="false" hits="1"/>
-            <line number="25" branch="false" hits="2"/>
-            <line number="26" branch="true" hits="2" condition-coverage="50% (1/2)">
+            <line number="21" branch="false" hits="32768"/>
+            <line number="22" branch="false" hits="32768"/>
+            <line number="25" branch="false" hits="65536"/>
+            <line number="26" branch="true" hits="65536" condition-coverage="50% (1/2)">
               <conditions>
                 <condition number="0" type="jump" coverage="50%"/>
               </conditions>
             </line>
-            <line number="27" branch="false" hits="2"/>
+            <line number="27" branch="false" hits="65536"/>
             <line number="29" branch="true" hits="0" condition-coverage="0% (0/4)">
               <conditions>
                 <condition number="0" type="jump" coverage="0%"/>
@@ -44,7 +44,7 @@
             <line number="38" branch="false" hits="0"/>
             <line number="39" branch="false" hits="0"/>
             <line number="41" branch="false" hits="0"/>
-            <line number="43" branch="false" hits="2"/>
+            <line number="43" branch="false" hits="65536"/>
           </lines>
         </class>
         <class name="Empty" filename="spec/fixtures/fixtures/more_files/Empty.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
@@ -72,8 +72,8 @@
         <class name="fixtures" filename="spec/fixtures/fixtures/fixtures.m" line-rate="0.5000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
-            <line number="15" branch="false" hits="1"/>
-            <line number="16" branch="false" hits="1"/>
+            <line number="15" branch="false" hits="32768"/>
+            <line number="16" branch="false" hits="32768"/>
             <line number="20" branch="false" hits="0"/>
             <line number="21" branch="false" hits="0"/>
           </lines>
@@ -97,43 +97,43 @@
         <class name="BranchesTests" filename="spec/fixtures/fixturesTests/BranchesTests.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
-            <line number="19" branch="false" hits="2"/>
-            <line number="21" branch="false" hits="2"/>
-            <line number="25" branch="false" hits="2"/>
-            <line number="26" branch="false" hits="2"/>
-            <line number="29" branch="false" hits="1"/>
-            <line number="30" branch="false" hits="1"/>
-            <line number="31" branch="false" hits="1"/>
-            <line number="34" branch="false" hits="1"/>
-            <line number="35" branch="false" hits="1"/>
-            <line number="36" branch="false" hits="1"/>
+            <line number="19" branch="false" hits="22767744704"/>
+            <line number="21" branch="false" hits="22767744704"/>
+            <line number="25" branch="false" hits="22767744704"/>
+            <line number="26" branch="false" hits="22767744704"/>
+            <line number="29" branch="false" hits="524288"/>
+            <line number="30" branch="false" hits="524288"/>
+            <line number="31" branch="false" hits="524288"/>
+            <line number="34" branch="false" hits="524288"/>
+            <line number="35" branch="false" hits="524288"/>
+            <line number="36" branch="false" hits="524288"/>
           </lines>
         </class>
         <class name="fixturesTests" filename="spec/fixtures/fixturesTests/fixturesTests.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
-            <line number="20" branch="false" hits="1"/>
-            <line number="22" branch="false" hits="1"/>
-            <line number="27" branch="false" hits="1"/>
-            <line number="28" branch="false" hits="1"/>
-            <line number="32" branch="false" hits="1"/>
-            <line number="33" branch="false" hits="1"/>
-            <line number="34" branch="false" hits="1"/>
+            <line number="20" branch="false" hits="576064"/>
+            <line number="22" branch="false" hits="576064"/>
+            <line number="27" branch="false" hits="576064"/>
+            <line number="28" branch="false" hits="576064"/>
+            <line number="32" branch="false" hits="576064"/>
+            <line number="33" branch="false" hits="576064"/>
+            <line number="34" branch="false" hits="576064"/>
           </lines>
         </class>
         <class name="peekaviewTests" filename="spec/fixtures/fixturesTests/peekaviewTests.m" line-rate="1.0000000000000000" branch-rate="0.0333333333333333" complexity="0.0">
           <methods/>
           <lines>
-            <line number="19" branch="false" hits="1"/>
-            <line number="21" branch="false" hits="1"/>
-            <line number="26" branch="false" hits="1"/>
-            <line number="27" branch="false" hits="1"/>
-            <line number="31" branch="true" hits="2" condition-coverage="3% (1/30)">
+            <line number="19" branch="false" hits="32768"/>
+            <line number="21" branch="false" hits="32768"/>
+            <line number="26" branch="false" hits="32768"/>
+            <line number="27" branch="false" hits="32768"/>
+            <line number="31" branch="true" hits="65536" condition-coverage="3% (1/30)">
               <conditions>
                 <condition number="0" type="jump" coverage="3%"/>
               </conditions>
             </line>
-            <line number="32" branch="false" hits="1"/>
+            <line number="32" branch="false" hits="32768"/>
           </lines>
         </class>
       </classes>

@@ -3,7 +3,9 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 describe Slather::CoverageFile do
 
   let(:fixtures_project) do
-    Slather::Project.open(FIXTURES_PROJECT_PATH)
+    project = Slather::Project.open(FIXTURES_PROJECT_PATH)
+    project.build_directory = TEMP_DERIVED_DATA_PATH
+    project
   end
 
   let(:coverage_file) do
@@ -109,7 +111,7 @@ OBJC
 
   describe "gcov_data" do
     it "should process the gcno file with gcov and return the contents of the file" do
-      expect(coverage_file.gcov_data).to include("1:   15:    NSLog(@\"tested\");")
+      expect(coverage_file.gcov_data).to include(":   15:    NSLog(@\"tested\");")
     end
   end
 
@@ -172,17 +174,17 @@ OBJC
       it "should store an array for each line number which contains the hit count for each branch" do
         data = branch_coverage_file.branch_coverage_data[15]
         expect(data.length).to eq(2)
-        expect(data[0]).to eq(1)
-        expect(data[1]).to eq(1)
+        expect(data[0]).to be >= 1
+        expect(data[1]).to be >= 1
 
         data = branch_coverage_file.branch_coverage_data[18]
         expect(data.length).to eq(2)
         expect(data[0]).to eq(0)
-        expect(data[1]).to eq(1)
+        expect(data[1]).to be >= 1
 
         data = branch_coverage_file.branch_coverage_data[26]
         expect(data.length).to eq(2)
-        expect(data[0]).to eq(2)
+        expect(data[0]).to be >= 2
         expect(data[1]).to eq(0)
 
         data = branch_coverage_file.branch_coverage_data[29]
@@ -198,17 +200,17 @@ OBJC
       it "return the array with branch hit counts for statement at a given line number" do
         data = branch_coverage_file.branch_coverage_data[15]
         expect(data.length).to eq(2)
-        expect(data[0]).to eq(1)
-        expect(data[1]).to eq(1)
+        expect(data[0]).to be >= 1
+        expect(data[1]).to be >= 1
 
         data = branch_coverage_file.branch_coverage_data[18]
         expect(data.length).to eq(2)
         expect(data[0]).to eq(0)
-        expect(data[1]).to eq(1)
+        expect(data[1]).to be >= 1
 
         data = branch_coverage_file.branch_coverage_data[26]
         expect(data.length).to eq(2)
-        expect(data[0]).to eq(2)
+        expect(data[0]).to be >= 2
         expect(data[1]).to eq(0)
 
         data = branch_coverage_file.branch_coverage_data[29]
