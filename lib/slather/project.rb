@@ -120,9 +120,9 @@ module Slather
 
       # Find the matching .app, if any
       xctest_bundle_file_directory = Pathname.new(xctest_bundle_file).dirname
-
       app_bundle_file = Dir["#{xctest_bundle_file_directory}/*.app"].first
       framework_bundle_file = Dir["#{xctest_bundle_file_directory}/*.framework"].first
+
       if app_bundle_file != nil
         app_bundle_file_name_noext = Pathname.new(app_bundle_file).basename.to_s.gsub(".app", "")
         "#{app_bundle_file}/#{app_bundle_file_name_noext}"

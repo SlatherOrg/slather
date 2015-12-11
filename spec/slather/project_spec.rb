@@ -131,8 +131,9 @@ describe Slather::Project do
     end
 
     it "should return the binary file location for a test bundle provided a scheme" do
+      Dir.stub(:[]).with("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/**/FixtureAppTests").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests"])
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/FixtureAppTests")
+      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests")
     end
 
     it "should return the binary file location for an app bundle provided a scheme" do
