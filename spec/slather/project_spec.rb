@@ -2,6 +2,8 @@ require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
 describe Slather::Project do
 
+  FIXTURES_PROJECT_SETUP_PATH = 'fixtures_setup.xcodeproj'
+
   let(:fixtures_project) do
     Slather::Project.any_instance.stub(:configure_from_yml)
     Slather::Project.open(FIXTURES_PROJECT_PATH)
@@ -346,12 +348,34 @@ describe Slather::Project do
   end
 
   describe "#slather_setup_for_coverage" do
+
+    let(:fixtures_project_setup) do
+      FileUtils.cp_r "#{FIXTURES_PROJECT_PATH}/", "#{FIXTURES_PROJECT_SETUP_PATH}/"
+      Slather::Project.any_instance.stub(:configure_from_yml)
+      Slather::Project.open(FIXTURES_PROJECT_SETUP_PATH)
+    end
+
+    after(:each) do
+      FileUtils.rm_rf(FIXTURES_PROJECT_SETUP_PATH)
+    end
+
     it "should enable the correct flags to generate test coverage on all of the build_configurations build settings" do
-      fixtures_project.slather_setup_for_coverage
-      fixtures_project.build_configurations.each do |build_configuration|
+      fixtures_project_setup.slather_setup_for_coverage
+      fixtures_project_setup.build_configurations.each do |build_configuration|
         expect(build_configuration.build_settings["GCC_INSTRUMENT_PROGRAM_FLOW_ARCS"]).to eq("YES")
         expect(build_configuration.build_settings["GCC_GENERATE_TEST_COVERAGE_FILES"]).to eq("YES")
       end
+    end
+
+    it "should apply Xcode7 enableCodeCoverage setting" do
+      fixtures_project_setup.slather_setup_for_coverage
+      schemes_path = Xcodeproj::XCScheme.shared_data_dir(fixtures_project_setup.path)
+      Xcodeproj::Project.schemes(fixtures_project_setup.path).each do |scheme_name|
+        xcscheme_path = "#{schemes_path + scheme_name}.xcscheme"
+        xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
+        expect(xcscheme.test_action.xml_element.attributes['codeCoverageEnabled']).to eq("YES")
+      end
+
     end
   end
 end
