@@ -36,9 +36,32 @@ describe Slather::CoverageService::Coveralls do
       end
 
       it "should return valid json for coveralls coverage profdata data" do
-        fixtures_project.stub(:build_directory).and_return(FIXTURES_DERIVED_DATA_PATH)
         fixtures_project.stub(:travis_job_id).and_return("9182")
-        fixtures_project.stub(:input_format).and_return("profdata")
+        fixtures_project.stub(:profdata_llvm_cov_output).and_return("/Users/civetta/Works/Personal/slather/viteinfinite-slather/spec/fixtures/fixtures/fixtures.m:
+       |    1|//
+       |    2|//  fixtures.m
+       |    3|//  fixtures
+       |    4|//
+       |    5|//  Created by Mark Larsen on 6/24/14.
+       |    6|//  Copyright (c) 2014 marklarr. All rights reserved.
+       |    7|//
+       |    8|
+       |    9|#import \"fixtures.h\"
+       |   10|
+       |   11|@implementation fixtures
+       |   12|
+       |   13|- (void)testedMethod
+      1|   14|{
+      1|   15|    NSLog(@\"tested\");
+      1|   16|}
+       |   17|
+       |   18|- (void)untestedMethod
+      0|   19|{
+      0|   20|    NSLog(@\"untested\");
+      0|   21|}
+       |   22|
+       |   23|@end
+")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"travis-ci\"}").excluding("source_files")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
       end
