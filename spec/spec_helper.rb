@@ -7,7 +7,6 @@ require 'json_spec'
 require 'equivalent-xml'
 
 
-FIXTURES_DERIVED_DATA_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures_DerivedData')
 FIXTURES_XML_PATH = File.join(File.dirname(__FILE__), 'fixtures/cobertura.xml')
 FIXTURES_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/gutter.json')
 FIXTURES_HTML_FOLDER_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures_html')

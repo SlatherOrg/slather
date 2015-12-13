@@ -14,7 +14,6 @@ Generate test coverage reports for Xcode projects & hook it into CI.
 | ------- |:--------:|
 | [Parsimmon](https://github.com/ayanonagon/Parsimmon) | [![Parsimmon Coverage](https://coveralls.io/repos/ayanonagon/Parsimmon/badge.svg?branch=master)](https://coveralls.io/r/ayanonagon/Parsimmon?branch=master) |
 | [VENCore](https://github.com/venmo/VENCore) | [![VENCore Coverage](https://coveralls.io/repos/venmo/VENCore/badge.svg?branch=master)](https://coveralls.io/r/venmo/VENCore?branch=master) |
-| [CGFloatType](https://github.com/kylef/CGFloatType) | [![CGFloatType Coverage](https://coveralls.io/repos/kylef/CGFloatType/badge.svg?branch=master)](https://coveralls.io/r/kylef/CGFloatType?branch=master) |
 | [DAZABTest](https://github.com/dasmer/DAZABTest) | [![DAZABTest Coverage](https://coveralls.io/repos/dasmer/DAZABTest/badge.svg?branch=master)](https://coveralls.io/r/dasmer/DAZABTest?branch=master) |
 | [TBStateMachine](https://github.com/tarbrain/TBStateMachine) | [![TBStateMachine Coverage](https://coveralls.io/repos/tarbrain/TBStateMachine/badge.svg?branch=master)](https://coveralls.io/r/tarbrain/TBStateMachine?branch=master) |
 
