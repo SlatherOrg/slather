@@ -105,6 +105,7 @@ module Slather
     private :profdata_coverage_files
 
     def profdata_coverage_dir
+      raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
       if self.scheme
         Dir["#{build_directory}/**/CodeCoverage/#{self.scheme}"].first
       else
@@ -249,5 +250,6 @@ module Slather
         @input_format = format
       end
     end
+
   end
 end
