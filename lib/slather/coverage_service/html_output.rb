@@ -5,7 +5,11 @@ module Slather
     module HtmlOutput
 
       def coverage_file_class
-        Slather::CoverageFile
+        if input_format == "profdata"
+          Slather::ProfdataCoverageFile
+        else
+          Slather::CoverageFile
+        end
       end
       private :coverage_file_class
 
@@ -141,9 +145,11 @@ module Slather
             next
           end
 
+          line_number_separator = coverage_file.line_number_separator
+
           cov.table(:class => "source_code") {
             cleaned_gcov_lines.each do |line|
-              data = line.split(':', 3)
+              data = line.split(line_number_separator, 3)
 
               line_number = data[1].to_i
               next unless line_number > 0

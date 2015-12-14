@@ -177,5 +177,47 @@ describe Slather::CoverageService::HtmlOutput do
       expect(Dir.exist?(OUTPUT_DIR_PATH)).to be_truthy
     end
 
+    it "should create a valid report when using profdata format" do
+
+      def extract_filepath(doc)
+        (path = doc.at_css('h4.cov_filepath'))? path.text : ""
+      end
+
+      fixtures_project.stub(:input_format).and_return("profdata")
+      fixtures_project.stub(:profdata_llvm_cov_output).and_return("/Users/civetta/Works/Personal/slather/viteinfinite-slather/spec/fixtures/fixtures/other_fixtures.m:
+     |    1|//
+     |    2|//  other_fixtures.m
+     |    3|//  fixtures
+     |    4|//
+     |    5|//  Created by Mark Larsen on 6/24/14.
+     |    6|//  Copyright (c) 2014 marklarr. All rights reserved.
+     |    7|//
+     |    8|
+     |    9|#import \"other_fixtures.h\"
+     |   10|
+     |   11|@implementation other_fixtures
+     |   12|
+     |   13|- (void)testedMethod
+    1|   14|{
+    1|   15|    NSLog(@\"tested\");
+    1|   16|}
+     |   17|
+     |   18|- (void)untestedMethod
+    0|   19|{
+    0|   20|    NSLog(@\"untested\");
+    0|   21|}
+     |   22|
+     |   23|@end
+")
+      fixtures_project.post
+
+      file = File.open(File.join(OUTPUT_DIR_PATH, "other_fixtures.m.html"))
+      doc = Nokogiri::HTML(file)
+      file.close
+
+      expect(extract_header_title(doc)).to eq("other_fixtures.m - Slather")
+      expect(extract_filepath(doc)).to eq("spec/fixtures/fixtures/other_fixtures.m")
+    end
+
   end
 end

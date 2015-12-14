@@ -130,6 +130,10 @@ module Slather
       File.basename(source_file_pathname, '.m')
     end
 
+    def line_number_separator
+      ":"
+    end
+
     def supported_file_extensions
       ["cpp", "mm", "m"]
     end

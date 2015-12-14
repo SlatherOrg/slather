@@ -45,6 +45,10 @@ module Slather
       @all_lines
     end
 
+    def cleaned_gcov_data
+      source_data
+    end
+
     def raw_data
       self.source
     end
@@ -94,6 +98,10 @@ module Slather
 
     def source_file_basename
       File.basename(source_file_pathname, '.swift')
+    end
+
+    def line_number_separator
+      "|"
     end
 
     def supported_file_extensions
