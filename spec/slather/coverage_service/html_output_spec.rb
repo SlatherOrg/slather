@@ -184,7 +184,7 @@ describe Slather::CoverageService::HtmlOutput do
       end
 
       fixtures_project.stub(:input_format).and_return("profdata")
-      fixtures_project.stub(:profdata_llvm_cov_output).and_return("/Users/civetta/Works/Personal/slather/viteinfinite-slather/spec/fixtures/fixtures/other_fixtures.m:
+      fixtures_project.stub(:profdata_llvm_cov_output).and_return("./spec/fixtures/fixtures/other_fixtures.m:
      |    1|//
      |    2|//  other_fixtures.m
      |    3|//  fixtures
