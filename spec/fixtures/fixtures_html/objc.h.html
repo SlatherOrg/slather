@@ -1,0 +1,1202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<title>objc.h - Slather</title>
+<link href="/Users/civetta/Works/Personal/slather/viteinfinite-slather/assets/slather.css" media="all" rel="stylesheet">
+</head>
+<body>
+<header><div class="row"><a href="index.html"><img src="/Users/civetta/Works/Personal/slather/viteinfinite-slather/docs/logo.jpg" alt="Slather logo"></a></div></header><div class="row"><div id="reports">
+<h2 class="cov_title">
+<span>Coverage for "objc.h" : </span><span class="cov_high">100.00%</span>
+</h2>
+<h4 class="cov_subtitle">(2 of 2 relevant lines covered)</h4>
+<h4 class="cov_filepath">../../../../../../../../Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/objc/objc.h</h4>
+<table class="source_code">
+<tr class="never">
+<td class="num">1</td>
+<td class="src"><pre><code class="objc">/*</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">2</td>
+<td class="src"><pre><code class="objc"> * Copyright (c) 1999-2007 Apple Inc.  All Rights Reserved.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">3</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">4</td>
+<td class="src"><pre><code class="objc"> * @APPLE_LICENSE_HEADER_START@</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">5</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">6</td>
+<td class="src"><pre><code class="objc"> * This file contains Original Code and/or Modifications of Original Code</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">7</td>
+<td class="src"><pre><code class="objc"> * as defined in and that are subject to the Apple Public Source License</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">8</td>
+<td class="src"><pre><code class="objc"> * Version 2.0 (the 'License'). You may not use this file except in</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">9</td>
+<td class="src"><pre><code class="objc"> * compliance with the License. Please obtain a copy of the License at</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">10</td>
+<td class="src"><pre><code class="objc"> * http://www.opensource.apple.com/apsl/ and read it before using this</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">11</td>
+<td class="src"><pre><code class="objc"> * file.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">12</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">13</td>
+<td class="src"><pre><code class="objc"> * The Original Code and all software distributed under the License are</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">14</td>
+<td class="src"><pre><code class="objc"> * distributed on an 'AS IS' basis, WITHOUT WARRANTY OF ANY KIND, EITHER</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">15</td>
+<td class="src"><pre><code class="objc"> * EXPRESS OR IMPLIED, AND APPLE HEREBY DISCLAIMS ALL SUCH WARRANTIES,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">16</td>
+<td class="src"><pre><code class="objc"> * INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF MERCHANTABILITY,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">17</td>
+<td class="src"><pre><code class="objc"> * FITNESS FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR NON-INFRINGEMENT.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">18</td>
+<td class="src"><pre><code class="objc"> * Please see the License for the specific language governing rights and</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">19</td>
+<td class="src"><pre><code class="objc"> * limitations under the License.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">20</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">21</td>
+<td class="src"><pre><code class="objc"> * @APPLE_LICENSE_HEADER_END@</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">22</td>
+<td class="src"><pre><code class="objc"> */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">23</td>
+<td class="src"><pre><code class="objc">/*</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">24</td>
+<td class="src"><pre><code class="objc"> *	objc.h</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">25</td>
+<td class="src"><pre><code class="objc"> *	Copyright 1988-1996, NeXT Software, Inc.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">26</td>
+<td class="src"><pre><code class="objc"> */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">27</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">28</td>
+<td class="src"><pre><code class="objc">#ifndef _OBJC_OBJC_H_</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">29</td>
+<td class="src"><pre><code class="objc">#define _OBJC_OBJC_H_</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">30</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">31</td>
+<td class="src"><pre><code class="objc">#include &lt;sys/types.h&gt;      // for __DARWIN_NULL</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">32</td>
+<td class="src"><pre><code class="objc">#include &lt;Availability.h&gt;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">1</td>
+<td class="src"><pre><code class="objc">   30|</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">1</td>
+<td class="src"><pre><code class="objc">   31|#include &lt;sys/types.h&gt;      // for __DARWIN_NULL</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">1</td>
+<td class="src"><pre><code class="objc">   32|#include &lt;Availability.h&gt;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">33</td>
+<td class="src"><pre><code class="objc">#include &lt;objc/objc-api.h&gt;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">34</td>
+<td class="src"><pre><code class="objc">#include &lt;stdbool.h&gt;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">35</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">36</td>
+<td class="src"><pre><code class="objc">#if !OBJC_TYPES_DEFINED</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">1</td>
+<td class="src"><pre><code class="objc">   33|#include &lt;objc/objc-api.h&gt;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">1</td>
+<td class="src"><pre><code class="objc">   34|#include &lt;stdbool.h&gt;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">1</td>
+<td class="src"><pre><code class="objc">   35|</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">1</td>
+<td class="src"><pre><code class="objc">   36|#if !OBJC_TYPES_DEFINED</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">37</td>
+<td class="src"><pre><code class="objc">/// An opaque type that represents an Objective-C class.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">38</td>
+<td class="src"><pre><code class="objc">typedef struct objc_class *Class;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">39</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">40</td>
+<td class="src"><pre><code class="objc">/// Represents an instance of a class.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">41</td>
+<td class="src"><pre><code class="objc">struct objc_object {</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">42</td>
+<td class="src"><pre><code class="objc">    Class isa  OBJC_ISA_AVAILABILITY;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">43</td>
+<td class="src"><pre><code class="objc">};</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">44</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">45</td>
+<td class="src"><pre><code class="objc">/// A pointer to an instance of a class.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">46</td>
+<td class="src"><pre><code class="objc">typedef struct objc_object *id;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">47</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">48</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">49</td>
+<td class="src"><pre><code class="objc">/// An opaque type that represents a method selector.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">50</td>
+<td class="src"><pre><code class="objc">typedef struct objc_selector *SEL;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">51</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">52</td>
+<td class="src"><pre><code class="objc">/// A pointer to the function of a method implementation. </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">53</td>
+<td class="src"><pre><code class="objc">#if !OBJC_OLD_DISPATCH_PROTOTYPES</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">54</td>
+<td class="src"><pre><code class="objc">typedef void (*IMP)(void /* id, SEL, ... */ ); </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">55</td>
+<td class="src"><pre><code class="objc">#else</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">56</td>
+<td class="src"><pre><code class="objc">typedef id (*IMP)(id, SEL, ...); </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">57</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">58</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">59</td>
+<td class="src"><pre><code class="objc">#define OBJC_BOOL_DEFINED</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">60</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">61</td>
+<td class="src"><pre><code class="objc">/// Type to represent a boolean value.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">62</td>
+<td class="src"><pre><code class="objc">#if (TARGET_OS_IPHONE &amp;&amp; __LP64__)  ||  TARGET_OS_WATCH</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">63</td>
+<td class="src"><pre><code class="objc">#define OBJC_BOOL_IS_BOOL 1</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">64</td>
+<td class="src"><pre><code class="objc">typedef bool BOOL;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">65</td>
+<td class="src"><pre><code class="objc">#else</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">66</td>
+<td class="src"><pre><code class="objc">#define OBJC_BOOL_IS_CHAR 1</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">67</td>
+<td class="src"><pre><code class="objc">typedef signed char BOOL; </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">68</td>
+<td class="src"><pre><code class="objc">// BOOL is explicitly signed so @encode(BOOL) == "c" rather than "C" </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">69</td>
+<td class="src"><pre><code class="objc">// even if -funsigned-char is used.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">70</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">71</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">72</td>
+<td class="src"><pre><code class="objc">#if __has_feature(objc_bool)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="covered">
+<td class="num">73</td>
+<td class="src"><pre><code class="objc">#define YES __objc_yes</code></pre></td>
+<td class="coverage">4x</td>
+</tr>
+<tr class="covered">
+<td class="num">74</td>
+<td class="src"><pre><code class="objc">#define NO  __objc_no</code></pre></td>
+<td class="coverage">2x</td>
+</tr>
+<tr class="never">
+<td class="num">75</td>
+<td class="src"><pre><code class="objc">#else</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">76</td>
+<td class="src"><pre><code class="objc">#define YES ((BOOL)1)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">77</td>
+<td class="src"><pre><code class="objc">#define NO  ((BOOL)0)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">78</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">79</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">80</td>
+<td class="src"><pre><code class="objc">#ifndef Nil</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">81</td>
+<td class="src"><pre><code class="objc"># if __has_feature(cxx_nullptr)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">82</td>
+<td class="src"><pre><code class="objc">#   define Nil nullptr</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">83</td>
+<td class="src"><pre><code class="objc"># else</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">84</td>
+<td class="src"><pre><code class="objc">#   define Nil __DARWIN_NULL</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">85</td>
+<td class="src"><pre><code class="objc"># endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">86</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">87</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">88</td>
+<td class="src"><pre><code class="objc">#ifndef nil</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">89</td>
+<td class="src"><pre><code class="objc"># if __has_feature(cxx_nullptr)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">90</td>
+<td class="src"><pre><code class="objc">#   define nil nullptr</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">91</td>
+<td class="src"><pre><code class="objc"># else</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">92</td>
+<td class="src"><pre><code class="objc">#   define nil __DARWIN_NULL</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">93</td>
+<td class="src"><pre><code class="objc"># endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">94</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">95</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">96</td>
+<td class="src"><pre><code class="objc">#if ! (defined(__OBJC_GC__)  ||  __has_feature(objc_arc))</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">97</td>
+<td class="src"><pre><code class="objc">#define __strong /* empty */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">98</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">99</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">100</td>
+<td class="src"><pre><code class="objc">#if !__has_feature(objc_arc)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">101</td>
+<td class="src"><pre><code class="objc">#define __unsafe_unretained /* empty */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">102</td>
+<td class="src"><pre><code class="objc">#define __autoreleasing /* empty */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">103</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">104</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">105</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">106</td>
+<td class="src"><pre><code class="objc">/** </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">107</td>
+<td class="src"><pre><code class="objc"> * Returns the name of the method specified by a given selector.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">108</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">109</td>
+<td class="src"><pre><code class="objc"> * @param sel A pointer of type \c SEL. Pass the selector whose name you wish to determine.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">110</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">111</td>
+<td class="src"><pre><code class="objc"> * @return A C string indicating the name of the selector.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">112</td>
+<td class="src"><pre><code class="objc"> */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">113</td>
+<td class="src"><pre><code class="objc">OBJC_EXPORT const char *sel_getName(SEL sel)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">114</td>
+<td class="src"><pre><code class="objc">    __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">115</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">116</td>
+<td class="src"><pre><code class="objc">/** </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">117</td>
+<td class="src"><pre><code class="objc"> * Registers a method with the Objective-C runtime system, maps the method </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">118</td>
+<td class="src"><pre><code class="objc"> * name to a selector, and returns the selector value.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">119</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">120</td>
+<td class="src"><pre><code class="objc"> * @param str A pointer to a C string. Pass the name of the method you wish to register.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">121</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">122</td>
+<td class="src"><pre><code class="objc"> * @return A pointer of type SEL specifying the selector for the named method.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">123</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">124</td>
+<td class="src"><pre><code class="objc"> * @note You must register a method name with the Objective-C runtime system to obtain the</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">125</td>
+<td class="src"><pre><code class="objc"> *  method&rsquo;s selector before you can add the method to a class definition. If the method name</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">126</td>
+<td class="src"><pre><code class="objc"> *  has already been registered, this function simply returns the selector.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">127</td>
+<td class="src"><pre><code class="objc"> */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">128</td>
+<td class="src"><pre><code class="objc">OBJC_EXPORT SEL sel_registerName(const char *str)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">129</td>
+<td class="src"><pre><code class="objc">    __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">130</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">131</td>
+<td class="src"><pre><code class="objc">/** </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">132</td>
+<td class="src"><pre><code class="objc"> * Returns the class name of a given object.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">133</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">134</td>
+<td class="src"><pre><code class="objc"> * @param obj An Objective-C object.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">135</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">136</td>
+<td class="src"><pre><code class="objc"> * @return The name of the class of which \e obj is an instance.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">137</td>
+<td class="src"><pre><code class="objc"> */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">138</td>
+<td class="src"><pre><code class="objc">OBJC_EXPORT const char *object_getClassName(id obj)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">139</td>
+<td class="src"><pre><code class="objc">    __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">140</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">141</td>
+<td class="src"><pre><code class="objc">/** </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">142</td>
+<td class="src"><pre><code class="objc"> * Returns a pointer to any extra bytes allocated with an instance given object.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">143</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">144</td>
+<td class="src"><pre><code class="objc"> * @param obj An Objective-C object.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">145</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">146</td>
+<td class="src"><pre><code class="objc"> * @return A pointer to any extra bytes allocated with \e obj. If \e obj was</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">147</td>
+<td class="src"><pre><code class="objc"> *   not allocated with any extra bytes, then dereferencing the returned pointer is undefined.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">148</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">149</td>
+<td class="src"><pre><code class="objc"> * @note This function returns a pointer to any extra bytes allocated with the instance</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">150</td>
+<td class="src"><pre><code class="objc"> *  (as specified by \c class_createInstance with extraBytes&gt;0). This memory follows the</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">151</td>
+<td class="src"><pre><code class="objc"> *  object's ordinary ivars, but may not be adjacent to the last ivar.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">152</td>
+<td class="src"><pre><code class="objc"> * @note The returned pointer is guaranteed to be pointer-size aligned, even if the area following</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">153</td>
+<td class="src"><pre><code class="objc"> *  the object's last ivar is less aligned than that. Alignment greater than pointer-size is never</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">154</td>
+<td class="src"><pre><code class="objc"> *  guaranteed, even if the area following the object's last ivar is more aligned than that.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">155</td>
+<td class="src"><pre><code class="objc"> * @note In a garbage-collected environment, the memory is scanned conservatively.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">156</td>
+<td class="src"><pre><code class="objc"> */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">157</td>
+<td class="src"><pre><code class="objc">OBJC_EXPORT void *object_getIndexedIvars(id obj)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">158</td>
+<td class="src"><pre><code class="objc">    __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">159</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">160</td>
+<td class="src"><pre><code class="objc">/** </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">161</td>
+<td class="src"><pre><code class="objc"> * Identifies a selector as being valid or invalid.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">162</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">163</td>
+<td class="src"><pre><code class="objc"> * @param sel The selector you want to identify.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">164</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">165</td>
+<td class="src"><pre><code class="objc"> * @return YES if selector is valid and has a function implementation, NO otherwise. </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">166</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">167</td>
+<td class="src"><pre><code class="objc"> * @warning On some platforms, an invalid reference (to invalid memory addresses) can cause</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">168</td>
+<td class="src"><pre><code class="objc"> *  a crash. </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">169</td>
+<td class="src"><pre><code class="objc"> */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">170</td>
+<td class="src"><pre><code class="objc">OBJC_EXPORT BOOL sel_isMapped(SEL sel)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">171</td>
+<td class="src"><pre><code class="objc">    __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">172</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">173</td>
+<td class="src"><pre><code class="objc">/** </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">174</td>
+<td class="src"><pre><code class="objc"> * Registers a method name with the Objective-C runtime system.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">175</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">176</td>
+<td class="src"><pre><code class="objc"> * @param str A pointer to a C string. Pass the name of the method you wish to register.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">177</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">178</td>
+<td class="src"><pre><code class="objc"> * @return A pointer of type SEL specifying the selector for the named method.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">179</td>
+<td class="src"><pre><code class="objc"> * </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">180</td>
+<td class="src"><pre><code class="objc"> * @note The implementation of this method is identical to the implementation of \c sel_registerName.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">181</td>
+<td class="src"><pre><code class="objc"> * @note Prior to OS X version 10.0, this method tried to find the selector mapped to the given name</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">182</td>
+<td class="src"><pre><code class="objc"> *  and returned \c NULL if the selector was not found. This was changed for safety, because it was</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">183</td>
+<td class="src"><pre><code class="objc"> *  observed that many of the callers of this function did not check the return value for \c NULL.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">184</td>
+<td class="src"><pre><code class="objc"> */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">185</td>
+<td class="src"><pre><code class="objc">OBJC_EXPORT SEL sel_getUid(const char *str)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">186</td>
+<td class="src"><pre><code class="objc">    __OSX_AVAILABLE_STARTING(__MAC_10_0, __IPHONE_2_0);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">187</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">188</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">189</td>
+<td class="src"><pre><code class="objc">// Obsolete ARC conversions. Deprecation forthcoming.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">190</td>
+<td class="src"><pre><code class="objc">// Use CFBridgingRetain, CFBridgingRelease, and __bridge casts instead.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">191</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">192</td>
+<td class="src"><pre><code class="objc">typedef const void* objc_objectptr_t;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">193</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">194</td>
+<td class="src"><pre><code class="objc">#if __has_feature(objc_arc)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">195</td>
+<td class="src"><pre><code class="objc">#   define objc_retainedObject(o) ((__bridge_transfer id)(objc_objectptr_t)(o))</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">196</td>
+<td class="src"><pre><code class="objc">#   define objc_unretainedObject(o) ((__bridge id)(objc_objectptr_t)(o))</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">197</td>
+<td class="src"><pre><code class="objc">#   define objc_unretainedPointer(o) ((__bridge objc_objectptr_t)(id)(o))</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">198</td>
+<td class="src"><pre><code class="objc">#else</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">199</td>
+<td class="src"><pre><code class="objc">#   define objc_retainedObject(o) ((id)(objc_objectptr_t)(o))</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">200</td>
+<td class="src"><pre><code class="objc">#   define objc_unretainedObject(o) ((id)(objc_objectptr_t)(o))</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">201</td>
+<td class="src"><pre><code class="objc">#   define objc_unretainedPointer(o) ((objc_objectptr_t)(id)(o))</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">202</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">203</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">204</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">205</td>
+<td class="src"><pre><code class="objc">#if !__OBJC2__</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">206</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">207</td>
+<td class="src"><pre><code class="objc">// The following declarations are provided here for source compatibility.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">208</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">209</td>
+<td class="src"><pre><code class="objc">#if defined(__LP64__)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">210</td>
+<td class="src"><pre><code class="objc">    typedef long arith_t;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">211</td>
+<td class="src"><pre><code class="objc">    typedef unsigned long uarith_t;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">212</td>
+<td class="src"><pre><code class="objc">#   define ARITH_SHIFT 32</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">213</td>
+<td class="src"><pre><code class="objc">#else</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">214</td>
+<td class="src"><pre><code class="objc">    typedef int arith_t;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">215</td>
+<td class="src"><pre><code class="objc">    typedef unsigned uarith_t;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">216</td>
+<td class="src"><pre><code class="objc">#   define ARITH_SHIFT 16</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">217</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">218</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">219</td>
+<td class="src"><pre><code class="objc">typedef char *STR;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">220</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">221</td>
+<td class="src"><pre><code class="objc">#define ISSELECTOR(sel) sel_isMapped(sel)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">222</td>
+<td class="src"><pre><code class="objc">#define SELNAME(sel)	sel_getName(sel)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">223</td>
+<td class="src"><pre><code class="objc">#define SELUID(str)	sel_getUid(str)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">224</td>
+<td class="src"><pre><code class="objc">#define NAMEOF(obj)     object_getClassName(obj)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">225</td>
+<td class="src"><pre><code class="objc">#define IV(obj)         object_getIndexedIvars(obj)</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">226</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">227</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">228</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">229</td>
+<td class="src"><pre><code class="objc">#endif  /* _OBJC_OBJC_H_ */</code></pre></td>
+<td class="coverage"></td>
+</tr>
+</table>
+</div></div>
+<footer><div class="row">
+<p><a href="https://github.com/venmo/slather">Fork me on Github</a></p>
+<p>&copy; 2015 Slather</p>
+</div></footer><script src="/Users/civetta/Works/Personal/slather/viteinfinite-slather/assets/highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

@@ -117,6 +117,10 @@ OBJC
 
   describe "line coverage" do
 
+    before(:each) {
+      fixtures_project.stub(:input_format).and_return("gcov")
+    }
+
     let(:line_coverage_file) do
       fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "fixtures.m" }
     end
@@ -135,13 +139,13 @@ OBJC
 
     describe "num_lines_tested" do
       it "should return the correct number of lines tested" do
-        expect(line_coverage_file.num_lines_tested).to eq(2)
+        expect(line_coverage_file.num_lines_tested).to eq(3)
       end
     end
 
     describe "num_lines_testable" do
       it "should return the correct number of lines that are testable" do
-        expect(line_coverage_file.num_lines_testable).to eq(4)
+        expect(line_coverage_file.num_lines_testable).to eq(6)
       end
     end
 

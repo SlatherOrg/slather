@@ -1,0 +1,2372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+<title>XCTestAssertionsImpl.h - Slather</title>
+<link href="/Users/civetta/Works/Personal/slather/viteinfinite-slather/assets/slather.css" media="all" rel="stylesheet">
+</head>
+<body>
+<header><div class="row"><a href="index.html"><img src="/Users/civetta/Works/Personal/slather/viteinfinite-slather/docs/logo.jpg" alt="Slather logo"></a></div></header><div class="row"><div id="reports">
+<h2 class="cov_title">
+<span>Coverage for "XCTestAssertionsImpl.h" : </span><span class="cov_medium">80.00%</span>
+</h2>
+<h4 class="cov_subtitle">(16 of 20 relevant lines covered)</h4>
+<h4 class="cov_filepath">../../../../../../../../Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Versions/A/Headers/XCTestAssertionsImpl.h</h4>
+<table class="source_code">
+<tr class="never">
+<td class="num">1</td>
+<td class="src"><pre><code class="objc">//</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">2</td>
+<td class="src"><pre><code class="objc">// Copyright (c) 2013-2015 Apple Inc. All rights reserved.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">3</td>
+<td class="src"><pre><code class="objc">//</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">4</td>
+<td class="src"><pre><code class="objc">// Copyright (c) 1997-2005, Sen:te (Sente SA).  All rights reserved.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">5</td>
+<td class="src"><pre><code class="objc">//</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">6</td>
+<td class="src"><pre><code class="objc">// Use of this source code is governed by the following license:</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">7</td>
+<td class="src"><pre><code class="objc">// </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">8</td>
+<td class="src"><pre><code class="objc">// Redistribution and use in source and binary forms, with or without modification, </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">9</td>
+<td class="src"><pre><code class="objc">// are permitted provided that the following conditions are met:</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">10</td>
+<td class="src"><pre><code class="objc">// </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">11</td>
+<td class="src"><pre><code class="objc">// (1) Redistributions of source code must retain the above copyright notice, </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">12</td>
+<td class="src"><pre><code class="objc">// this list of conditions and the following disclaimer.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">13</td>
+<td class="src"><pre><code class="objc">// </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">14</td>
+<td class="src"><pre><code class="objc">// (2) Redistributions in binary form must reproduce the above copyright notice,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">15</td>
+<td class="src"><pre><code class="objc">// this list of conditions and the following disclaimer in the documentation </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">16</td>
+<td class="src"><pre><code class="objc">// and/or other materials provided with the distribution.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">17</td>
+<td class="src"><pre><code class="objc">// </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">18</td>
+<td class="src"><pre><code class="objc">// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS'' </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">19</td>
+<td class="src"><pre><code class="objc">// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">20</td>
+<td class="src"><pre><code class="objc">// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">21</td>
+<td class="src"><pre><code class="objc">// IN NO EVENT SHALL Sente SA OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">22</td>
+<td class="src"><pre><code class="objc">// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">23</td>
+<td class="src"><pre><code class="objc">// OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">24</td>
+<td class="src"><pre><code class="objc">// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">25</td>
+<td class="src"><pre><code class="objc">// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">26</td>
+<td class="src"><pre><code class="objc">// EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">27</td>
+<td class="src"><pre><code class="objc">// </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">28</td>
+<td class="src"><pre><code class="objc">// Note: this license is equivalent to the FreeBSD license.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">29</td>
+<td class="src"><pre><code class="objc">// </code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">30</td>
+<td class="src"><pre><code class="objc">// This notice may not be removed from this file.</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">31</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">32</td>
+<td class="src"><pre><code class="objc">#import &lt;XCTest/XCTestCase.h&gt;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">33</td>
+<td class="src"><pre><code class="objc">#import &lt;XCTest/XCTestDefines.h&gt;</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">34</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">35</td>
+<td class="src"><pre><code class="objc">NS_ASSUME_NONNULL_BEGIN</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">36</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">37</td>
+<td class="src"><pre><code class="objc">@interface _XCTestCaseInterruptionException : NSException</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">38</td>
+<td class="src"><pre><code class="objc">@end</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">39</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">40</td>
+<td class="src"><pre><code class="objc">#if XCT_NULLABLE_AVAILABLE</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">41</td>
+<td class="src"><pre><code class="objc">XCT_EXPORT void _XCTFailureHandler(XCTestCase *test, BOOL expected, const char *filePath, NSUInteger lineNumber, NSString *condition, NSString * __nullable format, ...) NS_FORMAT_FUNCTION(6,7);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">42</td>
+<td class="src"><pre><code class="objc">#else</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">43</td>
+<td class="src"><pre><code class="objc">XCT_EXPORT void _XCTFailureHandler(XCTestCase *test, BOOL expected, const char *filePath, NSUInteger lineNumber, NSString *condition, NSString *format, ...) NS_FORMAT_FUNCTION(6,7);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">44</td>
+<td class="src"><pre><code class="objc">#endif</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">45</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">46</td>
+<td class="src"><pre><code class="objc">XCT_EXPORT void _XCTPreformattedFailureHandler(XCTestCase *test, BOOL expected, NSString *filePath, NSUInteger lineNumber, NSString *condition, NSString *message);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">47</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="covered">
+<td class="num">48</td>
+<td class="src"><pre><code class="objc">#define _XCTRegisterFailure(test, condition, ...) \</code></pre></td>
+<td class="coverage">2x</td>
+</tr>
+<tr class="covered">
+<td class="num">49</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage">2x</td>
+</tr>
+<tr class="covered">
+<td class="num">50</td>
+<td class="src"><pre><code class="objc">    _XCTFailureHandler(test, YES, __FILE__, __LINE__, condition, @"" __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="covered">
+<td class="num">51</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">52</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">53</td>
+<td class="src"><pre><code class="objc">#pragma mark -</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">54</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">55</td>
+<td class="src"><pre><code class="objc">typedef NS_ENUM(NSUInteger, _XCTAssertionType) {</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">56</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_Fail,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">57</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_Nil,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">58</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_NotNil,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">59</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_EqualObjects,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">60</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_NotEqualObjects,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">61</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_Equal,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">62</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_NotEqual,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">63</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_EqualWithAccuracy,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">64</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_NotEqualWithAccuracy,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">65</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_GreaterThan,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">66</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_GreaterThanOrEqual,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">67</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_LessThan,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">68</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_LessThanOrEqual,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">69</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_True,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">70</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_False,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">71</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_Throws,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">72</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_ThrowsSpecific,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">73</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_ThrowsSpecificNamed,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">74</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_NoThrow,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">75</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_NoThrowSpecific,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">76</td>
+<td class="src"><pre><code class="objc">    _XCTAssertion_NoThrowSpecificNamed,</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">77</td>
+<td class="src"><pre><code class="objc">};</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">78</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">79</td>
+<td class="src"><pre><code class="objc">XCT_EXPORT NSString * _XCTFailureFormat (_XCTAssertionType assertionType, NSUInteger formatIndex);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">80</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">81</td>
+<td class="src"><pre><code class="objc">#define _XCTFailureDescription(assertion_type, format_index, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">82</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">83</td>
+<td class="src"><pre><code class="objc">    _Pragma("clang diagnostic push") \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">84</td>
+<td class="src"><pre><code class="objc">    _Pragma("clang diagnostic ignored \"-Wformat-nonliteral\"") \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">85</td>
+<td class="src"><pre><code class="objc">    [NSString stringWithFormat:_XCTFailureFormat(assertion_type, format_index), @"" __VA_ARGS__]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">86</td>
+<td class="src"><pre><code class="objc">    _Pragma("clang diagnostic pop") \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">87</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">88</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">89</td>
+<td class="src"><pre><code class="objc">#pragma mark -</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">90</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">91</td>
+<td class="src"><pre><code class="objc">XCT_EXPORT NSString * _XCTDescriptionForValue (NSValue *value);</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">92</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">93</td>
+<td class="src"><pre><code class="objc">NS_ASSUME_NONNULL_END</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">94</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">95</td>
+<td class="src"><pre><code class="objc">#pragma mark -</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">96</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">97</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveFail(test, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">98</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">99</td>
+<td class="src"><pre><code class="objc">    _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_Fail, 0), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">100</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">101</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">102</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertNil(test, expression, expressionStr, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">103</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">104</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">105</td>
+<td class="src"><pre><code class="objc">        id expressionValue = (expression); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">106</td>
+<td class="src"><pre><code class="objc">        if (expressionValue != nil) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">107</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_Nil, 0, expressionStr, expressionValue), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">108</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">109</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">110</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">111</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">112</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_Nil, 1, expressionStr, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">113</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">114</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">115</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_Nil, 2, expressionStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">116</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">117</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">118</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">119</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertNotNil(test, expression, expressionStr, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">120</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">121</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">122</td>
+<td class="src"><pre><code class="objc">        id expressionValue = (expression); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">123</td>
+<td class="src"><pre><code class="objc">        if (expressionValue == nil) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">124</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotNil, 0, expressionStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">125</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">126</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">127</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">128</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">129</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotNil, 1, expressionStr, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">130</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">131</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">132</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotNil, 2, expressionStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">133</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">134</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">135</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="covered">
+<td class="num">136</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertTrue(test, expression, expressionStr, ...) \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">137</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">138</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">139</td>
+<td class="src"><pre><code class="objc">        BOOL expressionValue = !!(expression); \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">140</td>
+<td class="src"><pre><code class="objc">        if (!expressionValue) { \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">141</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_True, 0, expressionStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="covered">
+<td class="num">142</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="covered">
+<td class="num">143</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">144</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">145</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">146</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_True, 1, expressionStr, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">147</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">148</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">149</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_True, 2, expressionStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">150</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="covered">
+<td class="num">151</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage">1x</td>
+</tr>
+<tr class="never">
+<td class="num">152</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">153</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertFalse(test, expression, expressionStr, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">154</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">155</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">156</td>
+<td class="src"><pre><code class="objc">        BOOL expressionValue = !!(expression); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">157</td>
+<td class="src"><pre><code class="objc">        if (expressionValue) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">158</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_False, 0, expressionStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">159</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">160</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">161</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">162</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">163</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_False, 1, expressionStr, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">164</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">165</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">166</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_False, 2, expressionStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">167</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">168</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">169</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">170</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertEqualObjects(test, expression1, expressionStr1, expression2, expressionStr2, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">171</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">172</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">173</td>
+<td class="src"><pre><code class="objc">        id expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">174</td>
+<td class="src"><pre><code class="objc">        id expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">175</td>
+<td class="src"><pre><code class="objc">        if ((expressionValue1 != expressionValue2) &amp;&amp; ![expressionValue1 isEqual:expressionValue2]) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">176</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_EqualObjects, 0, expressionStr1, expressionStr2, expressionValue1, expressionValue2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">177</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">178</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">179</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">180</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">181</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_EqualObjects, 1, expressionStr1, expressionStr2, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">182</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">183</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">184</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_EqualObjects, 2, expressionStr1, expressionStr2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">185</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">186</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">187</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">188</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertNotEqualObjects(test, expression1, expressionStr1, expression2, expressionStr2, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">189</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">190</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">191</td>
+<td class="src"><pre><code class="objc">        id expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">192</td>
+<td class="src"><pre><code class="objc">        id expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">193</td>
+<td class="src"><pre><code class="objc">        if ((expressionValue1 == expressionValue2) || [expressionValue1 isEqual:expressionValue2]) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">194</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotEqualObjects, 0, expressionStr1, expressionStr2, expressionValue1, expressionValue2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">195</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">196</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">197</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">198</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">199</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotEqualObjects, 1, expressionStr1, expressionStr2, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">200</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">201</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">202</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotEqualObjects, 2, expressionStr1, expressionStr2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">203</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">204</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">205</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">206</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertEqual(test, expression1, expressionStr1, expression2, expressionStr2, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">207</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">208</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">209</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression1) expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">210</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression2) expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">211</td>
+<td class="src"><pre><code class="objc">        if (expressionValue1 != expressionValue2) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">212</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox1 = [NSValue value:&amp;expressionValue1 withObjCType:@encode(__typeof__(expression1))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">213</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox2 = [NSValue value:&amp;expressionValue2 withObjCType:@encode(__typeof__(expression2))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">214</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_Equal, 0, expressionStr1, expressionStr2, _XCTDescriptionForValue(expressionBox1), _XCTDescriptionForValue(expressionBox2)), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">215</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">216</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">217</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">218</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">219</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_Equal, 1, expressionStr1, expressionStr2, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">220</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">221</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">222</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_Equal, 2, expressionStr1, expressionStr2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">223</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">224</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">225</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">226</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertNotEqual(test, expression1, expressionStr1, expression2, expressionStr2, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">227</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">228</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">229</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression1) expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">230</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression2) expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">231</td>
+<td class="src"><pre><code class="objc">        if (expressionValue1 == expressionValue2) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">232</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox1 = [NSValue value:&amp;expressionValue1 withObjCType:@encode(__typeof__(expression1))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">233</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox2 = [NSValue value:&amp;expressionValue2 withObjCType:@encode(__typeof__(expression2))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">234</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotEqual, 0, expressionStr1, expressionStr2, _XCTDescriptionForValue(expressionBox1), _XCTDescriptionForValue(expressionBox2)), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">235</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">236</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">237</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">238</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">239</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotEqual, 1, expressionStr1, expressionStr2, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">240</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">241</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">242</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotEqual, 2, expressionStr1, expressionStr2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">243</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">244</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">245</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">246</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertEqualWithAccuracy(test, expression1, expressionStr1, expression2, expressionStr2, accuracy, accuracyStr, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">247</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">248</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">249</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression1) expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">250</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression2) expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">251</td>
+<td class="src"><pre><code class="objc">        __typeof__(accuracy) accuracyValue = (accuracy); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">252</td>
+<td class="src"><pre><code class="objc">        if (isnan(expressionValue1) || isnan(expressionValue2) || ((MAX(expressionValue1, expressionValue2) - MIN(expressionValue1, expressionValue2)) &gt; accuracyValue)) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">253</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox1 = [NSValue value:&amp;expressionValue1 withObjCType:@encode(__typeof__(expression1))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">254</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox2 = [NSValue value:&amp;expressionValue2 withObjCType:@encode(__typeof__(expression2))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">255</td>
+<td class="src"><pre><code class="objc">            NSValue *accuracyBox = [NSValue value:&amp;accuracyValue withObjCType:@encode(__typeof__(accuracy))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">256</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_EqualWithAccuracy, 0, expressionStr1, expressionStr2, accuracyStr, _XCTDescriptionForValue(expressionBox1), _XCTDescriptionForValue(expressionBox2), _XCTDescriptionForValue(accuracyBox)), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">257</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">258</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">259</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">260</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">261</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_EqualWithAccuracy, 1, expressionStr1, expressionStr2, accuracyStr, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">262</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">263</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">264</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_EqualWithAccuracy, 2, expressionStr1, expressionStr2, accuracyStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">265</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">266</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">267</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">268</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertNotEqualWithAccuracy(test, expression1, expressionStr1, expression2, expressionStr2, accuracy, accuracyStr, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">269</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">270</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">271</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression1) expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">272</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression2) expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">273</td>
+<td class="src"><pre><code class="objc">        __typeof__(accuracy) accuracyValue = (accuracy); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">274</td>
+<td class="src"><pre><code class="objc">        if (!isnan(expressionValue1) &amp;&amp; !isnan(expressionValue2) &amp;&amp; ((MAX(expressionValue1, expressionValue2) - MIN(expressionValue1, expressionValue2)) &lt;= accuracyValue)) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">275</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox1 = [NSValue value:&amp;expressionValue1 withObjCType:@encode(__typeof__(expression1))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">276</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox2 = [NSValue value:&amp;expressionValue2 withObjCType:@encode(__typeof__(expression2))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">277</td>
+<td class="src"><pre><code class="objc">            NSValue *accuracyBox = [NSValue value:&amp;accuracyValue withObjCType:@encode(__typeof__(accuracy))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">278</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotEqualWithAccuracy, 0, expressionStr1, expressionStr2, accuracyStr, _XCTDescriptionForValue(expressionBox1), _XCTDescriptionForValue(expressionBox2), _XCTDescriptionForValue(accuracyBox)), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">279</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">280</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">281</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">282</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">283</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotEqualWithAccuracy, 1, expressionStr1, expressionStr2, accuracyStr, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">284</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">285</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">286</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NotEqualWithAccuracy, 2, expressionStr1, expressionStr2, accuracyStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">287</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">288</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">289</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">290</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertGreaterThan(test, expression1, expressionStr1, expression2, expressionStr2, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">291</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">292</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">293</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression1) expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">294</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression2) expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">295</td>
+<td class="src"><pre><code class="objc">        if (expressionValue1 &lt;= expressionValue2) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">296</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox1 = [NSValue value:&amp;expressionValue1 withObjCType:@encode(__typeof__(expression1))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">297</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox2 = [NSValue value:&amp;expressionValue2 withObjCType:@encode(__typeof__(expression2))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">298</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_GreaterThan, 0, expressionStr1, expressionStr2, _XCTDescriptionForValue(expressionBox1), _XCTDescriptionForValue(expressionBox2)), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">299</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">300</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">301</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">302</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">303</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_GreaterThan, 1, expressionStr1, expressionStr2, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">304</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">305</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">306</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_GreaterThan, 2, expressionStr1, expressionStr2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">307</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">308</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">309</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">310</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertGreaterThanOrEqual(test, expression1, expressionStr1, expression2, expressionStr2, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">311</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">312</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">313</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression1) expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">314</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression2) expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">315</td>
+<td class="src"><pre><code class="objc">        if (expressionValue1 &lt; expressionValue2) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">316</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox1 = [NSValue value:&amp;expressionValue1 withObjCType:@encode(__typeof__(expression1))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">317</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox2 = [NSValue value:&amp;expressionValue2 withObjCType:@encode(__typeof__(expression2))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">318</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_GreaterThanOrEqual, 0, expressionStr1, expressionStr2, _XCTDescriptionForValue(expressionBox1), _XCTDescriptionForValue(expressionBox2)), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">319</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">320</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">321</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">322</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">323</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_GreaterThanOrEqual, 1, expressionStr1, expressionStr2, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">324</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">325</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">326</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_GreaterThanOrEqual, 2, expressionStr1, expressionStr2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">327</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">328</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">329</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">330</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertLessThan(test, expression1, expressionStr1, expression2, expressionStr2, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">331</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">332</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">333</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression1) expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">334</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression2) expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">335</td>
+<td class="src"><pre><code class="objc">        if (expressionValue1 &gt;= expressionValue2) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">336</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox1 = [NSValue value:&amp;expressionValue1 withObjCType:@encode(__typeof__(expression1))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">337</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox2 = [NSValue value:&amp;expressionValue2 withObjCType:@encode(__typeof__(expression2))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">338</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_LessThan, 0, expressionStr1, expressionStr2, _XCTDescriptionForValue(expressionBox1), _XCTDescriptionForValue(expressionBox2)), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">339</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">340</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">341</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">342</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">343</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_LessThan, 1, expressionStr1, expressionStr2, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">344</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">345</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">346</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_LessThan, 2, expressionStr1, expressionStr2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">347</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">348</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">349</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">350</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertLessThanOrEqual(test, expression1, expressionStr1, expression2, expressionStr2, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">351</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">352</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">353</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression1) expressionValue1 = (expression1); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">354</td>
+<td class="src"><pre><code class="objc">        __typeof__(expression2) expressionValue2 = (expression2); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">355</td>
+<td class="src"><pre><code class="objc">        if (expressionValue1 &gt; expressionValue2) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">356</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox1 = [NSValue value:&amp;expressionValue1 withObjCType:@encode(__typeof__(expression1))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">357</td>
+<td class="src"><pre><code class="objc">            NSValue *expressionBox2 = [NSValue value:&amp;expressionValue2 withObjCType:@encode(__typeof__(expression2))]; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">358</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_LessThanOrEqual, 0, expressionStr1, expressionStr2, _XCTDescriptionForValue(expressionBox1), _XCTDescriptionForValue(expressionBox2)), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">359</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">360</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">361</td>
+<td class="src"><pre><code class="objc">    @catch (_XCTestCaseInterruptionException *interruption) { [interruption raise]; } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">362</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">363</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_LessThanOrEqual, 1, expressionStr1, expressionStr2, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">364</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">365</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">366</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_LessThanOrEqual, 2, expressionStr1, expressionStr2), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">367</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">368</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">369</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">370</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertThrows(test, expression, expressionStr, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">371</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">372</td>
+<td class="src"><pre><code class="objc">    BOOL __didThrow = NO; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">373</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">374</td>
+<td class="src"><pre><code class="objc">        (void)(expression); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">375</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">376</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">377</td>
+<td class="src"><pre><code class="objc">        __didThrow = YES; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">378</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">379</td>
+<td class="src"><pre><code class="objc">    if (!__didThrow) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">380</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_Throws, 0, expressionStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">381</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">382</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">383</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">384</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertThrowsSpecific(test, expression, expressionStr, exception_class, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">385</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">386</td>
+<td class="src"><pre><code class="objc">    BOOL __didThrow = NO; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">387</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">388</td>
+<td class="src"><pre><code class="objc">        (void)(expression); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">389</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">390</td>
+<td class="src"><pre><code class="objc">    @catch (exception_class *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">391</td>
+<td class="src"><pre><code class="objc">        __didThrow = YES; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">392</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">393</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">394</td>
+<td class="src"><pre><code class="objc">        __didThrow = YES; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">395</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_ThrowsSpecific, 0, expressionStr, @#exception_class, [exception class], [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">396</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">397</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">398</td>
+<td class="src"><pre><code class="objc">        __didThrow = YES; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">399</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_ThrowsSpecific, 1, expressionStr, @#exception_class), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">400</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">401</td>
+<td class="src"><pre><code class="objc">    if (!__didThrow) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">402</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_ThrowsSpecific, 2, expressionStr, @#exception_class), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">403</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">404</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">405</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">406</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertThrowsSpecificNamed(test, expression, expressionStr, exception_class, exception_name, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">407</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">408</td>
+<td class="src"><pre><code class="objc">    BOOL __didThrow = NO; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">409</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">410</td>
+<td class="src"><pre><code class="objc">        (void)(expression); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">411</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">412</td>
+<td class="src"><pre><code class="objc">    @catch (exception_class *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">413</td>
+<td class="src"><pre><code class="objc">        __didThrow = YES; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">414</td>
+<td class="src"><pre><code class="objc">        if (![exception_name isEqualToString:[exception name]]) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">415</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_ThrowsSpecificNamed, 0, expressionStr, @#exception_class, exception_name, [exception class], [exception name], [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">416</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">417</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">418</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">419</td>
+<td class="src"><pre><code class="objc">        __didThrow = YES; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">420</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_ThrowsSpecificNamed, 1, expressionStr, @#exception_class, exception_name, [exception class], [exception name], [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">421</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">422</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">423</td>
+<td class="src"><pre><code class="objc">        __didThrow = YES; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">424</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_ThrowsSpecificNamed, 2, expressionStr, @#exception_class, exception_name), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">425</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">426</td>
+<td class="src"><pre><code class="objc">    if (!__didThrow) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">427</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_ThrowsSpecificNamed, 3, expressionStr, @#exception_class, exception_name), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">428</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">429</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">430</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">431</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertNoThrow(test, expression, expressionStr, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">432</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">433</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">434</td>
+<td class="src"><pre><code class="objc">        (void)(expression); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">435</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">436</td>
+<td class="src"><pre><code class="objc">    @catch (NSException *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">437</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NoThrow, 0, expressionStr, [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">438</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">439</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">440</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NoThrow, 1, expressionStr), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">441</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">442</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">443</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">444</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertNoThrowSpecific(test, expression, expressionStr, exception_class, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">445</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">446</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">447</td>
+<td class="src"><pre><code class="objc">        (void)(expression); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">448</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">449</td>
+<td class="src"><pre><code class="objc">    @catch (exception_class *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">450</td>
+<td class="src"><pre><code class="objc">        _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NoThrowSpecific, 0, expressionStr, @#exception_class, [exception class], [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">451</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">452</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">453</td>
+<td class="src"><pre><code class="objc">        ; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">454</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">455</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">456</td>
+<td class="src"><pre><code class="objc"></code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">457</td>
+<td class="src"><pre><code class="objc">#define _XCTPrimitiveAssertNoThrowSpecificNamed(test, expression, expressionStr, exception_class, exception_name, ...) \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">458</td>
+<td class="src"><pre><code class="objc">({ \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">459</td>
+<td class="src"><pre><code class="objc">    @try { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">460</td>
+<td class="src"><pre><code class="objc">        (void)(expression); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">461</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">462</td>
+<td class="src"><pre><code class="objc">    @catch (exception_class *exception) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">463</td>
+<td class="src"><pre><code class="objc">        if ([exception_name isEqualToString:[exception name]]) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">464</td>
+<td class="src"><pre><code class="objc">            _XCTRegisterFailure(test, _XCTFailureDescription(_XCTAssertion_NoThrowSpecificNamed, 0, expressionStr, @#exception_class, exception_name, [exception class], [exception name], [exception reason]), __VA_ARGS__); \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">465</td>
+<td class="src"><pre><code class="objc">        } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">466</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">467</td>
+<td class="src"><pre><code class="objc">    @catch (...) { \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">468</td>
+<td class="src"><pre><code class="objc">        ; \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">469</td>
+<td class="src"><pre><code class="objc">    } \</code></pre></td>
+<td class="coverage"></td>
+</tr>
+<tr class="never">
+<td class="num">470</td>
+<td class="src"><pre><code class="objc">})</code></pre></td>
+<td class="coverage"></td>
+</tr>
+</table>
+</div></div>
+<footer><div class="row">
+<p><a href="https://github.com/venmo/slather">Fork me on Github</a></p>
+<p>&copy; 2015 Slather</p>
+</div></footer><script src="/Users/civetta/Works/Personal/slather/viteinfinite-slather/assets/highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

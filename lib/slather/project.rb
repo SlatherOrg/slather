@@ -106,36 +106,50 @@ module Slather
 
     def profdata_coverage_dir
       raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
+      dir = nil
       if self.scheme
-        Dir["#{build_directory}/**/CodeCoverage/#{self.scheme}"].first
+        dir = Dir["#{build_directory}/**/CodeCoverage/#{self.scheme}"].first
       else
-        Dir["#{build_directory}/**/#{self.products.first.name}"].first
+        dir = Dir["#{build_directory}/**/#{self.products.first.name}"].first
       end
+
+      raise StandardError, "No coverage directory found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless dir != nil
+      dir
     end
 
     def binary_file
-      xctest_bundle_file = Dir["#{profdata_coverage_dir}/**/*.xctest"].first
-      if xctest_bundle_file == nil
-        raise StandardError, "No product binary found in profdata_coverage_dir"
-      end
+      xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].first
+      raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless xctest_bundle != nil
 
-      # Find the matching .app, if any
-      xctest_bundle_file_directory = Pathname.new(xctest_bundle_file).dirname
-      app_bundle_file = Dir["#{xctest_bundle_file_directory}/*.app"].first
-      framework_bundle_file = Dir["#{xctest_bundle_file_directory}/*.framework"].first
+      # Find the matching binary file
+      xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
+      app_bundle = Dir["#{xctest_bundle_file_directory}/*.app"].first
+      dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/*.framework"].first
 
-      if app_bundle_file != nil
-        app_bundle_file_name_noext = Pathname.new(app_bundle_file).basename.to_s.gsub(".app", "")
-        "#{app_bundle_file}/#{app_bundle_file_name_noext}"
-      elsif framework_bundle_file != nil
-        framework_bundle_file_name_noext = Pathname.new(framework_bundle_file).basename.to_s.gsub(".framework", "")
-        "#{framework_bundle_file}/#{framework_bundle_file_name_noext}"
+      if app_bundle != nil
+        binary_file_for_app(app_bundle)
+      elsif dynamic_lib_bundle != nil
+        binary_file_for_dynamic_lib(dynamic_lib_bundle)
       else
-        xctest_bundle_file_name_noext = Pathname.new(xctest_bundle_file).basename.to_s.gsub(".xctest", "")
-        Dir["#{xctest_bundle_file}/**/#{xctest_bundle_file_name_noext}"].first
+        binary_file_for_static_lib(xctest_bundle)
       end
     end
     private :binary_file
+
+    def binary_file_for_app(app_bundle_file)
+      app_bundle_file_name_noext = Pathname.new(app_bundle_file).basename.to_s.gsub(".app", "")
+      "#{app_bundle_file}/#{app_bundle_file_name_noext}"
+    end
+
+    def binary_file_for_dynamic_lib(framework_bundle_file)
+      framework_bundle_file_name_noext = Pathname.new(framework_bundle_file).basename.to_s.gsub(".framework", "")
+      "#{framework_bundle_file}/#{framework_bundle_file_name_noext}"
+    end
+
+    def binary_file_for_static_lib(xctest_bundle_file)
+      xctest_bundle_file_name_noext = Pathname.new(xctest_bundle_file).basename.to_s.gsub(".xctest", "")
+      Dir["#{xctest_bundle_file}/**/#{xctest_bundle_file_name_noext}"].first
+    end
 
     def profdata_llvm_cov_output
       profdata_coverage_dir = self.profdata_coverage_dir

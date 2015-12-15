@@ -125,29 +125,35 @@ describe Slather::Project do
   end
 
   describe "#binary_file" do
-    before(:each) do
-      Dir.stub(:[]).and_call_original
-      fixtures_project.stub(:scheme).and_return("FixtureScheme")
-      Dir.stub(:[]).with("#{fixtures_project.build_directory}/**/CodeCoverage/FixtureScheme").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme"])
-      Dir.stub(:[]).with("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/**/*.xctest").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest"])
+
+    let(:build_directory) do
+      TEMP_DERIVED_DATA_PATH
     end
 
-    it "should return the binary file location for a test bundle provided a scheme" do
-      Dir.stub(:[]).with("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/**/FixtureAppTests").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests"])
-      binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests")
+    before(:each) do
+      Dir.stub(:[]).and_call_original
+      fixtures_project.stub(:build_directory).and_return(build_directory)
+      fixtures_project.stub(:scheme).and_return("FixtureScheme")
+      Dir.stub(:[]).with("#{build_directory}/**/CodeCoverage/FixtureScheme").and_return(["#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme"])
+      Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/**/*.xctest").and_return(["#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/FixtureAppTests.xctest"])
     end
 
     it "should return the binary file location for an app bundle provided a scheme" do
-      Dir.stub(:[]).with("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/*.app").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureApp.app"])
+      Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/*.app").and_return(["/FixtureScheme/FixtureApp.app"])
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureApp.app/FixtureApp")
+      expect(binary_file_location).to eq("/FixtureScheme/FixtureApp.app/FixtureApp")
     end
 
     it "should return the binary file location for a framework bundle provided a scheme" do
-      Dir.stub(:[]).with("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/*.framework").and_return(["/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureFramework.framework"])
+      Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/*.framework").and_return(["/FixtureScheme/FixtureFramework.framework"])
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to eq("/Users/venmo/Library/Developer/Xcode/DerivedData/FixtureScheme/FixtureFramework.framework/FixtureFramework")
+      expect(binary_file_location).to eq("/FixtureScheme/FixtureFramework.framework/FixtureFramework")
+    end
+
+    it "should return the binary file location for a test bundle provided a scheme" do
+      Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/FixtureAppTests.xctest/**/FixtureAppTests").and_return(["/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests"])
+      binary_file_location = fixtures_project.send(:binary_file)
+      expect(binary_file_location).to eq("/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests")
     end
   end
 

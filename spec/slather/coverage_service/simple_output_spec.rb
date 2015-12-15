@@ -17,17 +17,17 @@ describe Slather::CoverageService::SimpleOutput do
 
   describe '#post' do
     it "should print out the coverage for each file, and then total coverage" do
-      ["spec/fixtures/fixtures/fixtures.m: 2 of 4 lines (50.00%)",
-      "spec/fixtures/fixtures/more_files/peekaview.m: 0 of 5 lines (0.00%)",
+      ["spec/fixtures/fixtures/fixtures.m: 3 of 6 lines (50.00%)",
+      "spec/fixtures/fixtures/more_files/peekaview.m: 0 of 6 lines (0.00%)",
       "spec/fixtures/fixtures/fixtures_cpp.cpp: 0 of 0 lines (100.00%)",
       "spec/fixtures/fixtures/fixtures_mm.mm: 0 of 0 lines (100.00%)",
       "spec/fixtures/fixtures/fixtures_m.m: 0 of 0 lines (100.00%)",
-      "spec/fixtures/fixtures/more_files/Branches.m: 9 of 19 lines (47.37%)",
+      "spec/fixtures/fixtures/more_files/Branches.m: 10 of 21 lines (47.62%)",
       "spec/fixtures/fixtures/more_files/Empty.m: 0 of 0 lines (100.00%)",
-      "spec/fixtures/fixturesTests/fixturesTests.m: 7 of 7 lines (100.00%)",
-      "spec/fixtures/fixturesTests/peekaviewTests.m: 6 of 6 lines (100.00%)",
-      "spec/fixtures/fixturesTests/BranchesTests.m: 10 of 10 lines (100.00%)",
-      "Test Coverage: 66.67%"].each do |line|
+      "spec/fixtures/fixturesTests/fixturesTests.m: 10 of 10 lines (100.00%)",
+      "spec/fixtures/fixturesTests/peekaviewTests.m: 9 of 9 lines (100.00%)",
+      "spec/fixtures/fixturesTests/BranchesTests.m: 14 of 14 lines (100.00%)",
+      "Test Coverage: 69.70%"].each do |line|
         expect(fixtures_project).to receive(:puts).with(line)
       end
 
