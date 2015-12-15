@@ -165,8 +165,8 @@ module Slather
         raise StandardError, "No binary file found. Please help slather by adding the \"scheme\" argument"
       end
 
-      puts "Processing coverage file: #{profdata_file_arg}"
-      puts "Against binary file: #{binary_file_arg}"
+      puts "\nProcessing coverage file: #{profdata_file_arg}"
+      puts "Against binary file: #{binary_file_arg}\n\n"
 
       llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_file_arg})
       `xcrun llvm-cov #{llvm_cov_args.shelljoin}`

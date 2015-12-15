@@ -27,7 +27,7 @@ module Slather
         File.write(output_file, report.to_s)
       end
 
-      def grouped_coverage_files
+      def grouped_coverage_files(coverage_files)
         groups = Hash.new
         coverage_files.each do |coverage_file|
           next if coverage_file == nil
@@ -55,7 +55,7 @@ module Slather
         packages_node = @doc.at_css "packages"
 
         # group files by path
-        grouped_coverage_files.each do |path , package_coverage_files|
+          grouped_coverage_files(coverage_files).each do |path , package_coverage_files|
           package_node = Nokogiri::XML::Node.new "package", @doc
           package_node.parent = packages_node
           classes_node = Nokogiri::XML::Node.new "classes", @doc
