@@ -118,7 +118,9 @@ module Slather
     end
 
     def binary_file
-      xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].first
+      xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].reject { |bundle|
+        bundle.include? "-Runner.app/PlugIns/"
+      }.first
       raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless xctest_bundle != nil
 
       # Find the matching binary file
@@ -162,6 +164,9 @@ module Slather
       if binary_file_arg == nil
         raise StandardError, "No binary file found. Please help slather by adding the \"scheme\" argument"
       end
+
+      puts "Processing coverage file: #{profdata_file_arg}"
+      puts "Against binary file: #{binary_file_arg}"
 
       llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_file_arg})
       `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
