@@ -44,4 +44,3 @@ cobertura.xml
 html
 *.gcda
 *.gcno
-other_fixtures.m
