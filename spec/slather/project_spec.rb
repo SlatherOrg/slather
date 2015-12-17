@@ -140,6 +140,7 @@ describe Slather::Project do
 
     it "should return the binary file location for an app bundle provided a scheme" do
       Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/*.app").and_return(["/FixtureScheme/FixtureApp.app"])
+      Dir.stub(:[]).with("/FixtureScheme/FixtureApp.app/**/FixtureApp").and_return(["/FixtureScheme/FixtureApp.app/FixtureApp"])
       binary_file_location = fixtures_project.send(:binary_file)
       expect(binary_file_location).to eq("/FixtureScheme/FixtureApp.app/FixtureApp")
     end
