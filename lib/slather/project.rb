@@ -140,7 +140,7 @@ module Slather
 
     def binary_file_for_app(app_bundle_file)
       app_bundle_file_name_noext = Pathname.new(app_bundle_file).basename.to_s.gsub(".app", "")
-      "#{app_bundle_file}/#{app_bundle_file_name_noext}"
+      Dir["#{app_bundle_file}/**/#{app_bundle_file_name_noext}"].first
     end
 
     def binary_file_for_dynamic_lib(framework_bundle_file)
