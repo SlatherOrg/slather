@@ -124,6 +124,21 @@ describe Slather::Project do
     end
   end
 
+  describe "#invalid_characters" do
+    it "should correctly encode invalid characters" do
+      fixtures_project.stub(:input_format).and_return("profdata")
+      fixtures_project.stub(:ignore_list).and_return([])
+      Dir.stub(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
+      fixtures_project.stub(:unsafe_profdata_llvm_cov_output).and_return("#{FIXTURES_SWIFT_FILE_PATH}:
+      1|    8|    func application(application: \255, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+      1|    9|        return true
+      0|   14|}")
+      fixtures_project.extend(Slather::CoverageService::HtmlOutput)
+      profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
+      expect(profdata_coverage_files.count).to eq(1)
+    end
+  end
+
   describe "#binary_file" do
 
     let(:build_directory) do

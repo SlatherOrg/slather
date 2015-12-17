@@ -153,7 +153,7 @@ module Slather
       Dir["#{xctest_bundle_file}/**/#{xctest_bundle_file_name_noext}"].first
     end
 
-    def profdata_llvm_cov_output
+    def unsafe_profdata_llvm_cov_output
       profdata_coverage_dir = self.profdata_coverage_dir
       binary_file_arg = binary_file
 
@@ -168,8 +168,14 @@ module Slather
       puts "\nProcessing coverage file: #{profdata_file_arg}"
       puts "Against binary file: #{binary_file_arg}\n\n"
 
+
       llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_file_arg})
       `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
+    end
+    private :unsafe_profdata_llvm_cov_output
+
+    def profdata_llvm_cov_output
+      unsafe_profdata_llvm_cov_output.encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
     end
     private :profdata_llvm_cov_output
 
