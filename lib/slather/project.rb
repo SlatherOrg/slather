@@ -50,7 +50,8 @@ end
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory, :output_directory, :xcodeproj, :show_html, :input_format, :scheme
+    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory, 
+      :output_directory, :xcodeproj, :show_html, :input_format, :scheme, :binary_file
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -117,7 +118,7 @@ module Slather
       dir
     end
 
-    def binary_file
+    def find_binary_file
       xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].reject { |bundle|
         bundle.include? "-Runner.app/PlugIns/"
       }.first
@@ -129,47 +130,46 @@ module Slather
       dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/*.framework"].first
 
       if app_bundle != nil
-        binary_file_for_app(app_bundle)
+        find_binary_file_for_app(app_bundle)
       elsif dynamic_lib_bundle != nil
-        binary_file_for_dynamic_lib(dynamic_lib_bundle)
+        find_binary_file_for_dynamic_lib(dynamic_lib_bundle)
       else
-        binary_file_for_static_lib(xctest_bundle)
+        find_binary_file_for_static_lib(xctest_bundle)
       end
     end
-    private :binary_file
+    private :find_binary_file
 
-    def binary_file_for_app(app_bundle_file)
+    def find_binary_file_for_app(app_bundle_file)
       app_bundle_file_name_noext = Pathname.new(app_bundle_file).basename.to_s.gsub(".app", "")
       Dir["#{app_bundle_file}/**/#{app_bundle_file_name_noext}"].first
     end
 
-    def binary_file_for_dynamic_lib(framework_bundle_file)
+    def find_binary_file_for_dynamic_lib(framework_bundle_file)
       framework_bundle_file_name_noext = Pathname.new(framework_bundle_file).basename.to_s.gsub(".framework", "")
       "#{framework_bundle_file}/#{framework_bundle_file_name_noext}"
     end
 
-    def binary_file_for_static_lib(xctest_bundle_file)
+    def find_binary_file_for_static_lib(xctest_bundle_file)
       xctest_bundle_file_name_noext = Pathname.new(xctest_bundle_file).basename.to_s.gsub(".xctest", "")
       Dir["#{xctest_bundle_file}/**/#{xctest_bundle_file_name_noext}"].first
     end
 
     def unsafe_profdata_llvm_cov_output
       profdata_coverage_dir = self.profdata_coverage_dir
-      binary_file_arg = binary_file
 
       if profdata_coverage_dir == nil || (profdata_file_arg = Dir["#{profdata_coverage_dir}/**/Coverage.profdata"].first) == nil
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
       end
 
-      if binary_file_arg == nil
+      if self.binary_file == nil
         raise StandardError, "No binary file found. Please help slather by adding the \"scheme\" argument"
       end
 
       puts "\nProcessing coverage file: #{profdata_file_arg}"
-      puts "Against binary file: #{binary_file_arg}\n\n"
+      puts "Against binary file: #{self.binary_file}\n\n"
 
 
-      llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_file_arg})
+      llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{self.binary_file})
       `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
     end
     private :unsafe_profdata_llvm_cov_output
@@ -202,6 +202,7 @@ module Slather
       configure_output_directory_from_yml
       configure_input_format_from_yml
       configure_scheme_from_yml
+      configure_binary_file_from_yml
     end
 
     def configure_build_directory_from_yml
@@ -262,6 +263,12 @@ module Slather
         raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json`, `cobertura_xml` or `html`"
       end
       @coverage_service = service
+    end
+
+    def configure_binary_file_from_yml
+      if input_format == "profdata"
+        self.binary_file = self.class.yml["binary_file"] ? self.class.yml["binary_file"] : find_binary_file
+      end
     end
 
     def input_format=(format)

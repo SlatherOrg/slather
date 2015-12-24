@@ -30,6 +30,7 @@ Clamp do
 
     option ["--input-format"], "INPUT_FORMAT", "Input format (gcov, profdata)"
     option ["--scheme"], "SCHEME", "The scheme for which the coverage was generated"
+    option ["--binary-file"], "BINARY_FILE", "The binary file against the which the coverage will be run"
 
     def execute
       puts "Slathering..."
@@ -42,6 +43,7 @@ Clamp do
       setup_coverage_service
       setup_input_format
       setup_scheme
+      setup_binary_file
 
       post
 
@@ -112,6 +114,10 @@ Clamp do
 
     def setup_scheme
       project.scheme = scheme
+    end
+
+    def setup_binary_file
+      project.binary_file = binary_file
     end
 
   end

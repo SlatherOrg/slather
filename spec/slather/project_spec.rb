@@ -148,6 +148,7 @@ describe Slather::Project do
     before(:each) do
       Dir.stub(:[]).and_call_original
       fixtures_project.stub(:build_directory).and_return(build_directory)
+      fixtures_project.stub(:input_format).and_return("profdata")
       fixtures_project.stub(:scheme).and_return("FixtureScheme")
       Dir.stub(:[]).with("#{build_directory}/**/CodeCoverage/FixtureScheme").and_return(["#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme"])
       Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/**/*.xctest").and_return(["#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/FixtureAppTests.xctest"])
@@ -156,21 +157,46 @@ describe Slather::Project do
     it "should return the binary file location for an app bundle provided a scheme" do
       Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/*.app").and_return(["/FixtureScheme/FixtureApp.app"])
       Dir.stub(:[]).with("/FixtureScheme/FixtureApp.app/**/FixtureApp").and_return(["/FixtureScheme/FixtureApp.app/FixtureApp"])
+      fixtures_project.send(:configure_binary_file_from_yml)
       binary_file_location = fixtures_project.send(:binary_file)
       expect(binary_file_location).to eq("/FixtureScheme/FixtureApp.app/FixtureApp")
     end
 
     it "should return the binary file location for a framework bundle provided a scheme" do
       Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/*.framework").and_return(["/FixtureScheme/FixtureFramework.framework"])
+      fixtures_project.send(:configure_binary_file_from_yml)
       binary_file_location = fixtures_project.send(:binary_file)
       expect(binary_file_location).to eq("/FixtureScheme/FixtureFramework.framework/FixtureFramework")
     end
 
     it "should return the binary file location for a test bundle provided a scheme" do
       Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/FixtureAppTests.xctest/**/FixtureAppTests").and_return(["/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests"])
+      fixtures_project.send(:configure_binary_file_from_yml)
       binary_file_location = fixtures_project.send(:binary_file)
       expect(binary_file_location).to eq("/FixtureScheme/FixtureAppTests.xctest/Contents/MacOS/FixtureAppTests")
     end
+
+    let(:fixture_yaml) do
+        yaml_text = <<-EOF
+          binary_file: "/FixtureScheme/From/Yaml/Contents/MacOS/FixturesFromYaml"
+        EOF
+        yaml = YAML.load(yaml_text)
+    end
+
+    it "should configure the binary_file from yml" do
+      Slather::Project.stub(:yml).and_return(fixture_yaml)
+      fixtures_project.send(:configure_binary_file_from_yml)
+      binary_file_location = fixtures_project.send(:binary_file)
+      expect(binary_file_location).to eq("/FixtureScheme/From/Yaml/Contents/MacOS/FixturesFromYaml")
+    end
+
+ #  it "should find the binary file without any yml setting" do
+ #    fixtures_project.configure_binary_file_from_yml
+ #    Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/*.app").and_return(["/FixtureScheme/FixtureApp.app"])
+ #    Dir.stub(:[]).with("/FixtureScheme/FixtureApp.app/**/FixtureApp").and_return(["/FixtureScheme/FixtureApp.app/FixtureApp"])
+ #    binary_file_location = fixtures_project.send(:binary_file)
+ #    expect(binary_file_location).to eq("/FixtureScheme/FixtureApp.app/FixtureApp")
+ #  end
   end
 
   describe "#dedupe" do
