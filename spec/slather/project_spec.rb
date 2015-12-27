@@ -5,15 +5,7 @@ describe Slather::Project do
   FIXTURES_PROJECT_SETUP_PATH = 'fixtures_setup.xcodeproj'
 
   let(:fixtures_project) do
-    Slather::Project.any_instance.stub(:configure_from_yml)
     Slather::Project.open(FIXTURES_PROJECT_PATH)
-  end
-
-  describe "::open" do
-    it "should return a project instance that has been configured from yml" do
-      expect_any_instance_of(Slather::Project).to receive(:configure_from_yml)
-      expect(fixtures_project).not_to be_nil
-    end
   end
 
   describe "#derived_data_path" do
@@ -30,9 +22,9 @@ describe Slather::Project do
     end
 
     it "should return the derived_data_path if no build_directory has been set" do
-      derived_data_path_mock = double(String)
-      fixtures_project.stub(:derived_data_path).and_return(derived_data_path_mock)
-      expect(fixtures_project.build_directory).to eq(derived_data_path_mock)
+      derived_data_path = File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
+      fixtures_project.send(:configure_build_directory_from_yml)
+      expect(fixtures_project.build_directory).to eq(derived_data_path)
     end
   end
 

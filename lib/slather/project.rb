@@ -57,7 +57,6 @@ module Slather
 
     def self.open(xcodeproj)
       proj = super
-      proj.configure_from_yml
       proj.xcodeproj = xcodeproj
       proj
     end
@@ -66,10 +65,6 @@ module Slather
       File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
     end
     private :derived_data_path
-
-    def build_directory
-      @build_directory || derived_data_path
-    end
 
     def coverage_files
       if self.input_format == "profdata"
@@ -118,27 +113,6 @@ module Slather
       dir
     end
 
-    def find_binary_file
-      xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].reject { |bundle|
-        bundle.include? "-Runner.app/PlugIns/"
-      }.first
-      raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless xctest_bundle != nil
-
-      # Find the matching binary file
-      xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
-      app_bundle = Dir["#{xctest_bundle_file_directory}/*.app"].first
-      dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/*.framework"].first
-
-      if app_bundle != nil
-        find_binary_file_for_app(app_bundle)
-      elsif dynamic_lib_bundle != nil
-        find_binary_file_for_dynamic_lib(dynamic_lib_bundle)
-      else
-        find_binary_file_for_static_lib(xctest_bundle)
-      end
-    end
-    private :find_binary_file
-
     def find_binary_file_for_app(app_bundle_file)
       app_bundle_file_name_noext = Pathname.new(app_bundle_file).basename.to_s.gsub(".app", "")
       Dir["#{app_bundle_file}/**/#{app_bundle_file_name_noext}"].first
@@ -162,7 +136,7 @@ module Slather
       end
 
       if self.binary_file == nil
-        raise StandardError, "No binary file found. Please help slather by adding the \"scheme\" argument"
+        raise StandardError, "No binary file found."
       end
 
       puts "\nProcessing coverage file: #{profdata_file_arg}"
@@ -206,7 +180,7 @@ module Slather
     end
 
     def configure_build_directory_from_yml
-      self.build_directory = self.class.yml["build_directory"] if self.class.yml["build_directory"] && !@build_directory
+      self.build_directory ||= self.class.yml["build_directory"] || derived_data_path
     end
 
     def configure_source_directory_from_yml
@@ -226,7 +200,19 @@ module Slather
     end
 
     def configure_input_format_from_yml
-      self.input_format ||= self.class.yml["input_format"] if self.class.yml["input_format"]
+      self.input_format ||= self.class.yml["input_format"] || input_format
+    end
+
+    def input_format=(format)
+      format ||= "auto"
+      unless %w(gcov profdata auto).include?(format)
+        raise StandardError, "Only supported input formats are gcov, profdata or auto"
+      end
+      if format == "auto"
+        @input_format = Slather.xcode_version[0] < 7 ? "gcov" : "profdata"
+      else
+        @input_format = format
+      end
     end
 
     def configure_scheme_from_yml
@@ -266,20 +252,28 @@ module Slather
     end
 
     def configure_binary_file_from_yml
-      if input_format == "profdata"
-        self.binary_file = self.class.yml["binary_file"] ? self.class.yml["binary_file"] : find_binary_file
+      if self.input_format == "profdata"
+        self.binary_file ||= self.class.yml["binary_file"] || find_binary_file
       end
     end
 
-    def input_format=(format)
-      format ||= "auto"
-      unless %w(gcov profdata auto).include?(format)
-        raise StandardError, "Only supported input formats are gcov, profdata or auto"
-      end
-      if format == "auto"
-        @input_format = Slather.xcode_version[0] < 7 ? "gcov" : "profdata"
+    def find_binary_file
+      xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].reject { |bundle|
+        bundle.include? "-Runner.app/PlugIns/"
+      }.first
+      raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless xctest_bundle != nil
+
+      # Find the matching binary file
+      xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
+      app_bundle = Dir["#{xctest_bundle_file_directory}/*.app"].first
+      dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/*.framework"].first
+
+      if app_bundle != nil
+        find_binary_file_for_app(app_bundle)
+      elsif dynamic_lib_bundle != nil
+        find_binary_file_for_dynamic_lib(dynamic_lib_bundle)
       else
-        @input_format = format
+        find_binary_file_for_static_lib(xctest_bundle)
       end
     end
 

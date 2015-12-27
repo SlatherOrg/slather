@@ -45,6 +45,8 @@ Clamp do
       setup_scheme
       setup_binary_file
 
+      project.configure_from_yml
+
       post
 
       puts "Slathered"

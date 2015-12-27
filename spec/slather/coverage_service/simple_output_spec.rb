@@ -4,8 +4,9 @@ describe Slather::CoverageService::SimpleOutput do
 
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
-    proj.extend(Slather::CoverageService::SimpleOutput)
     proj.build_directory = TEMP_DERIVED_DATA_PATH
+    proj.input_format = "gcov"
+    proj.configure_from_yml
     proj
   end
 

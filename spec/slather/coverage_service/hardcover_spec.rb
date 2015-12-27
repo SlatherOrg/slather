@@ -4,8 +4,10 @@ describe Slather::CoverageService::Hardcover do
 
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
-    proj.extend(Slather::CoverageService::Hardcover)
     proj.build_directory = TEMP_DERIVED_DATA_PATH
+    proj.input_format = "gcov"
+    proj.coverage_service = "hardcover"
+    proj.configure_from_yml
     proj
   end
 
