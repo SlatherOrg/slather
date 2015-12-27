@@ -140,8 +140,9 @@ describe Slather::CoverageService::Coveralls do
         before(:each) { fixtures_project.ci_service = :travis_ci }
 
         it "should return valid json for coveralls coverage profdata data" do
+          project_root = Pathname("./").realpath
           fixtures_project.stub(:travis_job_id).and_return("9182")
-          fixtures_project.stub(:profdata_llvm_cov_output).and_return("/Users/civetta/Works/Personal/slather/viteinfinite-slather/spec/fixtures/fixtures/fixtures.m:
+          fixtures_project.stub(:profdata_llvm_cov_output).and_return("#{project_root}/spec/fixtures/fixtures/fixtures.m:
          |    1|//
          |    2|//  fixtures.m
          |    3|//  fixtures
