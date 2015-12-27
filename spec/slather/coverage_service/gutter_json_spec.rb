@@ -5,8 +5,10 @@ describe Slather::CoverageService::GutterJsonOutput do
 
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
-    proj.extend(Slather::CoverageService::GutterJsonOutput)
     proj.build_directory = TEMP_DERIVED_DATA_PATH
+    proj.input_format = "gcov"
+    proj.coverage_service = "gutter_json"
+    proj.configure
     proj
   end
 
