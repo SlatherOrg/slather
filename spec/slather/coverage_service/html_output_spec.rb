@@ -49,7 +49,7 @@ describe Slather::CoverageService::HtmlOutput do
 
       before(:each) {
         fixtures_project.stub(:input_format).and_return("gcov")
-        fixtures_project.send(:configure_from_yml)
+        fixtures_project.send(:configure)
       }
 
       it "should create all coverage as static html files" do
@@ -189,7 +189,7 @@ describe Slather::CoverageService::HtmlOutput do
 
       before(:each) {
         fixtures_project.stub(:input_format).and_return("profdata")
-        fixtures_project.send(:configure_from_yml)
+        fixtures_project.send(:configure)
       }
 
       it "should create a valid report when using profdata format" do

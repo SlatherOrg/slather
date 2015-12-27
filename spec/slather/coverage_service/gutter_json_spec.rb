@@ -8,7 +8,7 @@ describe Slather::CoverageService::GutterJsonOutput do
     proj.build_directory = TEMP_DERIVED_DATA_PATH
     proj.input_format = "gcov"
     proj.coverage_service = "gutter_json"
-    proj.configure_from_yml
+    proj.configure
     proj
   end
 

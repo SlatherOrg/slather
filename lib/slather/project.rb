@@ -166,40 +166,40 @@ module Slather
       @yml ||= File.exist?(yml_filename) ? YAML.load_file(yml_filename) : {}
     end
 
-    def configure_from_yml
-      configure_build_directory_from_yml
-      configure_ignore_list_from_yml
-      configure_ci_service_from_yml
-      configure_coverage_access_token_from_yml
-      configure_coverage_service_from_yml
-      configure_source_directory_from_yml
-      configure_output_directory_from_yml
-      configure_input_format_from_yml
-      configure_scheme_from_yml
-      configure_binary_file_from_yml
+    def configure
+      configure_build_directory
+      configure_ignore_list
+      configure_ci_service
+      configure_coverage_access_token
+      configure_coverage_service
+      configure_source_directory
+      configure_output_directory
+      configure_input_format
+      configure_scheme
+      configure_binary_file
     end
 
-    def configure_build_directory_from_yml
+    def configure_build_directory
       self.build_directory ||= self.class.yml["build_directory"] || derived_data_path
     end
 
-    def configure_source_directory_from_yml
+    def configure_source_directory
       self.source_directory ||= self.class.yml["source_directory"] if self.class.yml["source_directory"]
     end
 
-    def configure_output_directory_from_yml
+    def configure_output_directory
       self.output_directory ||= self.class.yml["output_directory"] if self.class.yml["output_directory"]
     end
 
-    def configure_ignore_list_from_yml
+    def configure_ignore_list
       self.ignore_list ||= [(self.class.yml["ignore"] || [])].flatten
     end
 
-    def configure_ci_service_from_yml
+    def configure_ci_service
       self.ci_service ||= (self.class.yml["ci_service"] || :travis_ci)
     end
 
-    def configure_input_format_from_yml
+    def configure_input_format
       self.input_format ||= self.class.yml["input_format"] || input_format
     end
 
@@ -215,7 +215,7 @@ module Slather
       end
     end
 
-    def configure_scheme_from_yml
+    def configure_scheme
       self.scheme ||= self.class.yml["scheme"] if self.class.yml["scheme"]
     end
 
@@ -223,11 +223,11 @@ module Slather
       @ci_service = service && service.to_sym
     end
 
-    def configure_coverage_service_from_yml
+    def configure_coverage_service
       self.coverage_service ||= (self.class.yml["coverage_service"] || :terminal)
     end
 
-    def configure_coverage_access_token_from_yml
+    def configure_coverage_access_token
       self.coverage_access_token ||= (ENV["COVERAGE_ACCESS_TOKEN"] || self.class.yml["coverage_access_token"] || "")
     end
 
@@ -251,7 +251,7 @@ module Slather
       @coverage_service = service
     end
 
-    def configure_binary_file_from_yml
+    def configure_binary_file
       if self.input_format == "profdata"
         self.binary_file ||= self.class.yml["binary_file"] || find_binary_file
       end

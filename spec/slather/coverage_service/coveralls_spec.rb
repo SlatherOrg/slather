@@ -27,7 +27,7 @@ describe Slather::CoverageService::Coveralls do
   context "#gcov file format" do
     before(:each) { 
       fixtures_project.stub(:input_format).and_return("gcov")
-      fixtures_project.send(:configure_from_yml)
+      fixtures_project.send(:configure)
     }
 
     describe '#coveralls_coverage_data' do
@@ -132,7 +132,7 @@ describe Slather::CoverageService::Coveralls do
   context "#profdata file format" do
     before(:each) { 
       fixtures_project.stub(:input_format).and_return("profdata")
-      fixtures_project.send(:configure_from_yml)
+      fixtures_project.send(:configure)
     }
 
     describe '#coveralls_coverage_data' do

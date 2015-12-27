@@ -7,7 +7,7 @@ describe Slather::CoverageService::Hardcover do
     proj.build_directory = TEMP_DERIVED_DATA_PATH
     proj.input_format = "gcov"
     proj.coverage_service = "hardcover"
-    proj.configure_from_yml
+    proj.configure
     proj
   end
 
