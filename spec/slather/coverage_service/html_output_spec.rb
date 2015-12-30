@@ -30,7 +30,7 @@ describe Slather::CoverageService::HtmlOutput do
 
   describe '#post' do
     before(:each) {
-      fixtures_project.stub(:print_path_coverage)
+      allow(fixtures_project).to receive(:print_path_coverage)
       fixtures_project.send(:configure)
     }
 
@@ -59,7 +59,7 @@ describe Slather::CoverageService::HtmlOutput do
     end
 
     it "should open the index.html automatically if --show is flagged" do
-      fixtures_project.stub(:open_coverage)
+      allow(fixtures_project).to receive(:open_coverage)
 
       fixtures_project.show_html = true
       fixtures_project.post
@@ -180,8 +180,8 @@ describe Slather::CoverageService::HtmlOutput do
         (path = doc.at_css('h4.cov_filepath'))? path.text : ""
       end
 
-      fixtures_project.stub(:input_format).and_return("profdata")
-      fixtures_project.stub(:profdata_llvm_cov_output).and_return("./spec/fixtures/fixtures/other_fixtures.m:
+      allow(fixtures_project).to receive(:input_format).and_return("profdata")
+      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("./spec/fixtures/fixtures/other_fixtures.m:
      |    1|//
      |    2|//  other_fixtures.m
      |    3|//  fixtures
