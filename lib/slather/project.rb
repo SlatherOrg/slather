@@ -87,7 +87,7 @@ module Slather
       end.compact
 
       if coverage_files.empty?
-        raise StandardError, "No coverage files found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.pbxproj`"
+        raise StandardError, "No coverage files found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`"
       else
         dedupe(coverage_files)
       end
