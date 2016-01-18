@@ -418,4 +418,29 @@ describe Slather::Project do
 
     end
   end
+
+  describe "#verbose_mode" do
+
+    let(:fixtures_project) do
+      proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
+      proj.build_directory = TEMP_DERIVED_DATA_PATH
+      proj.input_format = "profdata"
+      proj.verbose_mode = true
+      proj.configure
+      proj
+    end
+
+    it "should print out environment info when in verbose_mode" do
+
+      project_root = Pathname("./").realpath
+
+      ["\nProcessing coverage file: #{project_root}/spec/DerivedData/Build/Intermediates/CodeCoverage/fixtures/Coverage.profdata",
+       "Against binary file: #{project_root}/spec/DerivedData/Build/Intermediates/CodeCoverage/fixtures/Products/Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests\n\n"
+      ].each do |line|
+        expect(fixtures_project).to receive(:puts).with(line)
+      end
+
+      fixtures_project.send(:configure)
+    end
+  end
 end
