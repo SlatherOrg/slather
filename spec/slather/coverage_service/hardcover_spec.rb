@@ -5,7 +5,7 @@ describe Slather::CoverageService::Hardcover do
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
     proj.build_directory = TEMP_DERIVED_DATA_PATH
-    proj.input_format = "gcov"
+    proj.input_format = "profdata"
     proj.coverage_service = "hardcover"
     proj.configure
     proj
@@ -21,7 +21,7 @@ describe Slather::CoverageService::Hardcover do
 
   describe "#coverage_file_class" do
     it "should return CoverallsCoverageFile" do
-      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverageFile)
+      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::ProfdataCoverageFile)
     end
   end
 
@@ -65,6 +65,32 @@ describe Slather::CoverageService::Hardcover do
     before(:each) do
       Slather::Project.stub(:yml).and_return(fixture_yaml)
       fixtures_project.ci_service = :jenkins_ci
+      project_root = Pathname("./").realpath
+      fixtures_project.stub(:profdata_llvm_cov_output).and_return("#{project_root}/spec/fixtures/fixtures/fixtures.m:
+       |    1|//
+       |    2|//  fixtures.m
+       |    3|//  fixtures
+       |    4|//
+       |    5|//  Created by Mark Larsen on 6/24/14.
+       |    6|//  Copyright (c) 2014 marklarr. All rights reserved.
+       |    7|//
+       |    8|
+       |    9|#import \"fixtures.h\"
+       |   10|
+       |   11|@implementation fixtures
+       |   12|
+       |   13|- (void)testedMethod
+      1|   14|{
+      1|   15|    NSLog(@\"tested\");
+      1|   16|}
+       |   17|
+       |   18|- (void)untestedMethod
+      0|   19|{
+      0|   20|    NSLog(@\"untested\");
+      0|   21|}
+       |   22|
+       |   23|@end
+")
     end
 
     it "should save the hardcover_coverage_data to a file and post it to hardcover" do
