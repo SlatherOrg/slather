@@ -99,4 +99,30 @@ describe Slather::ProfdataCoverageFile do
     end
   end
 
+  describe "#ignored" do
+
+    before(:each) {
+      fixtures_project.stub(:ignore_list).and_return([])
+    }
+
+    it "shouldn't ignore project files" do
+      ignorable_file = Slather::ProfdataCoverageFile.new(fixtures_project, "/Users/venmo/ExampleProject/AppDelegate.swift:
+       |    1|//
+       |    2|//  AppDelegate.swift
+       |    3|//  xcode7workbench01")
+
+      expect(ignorable_file.ignored?).to be_falsy
+    end
+
+    it "should ignore platform files" do
+      ignorable_file = Slather::ProfdataCoverageFile.new(fixtures_project, "../../../../../../../../Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestAssertionsImpl.h:
+       |    1|//
+       |    2|//  AppDelegate.swift
+       |    3|//  xcode7workbench01")
+
+      expect(ignorable_file.ignored?).to be_truthy
+    end
+
+  end
+
 end
