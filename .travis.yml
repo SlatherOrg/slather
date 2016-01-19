@@ -1,5 +1,6 @@
 language: objective-c
 script: bundle exec rspec 
+osx_image: xcode7
 
 # Sets Travis to run the Ruby specs on OS X machines which are required to
 # build the native extensions of Xcodeproj.

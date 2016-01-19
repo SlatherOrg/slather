@@ -5,12 +5,16 @@ describe Slather::CoverageService::GutterJsonOutput do
 
   let(:fixtures_project) do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
-    proj.extend(Slather::CoverageService::GutterJsonOutput)
+    proj.build_directory = TEMP_DERIVED_DATA_PATH
+    proj.input_format = "profdata"
+    proj.coverage_service = "gutter_json"
+    proj.configure
+    proj
   end
 
   describe '#coverage_file_class' do
     it "should return CoverageFile" do
-      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::CoverageFile)
+      expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::ProfdataCoverageFile)
     end
   end
 

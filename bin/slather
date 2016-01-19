@@ -9,7 +9,7 @@ Clamp do
 
   subcommand "coverage", "Computes coverage for the supplied project" do
 
-    parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+    parameter "[PROJECT]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
 
     option ["--travis", "-t"], :flag, "Indicate that the builds are running on Travis CI"
     option ["--circleci"], :flag, "Indicate that the builds are running on CircleCI"
@@ -27,6 +27,11 @@ Clamp do
     option ["--source-directory"], "SOURCE_DIRECTORY", "The directory where your source files are located."
     option ["--output-directory"], "OUTPUT_DIRECTORY", "The directory where your Cobertura XML report will be written to."
     option ["--ignore", "-i"], "IGNORE", "ignore files conforming to a path", :multivalued => true
+    option ["--verbose", "-v"], :flag, "Enable verbose mode"
+
+    option ["--input-format"], "INPUT_FORMAT", "Input format (gcov, profdata)"
+    option ["--scheme"], "SCHEME", "The scheme for which the coverage was generated"
+    option ["--binary-file"], "BINARY_FILE", "The binary file against the which the coverage will be run"
 
     def execute
       puts "Slathering..."
@@ -37,6 +42,12 @@ Clamp do
       setup_source_directory
       setup_output_directory
       setup_coverage_service
+      setup_verbose_mode
+      setup_input_format
+      setup_scheme
+      setup_binary_file
+
+      project.configure
 
       post
 
@@ -81,7 +92,7 @@ Clamp do
         if xcodeproj_path_to_open
           project = Slather::Project.open(xcodeproj_path_to_open)
         else
-          raise StandardError, "Must provide an xcodeproj through .slather.yml"
+          raise StandardError, "Must provide an xcodeproj either via the 'slather [SUBCOMMAND] [PROJECT].xcodeproj' command or through .slather.yml"
         end
       end
     end
@@ -101,15 +112,37 @@ Clamp do
       end
     end
 
+    def setup_verbose_mode
+      project.verbose_mode = verbose?
+    end
+
+    def setup_input_format
+      project.input_format = input_format
+    end
+
+    def setup_scheme
+      project.scheme = scheme
+    end
+
+    def setup_binary_file
+      project.binary_file = binary_file
+    end
+
   end
 
-  subcommand "setup", "Configures an xcodeproj for test coverage generation" do
+  subcommand "setup", "Configures a .xcodeproj for test coverage generation" do
 
-    parameter "[xcodeproj]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
+    parameter "[PROJECT]", "Path to the .xcodeproj", :attribute_name => :xcodeproj_path
+
+    option ["--format"], "FORMAT", "Type of coverage to use (gcov, clang, auto)"
 
     def execute
-      project = Slather::Project.open(xcodeproj_path)
-      project.setup_for_coverage
+      xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml["xcodeproj"]
+      unless xcodeproj_path_to_open
+        raise StandardError, "Must provide a .xcodeproj either via the 'slather [SUBCOMMAND] [PROJECT].xcodeproj' command or through .slather.yml"
+      end
+      project = Slather::Project.open(xcodeproj_path_to_open)
+      project.setup_for_coverage(format ? format.to_sym : :auto)
       project.save
     end
 
