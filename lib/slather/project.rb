@@ -278,9 +278,10 @@ module Slather
       raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless xctest_bundle != nil
 
       # Find the matching binary file
+      search_for = self.class.yml["binary_basename"] || '*'
       xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
-      app_bundle = Dir["#{xctest_bundle_file_directory}/*.app"].first
-      dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/*.framework"].first
+      app_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.app"].first
+      dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.framework"].first
 
       if app_bundle != nil
         find_binary_file_for_app(app_bundle)
