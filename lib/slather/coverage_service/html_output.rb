@@ -50,6 +50,12 @@ module Slather
         FileUtils.rm_rf(directory_path) if Dir.exist?(directory_path)
         FileUtils.mkdir_p(directory_path)
 
+        FileUtils.cp(File.join(gem_root_path, "docs/hudl.jpg"), directory_path)
+        FileUtils.cp(File.join(gem_root_path, "assets/slather.css"), directory_path)
+        FileUtils.cp(File.join(gem_root_path, "assets/highlight.pack.js"), directory_path)
+        FileUtils.cp(File.join(gem_root_path, "assets/list.min.js"), directory_path)
+
+
         reports.each do |name, doc|
           html_file = File.join(directory_path, "#{name}.html")
           File.write(html_file, doc.to_html)
@@ -177,10 +183,10 @@ module Slather
       end
 
       def generate_html_template(title, is_index, is_file_empty)
-        logo_path = File.join(gem_root_path, "docs/logo.jpg")
-        css_path = File.join(gem_root_path, "assets/slather.css")
-        highlight_js_path = File.join(gem_root_path, "assets/highlight.pack.js")
-        list_js_path = File.join(gem_root_path, "assets/list.min.js")
+        logo_path = "hudl.jpg"
+        css_path = "slather.css"
+        highlight_js_path = "highlight.pack.js"
+        list_js_path = "list.min.js"
 
         builder = Nokogiri::HTML::Builder.new do |doc|
           doc.html {
@@ -191,13 +197,12 @@ module Slather
             doc.body {
               doc.header {
                 doc.div(:class => "row") {
-                  doc.a(:href => "index.html") { doc.img(:src => logo_path, :alt => "Slather logo") }
+                  doc.a(:href => "index.html") { doc.img(:src => logo_path, :alt => "Hudl logo") }
                 }
               }
               doc.div(:class => "row") { doc.div(:id => "reports") }
               doc.footer {
                 doc.div(:class => "row") {
-                  doc.p { doc.a("Fork me on Github", :href => "https://github.com/venmo/slather") }
                   doc.p("© #{Date.today.year} Slather")
                 }
               }
