@@ -55,7 +55,6 @@ module Slather
         FileUtils.cp(File.join(gem_root_path, "assets/highlight.pack.js"), directory_path)
         FileUtils.cp(File.join(gem_root_path, "assets/list.min.js"), directory_path)
 
-
         reports.each do |name, doc|
           html_file = File.join(directory_path, "#{name}.html")
           File.write(html_file, doc.to_html)
