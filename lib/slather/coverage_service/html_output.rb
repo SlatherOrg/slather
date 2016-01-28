@@ -77,6 +77,7 @@ module Slather
 
           cov.h4 {
             percentage = (total_tested_lines / total_relevant_lines.to_f) * 100.0
+            puts "Total Coverage : #{'%.2f%%' % percentage}"
             cov.span "Total Coverage : "
             cov.span '%.2f%%' % percentage, :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
           }
