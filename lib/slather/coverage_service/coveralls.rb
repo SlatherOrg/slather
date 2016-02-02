@@ -31,6 +31,11 @@ module Slather
       end
       private :jenkins_job_id
 
+      def teamcity_job_id
+        ENV['TC_BUILD_NUMBER']
+      end
+      private :teamcity_job_id
+
       def jenkins_branch_name
         branch_name = ENV['GIT_BRANCH']
         if branch_name.include? 'origin/'
@@ -160,6 +165,17 @@ module Slather
             }.to_json
           else
             raise StandardError, "Environment variable `BUILDKITE_BUILD_NUMBER` not set. Is this running on a buildkite build?"
+          end
+        elsif ci_service == :teamcity
+          if teamcity_job_id
+            {
+              :service_job_id => teamcity_job_id,
+              :service_name => "teamcity",
+              :repo_token => coverage_access_token,
+              :source_files => coverage_files.map(&:as_json)
+            }.to_json
+          else
+            raise StandardError, "Environment variable `TC_BUILD_NUMBER` not set. Is this running on a teamcity agent?"
           end
         else
           raise StandardError, "No support for ci named #{ci_service}"
