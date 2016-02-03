@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Mark Larsen"]
   spec.email         = ["mark@venmo.com"]
   spec.summary       = %q{Test coverage reports for Xcode projects}
-  spec.homepage      = "https://github.com/venmo/slather"
+  spec.homepage      = "https://github.com/SlatherOrg/slather"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
