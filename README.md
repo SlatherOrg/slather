@@ -1,10 +1,10 @@
 
 
-![Slather Logo](https://raw.githubusercontent.com/venmo/slather/master/docs/logo.jpg)
+![Slather Logo](https://raw.githubusercontent.com/SlatherOrg/slather/master/docs/logo.jpg)
 
 [![Gem Version](https://badge.fury.io/rb/slather.svg)](http://badge.fury.io/rb/slather)
-[![Build Status](https://travis-ci.org/venmo/slather.svg?branch=master)](https://travis-ci.org/venmo/slather)
-[![Coverage Status](https://coveralls.io/repos/venmo/slather/badge.svg?branch=ayanonagon%2Fcoveralls)](https://coveralls.io/r/venmo/slather?branch=ayanonagon%2Fcoveralls)
+[![Build Status](https://travis-ci.org/SlatherOrg/slather.svg?branch=master)](https://travis-ci.org/SlatherOrg/slather)
+[![Coverage Status](https://coveralls.io/repos/SlatherOrg/slather/badge.svg?branch=ayanonagon%2Fcoveralls)](https://coveralls.io/r/SlatherOrg/slather?branch=ayanonagon%2Fcoveralls)
 
 Generate test coverage reports for Xcode projects & hook it into CI.
 
@@ -193,7 +193,7 @@ Slather will look for the test coverage files in `DerivedData` by default. If yo
 
 ## Contributing
 
-We’d love to see your ideas for improving this library! The best way to contribute is by submitting a pull request. We’ll do our best to respond to your patch as soon as possible. You can also submit a [new GitHub issue](https://github.com/venmo/slather/issues/new) if you find bugs or have questions. :octocat:
+We’d love to see your ideas for improving this library! The best way to contribute is by submitting a pull request. We’ll do our best to respond to your patch as soon as possible. You can also submit a [new GitHub issue](https://github.com/SlatherOrg/slather/issues/new) if you find bugs or have questions. :octocat:
 
 Please make sure to follow our general coding style and add test coverage for new features!
 

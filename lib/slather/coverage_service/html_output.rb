@@ -197,7 +197,7 @@ module Slather
               doc.div(:class => "row") { doc.div(:id => "reports") }
               doc.footer {
                 doc.div(:class => "row") {
-                  doc.p { doc.a("Fork me on Github", :href => "https://github.com/venmo/slather") }
+                  doc.p { doc.a("Fork me on Github", :href => "https://github.com/SlatherOrg/slather") }
                   doc.p("© #{Date.today.year} Slather")
                 }
               }
