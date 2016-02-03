@@ -155,10 +155,10 @@ module Slather
               next unless line_number > 0
 
               coverage_data = data[0].strip
-              line_data = [line_number, data[2], hits_for_coverage_data(coverage_data)]
+              line_data = [line_number, data[2], hits_for_coverage_line(coverage_file, line)]
               classes = ["num", "src", "coverage"]
 
-              cov.tr(:class => class_for_coverage_data(coverage_data)) {
+              cov.tr(:class => class_for_coverage_line(coverage_file,line)) {
                 line_data.each_with_index { |line, idx|
                   if idx != 1
                     cov.td(line, :class => classes[idx])
@@ -221,19 +221,21 @@ module Slather
         File.expand_path File.join(File.dirname(__dir__), "../..")
       end
 
-      def class_for_coverage_data(coverage_data)
-        case coverage_data
-        when /\d/ then "covered"
-        when /#/ then "missed"
-        else "never"
+      def class_for_coverage_line(coverage_file, coverage_line)
+        hits = coverage_file.coverage_for_line(coverage_line)
+        case
+        when hits == nil then "never"
+        when hits > 0 then "covered"
+        else "missed"
         end
       end
 
-      def hits_for_coverage_data(coverage_data)
-        case coverage_data
-        when /\d/ then (coverage_data.to_i > 0) ? "#{coverage_data}x" : ""
-        when /#/ then "!"
-        else ""
+      def hits_for_coverage_line(coverage_file, coverage_line)
+        hits = coverage_file.coverage_for_line(coverage_line)
+        case
+        when hits == nil then ""
+        when hits > 0 then "#{hits}x"
+        else "!"
         end
       end
 
