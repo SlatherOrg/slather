@@ -182,6 +182,21 @@ describe Slather::Project do
       expect(binary_file_location).to eq("/FixtureScheme/From/Yaml/Contents/MacOS/FixturesFromYaml")
     end
 
+    let(:other_fixture_yaml) do
+      yaml_text = <<-EOF
+        binary_basename: "FixtureFramework"
+      EOF
+      yaml = YAML.load(yaml_text)
+    end
+
+    it "should configure the binary_basename from yml" do
+      Slather::Project.stub(:yml).and_return(other_fixture_yaml)
+      Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/FixtureFramework.framework").and_return(["/FixtureScheme/FixtureFramework.framework"])
+      fixtures_project.send(:configure_binary_file)
+      binary_file_location = fixtures_project.send(:binary_file)
+      expect(binary_file_location).to eq("/FixtureScheme/FixtureFramework.framework/FixtureFramework")
+    end
+
  #  it "should find the binary file without any yml setting" do
  #    fixtures_project.configure_binary_file
  #    Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/*.app").and_return(["/FixtureScheme/FixtureApp.app"])
