@@ -20,7 +20,7 @@
   [Pierre-Marc Airoldi](https://github.com/petester42)
   [#92](https://github.com/venmo/slather/pull/92)
 
-## v1.8.2
+## v1.8.3
 * Add buildkite support to coveralls   
   [David Hardiman](https://github.com/dhardiman)
   [#98](https://github.com/venmo/slather/pull/98)
