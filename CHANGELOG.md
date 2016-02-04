@@ -1,6 +1,24 @@
 # CHANGELOG
 
 ## master
+* Correct html rendering when using profdata format   
+  [cutz](https://github.com/cutz)
+  [#124](https://github.com/SlatherOrg/slather/pull/124)
+
+* Making HTML directory self contained   
+  [Colin Cornaby](https://github.com/colincornaby)
+  [#137](https://github.com/SlatherOrg/slather/pull/137)
+
+* Add `binary_basename` configuration option   
+  [Boris Bügling](https://github.com/neonichu)
+  [#128](https://github.com/SlatherOrg/slather/pull/128)
+
+* Add support to profdata file format   
+  [Simone Civetta](https://github.com/viteinfinite)
+  [Olivier Halligon](https://github.com/AliSoftware)
+  [Matt Delves](https://github.com/mattdelves)
+  [Pierre-Marc Airoldi](https://github.com/petester42)
+  [#92](https://github.com/venmo/slather/pull/92)
 
 ## v1.8.2
 * Add buildkite support to coveralls   
