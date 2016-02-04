@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## master
+
+## v2.0.0
 * Correct html rendering when using profdata format   
   [cutz](https://github.com/cutz)
   [#124](https://github.com/SlatherOrg/slather/pull/124)
