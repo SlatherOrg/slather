@@ -33,6 +33,18 @@ $ bundle
 
 ## Usage
 
+Apple drastically improved the support for code coverage in Xcode 7, including dedicated UI for enabling it. You can now setup your project for test coverage inside the scheme editor, by ticking the *"Gather coverage data"* checkbox:
+
+![](README_Images/test_scheme.png)
+
+To verify you're ready to generate test coverage, run your test suite on your project, and then run:
+
+```sh
+$ slather coverage -s path/to/project.xcodeproj
+```
+
+### Previous versions of Xcode
+
 Set up your project for test coverage:
 
 ```sh
@@ -40,13 +52,6 @@ $ slather setup path/to/project.xcodeproj
 ```
 
 This will enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project.
-
-
-To verify you're ready to generate test coverage, run your test suite on your project, and then run:
-
-```sh
-$ slather coverage -s path/to/project.xcodeproj
-```
 
 ### Usage with Codecov
 
