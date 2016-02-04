@@ -4,7 +4,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/slather.svg)](http://badge.fury.io/rb/slather)
 [![Build Status](https://travis-ci.org/SlatherOrg/slather.svg?branch=master)](https://travis-ci.org/SlatherOrg/slather)
-[![Coverage Status](https://coveralls.io/repos/SlatherOrg/slather/badge.svg?branch=ayanonagon%2Fcoveralls)](https://coveralls.io/r/SlatherOrg/slather?branch=ayanonagon%2Fcoveralls)
+[![Coverage Status](https://coveralls.io/repos/SlatherOrg/slather/badge.svg?branch=master)](https://coveralls.io/r/SlatherOrg/slather?branch=master)
 
 Generate test coverage reports for Xcode projects & hook it into CI.
 
