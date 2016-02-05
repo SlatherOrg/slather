@@ -6,7 +6,7 @@ describe Slather::CoverageFile do
     project = Slather::Project.open(FIXTURES_PROJECT_PATH)
     project.build_directory = TEMP_DERIVED_DATA_PATH
     project.send(:configure)
-    project.stub(:input_format).and_return("gcov")
+    allow(project).to receive(:input_format).and_return("gcov")
     project
   end
 
@@ -120,7 +120,7 @@ OBJC
   describe "line coverage" do
 
     before(:each) {
-      fixtures_project.stub(:input_format).and_return("gcov")
+      allow(fixtures_project).to receive(:input_format).and_return("gcov")
     }
 
     let(:line_coverage_file) do
@@ -157,7 +157,7 @@ OBJC
       end
 
       it "should return 100 if no testable lines" do
-        line_coverage_file.stub(:num_lines_testable).and_return(0)
+        allow(line_coverage_file).to receive(:num_lines_testable).and_return(0)
         expect(line_coverage_file.percentage_lines_tested).to eq(100)
       end
     end

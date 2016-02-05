@@ -102,7 +102,7 @@ describe Slather::ProfdataCoverageFile do
   describe "#ignored" do
 
     before(:each) {
-      fixtures_project.stub(:ignore_list).and_return([])
+      allow(fixtures_project).to receive(:ignore_list).and_return([])
     }
 
     it "shouldn't ignore project files" do

@@ -38,7 +38,7 @@ describe Slather::CoverageService::Hardcover do
     context "coverage_service is :jenkins_ci" do
       before(:each) do
         fixtures_project.ci_service = :jenkins_ci
-        Slather::Project.stub(:yml).and_return(fixture_yaml)
+        allow(Slather::Project).to receive(:yml).and_return(fixture_yaml)
       end
 
       it "should return a valid json" do
@@ -50,7 +50,7 @@ describe Slather::CoverageService::Hardcover do
       end
 
       it "should raise an error if there is no BUILD_NUMBER or JOB_NAME" do
-        fixtures_project.stub(:jenkins_job_id).and_return(nil)
+        allow(fixtures_project).to receive(:jenkins_job_id).and_return(nil)
         expect { fixtures_project.send(:hardcover_coverage_data) }.to raise_error(StandardError)
       end
     end
@@ -63,10 +63,10 @@ describe Slather::CoverageService::Hardcover do
 
   describe '#post' do
     before(:each) do
-      Slather::Project.stub(:yml).and_return(fixture_yaml)
+      allow(Slather::Project).to receive(:yml).and_return(fixture_yaml)
       fixtures_project.ci_service = :jenkins_ci
       project_root = Pathname("./").realpath
-      fixtures_project.stub(:profdata_llvm_cov_output).and_return("#{project_root}/spec/fixtures/fixtures/fixtures.m:
+      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("#{project_root}/spec/fixtures/fixtures/fixtures.m:
        |    1|//
        |    2|//  fixtures.m
        |    3|//  fixtures
@@ -94,8 +94,8 @@ describe Slather::CoverageService::Hardcover do
     end
 
     it "should save the hardcover_coverage_data to a file and post it to hardcover" do
-      fixtures_project.stub(:jenkins_job_id).and_return("slather-master/9182")
-      fixtures_project.stub(:coverage_service_url).and_return("http://api.hardcover.io")
+      allow(fixtures_project).to receive(:jenkins_job_id).and_return("slather-master/9182")
+      allow(fixtures_project).to receive(:coverage_service_url).and_return("http://api.hardcover.io")
       expect(fixtures_project).to receive(:`) do |cmd|
         expect(cmd).to eq("curl --form json_file=@hardcover_json_file http://api.hardcover.io/v1/jobs")
       end.once
@@ -103,13 +103,13 @@ describe Slather::CoverageService::Hardcover do
     end
 
     it "should always remove the hardcover_json_file after it's done" do
-      fixtures_project.stub(:`)
+      allow(fixtures_project).to receive(:`)
 
-      fixtures_project.stub(:jenkins_job_id).and_return("slather-master/9182")
-      fixtures_project.stub(:coverage_service_url).and_return("http://api.hardcover.io")
+      allow(fixtures_project).to receive(:jenkins_job_id).and_return("slather-master/9182")
+      allow(fixtures_project).to receive(:coverage_service_url).and_return("http://api.hardcover.io")
       fixtures_project.post
       expect(File.exist?("hardcover_json_file")).to be_falsy
-      fixtures_project.stub(:jenkins_job_id).and_return(nil)
+      allow(fixtures_project).to receive(:jenkins_job_id).and_return(nil)
       expect { fixtures_project.post }.to raise_error(StandardError)
       expect(File.exist?("hardcover_json_file")).to be_falsy
     end

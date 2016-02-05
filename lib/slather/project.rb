@@ -247,17 +247,18 @@ module Slather
 
     def coverage_service=(service)
       service = service && service.to_sym
-      if service == :coveralls
+      case service
+      when :coveralls
         extend(Slather::CoverageService::Coveralls)
-      elsif service == :hardcover
+      when :hardcover
         extend(Slather::CoverageService::Hardcover)
-      elsif service == :terminal
+      when :terminal
         extend(Slather::CoverageService::SimpleOutput)
-      elsif service == :gutter_json
+      when :gutter_json
         extend(Slather::CoverageService::GutterJsonOutput)
-      elsif service == :cobertura_xml
+      when :cobertura_xml
         extend(Slather::CoverageService::CoberturaXmlOutput)
-      elsif service == :html
+      when :html
         extend(Slather::CoverageService::HtmlOutput)
       else
         raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json`, `cobertura_xml` or `html`"
