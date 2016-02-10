@@ -50,7 +50,7 @@ end
 module Slather
   class Project < Xcodeproj::Project
 
-    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory, 
+    attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
       :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :binary_file, :binary_basename
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
@@ -100,13 +100,24 @@ module Slather
     end
     private :profdata_coverage_files
 
+    def remove_extension(path)
+      path.split(".")[0..-2].join(".")
+    end
+
+    def first_product_name
+      first_product = self.products.first
+      # If name is not available it computes it using
+      # the path by dropping the 'extension' of the path.
+      first_product.name || remove_extension(first_product.path)
+    end
+
     def profdata_coverage_dir
       raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
       dir = nil
       if self.scheme
-        dir = Dir["#{build_directory}/**/CodeCoverage/#{self.scheme}"].first
+        dir = Dir[File.join("#{build_directory}","/**/CodeCoverage/#{self.scheme}")].first
       else
-        dir = Dir["#{build_directory}/**/#{self.products.first.name}"].first
+        dir = Dir[File.join("#{build_directory}","/**/#{first_product_name}")].first
       end
 
       raise StandardError, "No coverage directory found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless dir != nil
