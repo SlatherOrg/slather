@@ -98,8 +98,12 @@ module Slather
         !coverage_file.ignored? ? coverage_file : nil
       end.compact
       
-      absolute_source_directory = File.expand_path(source_directory)
-      files.select { |file| file.source_file_pathname.to_s.start_with?(absolute_source_directory) }
+      if source_directory
+        absolute_source_directory = File.expand_path(source_directory)
+        files = files.select { |file| file.source_file_pathname.to_s.start_with?(absolute_source_directory) }
+      end
+
+      files
     end
     private :profdata_coverage_files
 
