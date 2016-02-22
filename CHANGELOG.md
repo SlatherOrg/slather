@@ -2,6 +2,10 @@
 
 ## master
 
+* Fixes how `profdata_coverage_dir` is created.
+  [guidomb](https://github.com/guidomb)
+  [#145](https://github.com/SlatherOrg/slather/pull/145)
+
 ## v2.0.0
 * Correct html rendering when using profdata format   
   [cutz](https://github.com/cutz)
