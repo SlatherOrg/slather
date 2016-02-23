@@ -2,6 +2,8 @@
 
 ## master
 
+## v2.0.1
+
 * Fixes how `profdata_coverage_dir` is created.
   [guidomb](https://github.com/guidomb)
   [#145](https://github.com/SlatherOrg/slather/pull/145)
