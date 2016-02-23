@@ -44,3 +44,6 @@ cobertura.xml
 html
 *.gcda
 *.gcno
+
+# JetBrains IDE
+.idea/

@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## master
+* Build Statistic Reporting for TeamCity
+  [Michael Myers](https://github.com/michaelmyers)
+  [#150](https://github.com/SlatherOrg/slather/pull/150)
 
 ## v2.0.1
 

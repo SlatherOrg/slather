@@ -174,6 +174,14 @@ $ slather coverage --html path/to/project.xcodeproj
 
 This will make a directory named `html` in your root directory (unless `--output-directory` is specified) and will generate all the reports as static html pages inside the directory. It will print out the report's path by default, but you can also specify `--show` flag to open it in your browser automatically.
 
+### TeamCity Reporting
+
+To report the coverage statistics to TeamCity:
+
+```sh
+$ slather coverage --teamcity -s
+```
+
 ### Coverage for code included via CocoaPods
 
 If you're trying to compute the coverage of code that has been included via
