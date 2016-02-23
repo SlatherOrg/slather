@@ -6,7 +6,7 @@ describe Slather::CoverageService::SimpleOutput do
     proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
     proj.build_directory = TEMP_DERIVED_DATA_PATH
     proj.input_format = "profdata"
-    proj.send(:configure)
+    proj.configure
     proj
   end
 
