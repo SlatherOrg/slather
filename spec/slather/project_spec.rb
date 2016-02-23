@@ -375,13 +375,13 @@ describe Slather::Project do
       expect(fixtures_project).to receive(:coverage_access_token=).with("abc123")
       fixtures_project.configure_coverage_access_token
     end
-    
+
     it "should set the coverage_access_token if it is in the ENV" do
       stub_const('ENV', ENV.to_hash.merge('COVERAGE_ACCESS_TOKEN' => 'asdf456'))
       expect(fixtures_project).to receive(:coverage_access_token=).with("asdf456")
       fixtures_project.configure_coverage_access_token
     end
-    
+
   end
 
   describe "#coverage_service=" do
@@ -449,8 +449,8 @@ describe Slather::Project do
 
       project_root = Pathname("./").realpath
 
-      ["\nProcessing coverage file: #{project_root}/spec/DerivedData/Build/Intermediates/CodeCoverage/fixtures/Coverage.profdata",
-       "Against binary file: #{project_root}/spec/DerivedData/Build/Intermediates/CodeCoverage/fixtures/Products/Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests\n\n"
+      ["\nProcessing coverage file: #{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/fixtures/Coverage.profdata",
+       "Against binary file: #{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/fixtures/Products/Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests\n\n"
       ].each do |line|
         expect(fixtures_project).to receive(:puts).with(line)
       end

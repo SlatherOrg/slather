@@ -12,7 +12,8 @@ FIXTURES_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/gutter.json')
 FIXTURES_HTML_FOLDER_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures_html')
 FIXTURES_PROJECT_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures.xcodeproj')
 FIXTURES_SWIFT_FILE_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures/Fixtures.swift')
-TEMP_DERIVED_DATA_PATH = File.join(File.dirname(__FILE__), 'DerivedData/')
+TEMP_DERIVED_DATA_PATH = File.join(File.dirname(__FILE__), 'DerivedData')
+TEMP_PROJECT_BUILD_PATH = File.join(TEMP_DERIVED_DATA_PATH, "libfixtures")
 TEMP_OBJC_GCNO_PATH = File.join(File.dirname(__FILE__), 'fixtures/ObjectiveC.gcno')
 TEMP_OBJC_GCDA_PATH = File.join(File.dirname(__FILE__), 'fixtures/ObjectiveC.gcda')
 
@@ -39,7 +40,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     FixtureHelpers.delete_derived_data
     FixtureHelpers.delete_temp_gcov_files
-    `xcodebuild -project "#{FIXTURES_PROJECT_PATH}" -scheme fixtures -configuration Debug -derivedDataPath #{TEMP_DERIVED_DATA_PATH} -enableCodeCoverage YES clean test`
+    `xcodebuild -project "#{FIXTURES_PROJECT_PATH}" -scheme fixtures -configuration Debug -derivedDataPath #{TEMP_PROJECT_BUILD_PATH} -enableCodeCoverage YES clean test`
   end
 
   config.after(:suite) do
