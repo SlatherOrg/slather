@@ -1,6 +1,9 @@
 # CHANGELOG
 
 ## master
+* Escape the link to file names properly
+  [Thomas Mellenthin](https://github.com/melle)
+  [#158](https://github.com/SlatherOrg/slather/pull/158)
 * Build Statistic Reporting for TeamCity
   [Michael Myers](https://github.com/michaelmyers)
   [#150](https://github.com/SlatherOrg/slather/pull/150)
