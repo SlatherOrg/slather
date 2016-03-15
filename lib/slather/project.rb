@@ -294,6 +294,7 @@ module Slather
       xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
       app_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.app"].first
       dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.framework"].first
+      xctest_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.xctest"].first
 
       if app_bundle != nil
         find_binary_file_for_app(app_bundle)
