@@ -1,6 +1,10 @@
 # CHANGELOG
 
 ## master
+* Improve matching of xctest bundles when using `--binary-basename`
+  [Kent Sutherland](https://github.com/ksuther)
+  [#167](https://github.com/SlatherOrg/slather/pull/167)
+
 * Build Statistic Reporting for TeamCity
   [Michael Myers](https://github.com/michaelmyers)
   [#150](https://github.com/SlatherOrg/slather/pull/150)
