@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 require 'clamp'
 require 'yaml'
-require File.join(File.dirname(__FILE__), '../lib/slather')
+require 'pry-byebug' if Gem::Specification::find_all_by_name('pry-byebug').any?
+require_relative '../lib/slather'
 
 Clamp do
 

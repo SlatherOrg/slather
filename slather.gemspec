@@ -25,6 +25,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "cocoapods", ">= 0.39.0", "< 1.1.0"
   spec.add_development_dependency "json_spec", "~> 1.1.4"
   spec.add_development_dependency "equivalent-xml", "~> 0.5.1"
+  spec.add_development_dependency "byebug", "~> 8.2"
+  spec.add_development_dependency "pry-byebug"
 
   spec.add_dependency "clamp", "~> 0.6"
   spec.add_dependency "xcodeproj", ">= 0.28.2", "< 1.1.0"
