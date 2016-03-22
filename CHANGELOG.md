@@ -1,6 +1,10 @@
 # CHANGELOG
 
 ## master
+* Xcode 7.3 compatibility (updated path returned by `profdata_coverage_dir`)
+  [Kent Sutherland](https://github.com/ksuther)
+  [#125](https://github.com/SlatherOrg/slather/issues/125), [#169](https://github.com/SlatherOrg/slather/pull/169)
+
 * Improve matching of xctest bundles when using `--binary-basename`
   [Kent Sutherland](https://github.com/ksuther)
   [#167](https://github.com/SlatherOrg/slather/pull/167)
