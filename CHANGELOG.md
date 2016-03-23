@@ -13,6 +13,10 @@
   [Michael Myers](https://github.com/michaelmyers)
   [#150](https://github.com/SlatherOrg/slather/pull/150)
 
+* Use named classes for subcommands in bin/slather
+  [bootstraponline](https://github.com/bootstraponline)
+  [#170](https://github.com/SlatherOrg/slather/pull/170)
+
 ## v2.0.1
 
 * Fixes how `profdata_coverage_dir` is created.
