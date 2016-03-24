@@ -114,14 +114,9 @@ module Slather
     def profdata_coverage_dir
       raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
       dir = nil
-      if self.scheme
-        dir = Dir[File.join("#{build_directory}","/**/CodeCoverage/#{self.scheme}")].first
-      else
-        dir = Dir[File.join("#{build_directory}","/**/#{first_product_name}")].first
-      end
-
       if dir == nil
         # Xcode 7.3 moved the location of Coverage.profdata
+        puts "Entering xcode 7 shit"
         dir = Dir[File.join("#{build_directory}","/**/CodeCoverage")].first
       end
 
@@ -292,8 +287,9 @@ module Slather
       xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].reject { |bundle|
         bundle.include? "-Runner.app/PlugIns/"
       }.first
+      testVar = "#{profdata_coverage_dir}"
+      puts "xcode bundle: #{testVar}"
       raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless xctest_bundle != nil
-
       # Find the matching binary file
       search_for = self.binary_basename || self.class.yml["binary_basename"] || '*'
       xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
@@ -306,6 +302,7 @@ module Slather
       elsif dynamic_lib_bundle != nil
         find_binary_file_for_dynamic_lib(dynamic_lib_bundle)
       elsif matched_xctest_bundle != nil
+    
         find_binary_file_for_static_lib(matched_xctest_bundle)
       else
         find_binary_file_for_static_lib(xctest_bundle)
