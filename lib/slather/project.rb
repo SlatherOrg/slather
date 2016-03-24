@@ -116,7 +116,6 @@ module Slather
       dir = nil
       if dir == nil
         # Xcode 7.3 moved the location of Coverage.profdata
-        puts "Entering xcode 7 shit"
         dir = Dir[File.join("#{build_directory}","/**/CodeCoverage")].first
       end
 
