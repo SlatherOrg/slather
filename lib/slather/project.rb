@@ -114,6 +114,12 @@ module Slather
     def profdata_coverage_dir
       raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
       dir = nil
+      if self.scheme
+        dir = Dir[File.join("#{build_directory}","/**/CodeCoverage/#{self.scheme}")].first
+      elsif Slather.xcode_version[0] < 7 #only go into here if not xcode 7.
+        dir = Dir[File.join("#{build_directory}","/**/#{first_product_name}")].first
+      end
+
       if dir == nil
         # Xcode 7.3 moved the location of Coverage.profdata
         dir = Dir[File.join("#{build_directory}","/**/CodeCoverage")].first
@@ -287,6 +293,7 @@ module Slather
         bundle.include? "-Runner.app/PlugIns/"
       }.first
       raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless xctest_bundle != nil
+    
       # Find the matching binary file
       search_for = self.binary_basename || self.class.yml["binary_basename"] || '*'
       xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
