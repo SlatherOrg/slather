@@ -143,21 +143,6 @@ module Slather
     end
     private :profdata_file
 
-    def find_binary_file_for_app(app_bundle_file)
-      app_bundle_file_name_noext = Pathname.new(app_bundle_file).basename.to_s.gsub(".app", "")
-      Dir["#{app_bundle_file}/**/#{app_bundle_file_name_noext}"].first
-    end
-
-    def find_binary_file_for_dynamic_lib(framework_bundle_file)
-      framework_bundle_file_name_noext = Pathname.new(framework_bundle_file).basename.to_s.gsub(".framework", "")
-      "#{framework_bundle_file}/#{framework_bundle_file_name_noext}"
-    end
-
-    def find_binary_file_for_static_lib(xctest_bundle_file)
-      xctest_bundle_file_name_noext = Pathname.new(xctest_bundle_file).basename.to_s.gsub(".xctest", "")
-      Dir["#{xctest_bundle_file}/**/#{xctest_bundle_file_name_noext}"].first
-    end
-
     def unsafe_profdata_llvm_cov_output
       profdata_file_arg = profdata_file
       if profdata_file_arg == nil
@@ -288,28 +273,64 @@ module Slather
       end
     end
 
+    def find_binary_file_in_bundle(bundle_file)
+      bundle_file_noext = File.basename(bundle_file, File.extname(bundle_file))
+      Dir["#{bundle_file}/**/#{bundle_file_noext}"].first
+    end
+
     def find_binary_file
-      xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].reject { |bundle|
-        bundle.include? "-Runner.app/PlugIns/"
-      }.first
-      raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless xctest_bundle != nil
+      binary_basename = self.binary_basename || self.class.yml["binary_basename"] || nil
 
-      # Find the matching binary file
-      search_for = self.binary_basename || self.class.yml["binary_basename"] || '*'
-      xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
-      app_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.app"].first
-      dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.framework"].first
-      matched_xctest_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.xctest"].first
+      # Get scheme info out of the xcodeproj
+      if self.scheme
+        schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
+        xcscheme_path = "#{schemes_path + self.scheme}.xcscheme"
+        xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
-      if app_bundle != nil
-        find_binary_file_for_app(app_bundle)
-      elsif dynamic_lib_bundle != nil
-        find_binary_file_for_dynamic_lib(dynamic_lib_bundle)
-      elsif matched_xctest_bundle != nil
-        find_binary_file_for_static_lib(matched_xctest_bundle)
+        buildable_name = xcscheme.build_action.entries[0].buildable_references[0].buildable_name
+        configuration = xcscheme.test_action.build_configuration
+
+        search_for = binary_basename || buildable_name
+        found_product = Dir["#{profdata_coverage_dir}/Products/#{configuration}*/#{search_for}*"].sort { |x, y|
+          # Sort the matches without the file extension to ensure better matches when there are multiple candidates
+          # For example, if the binary_basename is Test then we want Test.app to be matched before Test Helper.app
+          File.basename(x, File.extname(x)) <=> File.basename(y, File.extname(y))
+        }.reject { |path|
+          path.end_with? ".dSYM"
+        }.first
+
+        if found_product and File.directory? found_product
+          found_binary = find_binary_file_in_bundle(found_product)
+        else
+          found_binary = found_product
+        end
       else
-        find_binary_file_for_static_lib(xctest_bundle)
+        xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].reject { |bundle|
+            # Ignore xctest bundles that are in the UI runner app
+            bundle.include? "-Runner.app/PlugIns/"
+        }.first
+
+        # Find the matching binary file
+        search_for = binary_basename || '*'
+        xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
+        app_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.app"].first
+        dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.framework"].first
+        matched_xctest_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.xctest"].first
+
+        if app_bundle != nil
+            found_binary = find_binary_file_in_bundle(app_bundle)
+        elsif dynamic_lib_bundle != nil
+            found_binary = find_binary_file_in_bundle(dynamic_lib_bundle)
+        elsif matched_xctest_bundle != nil
+            found_binary = find_binary_file_in_bundle(matched_xctest_bundle)
+        else
+            found_binary = find_binary_file_in_bundle(xctest_bundle)
+        end
       end
+
+      raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless found_binary != nil
+
+      found_binary
     end
 
   end
