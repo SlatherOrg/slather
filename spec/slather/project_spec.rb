@@ -196,14 +196,6 @@ describe Slather::Project do
       binary_file_location = fixtures_project.send(:binary_file)
       expect(binary_file_location).to eq("/FixtureScheme/FixtureFramework.framework/FixtureFramework")
     end
-
- #  it "should find the binary file without any yml setting" do
- #    fixtures_project.configure_binary_file
- #    Dir.stub(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/*.app").and_return(["/FixtureScheme/FixtureApp.app"])
- #    Dir.stub(:[]).with("/FixtureScheme/FixtureApp.app/**/FixtureApp").and_return(["/FixtureScheme/FixtureApp.app/FixtureApp"])
- #    binary_file_location = fixtures_project.send(:binary_file)
- #    expect(binary_file_location).to eq("/FixtureScheme/FixtureApp.app/FixtureApp")
- #  end
   end
 
   describe "#dedupe" do
