@@ -8,23 +8,11 @@ describe Slather::Project do
     Slather::Project.open(FIXTURES_PROJECT_PATH)
   end
 
-  describe "#derived_data_path" do
-    it "should return the system's derived data directory" do
-      expect(fixtures_project.send(:derived_data_path)).to eq(File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/")
-    end
-  end
-
   describe "#build_directory" do
     it "should return the build_directory property, if it has been explicitly set" do
       build_directory_mock = double(String)
       fixtures_project.build_directory = build_directory_mock
       expect(fixtures_project.build_directory).to eq(build_directory_mock)
-    end
-
-    it "should return the derived_data_path if no build_directory has been set" do
-      derived_data_path = File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
-      fixtures_project.send(:configure_build_directory)
-      expect(fixtures_project.build_directory).to eq(derived_data_path)
     end
   end
 

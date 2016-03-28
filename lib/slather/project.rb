@@ -62,7 +62,23 @@ module Slather
     end
 
     def derived_data_path
-      File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
+      # Get the derived data path from xcodebuild
+      # Use OBJROOT when possible, as it provides regardless of whether or not the Derived Data location is customized
+      if self.scheme
+        build_settings = `xcodebuild -project "#{self.path}" -scheme "#{self.scheme}" -showBuildSettings`
+      else
+        build_settings = `xcodebuild -project "#{self.path}" -showBuildSettings`
+      end
+
+      if build_settings
+        derived_data_path = build_settings.match(/ OBJROOT = (.+)/)[1]
+      end
+
+      if derived_data_path == nil
+        derived_data_path = File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
+      end
+
+      derived_data_path
     end
     private :derived_data_path
 
