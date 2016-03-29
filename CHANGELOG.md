@@ -1,6 +1,10 @@
 # CHANGELOG
 
 ## master
+* Escape the link to file names properly
+  [Thomas Mellenthin](https://github.com/melle)
+  [#158](https://github.com/SlatherOrg/slather/pull/158)
+
 * Product info is now read from schemes. Specify a scheme in `.slather.yml` or with the `--scheme` argument to ensure consistent results.
 * Automatically detect the derived data directory from `xcodebuild`
   [Kent Sutherland](https://github.com/ksuther)
