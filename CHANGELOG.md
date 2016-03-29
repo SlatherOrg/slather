@@ -1,6 +1,11 @@
 # CHANGELOG
 
 ## master
+* Product info is now read from schemes. Specify a scheme in `.slather.yml` or with the `--scheme` argument to ensure consistent results.
+* Automatically detect the derived data directory from `xcodebuild`
+  [Kent Sutherland](https://github.com/ksuther)
+  [#174](https://github.com/SlatherOrg/slather/pull/174)
+
 * Xcode 7.3 compatibility (updated path returned by `profdata_coverage_dir`)
   [Kent Sutherland](https://github.com/ksuther)
   [#125](https://github.com/SlatherOrg/slather/issues/125), [#169](https://github.com/SlatherOrg/slather/pull/169)
