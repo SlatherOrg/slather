@@ -116,7 +116,7 @@ module Slather
       dir = nil
       if self.scheme
         dir = Dir[File.join("#{build_directory}","/**/CodeCoverage/#{self.scheme}")].first
-      else
+      elsif Slather.xcode_version[0] < 7 #only go into here if not xcode 7.
         dir = Dir[File.join("#{build_directory}","/**/#{first_product_name}")].first
       end
 
@@ -293,7 +293,7 @@ module Slather
         bundle.include? "-Runner.app/PlugIns/"
       }.first
       raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless xctest_bundle != nil
-
+    
       # Find the matching binary file
       search_for = self.binary_basename || self.class.yml["binary_basename"] || '*'
       xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
@@ -306,6 +306,7 @@ module Slather
       elsif dynamic_lib_bundle != nil
         find_binary_file_for_dynamic_lib(dynamic_lib_bundle)
       elsif matched_xctest_bundle != nil
+    
         find_binary_file_for_static_lib(matched_xctest_bundle)
       else
         find_binary_file_for_static_lib(xctest_bundle)
