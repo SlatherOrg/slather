@@ -1,34 +1,38 @@
 # CHANGELOG
 
 ## master
-* Escape the link to file names properly
+
+
+
+## v2.0.2
+
+* Escape the link to file names properly  
   [Thomas Mellenthin](https://github.com/melle)
   [#158](https://github.com/SlatherOrg/slather/pull/158)
 
-* Product info is now read from schemes. Specify a scheme in `.slather.yml` or with the `--scheme` argument to ensure consistent results.
-* Automatically detect the derived data directory from `xcodebuild`
+* Product info is now read from schemes. Specify a scheme in `.slather.yml` or with the `--scheme` argument to ensure consistent results. Automatically detect the derived data directory from `xcodebuild`  
   [Kent Sutherland](https://github.com/ksuther)
   [#174](https://github.com/SlatherOrg/slather/pull/174)
 
-* Xcode 7.3 compatibility (updated path returned by `profdata_coverage_dir`)
+* Xcode 7.3 compatibility (updated path returned by `profdata_coverage_dir`)  
   [Kent Sutherland](https://github.com/ksuther)
   [#125](https://github.com/SlatherOrg/slather/issues/125), [#169](https://github.com/SlatherOrg/slather/pull/169)
 
-* Improve matching of xctest bundles when using `--binary-basename`
+* Improve matching of xctest bundles when using `--binary-basename`  
   [Kent Sutherland](https://github.com/ksuther)
   [#167](https://github.com/SlatherOrg/slather/pull/167)
 
-* Build Statistic Reporting for TeamCity
+* Build Statistic Reporting for TeamCity  
   [Michael Myers](https://github.com/michaelmyers)
   [#150](https://github.com/SlatherOrg/slather/pull/150)
 
-* Use named classes for subcommands in bin/slather
+* Use named classes for subcommands in bin/slather  
   [bootstraponline](https://github.com/bootstraponline)
   [#170](https://github.com/SlatherOrg/slather/pull/170)
 
 ## v2.0.1
 
-* Fixes how `profdata_coverage_dir` is created.
+* Fixes how `profdata_coverage_dir` is created.  
   [guidomb](https://github.com/guidomb)
   [#145](https://github.com/SlatherOrg/slather/pull/145)
 
