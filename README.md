@@ -31,27 +31,37 @@ And then execute:
 $ bundle
 ```
 
+Or install the gem:
+
+```sh
+gem install slather
+```
+
 ## Usage
 
-Apple drastically improved the support for code coverage in Xcode 7, including dedicated UI for enabling it. You can now setup your project for test coverage inside the scheme editor, by ticking the *"Gather coverage data"* checkbox:
+Enable test coverage by ticking the *"Gather coverage data"* checkbox when editing a scheme:
 
 ![](README_Images/test_scheme.png)
 
 To verify you're ready to generate test coverage, run your test suite on your project, and then run:
 
 ```sh
-$ slather coverage -s path/to/project.xcodeproj
+$ slather coverage -s --scheme YourXcodeSchemeName path/to/project.xcodeproj
 ```
 
-### Previous versions of Xcode
+If you use a workspace in Xcode you need to specify it: 
 
-Set up your project for test coverage:
+```sh
+$ slather coverage -s --scheme YourXcodeSchemeName --workspace path/to/workspace.xcworkspace path/to/project.xcodeproj
+```
+
+### Setup for Xode 5 and 6
+
+Run this command to enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project:
 
 ```sh
 $ slather setup path/to/project.xcodeproj
 ```
-
-This will enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project.
 
 ### Usage with Codecov
 
@@ -64,6 +74,7 @@ Make a `.slather.yml` file:
 
 coverage_service: cobertura_xml
 xcodeproj: path/to/project.xcodeproj
+scheme: YourXcodeSchemeName
 source_directory: path/to/sources/to/include
 output_directory: path/to/xml_report
 ignore:
@@ -105,6 +116,7 @@ Make a `.slather.yml` file:
 
 coverage_service: coveralls
 xcodeproj: path/to/project.xcodeproj
+scheme: YourXcodeSchemeName
 ignore:
   - ExamplePodCode/*
   - ProjectTestsGroup/*
@@ -151,6 +163,7 @@ To create a Cobertura XML report set `cobertura_xml` as coverage service inside 
 
 coverage_service: cobertura_xml
 xcodeproj: path/to/project.xcodeproj
+scheme: YourXcodeSchemeName
 source_directory: path/to/sources/to/include
 output_directory: path/to/xml_report
 ignore:
@@ -169,7 +182,7 @@ $ slather coverage -x --output-directory path/to/xml_report
 To create a report as static html pages, use the command line options `--html`:
 
 ```sh
-$ slather coverage --html path/to/project.xcodeproj
+$ slather coverage --html --scheme YourXcodeSchemeName path/to/project.xcodeproj
 ```
 
 This will make a directory named `html` in your root directory (unless `--output-directory` is specified) and will generate all the reports as static html pages inside the directory. It will print out the report's path by default, but you can also specify `--show` flag to open it in your browser automatically.
@@ -179,7 +192,7 @@ This will make a directory named `html` in your root directory (unless `--output
 To report the coverage statistics to TeamCity:
 
 ```sh
-$ slather coverage --teamcity -s
+$ slather coverage --teamcity -s --scheme YourXcodeSchemeName
 ```
 
 ### Coverage for code included via CocoaPods
@@ -203,6 +216,14 @@ source_directory: Pods/AFNetworking
 ### Custom Build Directory
 
 Slather will look for the test coverage files in `DerivedData` by default. If you send build output to a custom location, like [this](https://github.com/erikdoe/ocmock/blob/7f4d22b38eedf1bb9a12ab1591ac0a5d436db61a/Tools/travis.sh#L12), then you should also set the `build_directory` property in `.slather.yml`
+
+### Building in a workspace
+
+Include the `--workspace` argument or add `workspace` to `.slather.yml` if you build your project in a workspace. For example:
+
+```sh
+$ slather coverage --html --scheme YourXcodeSchemeName --workspace path/to/workspace.xcworkspace path/to/project.xcodeproj
+```
 
 ## Contributing
 
