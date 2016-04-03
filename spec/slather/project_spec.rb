@@ -394,7 +394,10 @@ describe Slather::Project do
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
         expect(xcscheme.test_action.xml_element.attributes['codeCoverageEnabled']).to eq("YES")
       end
+    end
 
+    it "should fail for unknown coverage type" do
+      expect { fixtures_project_setup.slather_setup_for_coverage "this should fail" }.to raise_error(StandardError)
     end
   end
 
