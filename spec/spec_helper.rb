@@ -1,5 +1,10 @@
-require 'coveralls'
-Coveralls.wear!
+if ENV['SIMPLECOV']
+  require 'simplecov'
+  SimpleCov.start
+else
+  require 'coveralls'
+  Coveralls.wear!
+end
 
 require 'slather'
 require 'pry'
