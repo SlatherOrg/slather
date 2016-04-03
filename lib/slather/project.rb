@@ -76,11 +76,13 @@ module Slather
 
       if self.scheme
         schemeArgument = "-scheme \"#{self.scheme}\""
+        buildAction = "test"
       else
         schemeArgument = nil
+        buildAction = nil
       end
 
-      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings`
+      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings #{buildAction}`
 
       if build_settings
         derived_data_path = build_settings.match(/ OBJROOT = (.+)/)[1]
@@ -330,9 +332,13 @@ module Slather
 
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
-        buildable_name = xcscheme.build_action.entries[0].buildable_references[0].buildable_name
+        begin
+          buildable_name = xcscheme.build_action.entries[0].buildable_references[0].buildable_name
+        rescue
+          # xcodeproj will raise an exception if there are no entries in the build action
+        end
 
-        if buildable_name.end_with? ".a"
+        if buildable_name == nil or buildable_name.end_with? ".a"
           # Can't run code coverage on static libraries, look for an associated test bundle
           buildable_name = xcscheme.test_action.testables[0].buildable_references[0].buildable_name
         end

@@ -149,6 +149,13 @@ describe Slather::Project do
       expect(binary_file_location).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
     end
 
+    it "should find the product path for a scheme with no buildable products" do
+      allow(fixtures_project).to receive(:scheme).and_return("fixturesTests")
+      fixtures_project.send(:configure_binary_file)
+      binary_file_location = fixtures_project.send(:binary_file)
+      expect(binary_file_location).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
+    end
+
     let(:fixture_yaml) do
         yaml_text = <<-EOF
           binary_file: "/FixtureScheme/From/Yaml/Contents/MacOS/FixturesFromYaml"
