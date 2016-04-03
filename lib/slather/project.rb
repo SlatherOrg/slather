@@ -314,6 +314,9 @@ module Slather
       if self.scheme
         schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
         xcscheme_path = "#{schemes_path + self.scheme}.xcscheme"
+
+        raise StandardError, "No shared scheme named '#{self.scheme}' found in #{self.path}" unless File.exists? xcscheme_path
+
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
         buildable_name = xcscheme.build_action.entries[0].buildable_references[0].buildable_name
