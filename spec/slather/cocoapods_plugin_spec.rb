@@ -1,6 +1,6 @@
 require 'cocoapods'
-require File.join(File.dirname(__FILE__), '../../lib/cocoapods_plugin')
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
+require File.join(File.dirname(__FILE__), '../../lib/cocoapods_plugin')
 
 describe Slather do
   describe 'CocoaPods Plugin' do
