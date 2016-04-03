@@ -320,6 +320,12 @@ module Slather
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
         buildable_name = xcscheme.build_action.entries[0].buildable_references[0].buildable_name
+
+        if buildable_name.end_with? ".a"
+          # Can't run code coverage on static libraries, look for an associated test bundle
+          buildable_name = xcscheme.test_action.testables[0].buildable_references[0].buildable_name
+        end
+
         configuration = xcscheme.test_action.build_configuration
 
         search_for = binary_basename || buildable_name

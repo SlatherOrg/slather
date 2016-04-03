@@ -137,7 +137,7 @@ describe Slather::Project do
     it "should find the product path provided a scheme" do
       fixtures_project.send(:configure_binary_file)
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to end_with("Debug/libfixtures.a")
+      expect(binary_file_location).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
     end
 
     let(:fixture_yaml) do
