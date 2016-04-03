@@ -61,6 +61,10 @@ module Slather
       proj
     end
 
+    def failure_help_string
+      "\n\tAre you sure your project is generating coverage? Try `slather setup your/project.xcodeproj`.\n\tDid you specify your Xcode scheme? (--scheme or 'scheme' in .slather.yml)\n\tIf you're using a workspace, did you specify it? (--workspace or 'workspace' in .slather.yml)"
+    end
+
     def derived_data_path
       # Get the derived data path from xcodebuild
       # Use OBJROOT when possible, as it provides regardless of whether or not the Derived Data location is customized
@@ -107,7 +111,7 @@ module Slather
       end.compact
 
       if coverage_files.empty?
-        raise StandardError, "No coverage files found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`"
+        raise StandardError, "No coverage files found."
       else
         dedupe(coverage_files)
       end
@@ -149,7 +153,7 @@ module Slather
         dir = Dir[File.join("#{build_directory}","/**/CodeCoverage")].first
       end
 
-      raise StandardError, "No coverage directory found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless dir != nil
+      raise StandardError, "No coverage directory found." unless dir != nil
       dir
     end
 
@@ -201,17 +205,24 @@ module Slather
     end
 
     def configure
-      configure_build_directory
-      configure_ignore_list
-      configure_ci_service
-      configure_coverage_access_token
-      configure_coverage_service
-      configure_source_directory
-      configure_output_directory
-      configure_input_format
-      configure_scheme
-      configure_workspace
-      configure_binary_file
+      begin
+        configure_build_directory
+        configure_ignore_list
+        configure_ci_service
+        configure_coverage_access_token
+        configure_coverage_service
+        configure_source_directory
+        configure_output_directory
+        configure_input_format
+        configure_scheme
+        configure_workspace
+        configure_binary_file
+      rescue => e
+        puts e.message
+        puts failure_help_string
+        puts "\n"
+        raise
+      end
 
       if self.verbose_mode
         puts "\nProcessing coverage file: #{profdata_file}"
@@ -366,10 +377,9 @@ module Slather
         end
       end
 
-      raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless found_binary != nil
+      raise StandardError, "No product binary found in #{profdata_coverage_dir}." unless found_binary != nil
 
       found_binary
     end
-
   end
 end
