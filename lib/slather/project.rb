@@ -51,7 +51,7 @@ module Slather
   class Project < Xcodeproj::Project
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
-      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :binary_file, :binary_basename
+      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -64,11 +64,19 @@ module Slather
     def derived_data_path
       # Get the derived data path from xcodebuild
       # Use OBJROOT when possible, as it provides regardless of whether or not the Derived Data location is customized
-      if self.scheme
-        build_settings = `xcodebuild -project "#{self.path}" -scheme "#{self.scheme}" -showBuildSettings`
+      if self.workspace
+        projectOrWorkspaceArgument = "-workspace \"#{self.workspace}\""
       else
-        build_settings = `xcodebuild -project "#{self.path}" -showBuildSettings`
+        projectOrWorkspaceArgument = "-project \"#{self.path}\""
       end
+
+      if self.scheme
+        schemeArgument = "-scheme \"#{self.scheme}\""
+      else
+        schemeArgument = nil
+      end
+
+      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings`
 
       if build_settings
         derived_data_path = build_settings.match(/ OBJROOT = (.+)/)[1]
@@ -202,6 +210,7 @@ module Slather
       configure_output_directory
       configure_input_format
       configure_scheme
+      configure_workspace
       configure_binary_file
 
       if self.verbose_mode
@@ -248,6 +257,10 @@ module Slather
 
     def configure_scheme
       self.scheme ||= self.class.yml["scheme"] if self.class.yml["scheme"]
+    end
+
+    def configure_workspace
+      self.workspace ||= self.class.yml["workspace"] if self.class.yml["workspace"]
     end
 
     def ci_service=(service)

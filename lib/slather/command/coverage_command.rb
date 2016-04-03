@@ -23,6 +23,7 @@ class CoverageCommand < Clamp::Command
 
   option ["--input-format"], "INPUT_FORMAT", "Input format (gcov, profdata)"
   option ["--scheme"], "SCHEME", "The scheme for which the coverage was generated"
+  option ["--workspace"], "WORKSPACE", "The workspace that the project was built in"
   option ["--binary-file"], "BINARY_FILE", "The binary file against the which the coverage will be run"
   option ["--binary-basename"], "BINARY_BASENAME", "Basename of the file against which the coverage will be run"
 
@@ -38,6 +39,7 @@ class CoverageCommand < Clamp::Command
     setup_verbose_mode
     setup_input_format
     setup_scheme
+    setup_workspace
     setup_binary_file
     setup_binary_basename
 
@@ -118,6 +120,10 @@ class CoverageCommand < Clamp::Command
 
   def setup_scheme
     project.scheme = scheme
+  end
+
+  def setup_workspace
+    project.workspace = workspace
   end
 
   def setup_binary_file
