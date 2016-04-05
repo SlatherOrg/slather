@@ -2,7 +2,9 @@
 
 ## master
 
-
+* Re-add Teamcity support  
+  [Boris Bügling](https://github.com/neonichu)
+  [#180](https://github.com/SlatherOrg/slather/pull/180)
 
 ## v2.0.2
 
