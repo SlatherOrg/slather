@@ -79,6 +79,18 @@ describe Slather::ProfdataCoverageFile do
     it "should return the number of hits for the line" do
       expect(profdata_coverage_file.coverage_for_line("      10|   40|    func applicationWillTerminate(application: UIApplication) {")).to eq(10)
     end
+
+    it "should return the number of hits for a line in thousands" do
+      expect(profdata_coverage_file.coverage_for_line("  11.8k|   49|    return result;")).to eq(11800)
+    end
+
+    it "should return the number of hits for a line in millions" do
+      expect(profdata_coverage_file.coverage_for_line("  2.58M|   49|    return result;")).to eq(2580000)
+    end
+
+    it "should return the number of hits for an uncovered line" do
+      expect(profdata_coverage_file.coverage_for_line("      0|   49|    return result;")).to eq(0)
+    end
   end
 
   describe "#num_lines_tested" do

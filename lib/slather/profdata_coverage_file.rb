@@ -76,17 +76,27 @@ module Slather
       line =~ /^(\s*)(\d*)\|/
 
       if $2 == nil
-        return nil
-      end
+        # Check for thousands or millions (llvm-cov outputs hit counts as 25.3k or 3.8M)
+        did_match = line =~ /^(\s*)(\d+\.\d+)(k|M)\|/
 
-      match = $2.strip
-      case match
-      when /[0-9]+/
-        match.to_i
-      when /#+/
-        0
-      when "-"
-        nil
+        if did_match
+          count = $2.strip
+          units = $3 == 'k' ? 1000 : 1000000
+
+          count.to_f * units
+        else
+          return nil
+        end
+      else
+        match = $2.strip
+        case match
+        when /[0-9]+/
+          match.to_i
+        when /#+/
+          0
+        when "-"
+          nil
+        end
       end
     end
 

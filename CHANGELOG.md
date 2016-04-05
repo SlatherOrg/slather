@@ -11,6 +11,10 @@
   [Boris Bügling](https://github.com/neonichu)
   [#180](https://github.com/SlatherOrg/slather/pull/180)
 
+* Show lines that are hit thousands or millions of time in llvm-cov
+  [Kent Sutherland](https://github.com/ksuther)
+  [#179](https://github.com/SlatherOrg/slather/pull/179)
+
 ## v2.0.2
 
 * Escape the link to file names properly  
