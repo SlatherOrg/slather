@@ -51,7 +51,7 @@ module Slather
   class Project < Xcodeproj::Project
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
-      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :binary_file, :binary_basename
+      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -61,14 +61,28 @@ module Slather
       proj
     end
 
+    def failure_help_string
+      "\n\tAre you sure your project is generating coverage? Make sure you enable code coverage in the Test section of your Xcode scheme.\n\tDid you specify your Xcode scheme? (--scheme or 'scheme' in .slather.yml)\n\tIf you're using a workspace, did you specify it? (--workspace or 'workspace' in .slather.yml)"
+    end
+
     def derived_data_path
       # Get the derived data path from xcodebuild
       # Use OBJROOT when possible, as it provides regardless of whether or not the Derived Data location is customized
-      if self.scheme
-        build_settings = `xcodebuild -project "#{self.path}" -scheme "#{self.scheme}" -showBuildSettings`
+      if self.workspace
+        projectOrWorkspaceArgument = "-workspace \"#{self.workspace}\""
       else
-        build_settings = `xcodebuild -project "#{self.path}" -showBuildSettings`
+        projectOrWorkspaceArgument = "-project \"#{self.path}\""
       end
+
+      if self.scheme
+        schemeArgument = "-scheme \"#{self.scheme}\""
+        buildAction = "test"
+      else
+        schemeArgument = nil
+        buildAction = nil
+      end
+
+      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings #{buildAction}`
 
       if build_settings
         derived_data_path = build_settings.match(/ OBJROOT = (.+)/)[1]
@@ -99,7 +113,7 @@ module Slather
       end.compact
 
       if coverage_files.empty?
-        raise StandardError, "No coverage files found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`"
+        raise StandardError, "No coverage files found."
       else
         dedupe(coverage_files)
       end
@@ -141,7 +155,7 @@ module Slather
         dir = Dir[File.join("#{build_directory}","/**/CodeCoverage")].first
       end
 
-      raise StandardError, "No coverage directory found. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless dir != nil
+      raise StandardError, "No coverage directory found." unless dir != nil
       dir
     end
 
@@ -193,16 +207,24 @@ module Slather
     end
 
     def configure
-      configure_build_directory
-      configure_ignore_list
-      configure_ci_service
-      configure_coverage_access_token
-      configure_coverage_service
-      configure_source_directory
-      configure_output_directory
-      configure_input_format
-      configure_scheme
-      configure_binary_file
+      begin
+        configure_build_directory
+        configure_ignore_list
+        configure_ci_service
+        configure_coverage_access_token
+        configure_coverage_service
+        configure_source_directory
+        configure_output_directory
+        configure_input_format
+        configure_scheme
+        configure_workspace
+        configure_binary_file
+      rescue => e
+        puts e.message
+        puts failure_help_string
+        puts "\n"
+        raise
+      end
 
       if self.verbose_mode
         puts "\nProcessing coverage file: #{profdata_file}"
@@ -248,6 +270,10 @@ module Slather
 
     def configure_scheme
       self.scheme ||= self.class.yml["scheme"] if self.class.yml["scheme"]
+    end
+
+    def configure_workspace
+      self.workspace ||= self.class.yml["workspace"] if self.class.yml["workspace"]
     end
 
     def ci_service=(service)
@@ -301,9 +327,22 @@ module Slather
       if self.scheme
         schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
         xcscheme_path = "#{schemes_path + self.scheme}.xcscheme"
+
+        raise StandardError, "No shared scheme named '#{self.scheme}' found in #{self.path}" unless File.exists? xcscheme_path
+
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
-        buildable_name = xcscheme.build_action.entries[0].buildable_references[0].buildable_name
+        begin
+          buildable_name = xcscheme.build_action.entries[0].buildable_references[0].buildable_name
+        rescue
+          # xcodeproj will raise an exception if there are no entries in the build action
+        end
+
+        if buildable_name == nil or buildable_name.end_with? ".a"
+          # Can't run code coverage on static libraries, look for an associated test bundle
+          buildable_name = xcscheme.test_action.testables[0].buildable_references[0].buildable_name
+        end
+
         configuration = xcscheme.test_action.build_configuration
 
         search_for = binary_basename || buildable_name
@@ -344,10 +383,9 @@ module Slather
         end
       end
 
-      raise StandardError, "No product binary found in #{profdata_coverage_dir}. Are you sure your project is setup for generating coverage files? Try `slather setup your/project.xcodeproj`" unless found_binary != nil
+      raise StandardError, "No product binary found in #{profdata_coverage_dir}." unless found_binary != nil
 
       found_binary
     end
-
   end
 end
