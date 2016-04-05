@@ -2,6 +2,11 @@
 
 ## master
 
+* Support for Xcode workspaces. Define `workspace` configuration in `.slather.yml` or use the `--workspace` argument if you build in a workspace.  
+* Improved slather error messages  
+  [Kent Sutherland](https://github.com/ksuther)
+  [#178](https://github.com/SlatherOrg/slather/issues/178)
+
 * Re-add Teamcity support  
   [Boris Bügling](https://github.com/neonichu)
   [#180](https://github.com/SlatherOrg/slather/pull/180)
