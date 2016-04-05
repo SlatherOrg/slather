@@ -6,6 +6,7 @@ class CoverageCommand < Clamp::Command
   option ["--circleci"], :flag, "Indicate that the builds are running on CircleCI"
   option ["--jenkins"], :flag, "Indicate that the builds are running on Jenkins"
   option ["--buildkite"], :flag, "Indicate that the builds are running on Buildkite"
+  option ["--teamcity"], :flag, "Indicate that the builds are running on TeamCity"
 
   option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
   option ["--simple-output", "-s"], :flag, "Output coverage results to the terminal"
@@ -72,6 +73,8 @@ class CoverageCommand < Clamp::Command
       project.ci_service = :jenkins
     elsif buildkite?
       project.ci_service = :buildkite
+    elsif teamcity?
+      project.ci_service = :teamcity
     end
   end
 
