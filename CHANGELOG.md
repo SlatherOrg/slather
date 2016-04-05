@@ -2,7 +2,10 @@
 
 ## master
 
-* Support for Xcode workspaces. Define `workspace` configuration in `.slather.yml` or use the `--workspace` argument if you build in a workspace.  
+
+## v2.1.0
+
+* Support for Xcode workspaces. Define `workspace` configuration in `.slather.yml` or use the `--workspace` argument if you build in a workspace.
 * Improved slather error messages  
   [Kent Sutherland](https://github.com/ksuther)
   [#178](https://github.com/SlatherOrg/slather/issues/178)
@@ -11,7 +14,7 @@
   [Boris Bügling](https://github.com/neonichu)
   [#180](https://github.com/SlatherOrg/slather/pull/180)
 
-* Show lines that are hit thousands or millions of time in llvm-cov
+* Show lines that are hit thousands or millions of time in llvm-cov  
   [Kent Sutherland](https://github.com/ksuther)
   [#179](https://github.com/SlatherOrg/slather/pull/179)
 
