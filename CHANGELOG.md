@@ -15,6 +15,10 @@
   [Kent Sutherland](https://github.com/ksuther)
   [#179](https://github.com/SlatherOrg/slather/pull/179)
 
+* Fix for setting scheme/workspace from configuration file.  
+  [Boris Bügling](https://github.com/neonichu)
+  [#183](https://github.com/SlatherOrg/slather/pull/183)
+
 ## v2.0.2
 
 * Escape the link to file names properly  
