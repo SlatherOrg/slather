@@ -330,7 +330,6 @@ module Slather
 
         # Try to look inside 'xcuserdata' if the scheme is not found in 'xcshareddata'
         if !File.file?(xcscheme_path)
-          puts "No shared scheme named '#{self.scheme}' found in #{schemes_path}. Trying to look into xcuserdata."
           schemes_path = Xcodeproj::XCScheme.user_data_dir(self.path)
           xcscheme_path = "#{schemes_path + self.scheme}.xcscheme"
         end
