@@ -55,7 +55,7 @@ If you use a workspace in Xcode you need to specify it:
 $ slather coverage -s --scheme YourXcodeSchemeName --workspace path/to/workspace.xcworkspace path/to/project.xcodeproj
 ```
 
-### Setup for Xode 5 and 6
+### Setup for Xcode 5 and 6
 
 Run this command to enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project:
 
