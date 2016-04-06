@@ -2,6 +2,8 @@
 
 ## master
 
+* Improve getting schemes. Looks for user scheme in case no shared scheme is found.  
+  [Matyas Hlavacek](https://github.com/matyashlavacek)
 
 ## v2.1.0
 
