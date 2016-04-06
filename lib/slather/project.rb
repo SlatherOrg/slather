@@ -208,6 +208,8 @@ module Slather
 
     def configure
       begin
+        configure_scheme
+        configure_workspace
         configure_build_directory
         configure_ignore_list
         configure_ci_service
@@ -216,8 +218,6 @@ module Slather
         configure_source_directory
         configure_output_directory
         configure_input_format
-        configure_scheme
-        configure_workspace
         configure_binary_file
       rescue => e
         puts e.message
