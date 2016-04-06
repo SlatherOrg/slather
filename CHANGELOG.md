@@ -4,6 +4,7 @@
 
 * Improve getting schemes. Looks for user scheme in case no shared scheme is found.  
   [Matyas Hlavacek](https://github.com/matyashlavacek)
+  [#182](https://github.com/SlatherOrg/slather/issues/182)
 
 ## v2.1.0
 
