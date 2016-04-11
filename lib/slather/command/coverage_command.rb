@@ -24,8 +24,8 @@ class CoverageCommand < Clamp::Command
   option ["--input-format"], "INPUT_FORMAT", "Input format (gcov, profdata)"
   option ["--scheme"], "SCHEME", "The scheme for which the coverage was generated"
   option ["--workspace"], "WORKSPACE", "The workspace that the project was built in"
-  option ["--binary-file"], "BINARY_FILE", "The binary file against the which the coverage will be run"
-  option ["--binary-basename"], "BINARY_BASENAME", "Basename of the file against which the coverage will be run"
+  option ["--binary-file"], "BINARY_FILE", "The binary file against the which the coverage will be run", :multivalued => true
+  option ["--binary-basename"], "BINARY_BASENAME", "Basename of the file against which the coverage will be run", :multivalued => true
 
   def execute
     puts "Slathering..."
@@ -127,10 +127,10 @@ class CoverageCommand < Clamp::Command
   end
 
   def setup_binary_file
-    project.binary_file = binary_file
+    project.binary_file = binary_file_list if !binary_file_list.empty?
   end
 
   def setup_binary_basename
-    project.binary_basename = binary_basename
+    project.binary_basename = binary_basename_list if !binary_basename_list.empty?
   end
 end
