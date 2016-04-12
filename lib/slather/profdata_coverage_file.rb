@@ -83,7 +83,7 @@ module Slather
           count = $2.strip
           units = $3 == 'k' ? 1000 : 1000000
 
-          count.to_f * units
+          (count.to_f * units).to_i
         else
           return nil
         end
