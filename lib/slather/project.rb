@@ -123,10 +123,17 @@ module Slather
     def profdata_coverage_files
       files = profdata_llvm_cov_output.split("\n\n")
 
-      files.map do |source|
+      files = files.map do |source|
         coverage_file = coverage_file_class.new(self, source)
         !coverage_file.ignored? ? coverage_file : nil
       end.compact
+      
+      if source_directory
+        absolute_source_directory = File.expand_path(source_directory)
+        files = files.select { |file| file.source_file_pathname.to_s.start_with?(absolute_source_directory) }
+      end
+
+      files
     end
     private :profdata_coverage_files
 
