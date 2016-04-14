@@ -6,6 +6,10 @@
   [Matyas Hlavacek](https://github.com/matyashlavacek)
   [#182](https://github.com/SlatherOrg/slather/issues/182)
 
+* Fix for hit counts in thousands or millions being output as floats intead of integers
+  [Carl Hill-Popper](https://github.com/chillpop)
+  [#190](https://github.com/SlatherOrg/slather/pull/190)
+
 ## v2.1.0
 
 * Support for Xcode workspaces. Define `workspace` configuration in `.slather.yml` or use the `--workspace` argument if you build in a workspace.
