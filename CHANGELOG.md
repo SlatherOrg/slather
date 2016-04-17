@@ -2,6 +2,10 @@
 
 ## master
 
+* Generate coverate for multiple binaries by passing multiple `--binary-basename` or `--binary-file` arguments, or by using an array in `.slather.yml`  
+  [Kent Sutherland](https://github.com/ksuther)
+  [#188](https://github.com/SlatherOrg/slather/pull/188)
+
 * Improve getting schemes. Looks for user scheme in case no shared scheme is found.  
   [Matyas Hlavacek](https://github.com/matyashlavacek)
   [#182](https://github.com/SlatherOrg/slather/issues/182)
