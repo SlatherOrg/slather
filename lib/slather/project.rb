@@ -337,8 +337,12 @@ module Slather
     end
 
     def find_binary_file_in_bundle(bundle_file)
-      bundle_file_noext = File.basename(bundle_file, File.extname(bundle_file))
-      Dir["#{bundle_file}/**/#{bundle_file_noext}"].first
+      if File.directory? bundle_file
+        bundle_file_noext = File.basename(bundle_file, File.extname(bundle_file))
+        Dir["#{bundle_file}/**/#{bundle_file_noext}"].first
+      else
+        bundle_file
+      end
     end
 
     def find_binary_files
@@ -420,15 +424,15 @@ module Slather
         search_list.each do |search_for|
           xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
           app_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.app"].first
-          dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.framework"].first
           matched_xctest_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.xctest"].first
+          dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.{framework,dylib}"].first
 
           if app_bundle != nil
             found_binary = find_binary_file_in_bundle(app_bundle)
-          elsif dynamic_lib_bundle != nil
-            found_binary = find_binary_file_in_bundle(dynamic_lib_bundle)
           elsif matched_xctest_bundle != nil
             found_binary = find_binary_file_in_bundle(matched_xctest_bundle)
+          elsif dynamic_lib_bundle != nil
+            found_binary = find_binary_file_in_bundle(dynamic_lib_bundle)
           else
             found_binary = find_binary_file_in_bundle(xctest_bundle)
           end
