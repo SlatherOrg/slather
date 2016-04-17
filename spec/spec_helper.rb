@@ -48,7 +48,7 @@ RSpec.configure do |config|
     FixtureHelpers.delete_derived_data
     FixtureHelpers.delete_temp_gcov_files
     `xcodebuild -project "#{FIXTURES_PROJECT_PATH}" -scheme fixtures -configuration Debug -derivedDataPath #{TEMP_PROJECT_BUILD_PATH} -enableCodeCoverage YES clean test`
-    `xcodebuild -workspace "#{FIXTURES_WORKSPACE_PATH}" -scheme fixtures -configuration Debug -derivedDataPath #{TEMP_WORKSPACE_BUILD_PATH} -enableCodeCoverage YES clean test`
+    `xcodebuild -workspace "#{FIXTURES_WORKSPACE_PATH}" -scheme fixturesTestsWorkspace -configuration Debug -derivedDataPath #{TEMP_WORKSPACE_BUILD_PATH} -enableCodeCoverage YES clean test`
   end
 
   config.after(:suite) do

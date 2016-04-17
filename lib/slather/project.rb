@@ -334,6 +334,17 @@ module Slather
           xcscheme_path = "#{schemes_path + self.scheme}.xcscheme"
         end
 
+        if self.workspace and !File.file?(xcscheme_path)
+          # No scheme was found in the xcodeproj, check the workspace
+          schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.workspace)
+          xcscheme_path = "#{schemes_path + self.scheme}.xcscheme"
+
+          if !File.file?(xcscheme_path)
+            schemes_path = Xcodeproj::XCScheme.user_data_dir(self.workspace)
+            xcscheme_path = "#{schemes_path + self.scheme}.xcscheme"
+          end
+        end
+
         raise StandardError, "No scheme named '#{self.scheme}' found in #{self.path}" unless File.exists? xcscheme_path
 
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
