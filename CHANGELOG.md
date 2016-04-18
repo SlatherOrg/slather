@@ -6,6 +6,10 @@
   [Matyas Hlavacek](https://github.com/matyashlavacek)
   [#182](https://github.com/SlatherOrg/slather/issues/182)
 
+* Search Xcode workspaces for schemes. Workspaces are checked if no matching scheme is found in the project.
+  [Kent Sutherland](https://github.com/ksuther)
+  [#193](https://github.com/SlatherOrg/slather/pull/193), [#191](https://github.com/SlatherOrg/slather/issues/191)
+
 * Fix for hit counts in thousands or millions being output as floats intead of integers
   [Carl Hill-Popper](https://github.com/chillpop)
   [#190](https://github.com/SlatherOrg/slather/pull/190)
