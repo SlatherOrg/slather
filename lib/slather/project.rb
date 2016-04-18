@@ -121,12 +121,20 @@ module Slather
     private :gcov_coverage_files
 
     def profdata_coverage_files
-      files = profdata_llvm_cov_output.split("\n\n")
+      coverage_files = []
 
-      files.map do |source|
-        coverage_file = coverage_file_class.new(self, source)
-        !coverage_file.ignored? ? coverage_file : nil
-      end.compact
+      if self.binary_file
+        self.binary_file.each do |binary_path|
+          files = profdata_llvm_cov_output(binary_path).split("\n\n")
+
+          coverage_files.concat(files.map do |source|
+            coverage_file = coverage_file_class.new(self, source)
+            !coverage_file.ignored? ? coverage_file : nil
+          end.compact)
+        end
+      end
+
+      coverage_files
     end
     private :profdata_coverage_files
 
@@ -173,23 +181,23 @@ module Slather
     end
     private :profdata_file
 
-    def unsafe_profdata_llvm_cov_output
+    def unsafe_profdata_llvm_cov_output(binary_path)
       profdata_file_arg = profdata_file
       if profdata_file_arg == nil
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
       end
 
-      if self.binary_file == nil
+      if binary_path == nil
         raise StandardError, "No binary file found."
       end
 
-      llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{self.binary_file})
+      llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path})
       `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
     end
     private :unsafe_profdata_llvm_cov_output
 
-    def profdata_llvm_cov_output
-      unsafe_profdata_llvm_cov_output.encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
+    def profdata_llvm_cov_output(binary_path)
+      unsafe_profdata_llvm_cov_output(binary_path).encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
     end
     private :profdata_llvm_cov_output
 
@@ -228,7 +236,11 @@ module Slather
 
       if self.verbose_mode
         puts "\nProcessing coverage file: #{profdata_file}"
-        puts "Against binary file: #{self.binary_file}\n\n"
+        puts "Against binary files:"
+        self.binary_file.each do |binary_file|
+          puts "\t#{binary_file}"
+        end
+        puts "\n"
       end
     end
 
@@ -311,17 +323,45 @@ module Slather
 
     def configure_binary_file
       if self.input_format == "profdata"
-        self.binary_file ||= self.class.yml["binary_file"] || File.expand_path(find_binary_file)
+        binary_file_yml = self.class.yml["binary_file"]
+
+        # Need to check the type in the config file because binary_file can be a string or array
+        if binary_file_yml and binary_file_yml.is_a? Array
+          self.binary_file = binary_file_yml
+        elsif binary_file_yml 
+          self.binary_file = [binary_file_yml]
+        else
+          self.binary_file = find_binary_files
+        end
       end
     end
 
     def find_binary_file_in_bundle(bundle_file)
-      bundle_file_noext = File.basename(bundle_file, File.extname(bundle_file))
-      Dir["#{bundle_file}/**/#{bundle_file_noext}"].first
+      if File.directory? bundle_file
+        bundle_file_noext = File.basename(bundle_file, File.extname(bundle_file))
+        Dir["#{bundle_file}/**/#{bundle_file_noext}"].first
+      else
+        bundle_file
+      end
     end
 
-    def find_binary_file
-      binary_basename = self.binary_basename || self.class.yml["binary_basename"] || nil
+    def find_binary_files
+      if self.binary_basename
+        binary_basename = self.binary_basename
+      else
+        binary_basename_yml = self.class.yml["binary_basename"]
+
+        # Need to check the type in the config file because binary_file can be a string or array
+        if binary_basename_yml and binary_basename_yml.is_a? Array
+          binary_basename = binary_basename_yml
+        elsif binary_basename_yml
+          binary_basename = [binary_basename_yml]
+        else
+          binary_basename = nil
+        end
+      end
+
+      found_binaries = []
 
       # Get scheme info out of the xcodeproj
       if self.scheme
@@ -362,19 +402,26 @@ module Slather
 
         configuration = xcscheme.test_action.build_configuration
 
-        search_for = binary_basename || buildable_name
-        found_product = Dir["#{profdata_coverage_dir}/Products/#{configuration}*/#{search_for}*"].sort { |x, y|
-          # Sort the matches without the file extension to ensure better matches when there are multiple candidates
-          # For example, if the binary_basename is Test then we want Test.app to be matched before Test Helper.app
-          File.basename(x, File.extname(x)) <=> File.basename(y, File.extname(y))
-        }.reject { |path|
-          path.end_with? ".dSYM"
-        }.first
+        search_list = binary_basename || [buildable_name]
 
-        if found_product and File.directory? found_product
-          found_binary = find_binary_file_in_bundle(found_product)
-        else
-          found_binary = found_product
+        search_list.each do |search_for|
+          found_product = Dir["#{profdata_coverage_dir}/Products/#{configuration}*/#{search_for}*"].sort { |x, y|
+            # Sort the matches without the file extension to ensure better matches when there are multiple candidates
+            # For example, if the binary_basename is Test then we want Test.app to be matched before Test Helper.app
+            File.basename(x, File.extname(x)) <=> File.basename(y, File.extname(y))
+          }.reject { |path|
+            path.end_with? ".dSYM"
+          }.first
+
+          if found_product and File.directory? found_product
+            found_binary = find_binary_file_in_bundle(found_product)
+          else
+            found_binary = found_product
+          end
+
+          if found_binary
+            found_binaries.push(found_binary)
+          end
         end
       else
         xctest_bundle = Dir["#{profdata_coverage_dir}/**/*.xctest"].reject { |bundle|
@@ -383,26 +430,33 @@ module Slather
         }.first
 
         # Find the matching binary file
-        search_for = binary_basename || '*'
-        xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
-        app_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.app"].first
-        dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.framework"].first
-        matched_xctest_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.xctest"].first
+        search_list = binary_basename || ['*']
 
-        if app_bundle != nil
+        search_list.each do |search_for|
+          xctest_bundle_file_directory = Pathname.new(xctest_bundle).dirname
+          app_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.app"].first
+          matched_xctest_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.xctest"].first
+          dynamic_lib_bundle = Dir["#{xctest_bundle_file_directory}/#{search_for}.{framework,dylib}"].first
+
+          if app_bundle != nil
             found_binary = find_binary_file_in_bundle(app_bundle)
-        elsif dynamic_lib_bundle != nil
-            found_binary = find_binary_file_in_bundle(dynamic_lib_bundle)
-        elsif matched_xctest_bundle != nil
+          elsif matched_xctest_bundle != nil
             found_binary = find_binary_file_in_bundle(matched_xctest_bundle)
-        else
+          elsif dynamic_lib_bundle != nil
+            found_binary = find_binary_file_in_bundle(dynamic_lib_bundle)
+          else
             found_binary = find_binary_file_in_bundle(xctest_bundle)
+          end
+
+          if found_binary
+            found_binaries.push(found_binary)
+          end
         end
       end
 
-      raise StandardError, "No product binary found in #{profdata_coverage_dir}." unless found_binary != nil
+      raise StandardError, "No product binary found in #{profdata_coverage_dir}." unless found_binaries.count > 0
 
-      found_binary
+      found_binaries.map { |binary| File.expand_path(binary) }
     end
   end
 end

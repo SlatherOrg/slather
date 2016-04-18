@@ -71,6 +71,7 @@ describe Slather::Project do
     before(:each) do
       allow(Dir).to receive(:[]).and_call_original
       allow(Dir).to receive(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
+      allow(fixtures_project).to receive(:binary_file).and_return(["Fixtures"])
       allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("#{FIXTURES_SWIFT_FILE_PATH}:
        |    0|
        |    1|import UIKit
@@ -109,6 +110,7 @@ describe Slather::Project do
       allow(fixtures_project).to receive(:input_format).and_return("profdata")
       allow(fixtures_project).to receive(:ignore_list).and_return([])
       allow(Dir).to receive(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
+      allow(fixtures_project).to receive(:binary_file).and_return(["Fixtures"])
       allow(fixtures_project).to receive(:unsafe_profdata_llvm_cov_output).and_return("#{FIXTURES_SWIFT_FILE_PATH}:
       1|    8|    func application(application: \255, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
       1|    9|        return true
@@ -138,7 +140,8 @@ describe Slather::Project do
       allow(fixtures_project).to receive(:scheme).and_return("fixtures")
       fixtures_project.send(:configure_binary_file)
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
+      expect(binary_file_location.count).to eq(1)
+      expect(binary_file_location.first).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
     end
 
     it "should find the product path provided a workspace and scheme" do
@@ -146,14 +149,16 @@ describe Slather::Project do
       allow(fixtures_project).to receive(:scheme).and_return("fixtures")
       fixtures_project.send(:configure_binary_file)
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
+      expect(binary_file_location.count).to eq(1)
+      expect(binary_file_location.first).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
     end
 
     it "should find the product path for a scheme with no buildable products" do
       allow(fixtures_project).to receive(:scheme).and_return("fixturesTests")
       fixtures_project.send(:configure_binary_file)
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
+      expect(binary_file_location.count).to eq(1)
+      expect(binary_file_location.first).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
     end
 
     let(:fixture_yaml) do
@@ -167,7 +172,7 @@ describe Slather::Project do
       allow(Slather::Project).to receive(:yml).and_return(fixture_yaml)
       fixtures_project.send(:configure_binary_file)
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to eq("/FixtureScheme/From/Yaml/Contents/MacOS/FixturesFromYaml")
+      expect(binary_file_location).to eq(["/FixtureScheme/From/Yaml/Contents/MacOS/FixturesFromYaml"])
     end
 
     let(:other_fixture_yaml) do
@@ -182,7 +187,8 @@ describe Slather::Project do
       allow(Dir).to receive(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/Products/Debug/fixtureTests.xctest").and_return(["fixtureTests.xctest"])
       fixtures_project.send(:configure_binary_file)
       binary_file_location = fixtures_project.send(:binary_file)
-      expect(binary_file_location).to end_with("/fixturesTests.xctest/Contents/MacOS/fixturesTests")
+      expect(binary_file_location.count).to eq(1)
+      expect(binary_file_location.first).to end_with("/fixturesTests.xctest/Contents/MacOS/fixturesTests")
     end
   end
 
@@ -445,11 +451,12 @@ describe Slather::Project do
     end
 
     it "should print out environment info when in verbose_mode" do
-
       project_root = Pathname("./").realpath
 
       ["\nProcessing coverage file: #{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Coverage.profdata",
-       "Against binary file: #{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Products/Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests\n\n"
+       "Against binary files:",
+       "\t#{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Products/Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests",
+       "\n"
       ].each do |line|
         expect(fixtures_project).to receive(:puts).with(line)
       end

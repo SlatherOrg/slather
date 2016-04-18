@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage line-rate="0.7333333333333333" branch-rate="1.0000000000000000" lines-covered="55" lines-valid="75" branches-covered="0" branches-valid="0" complexity="0.0" timestamp="1453128250" version="Slather 1.8.2">
+<coverage line-rate="0.7500000000000000" branch-rate="1.0000000000000000" lines-covered="60" lines-valid="80" branches-covered="0" branches-valid="0" complexity="0.0" timestamp="1460926354" version="Slather 2.1.0">
   <sources>
     <source>/Users/civetta/Works/Personal/slather/viteinfinite-slather</source>
   </sources>
@@ -85,18 +85,23 @@
         <class name="fixturesTests.m" filename="spec/fixtures/fixturesTests/fixturesTests.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
-            <line number="19" branch="false" hits="1"/>
-            <line number="20" branch="false" hits="1"/>
-            <line number="21" branch="false" hits="1"/>
-            <line number="22" branch="false" hits="1"/>
-            <line number="25" branch="false" hits="1"/>
-            <line number="26" branch="false" hits="1"/>
-            <line number="27" branch="false" hits="1"/>
-            <line number="28" branch="false" hits="1"/>
-            <line number="31" branch="false" hits="1"/>
+            <line number="20" branch="false" hits="2"/>
+            <line number="21" branch="false" hits="2"/>
+            <line number="22" branch="false" hits="2"/>
+            <line number="23" branch="false" hits="2"/>
+            <line number="26" branch="false" hits="2"/>
+            <line number="27" branch="false" hits="2"/>
+            <line number="28" branch="false" hits="2"/>
+            <line number="29" branch="false" hits="2"/>
             <line number="32" branch="false" hits="1"/>
             <line number="33" branch="false" hits="1"/>
             <line number="34" branch="false" hits="1"/>
+            <line number="35" branch="false" hits="1"/>
+            <line number="38" branch="false" hits="1"/>
+            <line number="39" branch="false" hits="1"/>
+            <line number="40" branch="false" hits="1"/>
+            <line number="41" branch="false" hits="1"/>
+            <line number="42" branch="false" hits="1"/>
           </lines>
         </class>
         <class name="peekaviewTests.m" filename="spec/fixtures/fixturesTests/peekaviewTests.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">

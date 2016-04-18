@@ -12,6 +12,9 @@
 		155BBCA819E9CCC500BACB13 /* BranchesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 155BBCA719E9CCC500BACB13 /* BranchesTests.m */; };
 		155D8AFE19FED984004666BA /* Empty.h in Headers */ = {isa = PBXBuildFile; fileRef = 155D8AFC19FED984004666BA /* Empty.h */; };
 		155D8AFF19FED984004666BA /* Empty.m in Sources */ = {isa = PBXBuildFile; fileRef = 155D8AFD19FED984004666BA /* Empty.m */; };
+		3773307C1CC42A58005EAF65 /* fixturesTwo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3773307B1CC42A58005EAF65 /* fixturesTwo.h */; };
+		3773307E1CC42A58005EAF65 /* fixturesTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3773307D1CC42A58005EAF65 /* fixturesTwo.m */; };
+		377330821CC42ABF005EAF65 /* libfixturesTwo.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 377330791CC42A58005EAF65 /* libfixturesTwo.dylib */; };
 		8C0F0B401ACF43A300793B7D /* fixtures_m.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C0F0B3E1ACF43A300793B7D /* fixtures_m.h */; };
 		8C0F0B411ACF43A300793B7D /* fixtures_m.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F0B3F1ACF43A300793B7D /* fixtures_m.m */; };
 		8C0F0B441ACF44E000793B7D /* fixtures_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F0B421ACF44E000793B7D /* fixtures_cpp.cpp */; };
@@ -23,7 +26,6 @@
 		8C52AEFA195AAE70008A882A /* peekaviewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C52AEF9195AAE70008A882A /* peekaviewTests.m */; };
 		8C9A2031195965F10013B6B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9A2030195965F10013B6B3 /* Cocoa.framework */; };
 		8C9A203B195965F10013B6B3 /* fixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C9A203A195965F10013B6B3 /* fixtures.m */; };
-		8C9A2042195965F10013B6B3 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9A2041195965F10013B6B3 /* XCTest.framework */; };
 		8C9A2043195965F10013B6B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9A2030195965F10013B6B3 /* Cocoa.framework */; };
 		8C9A2046195965F10013B6B3 /* libfixtures.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9A202D195965F10013B6B3 /* libfixtures.a */; };
 		8C9A204C195965F10013B6B3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C9A204A195965F10013B6B3 /* InfoPlist.strings */; };
@@ -46,6 +48,9 @@
 		155BBCA719E9CCC500BACB13 /* BranchesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BranchesTests.m; sourceTree = "<group>"; };
 		155D8AFC19FED984004666BA /* Empty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Empty.h; sourceTree = "<group>"; };
 		155D8AFD19FED984004666BA /* Empty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Empty.m; sourceTree = "<group>"; };
+		377330791CC42A58005EAF65 /* libfixturesTwo.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libfixturesTwo.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		3773307B1CC42A58005EAF65 /* fixturesTwo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fixturesTwo.h; sourceTree = "<group>"; };
+		3773307D1CC42A58005EAF65 /* fixturesTwo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fixturesTwo.m; sourceTree = "<group>"; };
 		8C0F0B3E1ACF43A300793B7D /* fixtures_m.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fixtures_m.h; sourceTree = "<group>"; };
 		8C0F0B3F1ACF43A300793B7D /* fixtures_m.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fixtures_m.m; sourceTree = "<group>"; };
 		8C0F0B421ACF44E000793B7D /* fixtures_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fixtures_cpp.cpp; sourceTree = "<group>"; };
@@ -64,13 +69,19 @@
 		8C9A2039195965F10013B6B3 /* fixtures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fixtures.h; sourceTree = "<group>"; };
 		8C9A203A195965F10013B6B3 /* fixtures.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fixtures.m; sourceTree = "<group>"; };
 		8C9A2040195965F10013B6B3 /* fixturesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = fixturesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C9A2041195965F10013B6B3 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		8C9A2049195965F10013B6B3 /* fixturesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "fixturesTests-Info.plist"; sourceTree = "<group>"; };
 		8C9A204B195965F10013B6B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8C9A204D195965F10013B6B3 /* fixturesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fixturesTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		377330761CC42A58005EAF65 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8C9A202A195965F10013B6B3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -84,14 +95,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C9A2046195965F10013B6B3 /* libfixtures.a in Frameworks */,
+				377330821CC42ABF005EAF65 /* libfixturesTwo.dylib in Frameworks */,
 				8C9A2043195965F10013B6B3 /* Cocoa.framework in Frameworks */,
-				8C9A2042195965F10013B6B3 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3773307A1CC42A58005EAF65 /* fixturesTwo */ = {
+			isa = PBXGroup;
+			children = (
+				3773307B1CC42A58005EAF65 /* fixturesTwo.h */,
+				3773307D1CC42A58005EAF65 /* fixturesTwo.m */,
+			);
+			path = fixturesTwo;
+			sourceTree = "<group>";
+		};
 		8C52AEF4195AAE16008A882A /* more_files */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				8C9A2036195965F10013B6B3 /* fixtures */,
+				3773307A1CC42A58005EAF65 /* fixturesTwo */,
 				8C9A2047195965F10013B6B3 /* fixturesTests */,
 				8C9A202F195965F10013B6B3 /* Frameworks */,
 				8C9A202E195965F10013B6B3 /* Products */,
@@ -120,6 +141,7 @@
 			children = (
 				8C9A202D195965F10013B6B3 /* libfixtures.a */,
 				8C9A2040195965F10013B6B3 /* fixturesTests.xctest */,
+				377330791CC42A58005EAF65 /* libfixturesTwo.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,7 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				8C9A2030195965F10013B6B3 /* Cocoa.framework */,
-				8C9A2041195965F10013B6B3 /* XCTest.framework */,
 				8C9A2032195965F10013B6B3 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -192,6 +213,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		377330771CC42A58005EAF65 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3773307C1CC42A58005EAF65 /* fixturesTwo.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8C9A202B195965F10013B6B3 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -208,6 +237,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		377330781CC42A58005EAF65 /* fixturesTwo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3773307F1CC42A58005EAF65 /* Build configuration list for PBXNativeTarget "fixturesTwo" */;
+			buildPhases = (
+				377330751CC42A58005EAF65 /* Sources */,
+				377330761CC42A58005EAF65 /* Frameworks */,
+				377330771CC42A58005EAF65 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = fixturesTwo;
+			productName = fixturesTwo;
+			productReference = 377330791CC42A58005EAF65 /* libfixturesTwo.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		8C9A202C195965F10013B6B3 /* fixtures */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8C9A2051195965F10013B6B3 /* Build configuration list for PBXNativeTarget "fixtures" */;
@@ -251,6 +297,11 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = marklarr;
+				TargetAttributes = {
+					377330781CC42A58005EAF65 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
 			};
 			buildConfigurationList = 8C9A2028195965F00013B6B3 /* Build configuration list for PBXProject "fixtures" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -265,6 +316,7 @@
 			projectRoot = "";
 			targets = (
 				8C9A202C195965F10013B6B3 /* fixtures */,
+				377330781CC42A58005EAF65 /* fixturesTwo */,
 				8C9A203F195965F10013B6B3 /* fixturesTests */,
 			);
 		};
@@ -282,6 +334,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		377330751CC42A58005EAF65 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3773307E1CC42A58005EAF65 /* fixturesTwo.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8C9A2029195965F10013B6B3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -328,6 +388,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		377330801CC42A58005EAF65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		377330811CC42A58005EAF65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXECUTABLE_PREFIX = lib;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8C9A204F195965F10013B6B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -345,6 +437,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -463,6 +556,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3773307F1CC42A58005EAF65 /* Build configuration list for PBXNativeTarget "fixturesTwo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				377330801CC42A58005EAF65 /* Debug */,
+				377330811CC42A58005EAF65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8C9A2028195965F00013B6B3 /* Build configuration list for PBXProject "fixtures" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "fixtures.h"
+#import "fixturesTwo.h"
 
 @interface fixturesTests : XCTestCase
 
@@ -31,6 +32,13 @@
 {
     fixtures *f = [[fixtures alloc] init];
     [f testedMethod];
+}
+
+- (void)testFixturesTwo
+{
+    fixturesTwo *f2 = [[fixturesTwo alloc] init];
+
+    XCTAssertEqual([f2 doSomething], 11);
 }
 
 @end
