@@ -322,7 +322,7 @@ module Slather
     end
 
     def configure_binary_file
-      if self.input_format == "profdata"
+      if self.input_format == "profdata"  && !self.binary_file
         binary_file_yml = self.class.yml["binary_file"]
 
         # Need to check the type in the config file because binary_file can be a string or array
