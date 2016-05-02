@@ -466,11 +466,23 @@ module Slather
     end
 
     def find_source_files
-      patterns = self.source_files ? self.source_files : self.class.yml["source_files"]
-      return if patterns.nil?
+      if self.source_files
+        source_files = self.source_files
+      else
+        source_files_yml = self.class.yml["source_files"]
+
+        # Need to check the type in the config file because source_files can be a string or array
+        if source_files_yml and source_files_yml.is_a? Array
+          source_files = source_files_yml
+        elsif source_files_yml
+          source_files = [source_files_yml]
+        else
+          return
+        end
+      end
 
       current_dir = Pathname("./").realpath
-      paths = patterns.flat_map { |pattern| Dir.glob(pattern) }.uniq
+      paths = source_files.flat_map { |pattern| Dir.glob(pattern) }.uniq
 
       paths.map do |path|
         source_file_absolute_path = Pathname(path).realpath
