@@ -328,17 +328,8 @@ module Slather
     end
 
     def configure_binary_file
-      if self.input_format == "profdata"  && !self.binary_file
-        binary_file_yml = self.class.yml["binary_file"]
-
-        # Need to check the type in the config file because binary_file can be a string or array
-        if binary_file_yml and binary_file_yml.is_a? Array
-          self.binary_file = binary_file_yml
-        elsif binary_file_yml 
-          self.binary_file = [binary_file_yml]
-        else
-          self.binary_file = find_binary_files
-        end
+      if self.input_format == "profdata"
+        self.binary_file = load_option_array("binary_file")
       end
     end
 
@@ -352,21 +343,7 @@ module Slather
     end
 
     def find_binary_files
-      if self.binary_basename
-        binary_basename = self.binary_basename
-      else
-        binary_basename_yml = self.class.yml["binary_basename"]
-
-        # Need to check the type in the config file because binary_file can be a string or array
-        if binary_basename_yml and binary_basename_yml.is_a? Array
-          binary_basename = binary_basename_yml
-        elsif binary_basename_yml
-          binary_basename = [binary_basename_yml]
-        else
-          binary_basename = nil
-        end
-      end
-
+      binary_basename = load_option_array("binary_basename")
       found_binaries = []
 
       # Get scheme info out of the xcodeproj
@@ -466,20 +443,8 @@ module Slather
     end
 
     def find_source_files
-      if self.source_files
-        source_files = self.source_files
-      else
-        source_files_yml = self.class.yml["source_files"]
-
-        # Need to check the type in the config file because source_files can be a string or array
-        if source_files_yml and source_files_yml.is_a? Array
-          source_files = source_files_yml
-        elsif source_files_yml
-          source_files = [source_files_yml]
-        else
-          return
-        end
-      end
+      source_files = load_option_array("source_files")
+      return if source_files.nil?
 
       current_dir = Pathname("./").realpath
       paths = source_files.flat_map { |pattern| Dir.glob(pattern) }.uniq
@@ -489,6 +454,21 @@ module Slather
         source_file_relative_path = source_file_absolute_path.relative_path_from(current_dir)
         self.ignore_list.any? { |ignore| File.fnmatch(ignore, source_file_relative_path) } ? nil : source_file_absolute_path
       end.compact
+    end
+
+    def load_option_array(option)
+      value = self.send(option.to_sym)
+      # Only load if a value is not already set
+      if !value
+        value_yml = self.class.yml[option]
+        # Need to check the type in the config file because it can be a string or array
+        if value_yml and value_yml.is_a? Array
+          value = value_yml
+        elsif value_yml
+          value = [value_yml]
+        end
+      end
+      value
     end
   end
 end
