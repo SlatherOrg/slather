@@ -51,7 +51,7 @@ module Slather
   class Project < Xcodeproj::Project
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
-      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename
+      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -122,15 +122,21 @@ module Slather
 
     def profdata_coverage_files
       coverage_files = []
+      source_files = find_source_files || []
 
       if self.binary_file
         self.binary_file.each do |binary_path|
-          files = profdata_llvm_cov_output(binary_path).split("\n\n")
+          files = profdata_llvm_cov_output(binary_path, source_files).split("\n\n")
 
           coverage_files.concat(files.map do |source|
             coverage_file = coverage_file_class.new(self, source)
             !coverage_file.ignored? ? coverage_file : nil
           end.compact)
+
+          if !source_files.empty?
+            coverage_file_paths = coverage_files.map { |file| file.source_file_pathname }.to_set
+            source_files.select! { |path| !coverage_file_paths.include?(path) }
+          end
         end
       end
 
@@ -181,7 +187,7 @@ module Slather
     end
     private :profdata_file
 
-    def unsafe_profdata_llvm_cov_output(binary_path)
+    def unsafe_profdata_llvm_cov_output(binary_path, source_files)
       profdata_file_arg = profdata_file
       if profdata_file_arg == nil
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
@@ -192,12 +198,12 @@ module Slather
       end
 
       llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path})
-      `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
+      `xcrun llvm-cov #{llvm_cov_args.shelljoin} #{source_files.shelljoin}`
     end
     private :unsafe_profdata_llvm_cov_output
 
-    def profdata_llvm_cov_output(binary_path)
-      unsafe_profdata_llvm_cov_output(binary_path).encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
+    def profdata_llvm_cov_output(binary_path, source_files)
+      unsafe_profdata_llvm_cov_output(binary_path, source_files).encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
     end
     private :profdata_llvm_cov_output
 
@@ -457,6 +463,20 @@ module Slather
       raise StandardError, "No product binary found in #{profdata_coverage_dir}." unless found_binaries.count > 0
 
       found_binaries.map { |binary| File.expand_path(binary) }
+    end
+
+    def find_source_files
+      patterns = self.source_files ? self.source_files : self.class.yml["source_files"]
+      return if patterns.nil?
+
+      current_dir = Pathname("./").realpath
+      paths = patterns.flat_map { |pattern| Dir.glob(pattern) }.uniq
+
+      paths.map do |path|
+        source_file_absolute_path = Pathname(path).realpath
+        source_file_relative_path = source_file_absolute_path.relative_path_from(current_dir)
+        self.ignore_list.any? { |ignore| File.fnmatch(ignore, source_file_relative_path) } ? nil : source_file_absolute_path
+      end.compact
     end
   end
 end
