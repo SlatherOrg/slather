@@ -136,6 +136,14 @@ describe Slather::Project do
       allow(Dir).to receive(:[]).with("#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/**/*.xctest").and_return(["#{build_directory}/Build/Intermediates/CodeCoverage/FixtureScheme/FixtureAppTests.xctest"])
     end
 
+    it "should use binary_file" do
+      fixtures_project.binary_file = ["/path/to/binary"]
+      fixtures_project.send(:configure_binary_file)
+      binary_file_location = fixtures_project.send(:binary_file)
+      expect(binary_file_location.count).to eq(1)
+      expect(binary_file_location.first).to eq("/path/to/binary")
+    end
+
     it "should find the product path provided a scheme" do
       allow(fixtures_project).to receive(:scheme).and_return("fixtures")
       fixtures_project.send(:configure_binary_file)
