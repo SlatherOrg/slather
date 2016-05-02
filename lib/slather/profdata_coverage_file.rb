@@ -134,6 +134,7 @@ module Slather
       ["MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestAssertionsImpl.h",
         "MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/objc/objc.h",
         "MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestAssertions.h",
+        # This indicates a llvm-cov coverage warning (happens with ccache in some cases)
         "isn't covered."]
     end
     private :platform_ignore_list
