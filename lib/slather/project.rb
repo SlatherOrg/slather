@@ -329,7 +329,7 @@ module Slather
 
     def configure_binary_file
       if self.input_format == "profdata"
-        self.binary_file = load_option_array("binary_file")
+        self.binary_file = load_option_array("binary_file") || find_binary_files
       end
     end
 
