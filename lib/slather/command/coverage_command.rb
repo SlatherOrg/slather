@@ -26,7 +26,7 @@ class CoverageCommand < Clamp::Command
   option ["--workspace"], "WORKSPACE", "The workspace that the project was built in"
   option ["--binary-file"], "BINARY_FILE", "The binary file against the which the coverage will be run", :multivalued => true
   option ["--binary-basename"], "BINARY_BASENAME", "Basename of the file against which the coverage will be run", :multivalued => true
-  option ["--source-files"], "SOURCE_FILES", "A Dir.glob compatible pattern used to limit the lookup to specific source files", :multivalued => true
+  option ["--source-files"], "SOURCE_FILES", "A Dir.glob compatible pattern used to limit the lookup to specific source files. Ignored in gcov mode.", :multivalued => true
 
   def execute
     puts "Slathering..."
