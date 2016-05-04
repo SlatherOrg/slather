@@ -80,7 +80,6 @@ module Slather
 
     def line_coverage_data
       source_code_lines.map do |line|
-        puts "L: #{line}"
         coverage_for_line(line)
       end
     end
