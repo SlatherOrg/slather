@@ -139,6 +139,12 @@ describe Slather::ProfdataCoverageFile do
       expect(ignorable_file.ignored?).to be_truthy
     end
 
+    it "should ignore warnings" do
+      ignorable_file = Slather::ProfdataCoverageFile.new(fixtures_project, "warning The file '/Users/ci/.ccache/tmp/CALayer-KI.stdout.macmini08.92540.QAQaxt.mi' isn't covered.")
+
+      expect(ignorable_file.ignored?).to be_truthy
+    end
+
   end
 
 end

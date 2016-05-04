@@ -472,4 +472,35 @@ describe Slather::Project do
       fixtures_project.send(:configure)
     end
   end
+
+  describe "#source_files" do
+
+    let(:fixtures_project) do
+      proj = Slather::Project.open(FIXTURES_PROJECT_PATH)
+      proj.build_directory = TEMP_DERIVED_DATA_PATH
+      proj.input_format = "profdata"
+      proj.source_files = ["./**/fixtures{,Two}.m"]
+      proj.binary_basename = ["fixturesTests", "libfixturesTwo"]
+      proj.configure
+      proj
+    end
+
+    it "should find relevant source files" do
+      source_files = fixtures_project.find_source_files
+      expect(source_files.count).to eq(2)
+      expect(source_files.first.to_s).to include("fixtures.m")
+      expect(source_files.last.to_s).to include("fixturesTwo.m")
+    end
+
+    it "should print out the coverage for each file, and then total coverage" do
+      ["spec/fixtures/fixtures/fixtures.m: 3 of 6 lines (50.00%)",
+      "spec/fixtures/fixturesTwo/fixturesTwo.m: 6 of 6 lines (100.00%)",
+      "Test Coverage: 75.00%"
+      ].each do |line|
+        expect(fixtures_project).to receive(:puts).with(line)
+      end
+      fixtures_project.post
+    end
+  end
+
 end
