@@ -130,6 +130,8 @@ module Slather
 
           coverage_files.concat(files.map do |source|
             coverage_file = coverage_file_class.new(self, source)
+            # If a single source file is used, the resulting output does not contain the file name.
+            coverage_file.source_file_pathname = source_files.first if source_files.count == 1
             !coverage_file.ignored? ? coverage_file : nil
           end.compact)
 

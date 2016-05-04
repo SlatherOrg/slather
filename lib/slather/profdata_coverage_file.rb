@@ -16,12 +16,17 @@ module Slather
     end
 
     def create_line_data
-      all_lines = self.source.split("\n")[1..-1]
+      all_lines = source_code_lines
       line_data = Hash.new
       all_lines.each { |line| line_data[line_number_in_line(line)] = line }
       self.line_data = line_data
     end
     private :create_line_data
+
+    def path_on_first_line?
+      path = self.source.split("\n")[0].sub ":", ""
+      Pathname(path).exist?
+    end
 
     def source_file_pathname
       @source_file_pathname ||= begin
@@ -30,8 +35,16 @@ module Slather
       end
     end
 
+    def source_file_pathname= (source_file_pathname)
+        @source_file_pathname = source_file_pathname
+    end
+
     def source_file
       File.new(source_file_pathname)
+    end
+
+    def source_code_lines
+      self.source.split("\n")[(path_on_first_line? ? 1 : 0)..-1]
     end
 
     def source_data
@@ -40,7 +53,7 @@ module Slather
 
     def all_lines
       if @all_lines == nil
-        @all_lines = self.source.split("\n")[1..-1]
+        @all_lines = source_code_lines
       end
       @all_lines
     end
@@ -66,7 +79,8 @@ module Slather
     end
 
     def line_coverage_data
-      self.source.split("\n")[1..-1].map do |line|
+      source_code_lines.map do |line|
+        puts "L: #{line}"
         coverage_for_line(line)
       end
     end
