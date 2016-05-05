@@ -82,10 +82,13 @@ module Slather
         buildAction = nil
       end
 
-      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings #{buildAction}`
+      # redirect stderr to avoid xcodebuild errors being printed.
+      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings #{buildAction} 2>&1`
 
       if build_settings
-        derived_data_path = build_settings.match(/ OBJROOT = (.+)/)[1]
+        derived_data_path = build_settings.match(/ OBJROOT = (.+)/)
+        # when match fails derived_data_path is nil
+        derived_data_path = derived_data_path[1] if derived_data_path
       end
 
       if derived_data_path == nil
