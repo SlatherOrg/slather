@@ -2,6 +2,10 @@
 
 ## master
 
+* Fix for correct line number for lines that are hit thousands or millions of time in llvm-cov.  
+  [Mihai Parv](https://github.com/mihaiparv)
+  [#202](https://github.com/SlatherOrg/slather/pull/202), [#196](https://github.com/SlatherOrg/slather/issues/196)
+
 * Generate coverate for multiple binaries by passing multiple `--binary-basename` or `--binary-file` arguments, or by using an array in `.slather.yml`  
   [Kent Sutherland](https://github.com/ksuther)
   [#188](https://github.com/SlatherOrg/slather/pull/188)

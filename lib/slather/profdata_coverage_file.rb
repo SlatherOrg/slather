@@ -74,6 +74,17 @@ module Slather
           when /[0-9]+/
             return match.to_i
         end
+      else
+        # llvm-cov outputs hit counts as 25.3k or 3.8M, so check this pattern as well
+        did_match = line =~ /^(\s*)(\d+\.\d+)(k|M)\|(\s*)(\d+)\|/
+
+        if did_match
+          match = $5.strip
+          case match
+            when /[0-9]+/
+              return match.to_i
+          end
+        end
       end
       0
     end

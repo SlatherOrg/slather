@@ -70,8 +70,16 @@ describe Slather::ProfdataCoverageFile do
   end
 
   describe "#line_number_in_line" do
-    it "should return the correct line number" do
+    it "should return the correct line number for coverage represented as decimals" do
       expect(profdata_coverage_file.line_number_in_line("      0|   40|    func applicationWillTerminate(application: UIApplication) {")).to eq(40)
+    end
+
+    it "should return the correct line number for coverage represented as thousands" do
+      expect(profdata_coverage_file.line_number_in_line("  11.8k|   41|    func applicationWillTerminate(application: UIApplication) {")).to eq(41)
+    end
+
+    it "should return the correct line number for coverage represented as milions" do
+      expect(profdata_coverage_file.line_number_in_line("  2.58M|   42|    func applicationWillTerminate(application: UIApplication) {")).to eq(42)
     end
   end
 
