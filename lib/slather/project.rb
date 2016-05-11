@@ -27,8 +27,8 @@ module Xcodeproj
 
       # Patch xcschemes too
       if format == :clang
-        if Gem::Requirement.new('~> 0.27') =~ Gem::Version.new(Xcodeproj::VERSION)
-          # @todo This will require to bump the xcodeproj dependency to ~> 0.27
+        if Gem::Requirement.new('>= 0.28.2') =~ Gem::Version.new(Xcodeproj::VERSION)
+          # @todo This will require to bump the xcodeproj dependency to >= 0.28.2
           # (which would require to bump cocoapods too)
           schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
           Xcodeproj::Project.schemes(self.path).each do |scheme_name|
