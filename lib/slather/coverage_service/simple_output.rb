@@ -19,7 +19,7 @@ module Slather
 
           lines_tested = coverage_file.num_lines_tested
           total_lines = coverage_file.num_lines_testable
-          percentage = '%.2f' % [coverage_file.percentage_lines_tested]
+          percentage = decimal_f([coverage_file.percentage_lines_tested])
 
           total_project_lines_tested += lines_tested
           total_project_lines += total_lines
@@ -42,7 +42,7 @@ module Slather
           puts "##teamcity[buildStatisticValue key='CodeCoverageAbsLTotal' value='%i']" % total_project_lines
         end
 
-        total_percentage = '%.2f' % [(total_project_lines_tested / total_project_lines.to_f) * 100.0]
+        total_percentage = decimal_f([(total_project_lines_tested / total_project_lines.to_f) * 100.0])
         puts "Test Coverage: #{total_percentage}%"
       end
 

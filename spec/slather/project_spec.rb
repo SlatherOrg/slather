@@ -503,4 +503,20 @@ describe Slather::Project do
     end
   end
 
+  def decimal_f *args
+    fixtures_project.decimal_f *args
+  end
+
+  describe '#decimal_f' do
+    it 'should preserve length 2 decimals for backwards compatibility' do
+      expect(decimal_f('100.00')).to eq('100.00')
+      expect(decimal_f('50.00')).to eq('50.00')
+    end
+
+    it 'should convert length >= 3 decimals to floats' do
+      fixtures_project.decimals = 3
+      expect(decimal_f('100.000')).to eq('100.0')
+      expect(decimal_f('50.00000')).to eq('50.0')
+    end
+  end
 end

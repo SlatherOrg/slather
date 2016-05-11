@@ -2,7 +2,11 @@
 
 ## master
 
-* Add `slather version` command
+* Add `--decimals` flag  
+  [bootstraponline](https://github.com/bootstraponline)
+  [#207](https://github.com/SlatherOrg/slather/pull/207)
+
+* Add `slather version` command  
   [bootstraponline](https://github.com/bootstraponline)
   [#208](https://github.com/SlatherOrg/slather/pull/208)
 
