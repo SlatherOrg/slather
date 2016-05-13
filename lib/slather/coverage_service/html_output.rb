@@ -79,7 +79,7 @@ module Slather
           cov.h4 {
             percentage = (total_tested_lines / total_relevant_lines.to_f) * 100.0
             cov.span "Total Coverage : "
-            cov.span '%.2f%%' % percentage, :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
+            cov.span decimal_f(percentage) + '%', :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
           }
 
           cov.input(:class => "search", :placeholder => "Search")
@@ -105,7 +105,7 @@ module Slather
                 cov.tr {
                   percentage = coverage_file.percentage_lines_tested
 
-                  cov.td { cov.span '%.2f' % percentage, :class => "percentage #{class_for_coverage_percentage(percentage)} data_percentage" }
+                  cov.td { cov.span decimal_f(percentage), :class => "percentage #{class_for_coverage_percentage(percentage)} data_percentage" }
                   cov.td(:class => "data_filename") {
                     cov.a filename, :href => filename_link
                   }
@@ -140,7 +140,7 @@ module Slather
         builder = Nokogiri::HTML::Builder.with(template.at('#reports')) { |cov|
           cov.h2(:class => "cov_title") {
             cov.span("Coverage for \"#{filename}\"" + (!is_file_empty ? " : " : ""))
-            cov.span("#{'%.2f' % percentage}%", :class => class_for_coverage_percentage(percentage)) unless is_file_empty
+            cov.span("#{decimal_f(percentage)}%", :class => class_for_coverage_percentage(percentage)) unless is_file_empty
           }
 
           cov.h4("(#{coverage_file.num_lines_tested} of #{coverage_file.num_lines_testable} relevant lines covered)", :class => "cov_subtitle")

@@ -51,7 +51,8 @@ module Slather
   class Project < Xcodeproj::Project
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
-      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files
+      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files,
+      :decimals
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -238,6 +239,7 @@ module Slather
         configure_output_directory
         configure_input_format
         configure_binary_file
+        configure_decimals
       rescue => e
         puts e.message
         puts failure_help_string
@@ -295,6 +297,12 @@ module Slather
       self.scheme ||= self.class.yml["scheme"] if self.class.yml["scheme"]
     end
 
+    def configure_decimals
+      return if self.decimals
+      self.decimals ||= self.class.yml["decimals"] if self.class.yml["decimals"]
+      self.decimals = self.decimals ? Integer(self.decimals) : 2
+    end
+
     def configure_workspace
       self.workspace ||= self.class.yml["workspace"] if self.class.yml["workspace"]
     end
@@ -336,6 +344,13 @@ module Slather
       if self.input_format == "profdata"
         self.binary_file = load_option_array("binary_file") || find_binary_files
       end
+    end
+
+    def decimal_f decimal_arg
+      configure_decimals unless decimals
+      decimal = "%.#{decimals}f" % decimal_arg
+      return decimal if decimals == 2 # special case 2 for backwards compatibility
+      decimal.to_f.to_s
     end
 
     def find_binary_file_in_bundle(bundle_file)
