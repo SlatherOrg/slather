@@ -26,6 +26,10 @@ describe Slather::CoverageService::HtmlOutput do
     it "should return CoverageFile" do
       expect(fixtures_project.send(:coverage_file_class)).to eq(Slather::ProfdataCoverageFile)
     end
+
+    it "should allow accessing docs via attribute" do
+      expect(fixtures_project.docs).to eq(nil)
+    end
   end
 
   describe '#post' do
