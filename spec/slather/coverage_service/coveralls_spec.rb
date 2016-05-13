@@ -34,7 +34,7 @@ describe Slather::CoverageService::Coveralls do
       it "should return valid json for coveralls coverage gcov data" do
         allow(fixtures_project).to receive(:travis_job_id).and_return("9182")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"travis-ci\"}").excluding("source_files")
-        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.coverage_files.map(&:as_json).to_json).at_path("source_files")
       end
 
       it "should raise an error if there is no TRAVIS_JOB_ID" do
@@ -50,7 +50,7 @@ describe Slather::CoverageService::Coveralls do
         allow(fixtures_project).to receive(:travis_job_id).and_return("9182")
         allow(fixtures_project).to receive(:coverage_access_token).and_return("abc123")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"travis-pro\",\"repo_token\":\"abc123\"}").excluding("source_files")
-        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.coverage_files.map(&:as_json).to_json).at_path("source_files")
       end
 
       it "should raise an error if there is no TRAVIS_JOB_ID" do
@@ -69,7 +69,7 @@ describe Slather::CoverageService::Coveralls do
         allow(fixtures_project).to receive(:circleci_build_url).and_return("https://circleci.com/gh/Bruce/Wayne/1")
         allow(fixtures_project).to receive(:circleci_git_info).and_return({ :head => { :id => "ababa123", :author_name => "bwayne", :message => "hello" }, :branch => "master" })
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"circleci\",\"repo_token\":\"abc123\",\"service_pull_request\":\"1\",\"service_build_url\":\"https://circleci.com/gh/Bruce/Wayne/1\",\"git\":{\"head\":{\"id\":\"ababa123\",\"author_name\":\"bwayne\",\"message\":\"hello\"},\"branch\":\"master\"}}").excluding("source_files")
-        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.coverage_files.map(&:as_json).to_json).at_path("source_files")
       end
 
       it "should raise an error if there is no CIRCLE_BUILD_NUM" do
@@ -87,7 +87,7 @@ describe Slather::CoverageService::Coveralls do
         allow(fixtures_project).to receive(:jenkins_git_info).and_return({head: {id: "master", author_name: "author", message: "pull title" }, branch: "branch"})
         allow(fixtures_project).to receive(:jenkins_branch_name).and_return('master')
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"jenkins\",\"repo_token\":\"abc123\",\"git\":{\"head\":{\"id\":\"master\",\"author_name\":\"author\",\"message\":\"pull title\"},\"branch\":\"branch\"}}").excluding("source_files")
-        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.coverage_files.map(&:as_json).to_json).at_path("source_files")
       end
 
       it "should raise an error if there is no BUILD_ID" do
@@ -156,7 +156,7 @@ describe Slather::CoverageService::Coveralls do
       it "should return valid json for coveralls coverage profdata data" do
         allow(fixtures_project).to receive(:travis_job_id).and_return("9182")
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"travis-ci\"}").excluding("source_files")
-        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.send(:coverage_files).map(&:as_json).to_json).at_path("source_files")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.coverage_files.map(&:as_json).to_json).at_path("source_files")
       end
     end
   end

@@ -11,7 +11,7 @@ describe Slather::CoverageFile do
   end
 
   let(:coverage_file) do
-    fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "fixtures.m" }
+    fixtures_project.coverage_files.detect { |cf| cf.source_file_pathname.basename.to_s == "fixtures.m" }
   end
 
   describe "#initialize" do
@@ -42,7 +42,7 @@ describe Slather::CoverageFile do
     ["cpp", "mm", "m"].each do |file_ext|
       it "should work for #{file_ext} files" do
         file_name = "fixtures_#{file_ext}.#{file_ext}"
-        coverage_file = fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == file_name }
+        coverage_file = fixtures_project.coverage_files.detect { |cf| cf.source_file_pathname.basename.to_s == file_name }
         expect(coverage_file.source_file_pathname).to eq(fixtures_project["fixtures/#{file_name}"].real_path)
       end
     end
@@ -124,7 +124,7 @@ OBJC
     }
 
     let(:line_coverage_file) do
-      fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "fixtures.m" }
+      fixtures_project.coverage_files.detect { |cf| cf.source_file_pathname.basename.to_s == "fixtures.m" }
     end
 
     describe "#coverage_for_line" do
@@ -166,7 +166,7 @@ OBJC
   describe "branch coverage" do
 
     let(:branch_coverage_file) do
-      fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "Branches.m" }
+      fixtures_project.coverage_files.detect { |cf| cf.source_file_pathname.basename.to_s == "Branches.m" }
     end
 
     describe "branch_coverage_data" do
@@ -281,7 +281,7 @@ OBJC
   describe "empty coverage data" do
 
     let(:empty_file) do
-      fixtures_project.send(:coverage_files).detect { |cf| cf.source_file_pathname.basename.to_s == "Empty.m" }
+      fixtures_project.coverage_files.detect { |cf| cf.source_file_pathname.basename.to_s == "Empty.m" }
     end
 
     describe "gcov_data" do
