@@ -2,6 +2,9 @@
 
 ## master
 
+* Add `slather version` command
+  [bootstraponline](https://github.com/bootstraponline)
+  [#208](https://github.com/SlatherOrg/slather/pull/208)
 
 ## v2.2.0
 
