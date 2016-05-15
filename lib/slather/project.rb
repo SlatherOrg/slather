@@ -107,7 +107,6 @@ module Slather
         gcov_coverage_files
       end
     end
-    private :coverage_files
 
     def gcov_coverage_files
       coverage_files = Dir["#{build_directory}/**/*.gcno"].map do |file|

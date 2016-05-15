@@ -2,6 +2,11 @@
 
 ## master
 
+* Make `project.coverage_files` public  
+* Add docs attribute reader to `project.rb`  
+  [bootstraponline](https://github.com/bootstraponline)
+  [#209](https://github.com/SlatherOrg/slather/pull/209)
+
 * Add `--decimals` flag  
   [bootstraponline](https://github.com/bootstraponline)
   [#207](https://github.com/SlatherOrg/slather/pull/207)

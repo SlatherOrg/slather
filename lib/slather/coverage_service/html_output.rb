@@ -5,6 +5,8 @@ module Slather
   module CoverageService
     module HtmlOutput
 
+      attr_reader :docs
+
       def coverage_file_class
         if input_format == "profdata"
           Slather::ProfdataCoverageFile
