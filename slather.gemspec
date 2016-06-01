@@ -23,11 +23,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.4"
   spec.add_development_dependency "rspec", "~> 3.4"
   spec.add_development_dependency "pry", "~> 0.9"
-  spec.add_development_dependency "cocoapods", ">= 0.39.0", "< 1.1.0"
+  spec.add_development_dependency "cocoapods", "~> 1.0"
   spec.add_development_dependency "json_spec", "~> 1.1.4"
   spec.add_development_dependency "equivalent-xml", "~> 0.5.1"
 
   spec.add_dependency "clamp", "~> 0.6"
-  spec.add_dependency "xcodeproj", ">= 0.28.2", "< 1.1.0"
+  spec.add_dependency "xcodeproj", "~> 1.1"
   spec.add_dependency "nokogiri", "~> 1.6.3"
 end
