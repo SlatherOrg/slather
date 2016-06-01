@@ -2,6 +2,8 @@
 
 ## master
 
+## v2.2.1
+
 * Make `project.coverage_files` public  
 * Add docs attribute reader to `project.rb`  
   [bootstraponline](https://github.com/bootstraponline)
