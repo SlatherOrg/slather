@@ -41,6 +41,12 @@ describe Slather::CoverageService::Coveralls do
         allow(fixtures_project).to receive(:travis_job_id).and_return(nil)
         expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
       end
+
+      it "should raise an error if there is a COVERAGE_ACCESS_TOKEN" do        
+        allow(fixtures_project).to receive(:coverage_access_token).and_return("abc123")
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+      end
+
     end
 
     context "coverage_service is :travis_pro" do
@@ -57,6 +63,12 @@ describe Slather::CoverageService::Coveralls do
         allow(fixtures_project).to receive(:travis_job_id).and_return(nil)
         expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
       end
+
+      it "should raise an error if there is no COVERAGE_ACCESS_TOKEN" do        
+        allow(fixtures_project).to receive(:coverage_access_token).and_return("")
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+      end
+
     end
 
     context "coverage_service is :circleci" do
@@ -141,6 +153,13 @@ describe Slather::CoverageService::Coveralls do
           expect(File.read('coveralls_json_file')).to be_json_eql(fixtures_project.send(:coveralls_coverage_data))
         end.once
         fixtures_project.post
+      end
+
+      it "should save the coveralls_coverage_data to a file, post it to coveralls, and fail due to a Coveralls error" do
+        allow(fixtures_project).to receive(:travis_job_id).and_return("9182")
+        allow(fixtures_project).to receive(:`).and_return("{\"message\":\"Couldn't find a repository matching this job.\",\"error\":true}")
+        expect(fixtures_project).to receive(:`).once
+        expect { fixtures_project.post }.to raise_error(StandardError)        
       end
 
       it "should always remove the coveralls_json_file after it's done" do
