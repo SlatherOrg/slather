@@ -3,6 +3,7 @@ class CoverageCommand < Clamp::Command
   parameter "[PROJECT]", "Path to the xcodeproj", :attribute_name => :xcodeproj_path
 
   option ["--travis", "-t"], :flag, "Indicate that the builds are running on Travis CI"
+  option ["--travispro"], :flag, "Indicate that the builds are running on Travis Pro CI"
   option ["--circleci"], :flag, "Indicate that the builds are running on CircleCI"
   option ["--jenkins"], :flag, "Indicate that the builds are running on Jenkins"
   option ["--buildkite"], :flag, "Indicate that the builds are running on Buildkite"
@@ -73,6 +74,8 @@ class CoverageCommand < Clamp::Command
   def setup_service_name
     if travis?
       project.ci_service = :travis_ci
+    elsif travispro?
+      project.ci_service = :travis_pro
     elsif circleci?
       project.ci_service = :circleci
     elsif jenkins?
