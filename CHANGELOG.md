@@ -2,6 +2,10 @@
 
 ## master
 
+* Fixes silent failure in case of unsuccessful upload to Coveralls 
+  [sbhklr](https://github.com/sbhklr)
+  [#222](https://github.com/SlatherOrg/slather/pull/222), [#217](https://github.com/SlatherOrg/slather/issues/217)
+
 ## v2.2.1
 
 * Make `project.coverage_files` public  
