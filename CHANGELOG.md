@@ -2,6 +2,10 @@
 
 ## master
 
+* Add `--travispro` flag  
+  [sbhklr](https://github.com/sbhklr)
+  [#223](https://github.com/SlatherOrg/slather/pull/223), [#219](https://github.com/SlatherOrg/slather/issues/219)
+
 * Fixes silent failure in case of unsuccessful upload to Coveralls 
   [sbhklr](https://github.com/sbhklr)
   [#222](https://github.com/SlatherOrg/slather/pull/222), [#217](https://github.com/SlatherOrg/slather/issues/217)
