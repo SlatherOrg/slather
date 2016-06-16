@@ -3,6 +3,7 @@ require 'xcodeproj'
 require 'json'
 require 'yaml'
 require 'shellwords'
+require 'open3'
 
 module Xcodeproj
 
@@ -79,12 +80,19 @@ module Slather
         schemeArgument = "-scheme \"#{self.scheme}\""
         buildAction = "test"
       else
-        schemeArgument = nil
-        buildAction = nil
+        schemeArgument = ''
+        buildAction = ''
       end
 
-      # redirect stderr to avoid xcodebuild errors being printed.
-      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings #{buildAction} 2>&1`
+      build_settings = ''
+      Open3.popen2e('xcodebuild', projectOrWorkspaceArgument, schemeArgument, '-showbuildsettings', buildAction) do |stdin, stdout_err, wait_thr|
+        stdin.close
+        while line = stdout_err.gets
+          build_settings += line || ''
+        end
+        build_settings += stdout_err.gets(nil) || '' # Flush
+        exit_status = wait_thr.value.exitstatus
+      end
 
       if build_settings
         derived_data_path = build_settings.match(/ OBJROOT = (.+)/)
