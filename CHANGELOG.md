@@ -2,6 +2,10 @@
 
 ## master
 
+* Fixes broken fallback value of input_format inside configure_input_format 
+  [sbhklr](https://github.com/sbhklr)
+  [#233](https://github.com/SlatherOrg/slather/pull/233), [#232](https://github.com/SlatherOrg/slather/issues/232)
+
 * Add `--travispro` flag  
   [sbhklr](https://github.com/sbhklr)
   [#223](https://github.com/SlatherOrg/slather/pull/223), [#219](https://github.com/SlatherOrg/slather/issues/219)
