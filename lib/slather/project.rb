@@ -277,7 +277,7 @@ module Slather
     end
 
     def configure_input_format
-      self.input_format ||= self.class.yml["input_format"] || input_format
+      self.input_format ||= (self.class.yml["input_format"] || "auto")
     end
 
     def input_format=(format)

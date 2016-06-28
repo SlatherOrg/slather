@@ -394,6 +394,28 @@ describe Slather::Project do
 
   end
 
+  describe "#configure_input_format" do
+    it "should set the input_format if it has been provided by the yml" do
+      allow(Slather::Project).to receive(:yml).and_return({"input_format" => "gcov"})
+      fixtures_project.configure_input_format
+      expect(fixtures_project.input_format).to eq("gcov")
+    end
+
+    it "should default the input_format to auto if nothing is provided in the yml" do
+      allow(Slather::Project).to receive(:yml).and_return({})
+      expect(fixtures_project).to receive(:input_format=).with("auto")
+      fixtures_project.configure_input_format
+    end
+
+    it "should not set the input_format if it has already been set" do
+      allow(Slather::Project).to receive(:yml).and_return({"input_format" => "some_format" })
+      fixtures_project.input_format = "gcov"
+      expect(fixtures_project).to_not receive(:input_format=)
+      fixtures_project.configure_input_format
+    end
+
+  end
+
   describe "#coverage_service=" do
     it "should extend Slather::CoverageService::Coveralls and set coverage_service = :coveralls if given coveralls" do
       expect(fixtures_project).to receive(:extend).with(Slather::CoverageService::Coveralls)
