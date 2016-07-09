@@ -2,7 +2,9 @@
 
 ## master
 
-* Fixes broken fallback value of input_format inside configure_input_format 
+## v2.3.0
+
+* Fixes broken fallback value of `input_format` inside `configure_input_format`  
   [sbhklr](https://github.com/sbhklr)
   [#233](https://github.com/SlatherOrg/slather/pull/233), [#232](https://github.com/SlatherOrg/slather/issues/232)
 
@@ -10,7 +12,7 @@
   [sbhklr](https://github.com/sbhklr)
   [#223](https://github.com/SlatherOrg/slather/pull/223), [#219](https://github.com/SlatherOrg/slather/issues/219)
 
-* Fixes silent failure in case of unsuccessful upload to Coveralls 
+* Fixes silent failure in case of unsuccessful upload to Coveralls  
   [sbhklr](https://github.com/sbhklr)
   [#222](https://github.com/SlatherOrg/slather/pull/222), [#217](https://github.com/SlatherOrg/slather/issues/217)
 
