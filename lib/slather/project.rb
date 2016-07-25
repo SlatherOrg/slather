@@ -80,19 +80,12 @@ module Slather
         schemeArgument = "-scheme \"#{self.scheme}\""
         buildAction = "test"
       else
-        schemeArgument = ''
-        buildAction = ''
+        schemeArgument = nil
+        buildAction = nil
       end
 
-      build_settings = ''
-      Open3.popen2e('xcodebuild', projectOrWorkspaceArgument, schemeArgument, '-showbuildsettings', buildAction) do |stdin, stdout_err, wait_thr|
-        stdin.close
-        while line = stdout_err.gets
-          build_settings += line || ''
-        end
-        build_settings += stdout_err.gets(nil) || '' # Flush
-        exit_status = wait_thr.value.exitstatus
-      end
+      # redirect stderr to avoid xcodebuild errors being printed.
+      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings #{buildAction} CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO 2>&1`
 
       if build_settings
         derived_data_path = build_settings.match(/ OBJROOT = (.+)/)
