@@ -2,6 +2,10 @@
 
 ## master
 
+* Fix hanging `xcodebuild` invocation when getting derived data path.  
+  [arthurtoper](https://github.com/arthurtoper)
+  [#238](https://github.com/SlatherOrg/slather/pull/238), [#197](https://github.com/SlatherOrg/slather/issues/197), [#212](https://github.com/SlatherOrg/slather/issues/212), [#234](https://github.com/SlatherOrg/slather/issues/234)
+
 ## v2.3.0
 
 * Fixes broken fallback value of `input_format` inside `configure_input_format`  
