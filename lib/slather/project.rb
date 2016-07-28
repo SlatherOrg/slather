@@ -84,7 +84,7 @@ module Slather
       end
 
       # redirect stderr to avoid xcodebuild errors being printed.
-      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings #{buildAction} 2>&1`
+      build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings #{buildAction} CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO 2>&1`
 
       if build_settings
         derived_data_path = build_settings.match(/ OBJROOT = (.+)/)
