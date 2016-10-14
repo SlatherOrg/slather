@@ -130,8 +130,12 @@ module Slather
       if self.binary_file
         self.binary_file.each do |binary_path|
           files = profdata_llvm_cov_output(binary_path, source_files).split("\n\n")
+          covered_files = []
+          files.each do |file|
+            covered_files << file.each_line.reject{ |line| /warning: The file .* isn't covered/ =~ line }.join
+          end
 
-          coverage_files.concat(files.map do |source|
+          coverage_files.concat(covered_files.map do |source|
             coverage_file = coverage_file_class.new(self, source)
             # If a single source file is used, the resulting output does not contain the file name.
             coverage_file.source_file_pathname = source_files.first if source_files.count == 1
