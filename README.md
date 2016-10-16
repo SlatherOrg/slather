@@ -91,7 +91,7 @@ before_install: rvm use $RVM_RUBY_VERSION
 install: bundle install --without=documentation --path ../travis_bundle_dir
 after_success: 
   - slather
-  - bash <(curl -s https://codecov.io/bash) -f path/to/xml_report/cobertura.xml
+  - bash <(curl -s https://codecov.io/bash) -f path/to/xml_report/cobertura.xml -X coveragepy -X gcov -X xcode
 ```
 
 ```yml
@@ -100,7 +100,7 @@ after_success:
 test:
   post:
     - bundle exec slather
-    - bash <(curl -s https://codecov.io/bash)
+    - bash <(curl -s https://codecov.io/bash) -f path/to/xml_report/cobertura.xml -X coveragepy -X gcov -X xcode
 ```
 
 > Private repo? Add `-t :uuid-repo-token` to the codecov uploader. Read more about uploading report to Codecov [here](https://github.com/codecov/codecov-bash)
