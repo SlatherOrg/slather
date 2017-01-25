@@ -208,7 +208,8 @@ module Slather
     private :unsafe_profdata_llvm_cov_output
 
     def profdata_llvm_cov_output(binary_path, source_files)
-      unsafe_profdata_llvm_cov_output(binary_path, source_files).encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
+      output = unsafe_profdata_llvm_cov_output(binary_path, source_files)
+      output.valid_encoding? ? output : output.encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
     end
     private :profdata_llvm_cov_output
 

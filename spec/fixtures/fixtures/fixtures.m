@@ -3,7 +3,7 @@
 //  fixtures
 //
 //  Created by Mark Larsen on 6/24/14.
-//  Copyright (c) 2014 marklarr. All rights reserved.
+//  Copyright (c) 2014 marklarr 🌟. All rights reserved.
 //
 
 #import "fixtures.h"
