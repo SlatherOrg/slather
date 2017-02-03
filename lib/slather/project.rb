@@ -392,20 +392,9 @@ module Slather
 
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
-        begin
-          buildable_name = xcscheme.build_action.entries[0].buildable_references[0].buildable_name
-        rescue
-          # xcodeproj will raise an exception if there are no entries in the build action
-        end
-
-        if buildable_name == nil or buildable_name.end_with? ".a"
-          # Can't run code coverage on static libraries, look for an associated test bundle
-          buildable_name = xcscheme.test_action.testables[0].buildable_references[0].buildable_name
-        end
-
         configuration = xcscheme.test_action.build_configuration
 
-        search_list = binary_basename || [buildable_name]
+        search_list = binary_basename || find_buildable_names(xcscheme)
 
         search_list.each do |search_for|
           found_product = Dir["#{profdata_coverage_dir}/Products/#{configuration}*/#{search_for}*"].sort { |x, y|
@@ -460,6 +449,27 @@ module Slather
       raise StandardError, "No product binary found in #{profdata_coverage_dir}." unless found_binaries.count > 0
 
       found_binaries.map { |binary| File.expand_path(binary) }
+    end
+
+    def find_buildable_names(xcscheme)
+      found_buildable_names = []
+      xcscheme.build_action.entries.each do |entry|
+        begin
+          buildable_name = entry.buildable_references[0].buildable_name
+        rescue
+          # xcodeproj will raise an exception if there are no entries in the build action
+        end
+
+        if buildable_name == nil or buildable_name.end_with? ".a"
+          # Can't run code coverage on static libraries, look for an associated test bundle
+          buildable_name = xcscheme.test_action.testables[0].buildable_references[0].buildable_name
+        end
+
+        if buildable_name
+          found_buildable_names.push(buildable_name)
+        end
+      end
+      found_buildable_names
     end
 
     def find_source_files
