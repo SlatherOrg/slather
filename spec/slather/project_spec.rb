@@ -169,6 +169,16 @@ describe Slather::Project do
       expect(binary_file_location.first).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
     end
 
+    it "should find multiple unique paths for a scheme with serveral buildable/testable products" do
+      allow(fixtures_project).to receive(:scheme).and_return("aggregateFixturesTests")
+      fixtures_project.send(:configure_binary_file)
+      binary_file_location = fixtures_project.send(:binary_file)
+      expect(binary_file_location).to contain_exactly(
+                                          end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests"),
+                                          end_with("Debug/fixturesTestsSecond.xctest/Contents/MacOS/fixturesTestsSecond"),
+                                      )
+    end
+
     let(:fixture_yaml) do
         yaml_text = <<-EOF
           binary_file: "/FixtureScheme/From/Yaml/Contents/MacOS/FixturesFromYaml"

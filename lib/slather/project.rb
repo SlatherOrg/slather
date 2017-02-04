@@ -453,23 +453,33 @@ module Slather
 
     def find_buildable_names(xcscheme)
       found_buildable_names = []
-      xcscheme.build_action.entries.each do |entry|
-        begin
+
+      # enumerate build action entries
+      begin
+        xcscheme.build_action.entries.each do |entry|
           buildable_name = entry.buildable_references[0].buildable_name
-        rescue
-          # xcodeproj will raise an exception if there are no entries in the build action
-        end
 
-        if buildable_name == nil or buildable_name.end_with? ".a"
-          # Can't run code coverage on static libraries, look for an associated test bundle
-          buildable_name = xcscheme.test_action.testables[0].buildable_references[0].buildable_name
+          if !buildable_name.end_with? ".a"
+            # Can't run code coverage on static libraries
+            found_buildable_names.push(buildable_name)
+          end
         end
+      rescue
+        # xcodeproj will raise an exception if there are no entries in the build action
+      end
 
-        if buildable_name
+      # enumerate test action entries
+      begin
+        xcscheme.test_action.testables.each do |entry|
+          buildable_name = entry.buildable_references[0].buildable_name
           found_buildable_names.push(buildable_name)
         end
+      rescue
+        # just in case if there are no entries in the test action
       end
-      found_buildable_names
+
+      # some items are both buildable and testable, so return only unique ones
+      found_buildable_names.uniq
     end
 
     def find_source_files
