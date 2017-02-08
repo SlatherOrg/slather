@@ -26,6 +26,11 @@ module Slather
       end
       private :circleci_pull_request
 
+      def teamcity_job_id
+        ENV['TC_BUILD_NUMBER']
+      end
+      private :teamcity_job_id
+
       def jenkins_job_id
         ENV['BUILD_ID']
       end
@@ -40,6 +45,11 @@ module Slather
         end
       end
       private :jenkins_branch_name
+
+      def teamcity_branch_name
+        ENV['GIT_BRANCH'] || `git ls-remote --heads origin | grep $(git rev-parse HEAD) | cut -d / -f 3-`.chomp
+      end
+      private :teamcity_branch_name
 
       def buildkite_job_id
         ENV['BUILDKITE_BUILD_NUMBER']
@@ -62,6 +72,19 @@ module Slather
         }
       end
       private :jenkins_git_info
+
+      def teamcity_git_info
+        {
+          head: {
+            :id => (`git log --format=%H -n 1 HEAD`.chomp || ""),
+            :author_name => (`git log --format=%an -n 1 HEAD`.chomp || ""),
+            :author_email => (`git log --format=%ae -n 1 HEAD`.chomp || ""),
+            :message => (`git log --format=%s -n 1 HEAD`.chomp || "")
+          },
+          :branch => teamcity_branch_name
+        }
+      end
+      private :teamcity_git_info
 
       def circleci_build_url
         "https://circleci.com/gh/" + ENV['CIRCLE_PROJECT_USERNAME'] || "" + "/" + ENV['CIRCLE_PROJECT_REPONAME'] || "" + "/" + ENV['CIRCLE_BUILD_NUM'] || ""
@@ -171,6 +194,16 @@ module Slather
           else
             raise StandardError, "Environment variable `BUILDKITE_BUILD_NUMBER` not set. Is this running on a buildkite build?"
           end
+        elsif ci_service == :teamcity
+          if teamcity_job_id
+            {
+              :service_job_id => teamcity_job_id,
+              :service_name => "teamcity",
+              :repo_token => coverage_access_token,
+              :source_files => coverage_files.map(&:as_json),
+              :git => teamcity_git_info
+            }.to_json
+          end
         else
           raise StandardError, "No support for ci named #{ci_service}"
         end
@@ -178,6 +211,7 @@ module Slather
       private :coveralls_coverage_data
 
       def post
+        puts "Uploading coverage data to Coveralls..."
         f = File.open('coveralls_json_file', 'w+')
         begin
           f.write(coveralls_coverage_data)
@@ -192,6 +226,8 @@ module Slather
               error_message = curl_result_json["message"]
               raise StandardError, "Error while uploading coverage data to Coveralls. CI Service: #{ci_service} Message: #{error_message}"
             end
+
+            puts curl_result_json["url"]
           end
 
         rescue StandardError => e
