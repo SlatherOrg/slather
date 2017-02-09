@@ -203,6 +203,8 @@ module Slather
               :source_files => coverage_files.map(&:as_json),
               :git => teamcity_git_info
             }.to_json
+          else
+            raise StandardError, "Environment variable `TC_BUILD_NUMBER` not set. Is this running on a teamcity build?"
           end
         else
           raise StandardError, "No support for ci named #{ci_service}"

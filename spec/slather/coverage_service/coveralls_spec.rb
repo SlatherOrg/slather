@@ -125,9 +125,14 @@ describe Slather::CoverageService::Coveralls do
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.coverage_files.map(&:as_json).to_json).at_path("source_files")
       end
 
-      it "should raise an error if there is no BUILD_ID" do
+      it "should raise an error if there is no TC_BUILD_NUMBER" do
         allow(fixtures_project).to receive(:teamcity_job_id).and_return(nil)
         expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+      end
+
+      it "should return the teamcity branch name" do
+        ENV['GIT_BRANCH'] = "master"
+        expect(fixtures_project.send(:teamcity_branch_name)).to eq("master")
       end
     end
   end
