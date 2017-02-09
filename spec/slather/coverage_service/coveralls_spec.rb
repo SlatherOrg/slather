@@ -131,8 +131,24 @@ describe Slather::CoverageService::Coveralls do
       end
 
       it "should return the teamcity branch name" do
+        git_branch = ENV['GIT_BRANCH']
         ENV['GIT_BRANCH'] = "master"
         expect(fixtures_project.send(:teamcity_branch_name)).to eq("master")
+        ENV['GIT_BRANCH'] = git_branch
+      end
+
+      it "should return the teamcity job id" do
+        teamcity_job_id = ENV['TC_BUILD_NUMBER']
+        ENV['TC_BUILD_NUMBER'] = "9182"
+        expect(fixtures_project.send(:teamcity_job_id)).to eq("9182")
+        ENV['TC_BUILD_NUMBER'] = teamcity_job_id
+      end
+
+      it "should return teamcity git info" do
+        git_branch = ENV['GIT_BRANCH']
+        ENV['GIT_BRANCH'] = "master"
+        expect(fixtures_project.send(:teamcity_git_info)).to eq({head: {id: `git log --format=%H -n 1 HEAD`.chomp, author_name: `git log --format=%an -n 1 HEAD`.chomp, author_email: `git log --format=%ae -n 1 HEAD`.chomp, message: `git log --format=%s -n 1 HEAD`.chomp }, branch: "master"})
+        ENV['GIT_BRANCH'] = git_branch
       end
     end
   end
