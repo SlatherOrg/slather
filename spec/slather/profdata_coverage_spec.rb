@@ -91,13 +91,13 @@ describe Slather::ProfdataCoverageFile do
     it "should return the number of hits for a line in thousands as an integer" do
       result = profdata_coverage_file.coverage_for_line("  11.8k|   49|    return result;")
       expect(result).to eq(11800)
-      expect(result).to be_a(Fixnum)
+      expect(result).to be_a(Integer)
     end
 
     it "should return the number of hits for a line in millions as an integer" do
       result = profdata_coverage_file.coverage_for_line("  2.58M|   49|    return result;")
       expect(result).to eq(2580000)
-      expect(result).to be_a(Fixnum)
+      expect(result).to be_a(Integer)
     end
 
     it "should return the number of hits for an uncovered line" do
