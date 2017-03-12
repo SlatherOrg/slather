@@ -2,6 +2,10 @@
 
 ## master
 
+* Automatically ignore headers in Xcode platform SDKs.  
+  [ksuther](https://github.com/ksuther)
+  [#286](https://github.com/SlatherOrg/slather/pull/286)
+
 * Fix hanging `xcodebuild` invocation when getting derived data path.  
   [arthurtoper](https://github.com/arthurtoper)
   [#238](https://github.com/SlatherOrg/slather/pull/238), [#197](https://github.com/SlatherOrg/slather/issues/197), [#212](https://github.com/SlatherOrg/slather/issues/212), [#234](https://github.com/SlatherOrg/slather/issues/234)
