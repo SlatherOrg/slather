@@ -144,24 +144,16 @@ module Slather
     private :supported_file_extensions
 
     def ignored?
-      ignore = false
-      platform_ignore_list.map do |ignore_suffix|
-        ignore = source_file_pathname.to_s.end_with? ignore_suffix
-        if ignore
-          break
-        end
+      # This indicates a llvm-cov coverage warning (occurs if a passed in source file 
+      # is not covered or with ccache in some cases).
+      ignore = source_file_pathname.to_s.end_with? "isn't covered."
+
+      if !ignore
+        # Ignore source files inside of platform SDKs
+        ignore = (/Xcode.*\.app\/Contents\/Developer\/Platforms/ =~ source_file_pathname.to_s) != nil
       end
+
       ignore ? ignore : super
     end
-
-    def platform_ignore_list
-      ["MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestAssertionsImpl.h",
-        "MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/objc/objc.h",
-        "MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestAssertions.h",
-        # This indicates a llvm-cov coverage warning (occurs if a passed in source file 
-        # is not covered or with ccache in some cases).
-        "isn't covered."]
-    end
-    private :platform_ignore_list
   end
 end
