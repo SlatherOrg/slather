@@ -213,7 +213,6 @@ module Slather
       private :coveralls_coverage_data
 
       def post
-        puts "Uploading coverage data to Coveralls..."
         f = File.open('coveralls_json_file', 'w+')
         begin
           f.write(coveralls_coverage_data)
@@ -228,8 +227,6 @@ module Slather
               error_message = curl_result_json["message"]
               raise StandardError, "Error while uploading coverage data to Coveralls. CI Service: #{ci_service} Message: #{error_message}"
             end
-
-            puts curl_result_json["url"]
           end
 
         rescue StandardError => e
