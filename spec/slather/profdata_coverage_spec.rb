@@ -52,7 +52,7 @@ describe Slather::ProfdataCoverageFile do
        |   42|
        |   43|
        |   44|}
-       |   45|")
+       |   45|", false)
   end
 
   describe "#initialize" do
@@ -71,37 +71,50 @@ describe Slather::ProfdataCoverageFile do
 
   describe "#line_number_in_line" do
     it "should return the correct line number for coverage represented as decimals" do
-      expect(profdata_coverage_file.line_number_in_line("      0|   40|    func applicationWillTerminate(application: UIApplication) {")).to eq(40)
+      expect(profdata_coverage_file.line_number_in_line("      0|   40|    func applicationWillTerminate(application: UIApplication) {", false)).to eq(40)
     end
 
     it "should return the correct line number for coverage represented as thousands" do
-      expect(profdata_coverage_file.line_number_in_line("  11.8k|   41|    func applicationWillTerminate(application: UIApplication) {")).to eq(41)
+      expect(profdata_coverage_file.line_number_in_line("  11.8k|   41|    func applicationWillTerminate(application: UIApplication) {", false)).to eq(41)
     end
 
     it "should return the correct line number for coverage represented as milions" do
-      expect(profdata_coverage_file.line_number_in_line("  2.58M|   42|    func applicationWillTerminate(application: UIApplication) {")).to eq(42)
+      expect(profdata_coverage_file.line_number_in_line("  2.58M|   42|    func applicationWillTerminate(application: UIApplication) {", false)).to eq(42)
+    end
+
+    it "should handle line numbers first" do
+      expect(profdata_coverage_file.line_number_in_line("   18|      1|    return a + b;", true)).to eq(18)
+      expect(profdata_coverage_file.line_number_in_line("   18|  2.58M|    return a + b;", true)).to eq(18)
+      expect(profdata_coverage_file.line_number_in_line("   18|  11.8k|    return a + b;", true)).to eq(18)
+      expect(profdata_coverage_file.line_number_in_line("    4|       |//", true)).to eq(4)
     end
   end
 
   describe "#coverage_for_line" do
     it "should return the number of hits for the line" do
-      expect(profdata_coverage_file.coverage_for_line("      10|   40|    func applicationWillTerminate(application: UIApplication) {")).to eq(10)
+      expect(profdata_coverage_file.coverage_for_line("      10|   40|    func applicationWillTerminate(application: UIApplication) {", false)).to eq(10)
     end
 
     it "should return the number of hits for a line in thousands as an integer" do
-      result = profdata_coverage_file.coverage_for_line("  11.8k|   49|    return result;")
+      result = profdata_coverage_file.coverage_for_line("  11.8k|   49|    return result;", false)
       expect(result).to eq(11800)
       expect(result).to be_a(Integer)
     end
 
     it "should return the number of hits for a line in millions as an integer" do
-      result = profdata_coverage_file.coverage_for_line("  2.58M|   49|    return result;")
+      result = profdata_coverage_file.coverage_for_line("  2.58M|   49|    return result;", false)
       expect(result).to eq(2580000)
       expect(result).to be_a(Integer)
     end
 
     it "should return the number of hits for an uncovered line" do
-      expect(profdata_coverage_file.coverage_for_line("      0|   49|    return result;")).to eq(0)
+      expect(profdata_coverage_file.coverage_for_line("      0|   49|    return result;", false)).to eq(0)
+    end
+
+    it "should handle line numbers first" do
+      expect(profdata_coverage_file.coverage_for_line("   18|      1|    return a + b;", true)).to eq(1)
+      expect(profdata_coverage_file.coverage_for_line("   18|  11.8k|    return a + b;", true)).to eq(11800)
+      expect(profdata_coverage_file.coverage_for_line("   18|  2.58M|    return a + b;", true)).to eq(2580000)
     end
   end
 
@@ -133,7 +146,7 @@ describe Slather::ProfdataCoverageFile do
       ignorable_file = Slather::ProfdataCoverageFile.new(fixtures_project, "/Users/venmo/ExampleProject/AppDelegate.swift:
        |    1|//
        |    2|//  AppDelegate.swift
-       |    3|//  xcode7workbench01")
+       |    3|//  xcode7workbench01", false)
 
       expect(ignorable_file.ignored?).to be_falsy
     end
@@ -142,13 +155,13 @@ describe Slather::ProfdataCoverageFile do
       ignorable_file = Slather::ProfdataCoverageFile.new(fixtures_project, "../../../../../../../../Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework/Headers/XCTestAssertionsImpl.h:
        |    1|//
        |    2|//  AppDelegate.swift
-       |    3|//  xcode7workbench01")
+       |    3|//  xcode7workbench01", false)
 
       expect(ignorable_file.ignored?).to be_truthy
     end
 
     it "should ignore warnings" do
-      ignorable_file = Slather::ProfdataCoverageFile.new(fixtures_project, "warning The file '/Users/ci/.ccache/tmp/CALayer-KI.stdout.macmini08.92540.QAQaxt.mi' isn't covered.")
+      ignorable_file = Slather::ProfdataCoverageFile.new(fixtures_project, "warning The file '/Users/ci/.ccache/tmp/CALayer-KI.stdout.macmini08.92540.QAQaxt.mi' isn't covered.", false)
 
       expect(ignorable_file.ignored?).to be_truthy
     end
