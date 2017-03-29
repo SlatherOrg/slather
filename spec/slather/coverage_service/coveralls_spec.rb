@@ -112,6 +112,45 @@ describe Slather::CoverageService::Coveralls do
       fixtures_project.ci_service = :jenkins_ci
       expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
     end
+
+    context "coverage_service is :teamcity" do
+      before(:each) { fixtures_project.ci_service = :teamcity }
+
+      it "should return valid json for coveralls coverage data" do
+        allow(fixtures_project).to receive(:teamcity_job_id).and_return("9182")
+        allow(fixtures_project).to receive(:coverage_access_token).and_return("abc123")
+        allow(fixtures_project).to receive(:teamcity_git_info).and_return({head: {id: "master", author_name: "author", author_email: "john.doe@slather.com", message: "pull title" }, branch: "branch"})
+        allow(fixtures_project).to receive(:teamcity_branch_name).and_return('master')
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"teamcity\",\"repo_token\":\"abc123\",\"git\":{\"head\":{\"id\":\"master\",\"author_name\":\"author\",\"author_email\":\"john.doe@slather.com\",\"message\":\"pull title\"},\"branch\":\"branch\"}}").excluding("source_files")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.coverage_files.map(&:as_json).to_json).at_path("source_files")
+      end
+
+      it "should raise an error if there is no TC_BUILD_NUMBER" do
+        allow(fixtures_project).to receive(:teamcity_job_id).and_return(nil)
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+      end
+
+      it "should return the teamcity branch name" do
+        git_branch = ENV['GIT_BRANCH']
+        ENV['GIT_BRANCH'] = "master"
+        expect(fixtures_project.send(:teamcity_branch_name)).to eq("master")
+        ENV['GIT_BRANCH'] = git_branch
+      end
+
+      it "should return the teamcity job id" do
+        teamcity_job_id = ENV['TC_BUILD_NUMBER']
+        ENV['TC_BUILD_NUMBER'] = "9182"
+        expect(fixtures_project.send(:teamcity_job_id)).to eq("9182")
+        ENV['TC_BUILD_NUMBER'] = teamcity_job_id
+      end
+
+      it "should return teamcity git info" do
+        git_branch = ENV['GIT_BRANCH']
+        ENV['GIT_BRANCH'] = "master"
+        expect(fixtures_project.send(:teamcity_git_info)).to eq({head: {id: `git log --format=%H -n 1 HEAD`.chomp, author_name: `git log --format=%an -n 1 HEAD`.chomp, author_email: `git log --format=%ae -n 1 HEAD`.chomp, message: `git log --format=%s -n 1 HEAD`.chomp }, branch: "master"})
+        ENV['GIT_BRANCH'] = git_branch
+      end
+    end
   end
 
   describe '#coveralls_coverage_data' do
