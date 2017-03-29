@@ -157,13 +157,12 @@ module Slather
 
           cov.table(:class => "source_code") {
             cleaned_gcov_lines.each do |line|
-              data = line.split(line_number_separator, 3)
 
-              line_number = data[1].to_i
+              line_number = coverage_file.line_number_in_line(line)
               next unless line_number > 0
 
-              coverage_data = data[0].strip
-              line_data = [line_number, data[2], hits_for_coverage_line(coverage_file, line)]
+              line_source = line.split(line_number_separator, 3)[2]
+              line_data = [line_number, line_source, hits_for_coverage_line(coverage_file, line)]
               classes = ["num", "src", "coverage"]
 
               cov.tr(:class => class_for_coverage_line(coverage_file,line)) {
