@@ -1,5 +1,6 @@
 require 'slather/coverage_info'
 require 'slather/coveralls_coverage'
+require 'digest/md5'
 
 module Slather
   class ProfdataCoverageFile
@@ -26,13 +27,31 @@ module Slather
 
     def path_on_first_line?
       path = self.source.split("\n")[0].sub ":", ""
-      !path.include?("1|//")
+      !path.include?("|//")
     end
 
     def source_file_pathname
       @source_file_pathname ||= begin
-        path = self.source.split("\n")[0].sub ":", ""
-        path &&= Pathname(path)
+        if path_on_first_line?
+          path = self.source.split("\n")[0].sub ":", ""
+          path &&= Pathname(path)
+        else
+          # llvm-cov was run with just one matching source file
+          # It doesn't print the source path in this case, so we have to find it ourselves
+          # This is slow because we read every source file and compare it, but this should only happen if there aren't many source files
+          digest = Digest::MD5.digest(self.raw_source)
+          path = nil
+
+          project.find_source_files.each do |file|
+            file_digest = Digest::MD5.digest(File.read(file).strip)
+
+            if digest == file_digest
+              path = file
+            end
+          end
+
+          path
+        end
       end
     end
 
@@ -57,6 +76,12 @@ module Slather
         @all_lines = source_code_lines
       end
       @all_lines
+    end
+
+    def raw_source
+      self.source.lines.map do |line|
+        line.split('|').last
+      end.join
     end
 
     def cleaned_gcov_data
