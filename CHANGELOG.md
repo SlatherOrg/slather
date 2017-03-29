@@ -2,6 +2,10 @@
 
 ## master
 
+* Xcode 8.3 support.
+  [ksuther](https://github.com/ksuther)
+  [#291](https://github.com/SlatherOrg/slather/pull/291)
+
 * Automatically ignore headers in Xcode platform SDKs.  
   [ksuther](https://github.com/ksuther)
   [#286](https://github.com/SlatherOrg/slather/pull/286)
