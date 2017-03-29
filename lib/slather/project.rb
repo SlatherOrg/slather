@@ -52,7 +52,7 @@ module Slather
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
       :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files,
-      :decimals
+      :decimals, :llvm_version
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -126,13 +126,14 @@ module Slather
     def profdata_coverage_files
       coverage_files = []
       source_files = find_source_files || []
+      line_numbers_first = Gem::Version.new(self.llvm_version) >= Gem::Version.new('8.1.0')
 
       if self.binary_file
         self.binary_file.each do |binary_path|
           files = profdata_llvm_cov_output(binary_path, source_files).split("\n\n")
 
           coverage_files.concat(files.map do |source|
-            coverage_file = coverage_file_class.new(self, source)
+            coverage_file = coverage_file_class.new(self, source, line_numbers_first)
             # If a single source file is used, the resulting output does not contain the file name.
             coverage_file.source_file_pathname = source_files.first if source_files.count == 1
             !coverage_file.ignored? ? coverage_file : nil
@@ -240,6 +241,8 @@ module Slather
         configure_input_format
         configure_binary_file
         configure_decimals
+
+        self.llvm_version = `xcrun llvm-cov --version`.match(/Apple LLVM version ([\d\.]+)/).captures[0]
       rescue => e
         puts e.message
         puts failure_help_string

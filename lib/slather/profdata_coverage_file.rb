@@ -1,5 +1,6 @@
 require 'slather/coverage_info'
 require 'slather/coveralls_coverage'
+require 'digest/md5'
 
 module Slather
   class ProfdataCoverageFile
@@ -7,31 +8,50 @@ module Slather
     include CoverageInfo
     include CoverallsCoverage
 
-    attr_accessor :project, :source, :line_data
+    attr_accessor :project, :source, :line_numbers_first, :line_data
 
-    def initialize(project, source)
+    def initialize(project, source, line_numbers_first)
       self.project = project
       self.source = source
+      self.line_numbers_first = line_numbers_first
       create_line_data
     end
 
     def create_line_data
       all_lines = source_code_lines
       line_data = Hash.new
-      all_lines.each { |line| line_data[line_number_in_line(line)] = line }
+      all_lines.each { |line| line_data[line_number_in_line(line, self.line_numbers_first)] = line }
       self.line_data = line_data
     end
     private :create_line_data
 
     def path_on_first_line?
       path = self.source.split("\n")[0].sub ":", ""
-      !path.include?("1|//")
+      !path.include?("|//")
     end
 
     def source_file_pathname
       @source_file_pathname ||= begin
-        path = self.source.split("\n")[0].sub ":", ""
-        path &&= Pathname(path)
+        if path_on_first_line?
+          path = self.source.split("\n")[0].sub ":", ""
+          path &&= Pathname(path)
+        else
+          # llvm-cov was run with just one matching source file
+          # It doesn't print the source path in this case, so we have to find it ourselves
+          # This is slow because we read every source file and compare it, but this should only happen if there aren't many source files
+          digest = Digest::MD5.digest(self.raw_source)
+          path = nil
+
+          project.find_source_files.each do |file|
+            file_digest = Digest::MD5.digest(File.read(file).strip)
+
+            if digest == file_digest
+              path = file
+            end
+          end
+
+          path
+        end
       end
     end
 
@@ -58,6 +78,12 @@ module Slather
       @all_lines
     end
 
+    def raw_source
+      self.source.lines.map do |line|
+        line.split('|').last
+      end.join
+    end
+
     def cleaned_gcov_data
       source_data
     end
@@ -66,10 +92,17 @@ module Slather
       self.source
     end
 
-    def line_number_in_line(line)
-      line =~ /^(\s*)(\d*)\|(\s*)(\d+)\|/
-      if $4 != nil
-        match = $4.strip
+    def line_number_in_line(line, line_numbers_first = self.line_numbers_first)
+      if line_numbers_first
+        line =~ /^(\s*)(\d*)/
+        group = $2
+      else
+        line =~ /^(\s*)(\d*)\|(\s*)(\d+)\|/
+        group = $4
+      end
+
+      if group != nil
+        match = group.strip
         case match
           when /[0-9]+/
             return match.to_i
@@ -91,28 +124,43 @@ module Slather
 
     def line_coverage_data
       source_code_lines.map do |line|
-        coverage_for_line(line)
+        coverage_for_line(line, self.line_numbers_first)
       end
     end
 
-    def coverage_for_line(line)
+    def coverage_for_line(line, line_numbers_first = self.line_numbers_first)
       line = line.gsub(":", "|")
-      line =~ /^(\s*)(\d*)\|/
 
-      if $2 == nil
+      if line_numbers_first
+        line =~ /^(\s*)(\d*)\|(\s*)(\d+)\|/
+        group = $4
+      else
+        line =~ /^(\s*)(\d*)\|/
+        group = $2
+      end
+
+      if group == nil
         # Check for thousands or millions (llvm-cov outputs hit counts as 25.3k or 3.8M)
-        did_match = line =~ /^(\s*)(\d+\.\d+)(k|M)\|/
+        if line_numbers_first
+          did_match = line =~ /^(\s*)(\d+)\|(\s*)(\d+\.\d+)(k|M)\|/
+          group = $4
+          units_group = $5
+        else
+          did_match = line =~ /^(\s*)(\d+\.\d+)(k|M)\|/
+          group = $2
+          units_group = $3
+        end
 
         if did_match
-          count = $2.strip
-          units = $3 == 'k' ? 1000 : 1000000
+          count = group.strip
+          units = units_group == 'k' ? 1000 : 1000000
 
           (count.to_f * units).to_i
         else
           return nil
         end
       else
-        match = $2.strip
+        match = group.strip
         case match
         when /[0-9]+/
           match.to_i

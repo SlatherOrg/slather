@@ -186,29 +186,29 @@ describe Slather::CoverageService::HtmlOutput do
 
       allow(fixtures_project).to receive(:input_format).and_return("profdata")
       allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("./spec/fixtures/fixtures/other_fixtures.m:
-     |    1|//
-     |    2|//  other_fixtures.m
-     |    3|//  fixtures
-     |    4|//
-     |    5|//  Created by Mark Larsen on 6/24/14.
-     |    6|//  Copyright (c) 2014 marklarr. All rights reserved.
-     |    7|//
-     |    8|
-     |    9|#import \"other_fixtures.h\"
-     |   10|
-     |   11|@implementation other_fixtures
-     |   12|
-     |   13|- (void)testedMethod
-    1|   14|{
-    1|   15|    NSLog(@\"tested\");
-    1|   16|}
-     |   17|
-     |   18|- (void)untestedMethod
-    0|   19|{
-    0|   20|    NSLog(@\"untested\");
-    0|   21|}
-     |   22|
-     |   23|@end
+    1|     |//
+    2|     |//  other_fixtures.m
+    3|     |//  fixtures
+    4|     |//
+    5|     |//  Created by Mark Larsen on 6/24/14.
+    6|     |//  Copyright (c) 2014 marklarr. All rights reserved.
+    7|     |//
+    8|     |
+    9|     |#import \"other_fixtures.h\"
+   10|     |
+   11|     |@implementation other_fixtures
+   12|     |
+   13|     |- (void)testedMethod
+   14|    1|{
+   15|    1|    NSLog(@\"tested\");
+   16|    1|}
+   17|     |
+   18|     |- (void)untestedMethod
+   19|    0|{
+   20|    0|    NSLog(@\"untested\");
+   21|    0|}
+   22|     |
+   23|     |@end
 ")
       fixtures_project.post
 
