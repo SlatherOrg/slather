@@ -10,7 +10,7 @@ describe Slather::CoverageService::HtmlOutput do
     "fixtures.m",
     "Branches.m",
     "fixturesTests.m",
-    "peekaviewTests.m",
+    "peekaviewTests💣.m",
     "BranchesTests.m"].map { |file| "#{file}.html"}
   end
 

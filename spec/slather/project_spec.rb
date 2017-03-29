@@ -44,7 +44,7 @@ describe Slather::Project do
       allow(Dir).to receive(:[]).with("#{fixtures_project.build_directory}/**/*.gcno").and_return(["/some/path/fixtures.gcno",
                                                                                   "/some/path/peekaview.gcno",
                                                                                   "/some/path/fixturesTests.gcno",
-                                                                                  "/some/path/peekaviewTests.gcno",
+                                                                                  "/some/path/peekaviewTests💣.gcno",
                                                                                   "/some/path/NotInProject.gcno",
                                                                                   "/some/path/NSRange.gcno"])
       allow(fixtures_project).to receive(:coverage_file_class).and_return(SpecCoverageFile)

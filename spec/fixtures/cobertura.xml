@@ -104,7 +104,7 @@
             <line number="42" branch="false" hits="1"/>
           </lines>
         </class>
-        <class name="peekaviewTests.m" filename="spec/fixtures/fixturesTests/peekaviewTests.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+        <class name="peekaviewTests💣.m" filename="spec/fixtures/fixturesTests/peekaviewTests💣.m" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
           <methods/>
           <lines>
             <line number="18" branch="false" hits="1"/>

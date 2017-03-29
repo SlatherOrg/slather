@@ -23,7 +23,7 @@ describe Slather::CoverageService::SimpleOutput do
       "spec/fixtures/fixtures/more_files/Branches.m: 13 of 30 lines (43.33%)",
       "spec/fixtures/fixturesTests/BranchesTests.m: 16 of 16 lines (100.00%)",
       "spec/fixtures/fixturesTests/fixturesTests.m: 17 of 17 lines (100.00%)",
-      "spec/fixtures/fixturesTests/peekaviewTests.m: 11 of 11 lines (100.00%)",
+      "spec/fixtures/fixturesTests/peekaviewTests💣.m: 11 of 11 lines (100.00%)",
       "spec/fixtures/fixturesTwo/fixturesTwo.m: 6 of 6 lines (100.00%)",
       "Test Coverage: 76.74%"
       ].each do |line|
@@ -43,7 +43,7 @@ describe Slather::CoverageService::SimpleOutput do
            "spec/fixtures/fixtures/more_files/Branches.m: 13 of 30 lines (43.33%)",
            "spec/fixtures/fixturesTests/BranchesTests.m: 16 of 16 lines (100.00%)",
            "spec/fixtures/fixturesTests/fixturesTests.m: 17 of 17 lines (100.00%)",
-           "spec/fixtures/fixturesTests/peekaviewTests.m: 11 of 11 lines (100.00%)",
+           "spec/fixtures/fixturesTests/peekaviewTests💣.m: 11 of 11 lines (100.00%)",
            "spec/fixtures/fixturesTwo/fixturesTwo.m: 6 of 6 lines (100.00%)",
            "##teamcity[buildStatisticValue key='CodeCoverageAbsLCovered' value='66']",
            "##teamcity[buildStatisticValue key='CodeCoverageAbsLTotal' value='86']",
