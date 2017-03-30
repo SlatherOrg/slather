@@ -2,6 +2,8 @@
 
 ## master
 
+## v2.4.0
+
 * Xcode 8.3 support.
   [ksuther](https://github.com/ksuther)
   [#291](https://github.com/SlatherOrg/slather/pull/291)
@@ -9,6 +11,18 @@
 * Automatically ignore headers in Xcode platform SDKs.  
   [ksuther](https://github.com/ksuther)
   [#286](https://github.com/SlatherOrg/slather/pull/286)
+
+* Automatically handle schemes with multiple build or test targets  
+  [serges147](https://github.com/serges147)
+  [#275](https://github.com/SlatherOrg/slather/pull/275)
+
+* Added TeamCity as a CI service option  
+  [joshrlesch](https://github.com/joshrlesch)
+  [#279](https://github.com/SlatherOrg/slather/pull/279)
+
+* Handle UTF-8 characters correctly in HTML reports  
+  [0xced](https://github.com/0xced)
+  [#259](https://github.com/SlatherOrg/slather/pull/259)
 
 * Fix hanging `xcodebuild` invocation when getting derived data path.  
   [arthurtoper](https://github.com/arthurtoper)
