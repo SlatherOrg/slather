@@ -395,20 +395,9 @@ module Slather
 
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
-        begin
-          buildable_name = xcscheme.build_action.entries[0].buildable_references[0].buildable_name
-        rescue
-          # xcodeproj will raise an exception if there are no entries in the build action
-        end
-
-        if buildable_name == nil or buildable_name.end_with? ".a"
-          # Can't run code coverage on static libraries, look for an associated test bundle
-          buildable_name = xcscheme.test_action.testables[0].buildable_references[0].buildable_name
-        end
-
         configuration = xcscheme.test_action.build_configuration
 
-        search_list = binary_basename || [buildable_name]
+        search_list = binary_basename || find_buildable_names(xcscheme)
 
         search_list.each do |search_for|
           found_product = Dir["#{profdata_coverage_dir}/Products/#{configuration}*/#{search_for}*"].sort { |x, y|
@@ -463,6 +452,37 @@ module Slather
       raise StandardError, "No product binary found in #{profdata_coverage_dir}." unless found_binaries.count > 0
 
       found_binaries.map { |binary| File.expand_path(binary) }
+    end
+
+    def find_buildable_names(xcscheme)
+      found_buildable_names = []
+
+      # enumerate build action entries
+      begin
+        xcscheme.build_action.entries.each do |entry|
+          buildable_name = entry.buildable_references[0].buildable_name
+
+          if !buildable_name.end_with? ".a"
+            # Can't run code coverage on static libraries
+            found_buildable_names.push(buildable_name)
+          end
+        end
+      rescue
+        # xcodeproj will raise an exception if there are no entries in the build action
+      end
+
+      # enumerate test action entries
+      begin
+        xcscheme.test_action.testables.each do |entry|
+          buildable_name = entry.buildable_references[0].buildable_name
+          found_buildable_names.push(buildable_name)
+        end
+      rescue
+        # just in case if there are no entries in the test action
+      end
+
+      # some items are both buildable and testable, so return only unique ones
+      found_buildable_names.uniq
     end
 
     def find_source_files

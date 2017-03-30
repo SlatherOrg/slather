@@ -15,6 +15,11 @@
 		3773307C1CC42A58005EAF65 /* fixturesTwo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3773307B1CC42A58005EAF65 /* fixturesTwo.h */; };
 		3773307E1CC42A58005EAF65 /* fixturesTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 3773307D1CC42A58005EAF65 /* fixturesTwo.m */; };
 		377330821CC42ABF005EAF65 /* libfixturesTwo.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 377330791CC42A58005EAF65 /* libfixturesTwo.dylib */; };
+		8554482F1E461FAF0032518E /* fixturesTestsSecond.m in Sources */ = {isa = PBXBuildFile; fileRef = 8554482E1E461FAF0032518E /* fixturesTestsSecond.m */; };
+		85AE69041E45F0F900DA2D47 /* libfixtures.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9A202D195965F10013B6B3 /* libfixtures.a */; };
+		85AE69051E45F0F900DA2D47 /* libfixturesTwo.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 377330791CC42A58005EAF65 /* libfixturesTwo.dylib */; };
+		85AE69061E45F0F900DA2D47 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9A2030195965F10013B6B3 /* Cocoa.framework */; };
+		85AE69081E45F0F900DA2D47 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C9A204A195965F10013B6B3 /* InfoPlist.strings */; };
 		8C0F0B401ACF43A300793B7D /* fixtures_m.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C0F0B3E1ACF43A300793B7D /* fixtures_m.h */; };
 		8C0F0B411ACF43A300793B7D /* fixtures_m.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F0B3F1ACF43A300793B7D /* fixtures_m.m */; };
 		8C0F0B441ACF44E000793B7D /* fixtures_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F0B421ACF44E000793B7D /* fixtures_cpp.cpp */; };
@@ -33,6 +38,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		85AE68FE1E45F0F900DA2D47 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C9A2025195965F00013B6B3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C9A202C195965F10013B6B3;
+			remoteInfo = fixtures;
+		};
 		8C9A2044195965F10013B6B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8C9A2025195965F00013B6B3 /* Project object */;
@@ -51,6 +63,8 @@
 		377330791CC42A58005EAF65 /* libfixturesTwo.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libfixturesTwo.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		3773307B1CC42A58005EAF65 /* fixturesTwo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fixturesTwo.h; sourceTree = "<group>"; };
 		3773307D1CC42A58005EAF65 /* fixturesTwo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = fixturesTwo.m; sourceTree = "<group>"; };
+		8554482E1E461FAF0032518E /* fixturesTestsSecond.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fixturesTestsSecond.m; sourceTree = "<group>"; };
+		85AE690C1E45F0F900DA2D47 /* fixturesTestsSecond.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = fixturesTestsSecond.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C0F0B3E1ACF43A300793B7D /* fixtures_m.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fixtures_m.h; sourceTree = "<group>"; };
 		8C0F0B3F1ACF43A300793B7D /* fixtures_m.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = fixtures_m.m; sourceTree = "<group>"; };
 		8C0F0B421ACF44E000793B7D /* fixtures_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fixtures_cpp.cpp; sourceTree = "<group>"; };
@@ -79,6 +93,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85AE69031E45F0F900DA2D47 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85AE69041E45F0F900DA2D47 /* libfixtures.a in Frameworks */,
+				85AE69051E45F0F900DA2D47 /* libfixturesTwo.dylib in Frameworks */,
+				85AE69061E45F0F900DA2D47 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +166,7 @@
 				8C9A202D195965F10013B6B3 /* libfixtures.a */,
 				8C9A2040195965F10013B6B3 /* fixturesTests.xctest */,
 				377330791CC42A58005EAF65 /* libfixturesTwo.dylib */,
+				85AE690C1E45F0F900DA2D47 /* fixturesTestsSecond.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -194,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				8C9A204D195965F10013B6B3 /* fixturesTests.m */,
+				8554482E1E461FAF0032518E /* fixturesTestsSecond.m */,
 				8C9A2048195965F10013B6B3 /* Supporting Files */,
 				8C52AEF9195AAE70008A882A /* peekaviewTests💣.m */,
 				155BBCA719E9CCC500BACB13 /* BranchesTests.m */,
@@ -253,6 +279,24 @@
 			productName = fixturesTwo;
 			productReference = 377330791CC42A58005EAF65 /* libfixturesTwo.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
+		};
+		85AE68FC1E45F0F900DA2D47 /* fixturesTestsSecond */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 85AE69091E45F0F900DA2D47 /* Build configuration list for PBXNativeTarget "fixturesTestsSecond" */;
+			buildPhases = (
+				85AE68FF1E45F0F900DA2D47 /* Sources */,
+				85AE69031E45F0F900DA2D47 /* Frameworks */,
+				85AE69071E45F0F900DA2D47 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				85AE68FD1E45F0F900DA2D47 /* PBXTargetDependency */,
+			);
+			name = fixturesTestsSecond;
+			productName = fixturesTests;
+			productReference = 85AE690C1E45F0F900DA2D47 /* fixturesTestsSecond.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		8C9A202C195965F10013B6B3 /* fixtures */ = {
 			isa = PBXNativeTarget;
@@ -318,11 +362,20 @@
 				8C9A202C195965F10013B6B3 /* fixtures */,
 				377330781CC42A58005EAF65 /* fixturesTwo */,
 				8C9A203F195965F10013B6B3 /* fixturesTests */,
+				85AE68FC1E45F0F900DA2D47 /* fixturesTestsSecond */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		85AE69071E45F0F900DA2D47 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85AE69081E45F0F900DA2D47 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8C9A203E195965F10013B6B3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -339,6 +392,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3773307E1CC42A58005EAF65 /* fixturesTwo.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85AE68FF1E45F0F900DA2D47 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8554482F1E461FAF0032518E /* fixturesTestsSecond.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +430,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		85AE68FD1E45F0F900DA2D47 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C9A202C195965F10013B6B3 /* fixtures */;
+			targetProxy = 85AE68FE1E45F0F900DA2D47 /* PBXContainerItemProxy */;
+		};
 		8C9A2045195965F10013B6B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8C9A202C195965F10013B6B3 /* fixtures */;
@@ -417,6 +483,40 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		85AE690A1E45F0F900DA2D47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fixtures/Supporting Files/fixtures-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		85AE690B1E45F0F900DA2D47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "fixtures/Supporting Files/fixtures-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -561,6 +661,15 @@
 			buildConfigurations = (
 				377330801CC42A58005EAF65 /* Debug */,
 				377330811CC42A58005EAF65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		85AE69091E45F0F900DA2D47 /* Build configuration list for PBXNativeTarget "fixturesTestsSecond" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85AE690A1E45F0F900DA2D47 /* Debug */,
+				85AE690B1E45F0F900DA2D47 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
