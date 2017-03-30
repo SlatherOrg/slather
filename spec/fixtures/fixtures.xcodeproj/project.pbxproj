@@ -23,7 +23,7 @@
 		8C0F0B491ACF44F200793B7D /* fixtures_mm.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8C0F0B471ACF44F200793B7D /* fixtures_mm.mm */; };
 		8C52AEF7195AAE32008A882A /* peekaview.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C52AEF5195AAE32008A882A /* peekaview.h */; };
 		8C52AEF8195AAE33008A882A /* peekaview.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C52AEF6195AAE32008A882A /* peekaview.m */; };
-		8C52AEFA195AAE70008A882A /* peekaviewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C52AEF9195AAE70008A882A /* peekaviewTests.m */; };
+		8C52AEFA195AAE70008A882A /* peekaviewTests💣.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C52AEF9195AAE70008A882A /* peekaviewTests💣.m */; };
 		8C9A2031195965F10013B6B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9A2030195965F10013B6B3 /* Cocoa.framework */; };
 		8C9A203B195965F10013B6B3 /* fixtures.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C9A203A195965F10013B6B3 /* fixtures.m */; };
 		8C9A2043195965F10013B6B3 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9A2030195965F10013B6B3 /* Cocoa.framework */; };
@@ -59,7 +59,7 @@
 		8C0F0B471ACF44F200793B7D /* fixtures_mm.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = fixtures_mm.mm; sourceTree = "<group>"; };
 		8C52AEF5195AAE32008A882A /* peekaview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = peekaview.h; sourceTree = "<group>"; };
 		8C52AEF6195AAE32008A882A /* peekaview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = peekaview.m; sourceTree = "<group>"; };
-		8C52AEF9195AAE70008A882A /* peekaviewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = peekaviewTests.m; sourceTree = "<group>"; };
+		8C52AEF9195AAE70008A882A /* peekaviewTests💣.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "peekaviewTests💣.m"; sourceTree = "<group>"; };
 		8C9A202D195965F10013B6B3 /* libfixtures.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfixtures.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C9A2030195965F10013B6B3 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8C9A2033195965F10013B6B3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -195,7 +195,7 @@
 			children = (
 				8C9A204D195965F10013B6B3 /* fixturesTests.m */,
 				8C9A2048195965F10013B6B3 /* Supporting Files */,
-				8C52AEF9195AAE70008A882A /* peekaviewTests.m */,
+				8C52AEF9195AAE70008A882A /* peekaviewTests💣.m */,
 				155BBCA719E9CCC500BACB13 /* BranchesTests.m */,
 			);
 			path = fixturesTests;
@@ -361,7 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C9A204E195965F10013B6B3 /* fixturesTests.m in Sources */,
-				8C52AEFA195AAE70008A882A /* peekaviewTests.m in Sources */,
+				8C52AEFA195AAE70008A882A /* peekaviewTests💣.m in Sources */,
 				155BBCA819E9CCC500BACB13 /* BranchesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
