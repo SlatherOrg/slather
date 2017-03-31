@@ -3,6 +3,7 @@ require 'clamp'
 require 'yaml'
 require_relative '../lib/slather'
 require_relative '../lib/slather/command/coverage_command'
+require_relative '../lib/slather/command/by_groups_command'
 require_relative '../lib/slather/command/setup_command'
 require_relative '../lib/slather/command/version_command'
 
@@ -11,6 +12,7 @@ class MainCommand < Clamp::Command
 
   subcommand 'setup', 'Configures a .xcodeproj for test coverage generation', SetupCommand
   subcommand 'coverage', 'Computes coverage for the supplied project', CoverageCommand
+  subcommand 'by_groups', 'Computes coverage for the supplied project by groups', ByGroupsCommand
   subcommand 'version', 'Prints slather version', VersionCommand
 end
 
