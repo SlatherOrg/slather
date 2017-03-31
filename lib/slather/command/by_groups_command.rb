@@ -108,31 +108,34 @@ class ByGroupsCommand < Clamp::Command
   end
 
   def output_coverage_by_groups
-    post_all_groups(project.groups[0], 0)
+    post_all_groups(project.groups[3], 0)
   end
 
   def post_all_groups(group, name)
     post_group(group, name)
     group.groups.each do |child|
-      post_all_groups(child, "#{name}/#{group.name}")
+      post_all_groups(child, "#{name}/#{group.display_name}")
     end
   end
 
   def post_group(group, parent_name)
-    puts "#{parent_name}/#{group.name} - #{coverage_from_group(group)}"
+    puts "#{parent_name}/#{group.display_name} - #{coverage_from_group(group)}"
   end
 
   def coverage_from_group(group)
-
     files = all_files_from_group(group)
 
     total_project_lines = 0
     total_project_lines_tested = 0
 
-    files_with_coverage = files.map do |file|
-      project.coverage_files.find do |coverage_file|
-        coverage_file.source_file_pathname == file.real_path
-      end
+    files_with_coverage = files.select do |file|
+      file.real_path.to_s.end_with? ".m"
+    end.map do |file|
+      project.coverage_files_hash[file.real_path]
+
+      # project.coverage_files.find do |coverage_file|
+      #   coverage_file.source_file_pathname == file.real_path
+      # end
     end.compact
 
     files_with_coverage.each do |coverage_file|
@@ -165,7 +168,7 @@ module Xcodeproj
   class Project
     module Object
       class PBXGroup
-        attr_accessor :all_files
+        attr_accessor :all_files, :num_lines_tested, :num_lines_testable, :total_percentage
 
       end
     end

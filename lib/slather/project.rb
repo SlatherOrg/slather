@@ -108,6 +108,10 @@ module Slather
       end
     end
 
+    def coverage_files_hash
+      @coverage_files_hash ||= Hash[coverage_files.collect { |file| [file.source_file_pathname, file] }]
+    end
+
     def gcov_coverage_files
       coverage_files = Dir["#{build_directory}/**/*.gcno"].map do |file|
         coverage_file = coverage_file_class.new(self, file)
@@ -242,7 +246,12 @@ module Slather
         configure_binary_file
         configure_decimals
 
-        self.llvm_version = `xcrun llvm-cov --version`.match(/Apple LLVM version ([\d\.]+)/).captures[0]
+
+
+        llvm_version = `xcrun llvm-cov --version`
+        puts "#{llvm_version}"
+
+        self.llvm_version = `xcrun llvm-cov --version`.match(/LLVM version ([\d\.]+)/).captures[0]
       rescue => e
         puts e.message
         puts failure_help_string
