@@ -55,6 +55,12 @@ If you use a workspace in Xcode you need to specify it:
 $ slather coverage -s --scheme YourXcodeSchemeName --workspace path/to/workspace.xcworkspace path/to/project.xcodeproj
 ```
 
+If you use different configuration that is set at test target in Xcode you need to specify it: 
+
+```sh
+$ slather coverage -s --scheme YourXcodeSchemeName --configuration YourBuiltConfigurationNameForTest
+```
+
 ### Setup for Xcode 5 and 6
 
 Run this command to enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project:
@@ -75,6 +81,7 @@ Make a `.slather.yml` file:
 coverage_service: cobertura_xml
 xcodeproj: path/to/project.xcodeproj
 scheme: YourXcodeSchemeName
+configuration: TestedConfiguration
 source_directory: path/to/sources/to/include
 output_directory: path/to/xml_report
 ignore:

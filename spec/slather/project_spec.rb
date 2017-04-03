@@ -242,6 +242,7 @@ describe Slather::Project do
       expect(unstubbed_project).to receive(:configure_coverage_service)
       expect(unstubbed_project).to receive(:configure_input_format)
       expect(unstubbed_project).to receive(:configure_scheme)
+      expect(unstubbed_project).to receive(:configure_configuration)
       expect(unstubbed_project).to receive(:configure_workspace)
       unstubbed_project.configure
     end
@@ -322,6 +323,21 @@ describe Slather::Project do
       fixtures_project.output_directory = "/already/set"
       fixtures_project.configure_output_directory
       expect(fixtures_project.output_directory).to eq("/already/set")
+    end
+  end
+
+  describe "#configure_configuration" do
+    it "should set the configuration if it has been provided in the yml and has not already been set" do
+      allow(Slather::Project).to receive(:yml).and_return({"configuration" => "Release"})
+      fixtures_project.configure_configuration
+      expect(fixtures_project.configuration).to eq("Release")
+    end
+
+    it "should not set the configuration if it has already been set" do
+      allow(Slather::Project).to receive(:yml).and_return({"configuration" => "Release"})
+      fixtures_project.configuration = "Debug"
+      fixtures_project.configure_configuration
+      expect(fixtures_project.configuration).to eq("Debug")
     end
   end
 
