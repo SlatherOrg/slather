@@ -583,18 +583,14 @@ describe Slather::Project do
       allow(Dir).to receive(:[]).with(search_dir).and_return([binary_file])
     end
 
-    context 'aaa' do    
-      it 'should set configuration from xcsheme ' do
-        expect(fixtures_project.find_binary_files).to eq([binary_file])
-      end
+    it 'should set configuration from xcsheme ' do
+      expect(fixtures_project.find_binary_files).to eq([binary_file])
     end
 
-    context 'bbb' do
-      let(:configuration) { 'Release' }
-      it 'should set configuration from option' do
-        fixtures_project.configuration = configuration
-        expect(fixtures_project.find_binary_files).to eq([binary_file])
-      end
+    let(:configuration) { 'Release' }
+    it 'should set configuration from option' do
+      fixtures_project.configuration = configuration
+      expect(fixtures_project.find_binary_files).to eq([binary_file])
     end
   end
 end
