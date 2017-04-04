@@ -2,15 +2,15 @@
 
 ## master
 
+* Add `--configuration` option
+  [thasegaw](https://github.com/thasegaw)
+  [#xxx](https://github.com/slatherOrg/slather/pull/294)
+
 ## v2.4.0
 
 * Xcode 8.3 support.
   [ksuther](https://github.com/ksuther)
   [#291](https://github.com/SlatherOrg/slather/pull/291)
-
-* Add `--configuration` option
-  [thasegaw](https://github.com/thasegaw)
-  [#xxx](https://github.com/slatherOrg/slather/pull/xxx)
 
 * Automatically ignore headers in Xcode platform SDKs.  
   [ksuther](https://github.com/ksuther)
