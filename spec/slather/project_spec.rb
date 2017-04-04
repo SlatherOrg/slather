@@ -567,4 +567,34 @@ describe Slather::Project do
       expect(decimal_f('50.00000')).to eq('50.0')
     end
   end
+
+  describe '#find_binary_files' do
+    let(:configuration) { 'Debug' }
+    let(:project_root) { Pathname("./").realpath }
+    let(:coverage_dir) { "#{project_root}/spec/DerivedData/DerivedData/Build/Intermediates/CodeCoverage" }
+    let(:search_dir) { "#{coverage_dir}/Products/#{configuration}*/fixtures*" }
+    let(:binary_file) { "#{coverage_dir}/Products/#{configuration}-iphonesimulator/fixtures.app/fixtures" }
+
+    before do
+      allow(fixtures_project).to receive(:scheme).and_return("fixtures")
+      allow(fixtures_project).to receive(:workspace).and_return("fixtures.xcworkspace")
+      allow(fixtures_project).to receive(:binary_basename).and_return(["fixtures"])
+      allow(fixtures_project).to receive(:profdata_coverage_dir).and_return(coverage_dir)
+      allow(Dir).to receive(:[]).with(search_dir).and_return([binary_file])
+    end
+
+    context 'aaa' do    
+      it 'should set configuration from xcsheme ' do
+        expect(fixtures_project.find_binary_files).to eq([binary_file])
+      end
+    end
+
+    context 'bbb' do
+      let(:configuration) { 'Release' }
+      it 'should set configuration from option' do
+        fixtures_project.configuration = configuration
+        expect(fixtures_project.find_binary_files).to eq([binary_file])
+      end
+    end
+  end
 end
