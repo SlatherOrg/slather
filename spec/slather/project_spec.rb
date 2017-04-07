@@ -242,6 +242,7 @@ describe Slather::Project do
       expect(unstubbed_project).to receive(:configure_coverage_service)
       expect(unstubbed_project).to receive(:configure_input_format)
       expect(unstubbed_project).to receive(:configure_scheme)
+      expect(unstubbed_project).to receive(:configure_configuration)
       expect(unstubbed_project).to receive(:configure_workspace)
       unstubbed_project.configure
     end
@@ -322,6 +323,21 @@ describe Slather::Project do
       fixtures_project.output_directory = "/already/set"
       fixtures_project.configure_output_directory
       expect(fixtures_project.output_directory).to eq("/already/set")
+    end
+  end
+
+  describe "#configure_configuration" do
+    it "should set the configuration if it has been provided in the yml and has not already been set" do
+      allow(Slather::Project).to receive(:yml).and_return({"configuration" => "Release"})
+      fixtures_project.configure_configuration
+      expect(fixtures_project.configuration).to eq("Release")
+    end
+
+    it "should not set the configuration if it has already been set" do
+      allow(Slather::Project).to receive(:yml).and_return({"configuration" => "Release"})
+      fixtures_project.configuration = "Debug"
+      fixtures_project.configure_configuration
+      expect(fixtures_project.configuration).to eq("Debug")
     end
   end
 
@@ -549,6 +565,36 @@ describe Slather::Project do
       fixtures_project.decimals = 3
       expect(decimal_f('100.000')).to eq('100.0')
       expect(decimal_f('50.00000')).to eq('50.0')
+    end
+  end
+
+  describe '#find_binary_files' do
+    let(:configuration) { 'Debug' }
+    let(:project_root) { Pathname("./").realpath }
+    let(:coverage_dir) { "#{project_root}/spec/DerivedData/DerivedData/Build/Intermediates/CodeCoverage" }
+    let(:search_dir) { "#{coverage_dir}/Products/#{configuration}*/fixtures*" }
+    let(:binary_file) { "#{coverage_dir}/Products/#{configuration}-iphonesimulator/fixtures.app/fixtures" }
+
+    before do
+      allow(fixtures_project).to receive(:scheme).and_return("fixtures")
+      allow(fixtures_project).to receive(:workspace).and_return("fixtures.xcworkspace")
+      allow(fixtures_project).to receive(:binary_basename).and_return(["fixtures"])
+      allow(fixtures_project).to receive(:profdata_coverage_dir).and_return(coverage_dir)
+      allow(Dir).to receive(:[]).with(search_dir).and_return([binary_file])
+    end
+
+    context 'load configuration from xcsheme' do
+      it "search binary from 'Products/Debug*'" do
+        expect(fixtures_project.find_binary_files).to eq([binary_file])
+      end
+    end
+
+    context 'load configuration from option' do
+      let(:configuration) { 'Release' }
+      it "search binary from 'Products/Release*'" do
+        fixtures_project.configuration = configuration
+        expect(fixtures_project.find_binary_files).to eq([binary_file])
+      end
     end
   end
 end

@@ -52,7 +52,7 @@ module Slather
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
       :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files,
-      :decimals, :llvm_version
+      :decimals, :llvm_version, :configuration
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -230,6 +230,7 @@ module Slather
     def configure
       begin
         configure_scheme
+        configure_configuration
         configure_workspace
         configure_build_directory
         configure_ignore_list
@@ -298,6 +299,10 @@ module Slather
 
     def configure_scheme
       self.scheme ||= self.class.yml["scheme"] if self.class.yml["scheme"]
+    end
+
+    def configure_configuration
+      self.configuration ||= self.class.yml["configuration"] if self.class.yml["configuration"]
     end
 
     def configure_decimals
@@ -395,7 +400,11 @@ module Slather
 
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
-        configuration = xcscheme.test_action.build_configuration
+        if self.configuration
+          configuration = self.configuration
+        else
+          configuration = xcscheme.test_action.build_configuration
+        end
 
         search_list = binary_basename || find_buildable_names(xcscheme)
 

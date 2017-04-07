@@ -2,6 +2,10 @@
 
 ## master
 
+* Add `--configuration` option
+  [thasegaw](https://github.com/thasegaw)
+  [#294](https://github.com/slatherOrg/slather/pull/294)
+
 ## v2.4.0
 
 * Xcode 8.3 support.
