@@ -519,6 +519,21 @@ describe Slather::Project do
 
       fixtures_project.send(:configure)
     end
+
+    it "should print error when no binaries found" do
+      allow(fixtures_project).to receive(:binary_file).and_return(nil)
+
+      project_root = Pathname("./").realpath
+
+      ["\nProcessing coverage file: #{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Coverage.profdata",
+       "No binary files found.",
+       "\n",
+      ].each do |line|
+        expect(fixtures_project).to receive(:puts).with(line)
+      end
+
+      fixtures_project.send(:configure)
+    end
   end
 
   describe "#source_files" do
