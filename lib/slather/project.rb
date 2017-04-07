@@ -27,19 +27,12 @@ module Xcodeproj
 
       # Patch xcschemes too
       if format == :clang
-        if Gem::Requirement.new('>= 0.28.2') =~ Gem::Version.new(Xcodeproj::VERSION)
-          # @todo This will require to bump the xcodeproj dependency to >= 0.28.2
-          # (which would require to bump cocoapods too)
-          schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
-          Xcodeproj::Project.schemes(self.path).each do |scheme_name|
-            xcscheme_path = "#{schemes_path + scheme_name}.xcscheme"
-            xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
-            xcscheme.test_action.xml_element.attributes['codeCoverageEnabled'] = 'YES'
-            xcscheme.save_as(self.path, scheme_name)
-          end
-        else
-          # @todo In the meantime, simply inform the user to do it manually
-          puts %Q(Ensure you enabled "Gather coverage data" in each of your scheme's Test action)
+        schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
+        Xcodeproj::Project.schemes(self.path).each do |scheme_name|
+          xcscheme_path = "#{schemes_path + scheme_name}.xcscheme"
+          xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
+          xcscheme.test_action.xml_element.attributes['codeCoverageEnabled'] = 'YES'
+          xcscheme.save_as(self.path, scheme_name)
         end
       end
     end
