@@ -55,10 +55,10 @@ If you use a workspace in Xcode you need to specify it:
 $ slather coverage -s --scheme YourXcodeSchemeName --workspace path/to/workspace.xcworkspace path/to/project.xcodeproj
 ```
 
-If you use different configuration that is set at test target in Xcode you need to specify it: 
+If you use a different configuration for your tests: 
 
 ```sh
-$ slather coverage -s --scheme YourXcodeSchemeName --configuration YourBuiltConfigurationNameForTest
+$ slather coverage -s --scheme YourXcodeSchemeName --configuration YourBuildConfigurationName
 ```
 
 ### Setup for Xcode 5 and 6

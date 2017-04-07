@@ -4,7 +4,7 @@
 
 * Add `--configuration` option
   [thasegaw](https://github.com/thasegaw)
-  [#xxx](https://github.com/slatherOrg/slather/pull/294)
+  [#294](https://github.com/slatherOrg/slather/pull/294)
 
 ## v2.4.0
 
