@@ -2,11 +2,11 @@
 
 ## master
 
-* Add `--configuration` option
+* Add `--configuration` option  
   [thasegaw](https://github.com/thasegaw)
   [#294](https://github.com/slatherOrg/slather/pull/294)
 
-* Fix misdetection of Xcode version if Spotlight hasn't indexed Xcode yet
+* Fix misdetection of Xcode version if Spotlight hasn't indexed Xcode yet  
   [ksuther](https://github.com/ksuther)
   [#298](https://github.com/slatherOrg/slather/pull/298)
 
