@@ -2,6 +2,8 @@
 
 ## master
 
+## v2.4.1
+
 * Add `--configuration` option  
   [thasegaw](https://github.com/thasegaw)
   [#294](https://github.com/slatherOrg/slather/pull/294)
