@@ -246,9 +246,13 @@ module Slather
 
       if self.verbose_mode
         puts "\nProcessing coverage file: #{profdata_file}"
-        puts "Against binary files:"
-        self.binary_file.each do |binary_file|
-          puts "\t#{binary_file}"
+        if self.binary_file
+          puts "Against binary files:"
+          self.binary_file.each do |binary_file|
+            puts "\t#{binary_file}"
+          end
+        else
+          puts "No binary files found."
         end
         puts "\n"
       end

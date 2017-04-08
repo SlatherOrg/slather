@@ -10,6 +10,10 @@
   [ksuther](https://github.com/ksuther)
   [#298](https://github.com/slatherOrg/slather/pull/298)
 
+* Better verbose message when no binaries are found  
+  [ksuther](https://github.com/ksuther)
+  [#300](https://github.com/slatherOrg/slather/pull/300)
+
 ## v2.4.0
 
 * Xcode 8.3 support.
