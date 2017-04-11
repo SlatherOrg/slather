@@ -56,7 +56,7 @@ module Slather
     end
 
     def failure_help_string
-      "\n\tAre you sure your project is generating coverage? Make sure you enable code coverage in the Test section of your Xcode scheme.\n\tDid you specify your Xcode scheme? (--scheme or 'scheme' in .slather.yml)\n\tIf you're using a workspace, did you specify it? (--workspace or 'workspace' in .slather.yml)"
+      "\n\tAre you sure your project is generating coverage? Make sure you enable code coverage in the Test section of your Xcode scheme.\n\tDid you specify your Xcode scheme? (--scheme or 'scheme' in .slather.yml)\n\tIf you use different configuration that is set at test target in Xcode, did you specify it?\n\tIf you're using a workspace, did you specify it? (--workspace or 'workspace' in .slather.yml)"
     end
 
     def derived_data_path
