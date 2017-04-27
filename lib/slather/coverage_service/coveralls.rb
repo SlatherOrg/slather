@@ -37,7 +37,7 @@ module Slather
       private :jenkins_job_id
 
       def jenkins_branch_name
-        branch_name = ENV['GIT_BRANCH']
+        branch_name = ENV['GIT_BRANCH'] || ENV['BRANCH_NAME']
         if branch_name.include? 'origin/'
           branch_name[7...branch_name.length]
         else
