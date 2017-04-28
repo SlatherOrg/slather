@@ -2,6 +2,10 @@
 
 ## master
 
+* Added Jenkins Pipeline support for Coveralls  
+  [daneov](https://github.com/daneov)
+  [#304](https://github.com/slatherOrg/slather/pull/304)
+
 ## v2.4.1
 
 * Add `--configuration` option  
