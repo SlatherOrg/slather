@@ -245,3 +245,4 @@ Please make sure to follow our general coding style and add test coverage for ne
 * [@jhersh](https://github.com/jhersh), CircleCI support.
 * [@tarbrain](https://github.com/tarbrain), Cobertura support and bugfixing.
 * [@ikhsan](https://github.com/ikhsan), html support.
+* [@neonacho](https://github.com/neonichu), maintainer
