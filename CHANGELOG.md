@@ -2,6 +2,12 @@
 
 ## master
 
+## v2.4.2
+
+* Restored support for Xcode 7  
+  [ButkiewiczP](https://github.com/ButkiewiczP)
+  [#304](https://github.com/slatherOrg/slather/pull/308)
+
 * Added Jenkins Pipeline support for Coveralls  
   [daneov](https://github.com/daneov)
   [#304](https://github.com/slatherOrg/slather/pull/304)
