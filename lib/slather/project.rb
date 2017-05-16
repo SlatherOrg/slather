@@ -367,6 +367,15 @@ module Slather
       end
     end
 
+    def find_framework_binaries_in_bundle(bundle_file)
+      return nil if not File.directory? bundle_file
+      Dir["#{bundle_file}/Frameworks/**/*.framework"].map do |framework_dir|
+        framework_name = File.basename(framework_dir, '.framework')
+        framework_binary = File.join(framework_dir, framework_name)
+        (File.file? framework_binary) ? framework_binary : nil
+      end.compact
+    end
+
     def find_binary_files
       binary_basename = load_option_array("binary_basename")
       found_binaries = []
@@ -416,6 +425,11 @@ module Slather
 
           if found_product and File.directory? found_product
             found_binary = find_binary_file_in_bundle(found_product)
+
+            found_framework_binaries = find_framework_binaries_in_bundle(found_product)
+            if found_framework_binaries
+              found_binaries.concat(found_framework_binaries)
+            end
           else
             found_binary = found_product
           end
@@ -441,6 +455,11 @@ module Slather
 
           if app_bundle != nil
             found_binary = find_binary_file_in_bundle(app_bundle)
+
+            found_framework_binaries = find_framework_binaries_in_bundle(found_product)
+            if found_framework_binaries
+              found_binaries.concat(found_framework_binaries)
+            end
           elsif matched_xctest_bundle != nil
             found_binary = find_binary_file_in_bundle(matched_xctest_bundle)
           elsif dynamic_lib_bundle != nil
