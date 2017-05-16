@@ -236,7 +236,7 @@ module Slather
         configure_binary_file
         configure_decimals
 
-        self.llvm_version = `xcrun llvm-cov --version`.match(/Apple LLVM version ([\d\.]+)/).captures[0]
+        self.llvm_version = `xcrun llvm-cov --version`.match(/LLVM version ([\d\.]+)/).captures[0]
       rescue => e
         puts e.message
         puts failure_help_string
