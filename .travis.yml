@@ -18,3 +18,4 @@ before_install:
 
 install:
   - bundle install --without=documentation
+  - danger
