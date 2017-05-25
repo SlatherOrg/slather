@@ -134,8 +134,8 @@ And then in your `.travis.yml` or `circle.yml`, call `slather` after a successfu
 ```yml
 # .travis.yml
 
-before_install: rvm use $RVM_RUBY_VERSION
-install: bundle install --without=documentation --path ../travis_bundle_dir
+before_install:
+  - gem install slather --no-ri --no-rdoc
 after_success: slather
 ```
 
