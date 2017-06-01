@@ -39,12 +39,13 @@ describe Slather::CoverageService::Coveralls do
 
       it "should raise an error if there is no TRAVIS_JOB_ID" do
         allow(fixtures_project).to receive(:travis_job_id).and_return(nil)
-        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to exit_with_code(202)
       end
 
-      it "should raise an error if there is a COVERAGE_ACCESS_TOKEN" do        
+      it "should raise an error if there is a COVERAGE_ACCESS_TOKEN" do
+        allow(fixtures_project).to receive(:travis_job_id).and_return("9182")
         allow(fixtures_project).to receive(:coverage_access_token).and_return("abc123")
-        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to exit_with_code(200)
       end
 
     end
@@ -61,12 +62,13 @@ describe Slather::CoverageService::Coveralls do
 
       it "should raise an error if there is no TRAVIS_JOB_ID" do
         allow(fixtures_project).to receive(:travis_job_id).and_return(nil)
-        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to exit_with_code(202)
       end
 
-      it "should raise an error if there is no COVERAGE_ACCESS_TOKEN" do        
+      it "should raise an error if there is no COVERAGE_ACCESS_TOKEN" do
+        allow(fixtures_project).to receive(:travis_job_id).and_return("9182")
         allow(fixtures_project).to receive(:coverage_access_token).and_return("")
-        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to exit_with_code(201)
       end
 
     end
@@ -86,7 +88,7 @@ describe Slather::CoverageService::Coveralls do
 
       it "should raise an error if there is no CIRCLE_BUILD_NUM" do
         allow(fixtures_project).to receive(:circleci_job_id).and_return(nil)
-        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to exit_with_code(203)
       end
     end
 
@@ -104,13 +106,13 @@ describe Slather::CoverageService::Coveralls do
 
       it "should raise an error if there is no BUILD_ID" do
         allow(fixtures_project).to receive(:jenkins_job_id).and_return(nil)
-        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to exit_with_code(204)
       end
     end
 
     it "should raise an error if it does not recognize the ci_service" do
       fixtures_project.ci_service = :jenkins_ci
-      expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+      expect { fixtures_project.send(:coveralls_coverage_data) }.to exit_with_code(207)
     end
 
     context "coverage_service is :teamcity" do
@@ -127,7 +129,7 @@ describe Slather::CoverageService::Coveralls do
 
       it "should raise an error if there is no TC_BUILD_NUMBER" do
         allow(fixtures_project).to receive(:teamcity_job_id).and_return(nil)
-        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to exit_with_code(206)
       end
 
       it "should return the teamcity branch name" do
@@ -198,16 +200,13 @@ describe Slather::CoverageService::Coveralls do
         allow(fixtures_project).to receive(:travis_job_id).and_return("9182")
         allow(fixtures_project).to receive(:`).and_return("{\"message\":\"Couldn't find a repository matching this job.\",\"error\":true}")
         expect(fixtures_project).to receive(:`).once
-        expect { fixtures_project.post }.to raise_error(StandardError)        
+        expect { fixtures_project.post }.to exit_with_code(208)
       end
 
       it "should always remove the coveralls_json_file after it's done" do
         allow(fixtures_project).to receive(:`)
         allow(fixtures_project).to receive(:travis_job_id).and_return("9182")
         fixtures_project.post
-        expect(File.exist?("coveralls_json_file")).to be_falsy
-        allow(fixtures_project).to receive(:travis_job_id).and_return(nil)
-        expect { fixtures_project.post }.to raise_error(StandardError)
         expect(File.exist?("coveralls_json_file")).to be_falsy
       end
 

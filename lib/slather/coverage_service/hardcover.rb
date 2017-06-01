@@ -26,10 +26,12 @@ module Slather
               :source_files => coverage_files.map(&:as_json)
             }.to_json
           else
-            raise StandardError, "Environment variables `BUILD_NUMBER` and `JOB_NAME` are not set. Is this running on a Jenkins build?"
+            STDERR.puts 'Environment variables `BUILD_NUMBER` and `JOB_NAME` are not set. Is this running on a Jenkins build?'
+            exit(500)
           end
         else
-          raise StandardError, "No support for ci named #{ci_service}"
+          STDERR.puts "No support for ci named #{ci_service}"
+          exit(501)
         end
       end
       private :hardcover_coverage_data
@@ -40,9 +42,6 @@ module Slather
           f.write(hardcover_coverage_data)
           f.close
           `curl --form json_file=@#{f.path} #{hardcover_api_jobs_path}`
-        rescue StandardError => e
-          FileUtils.rm(f)
-          raise e
         end
         FileUtils.rm(f)
       end
@@ -55,7 +54,8 @@ module Slather
       def hardcover_base_url
         url = Project.yml["hardcover_base_url"]
         unless url
-          raise "No `hardcover_base_url` configured. Please add it to your `.slather.yml`"
+          STDERR.puts 'No `hardcover_base_url` configured. Please add it to your `.slather.yml`'
+          exit(502)
         end
         url
       end

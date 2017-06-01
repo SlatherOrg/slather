@@ -10,7 +10,8 @@ module Xcodeproj
 
     def slather_setup_for_coverage(format = :auto)
       unless [:gcov, :clang, :auto].include?(format)
-        raise StandardError, "Only supported formats for setup are gcov, clang or auto"
+        STDERR.puts 'Only supported formats for setup are gcov, clang or auto'
+        exit(101)
       end
       if format == :auto
         format = Slather.xcode_version[0] < 7 ? :gcov : :clang
@@ -109,7 +110,8 @@ module Slather
       end.compact
 
       if coverage_files.empty?
-        raise StandardError, "No coverage files found."
+        STDERR.puts 'No coverage files found.'
+        exit(102)
       else
         dedupe(coverage_files)
       end
@@ -155,7 +157,10 @@ module Slather
     end
 
     def profdata_coverage_dir
-      raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
+      unless File.exists?(self.build_directory)
+        STDERR.puts "The specified build directory (#{self.build_directory}) does not exist"
+        exit(104)
+      end
       dir = nil
       if self.scheme
         dir = Dir[File.join("#{build_directory}","/**/CodeCoverage/#{self.scheme}")].first
@@ -168,14 +173,18 @@ module Slather
         dir = Dir[File.join("#{build_directory}","/**/CodeCoverage")].first
       end
 
-      raise StandardError, "No coverage directory found." unless dir != nil
+      unless dir != nil
+        STDERR.puts 'No coverage directory found.'
+        exit(103)
+      end
       dir
     end
 
     def profdata_file
       profdata_coverage_dir = self.profdata_coverage_dir
       if profdata_coverage_dir == nil
-        raise StandardError, "No coverage directory found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
+        STDERR.puts 'No coverage directory found. Please make sure the "Code Coverage" checkbox is enabled in your scheme\'s Test action or the build_directory property is set.'
+        exit(103)
       end
 
       file =  Dir["#{profdata_coverage_dir}/**/Coverage.profdata"].first
@@ -189,11 +198,13 @@ module Slather
     def unsafe_profdata_llvm_cov_output(binary_path, source_files)
       profdata_file_arg = profdata_file
       if profdata_file_arg == nil
-        raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
+        STDERR.puts 'No Coverage.profdata files found. Please make sure the "Code Coverage" checkbox is enabled in your scheme\'s Test action or the build_directory property is set.'
+        exit(105)
       end
 
       if binary_path == nil
-        raise StandardError, "No binary file found."
+        STDERR.puts 'No binary file found.'
+        exit(106)
       end
 
       llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path})
@@ -238,10 +249,9 @@ module Slather
 
         self.llvm_version = `xcrun llvm-cov --version`.match(/LLVM version ([\d\.]+)/).captures[0]
       rescue => e
-        puts e.message
-        puts failure_help_string
-        puts "\n"
-        raise
+        STDERR.puts e.message
+        STDERR.puts failure_help_string
+        exit(110)
       end
 
       if self.verbose_mode
@@ -285,7 +295,8 @@ module Slather
     def input_format=(format)
       format ||= "auto"
       unless %w(gcov profdata auto).include?(format)
-        raise StandardError, "Only supported input formats are gcov, profdata or auto"
+        STDERR.puts 'Only supported input formats are gcov, profdata or auto'
+        exit(101)
       end
       if format == "auto"
         @input_format = Slather.xcode_version[0] < 7 ? "gcov" : "profdata"
@@ -340,7 +351,8 @@ module Slather
       when :html
         extend(Slather::CoverageService::HtmlOutput)
       else
-        raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json`, `cobertura_xml` or `html`"
+        STDERR.puts "#{self.coverage_service} is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json`, `cobertura_xml` or `html`"
+          exit(109)
       end
       @coverage_service = service
     end
@@ -393,7 +405,10 @@ module Slather
           end
         end
 
-        raise StandardError, "No scheme named '#{self.scheme}' found in #{self.path}" unless File.exists? xcscheme_path
+        unless File.exists? xcscheme_path
+          STDERR.puts "No scheme named '#{self.scheme}' found in #{self.path}"
+          exit(107)
+        end
 
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
@@ -455,7 +470,10 @@ module Slather
         end
       end
 
-      raise StandardError, "No product binary found in #{profdata_coverage_dir}." unless found_binaries.count > 0
+      unless found_binaries.count > 0
+        STDERR.puts "No product binary found in #{profdata_coverage_dir}."
+        exit(108)
+      end
 
       found_binaries.map { |binary| File.expand_path(binary) }
     end
