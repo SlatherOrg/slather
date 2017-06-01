@@ -232,6 +232,34 @@ Include the `--workspace` argument or add `workspace` to `.slather.yml` if you b
 $ slather coverage --html --scheme YourXcodeSchemeName --workspace path/to/workspace.xcworkspace path/to/project.xcodeproj
 ```
 
+## Exits
+| Code | Reason |
+|:----:| ------ |
+| 0 | Success |
+| 100 | Missing xcodeproject |
+| 101 | Unsupported input format |
+| 102 | No coverage files found |
+| 103 | No coverage directory |
+| 104 | Build directory does not exists |
+| 105 | No Coverage.profdata files |
+| 106 | No binary file found |
+| 107 | Missing scheme |
+| 108 | No product binary found |
+| 200 | Access token set. Not needed |
+| 201 | Access token not set. Required. |
+| 202 | TRAVIS_JOB_ID not set. |
+| 203 | CIRCLE_BUILD_NUM not set. |
+| 204 | BUILD_ID not set. |
+| 205 | BUILDKITE_BUILD_NUMBER not set. |
+| 206 | TC_BUILD_NUMBER not set. |
+| 207 | No support for given ci. |
+| 208 | Error uploading data to Coveralls. |
+| 300 | Missing xcodeproject |
+| 400 | Missing xcodeproject |
+| 500 | BUILD_NUMBER and JOB_NAME are not set. Jenkins? |
+| 501 | No support for given ci. |
+| 502 | No hardcover_base_url configured |
+
 ## Contributing
 
 We’d love to see your ideas for improving this library! The best way to contribute is by submitting a pull request. We’ll do our best to respond to your patch as soon as possible. You can also submit a [new GitHub issue](https://github.com/SlatherOrg/slather/issues/new) if you find bugs or have questions. :octocat:

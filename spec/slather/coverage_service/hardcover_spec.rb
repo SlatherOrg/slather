@@ -51,13 +51,13 @@ describe Slather::CoverageService::Hardcover do
 
       it "should raise an error if there is no BUILD_NUMBER or JOB_NAME" do
         allow(fixtures_project).to receive(:jenkins_job_id).and_return(nil)
-        expect { fixtures_project.send(:hardcover_coverage_data) }.to raise_error(StandardError)
+        expect { fixtures_project.send(:hardcover_coverage_data) }.to exit_with_code(500)
       end
     end
 
     it "should raise an error if it does not recognize the ci_service" do
       fixtures_project.ci_service = :non_existing_ci
-      expect { fixtures_project.send(:hardcover_coverage_data) }.to raise_error(StandardError)
+      expect { fixtures_project.send(:hardcover_coverage_data) }.to exit_with_code(501)
     end
   end
 
@@ -109,9 +109,7 @@ describe Slather::CoverageService::Hardcover do
       allow(fixtures_project).to receive(:coverage_service_url).and_return("http://api.hardcover.io")
       fixtures_project.post
       expect(File.exist?("hardcover_json_file")).to be_falsy
-      allow(fixtures_project).to receive(:jenkins_job_id).and_return(nil)
-      expect { fixtures_project.post }.to raise_error(StandardError)
-      expect(File.exist?("hardcover_json_file")).to be_falsy
     end
+
   end
 end

@@ -60,7 +60,7 @@ describe Slather::Project do
 
     it "should raise an exception if no unignored project coverage file files were found" do
       fixtures_project.ignore_list = ["*fixturesTests*", "*fixtures*"]
-      expect {fixtures_project.coverage_files}.to raise_error(StandardError)
+      expect {fixtures_project.coverage_files}.to exit_with_code(102)
     end
   end
 
@@ -456,7 +456,7 @@ describe Slather::Project do
     end
 
     it "should raise an exception if it does not recognize the coverage service" do
-      expect { fixtures_project.coverage_service = "xcode bots, lol" }.to raise_error(StandardError)
+      expect { fixtures_project.coverage_service = "xcode bots, lol" }.to exit_with_code(109)
     end
   end
 
@@ -491,7 +491,7 @@ describe Slather::Project do
     end
 
     it "should fail for unknown coverage type" do
-      expect { fixtures_project_setup.slather_setup_for_coverage "this should fail" }.to raise_error(StandardError)
+      expect { fixtures_project_setup.slather_setup_for_coverage "this should fail" }.to exit_with_code(101)
     end
   end
 
