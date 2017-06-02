@@ -22,7 +22,7 @@ describe Slather::CoverageService::GutterJsonOutput do
     it "should print out the coverage for each file, and then total coverage" do
       fixtures_project.post
 
-      fixture_json = File.read(FIXTURES_JSON_PATH)
+      fixture_json = File.read(FIXTURES_GUTTER_JSON_PATH)
       current_json = File.read('.gutter.json')
 
       expect(current_json).to be_json_eql(fixture_json)
