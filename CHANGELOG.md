@@ -2,6 +2,10 @@
 
 ## master
 
+* Add `--json` output option for basic JSON format not specific to any particular service.
+  [ileitch](https://github.com/ileitch)
+  [#318](https://github.com/SlatherOrg/slather/pull/318)
+
 ## v2.4.2
 
 * Restored support for Xcode 7  
