@@ -155,7 +155,6 @@ module Slather
     end
 
     def profdata_coverage_dir
-      print build_directory
       raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
       dir = nil
       if self.scheme
