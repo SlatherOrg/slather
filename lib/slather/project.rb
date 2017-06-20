@@ -170,7 +170,7 @@ module Slather
       
       if dir == nil
         # Xcode 9 moved the location of Coverage.profdata
-        dir = Dir[File.join("#{build_directory}","/**/ProfileData")].glob("**/").first
+        dir = Dir[File.join("#{build_directory}","/**/ProfileData")].first
       end
 
       raise StandardError, "No coverage directory found." unless dir != nil
