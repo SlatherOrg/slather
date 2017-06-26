@@ -100,7 +100,8 @@ class CoverageCommand < Clamp::Command
       if xcodeproj_path_to_open
         project = Slather::Project.open(xcodeproj_path_to_open)
       else
-        raise StandardError, "Must provide an xcodeproj either via the 'slather [SUBCOMMAND] [PROJECT].xcodeproj' command or through .slather.yml"
+        STDERR.puts 'Must provide an xcodeproj either via the "slather [SUBCOMMAND] [PROJECT].xcodeproj" command or through .slather.yml'
+        exit(300)
       end
     end
   end
