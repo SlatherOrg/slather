@@ -31,6 +31,7 @@ class CoverageCommand < Clamp::Command
   option ["--binary-basename"], "BINARY_BASENAME", "Basename of the file against which the coverage will be run", :multivalued => true
   option ["--source-files"], "SOURCE_FILES", "A Dir.glob compatible pattern used to limit the lookup to specific source files. Ignored in gcov mode.", :multivalued => true
   option ["--decimals"], "DECIMALS", "The amount of decimals to use for % coverage reporting"
+  option ["--profdata-file"], "PROFDATA_FILE", "The full path to the .profdata file. Optional - defaults to searching in the build directory if not specified."
 
   def execute
     puts "Slathering..."
@@ -50,6 +51,7 @@ class CoverageCommand < Clamp::Command
     setup_binary_basename
     setup_source_files
     setup_decimals
+    setup_profdata_file
 
     project.configure
 
@@ -156,5 +158,9 @@ class CoverageCommand < Clamp::Command
 
   def setup_decimals
     project.decimals = decimals if decimals
+  end
+
+  def setup_profdata_file
+    project.custom_profdata_file_path = profdata_file if profdata_file
   end
 end
