@@ -166,6 +166,10 @@ module Slather
       if dir == nil
         # Xcode 7.3 moved the location of Coverage.profdata
         dir = Dir[File.join("#{build_directory}","/**/CodeCoverage")].first
+
+      if dir == nil && Slather.xcode_version[0] >= 9
+        # Xcode 9 moved the location of Coverage.profdata
+        dir = Pathname.new(Dir[File.join(build_directory, "/**/ProfileData/*/Coverage.profdata")].first).parent()
       end
 
       raise StandardError, "No coverage directory found." unless dir != nil
@@ -406,9 +410,14 @@ module Slather
         end
 
         search_list = binary_basename || find_buildable_names(xcscheme)
+        search_dir = profdata_coverage_dir
+
+        if Slather.xcode_version[0] >= 9
+          search_dir = File.join(search_dir, '../..')
+        end
 
         search_list.each do |search_for|
-          found_product = Dir["#{profdata_coverage_dir}/Products/#{configuration}*/#{search_for}*"].sort { |x, y|
+          found_product = Dir["#{search_dir}/Products/#{configuration}*/#{search_for}*"].sort { |x, y|
             # Sort the matches without the file extension to ensure better matches when there are multiple candidates
             # For example, if the binary_basename is Test then we want Test.app to be matched before Test Helper.app
             File.basename(x, File.extname(x)) <=> File.basename(y, File.extname(y))
