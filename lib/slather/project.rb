@@ -414,6 +414,7 @@ module Slather
         search_dir = profdata_coverage_dir
 
         if Slather.xcode_version[0] >= 9
+          # Go from the directory containing Coverage.profdata back to the directory containing Products (back out of ProfileData/UUID-dir)
           search_dir = File.join(search_dir, '../..')
         end
 
