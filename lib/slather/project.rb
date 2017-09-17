@@ -170,7 +170,17 @@ module Slather
 
       if dir == nil && Slather.xcode_version[0] >= 9
         # Xcode 9 moved the location of Coverage.profdata
-        dir = Pathname.new(Dir[File.join(build_directory, "/**/ProfileData/*/Coverage.profdata")].first).parent()
+        coverage_files = Dir[File.join(build_directory, "/**/ProfileData/*/Coverage.profdata")]
+
+        if coverage_files.count == 0
+          # Look up one directory
+          # The ProfileData directory is next to Intermediates.noindex (in previous versions of Xcode the coverage was inside Intermediates)
+          coverage_files = Dir[File.join(build_directory, "../**/ProfileData/*/Coverage.profdata")]
+        end
+
+        if coverage_files != nil
+          dir = Pathname.new(coverage_files.first).parent()
+        end
       end
 
       raise StandardError, "No coverage directory found." unless dir != nil
