@@ -45,7 +45,7 @@ module Slather
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
       :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files,
-      :decimals, :llvm_version, :configuration
+      :decimals, :llvm_version, :configuration, :custom_profdata_file_path
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -188,6 +188,11 @@ module Slather
     end
 
     def profdata_file
+      if custom_profdata_file_path
+        return custom_profdata_file_path if File.exist?(custom_profdata_file_path)
+        raise StandardError, "Profdata file not found at --profdata-file path '#{custom_profdata_file_path}'."
+      end
+
       profdata_coverage_dir = self.profdata_coverage_dir
       if profdata_coverage_dir == nil
         raise StandardError, "No coverage directory found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
