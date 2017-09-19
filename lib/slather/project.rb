@@ -183,6 +183,11 @@ module Slather
         end
       end
 
+      if dir == nil
+        # Xcode 9 moved the location of Coverage.profdata
+        dir = Dir[File.expand_path("..", "#{build_directory}")].first
+      end
+
       raise StandardError, "No coverage directory found." unless dir != nil
       dir
     end
