@@ -1,6 +1,9 @@
 # CHANGELOG
 
-## master
+## v2.4.3
+
+* Initial Xcode 9 support
+  [ksuther](https://github.com/ksuther) [#339](https://github.com/SlatherOrg/slather/pull/339), [ivanbrunel](https://github.com/ivanbruel) [#321](https://github.com/SlatherOrg/slather/pull/321), [FDREAL](https://github.com/FDREAL) [#338](https://github.com/SlatherOrg/slather/pull/338)
 
 * Add `--json` output option for basic JSON format not specific to any particular service.
   [ileitch](https://github.com/ileitch)
