@@ -44,7 +44,7 @@ module Slather
   class Project < Xcodeproj::Project
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
-      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files,
+      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :arch, :source_files,
       :decimals, :llvm_version, :configuration
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
@@ -212,6 +212,9 @@ module Slather
       end
 
       llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path})
+      if self.arch
+        llvm_cov_args << "--arch" << self.arch
+      end
       `xcrun llvm-cov #{llvm_cov_args.shelljoin} #{source_files.shelljoin}`
     end
     private :unsafe_profdata_llvm_cov_output
@@ -249,6 +252,7 @@ module Slather
         configure_output_directory
         configure_input_format
         configure_binary_file
+        configure_arch
         configure_decimals
 
         self.llvm_version = `xcrun llvm-cov --version`.match(/LLVM version ([\d\.]+)/).captures[0]
@@ -368,6 +372,10 @@ module Slather
       if self.input_format == "profdata"
         self.binary_file = load_option_array("binary_file") || find_binary_files
       end
+    end
+
+    def configure_arch
+      self.arch ||= self.class.yml["arch"] if self.class.yml["arch"]
     end
 
     def decimal_f decimal_arg
