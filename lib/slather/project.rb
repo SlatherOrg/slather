@@ -435,6 +435,7 @@ module Slather
             File.basename(x, File.extname(x)) <=> File.basename(y, File.extname(y))
           }.reject { |path|
             path.end_with? ".dSYM"
+            path.end_with? ".swiftmodule"
           }.first
 
           if found_product and File.directory? found_product
