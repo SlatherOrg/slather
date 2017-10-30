@@ -1,5 +1,8 @@
 # CHANGELOG
 
+* Exclude swiftmodule from product search
+  [lampietti](https://github.com/lampietti) [#352](https://github.com/SlatherOrg/slather/pull/352)
+
 ## v2.4.3
 
 * Initial Xcode 9 support
