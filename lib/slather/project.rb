@@ -352,6 +352,8 @@ module Slather
         extend(Slather::CoverageService::GutterJsonOutput)
       when :cobertura_xml
         extend(Slather::CoverageService::CoberturaXmlOutput)
+      when :llvm_cov
+        extend(Slather::CoverageService::LlvmCovOutput)
       when :html
         extend(Slather::CoverageService::HtmlOutput)
       when :json
