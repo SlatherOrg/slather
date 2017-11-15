@@ -25,6 +25,10 @@ describe Slather::CoverageService::LlvmCovOutput do
       output_llcov = File.read('report.llcov')
       fixture_llcov = File.read(FIXTURES_LLCOV_PATH)
 
+      output_llcov, fixture_llcov = [output_llcov, fixture_llcov].map do |llcov_doc|
+        llcov_doc.gsub(/^\/.+:$/, '')
+      end
+
       expect(output_llcov).to eq(fixture_llcov)
       FileUtils.rm('report.llcov')
     end
