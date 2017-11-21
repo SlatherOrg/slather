@@ -14,6 +14,7 @@ require 'equivalent-xml'
 
 FIXTURES_XML_PATH = File.join(File.dirname(__FILE__), 'fixtures/cobertura.xml')
 FIXTURES_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/report.json')
+FIXTURES_LLCOV_PATH = File.join(File.dirname(__FILE__), 'fixtures/report.llcov')
 FIXTURES_GUTTER_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/gutter.json')
 FIXTURES_HTML_FOLDER_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures_html')
 FIXTURES_PROJECT_PATH = File.join(File.dirname(__FILE__), 'fixtures/fixtures.xcodeproj')
