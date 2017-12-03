@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## v2.4.4
+
 * Added llvm-cov output format
   [lampietti](https://github.com/sgtsquiggs) [#354](https://github.com/SlatherOrg/slather/pull/354)
 
