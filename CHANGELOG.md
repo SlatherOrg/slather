@@ -3,7 +3,7 @@
 ## v2.4.4
 
 * Added llvm-cov output format
-  [lampietti](https://github.com/sgtsquiggs) [#354](https://github.com/SlatherOrg/slather/pull/354)
+  [sgtsquiggs](https://github.com/sgtsquiggs) [#354](https://github.com/SlatherOrg/slather/pull/354)
 
 * Exclude swiftmodule from product search
   [lampietti](https://github.com/lampietti) [#352](https://github.com/SlatherOrg/slather/pull/352)
