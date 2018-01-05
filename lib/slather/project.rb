@@ -45,7 +45,7 @@ module Slather
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
       :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files,
-      :decimals, :llvm_version, :configuration
+      :decimals, :llvm_version, :configuration, :architecture
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -211,7 +211,12 @@ module Slather
         raise StandardError, "No binary file found."
       end
 
-      llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path})
+      if self.architecture
+        llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path} --arch #{self.architecture})
+      else
+        llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path})
+      end
+
       `xcrun llvm-cov #{llvm_cov_args.shelljoin} #{source_files.shelljoin}`
     end
     private :unsafe_profdata_llvm_cov_output
