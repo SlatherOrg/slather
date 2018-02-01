@@ -13,6 +13,8 @@ class CoverageCommand < Clamp::Command
   option ["--simple-output", "-s"], :flag, "Output coverage results to the terminal"
   option ["--gutter-json", "-g"], :flag, "Output coverage results as Gutter JSON format"
   option ["--cobertura-xml", "-x"], :flag, "Output coverage results as Cobertura XML format"
+  option ["--llvm-cov", "-r"], :flag, "Output coverage as llvm-cov format"
+  option ["--json"], :flag, "Output coverage results as simple JSON"
   option ["--html"], :flag, "Output coverage results as static html pages"
   option ["--show"], :flag, "Indicate that the static html pages will open automatically"
 
@@ -24,6 +26,7 @@ class CoverageCommand < Clamp::Command
 
   option ["--input-format"], "INPUT_FORMAT", "Input format (gcov, profdata)"
   option ["--scheme"], "SCHEME", "The scheme for which the coverage was generated"
+  option ["--configuration"], "CONFIGURATION", "The configuration for test that the project was set"
   option ["--workspace"], "WORKSPACE", "The workspace that the project was built in"
   option ["--binary-file"], "BINARY_FILE", "The binary file against the which the coverage will be run", :multivalued => true
   option ["--binary-basename"], "BINARY_BASENAME", "Basename of the file against which the coverage will be run", :multivalued => true
@@ -42,6 +45,7 @@ class CoverageCommand < Clamp::Command
     setup_verbose_mode
     setup_input_format
     setup_scheme
+    setup_configuration
     setup_workspace
     setup_binary_file
     setup_binary_basename
@@ -111,9 +115,13 @@ class CoverageCommand < Clamp::Command
       project.coverage_service = :gutter_json
     elsif cobertura_xml?
       project.coverage_service = :cobertura_xml
+    elsif llvm_cov?
+      project.coverage_service = :llvm_cov
     elsif html?
       project.coverage_service = :html
       project.show_html = show?
+    elsif json?
+      project.coverage_service = :json
     end
   end
 
@@ -127,6 +135,10 @@ class CoverageCommand < Clamp::Command
 
   def setup_scheme
     project.scheme = scheme
+  end
+
+  def setup_configuration
+    project.configuration = configuration
   end
 
   def setup_workspace

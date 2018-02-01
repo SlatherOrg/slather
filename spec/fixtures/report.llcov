@@ -1,0 +1,216 @@
+/Users/mcrenshaw/Projects/slather/spec/fixtures/fixtures/fixtures.m:
+    1|       |//
+    2|       |//  fixtures.m
+    3|       |//  fixtures
+    4|       |//
+    5|       |//  Created by Mark Larsen on 6/24/14.
+    6|       |//  Copyright (c) 2014 marklarr 🌟. All rights reserved.
+    7|       |//
+    8|       |
+    9|       |#import "fixtures.h"
+   10|       |
+   11|       |@implementation fixtures
+   12|       |
+   13|       |- (void)testedMethod
+   14|      1|{
+   15|      1|    NSLog(@"tested");
+   16|      1|}
+   17|       |
+   18|       |- (void)untestedMethod
+   19|      0|{
+   20|      0|    NSLog(@"untested");
+   21|      0|}
+   22|       |
+   23|       |@end
+
+/Users/mcrenshaw/Projects/slather/spec/fixtures/fixtures/more_files/Branches.m:
+    1|       |//
+    2|       |//  Branches.m
+    3|       |//  fixtures
+    4|       |//
+    5|       |//  Created by Julian Krumow on 11.10.14.
+    6|       |//  Copyright (c) 2014 marklarr. All rights reserved.
+    7|       |//
+    8|       |
+    9|       |#import "Branches.h"
+   10|       |
+   11|       |@implementation Branches
+   12|       |
+   13|       |- (void)branches:(BOOL)goIf skipBranches:(BOOL)skipBranches
+   14|      2|{
+   15|      2|    if (goIf) {
+   16|      1|        NSLog(@"foo.");
+   17|      1|        
+   18|      1|        if (!skipBranches) {
+   19|      0|            NSLog(@"not skipped.");
+   20|      0|        }
+   21|      1|    } else {
+   22|      1|        NSLog(@"bar.");
+   23|      1|    }
+   24|      2|    
+   25|      2|    int i = 5;
+   26|      2|    if (i == 5) {
+   27|      2|        return;
+   28|      2|    }
+   29|      0|    switch (i) {
+   30|      0|        case 0:
+   31|      0|            NSLog(@"0");
+   32|      0|            break;
+   33|      0|            
+   34|      0|        case 1:
+   35|      0|            NSLog(@"1");
+   36|      0|            break;
+   37|      0|        case 5:
+   38|      0|            NSLog(@"5");
+   39|      0|            break;
+   40|      0|        default:
+   41|      0|            break;
+   42|      0|    }
+   43|      0|}
+   44|       |
+   45|       |@end
+
+/Users/mcrenshaw/Projects/slather/spec/fixtures/fixturesTests/BranchesTests.m:
+    1|       |//
+    2|       |//  BranchesTests.m
+    3|       |//  fixtures
+    4|       |//
+    5|       |//  Created by Julian Krumow on 11.10.14.
+    6|       |//  Copyright (c) 2014 marklarr. All rights reserved.
+    7|       |//
+    8|       |
+    9|       |#import <XCTest/XCTest.h>
+   10|       |#import "Branches.h"
+   11|       |
+   12|       |@interface BranchesTests : XCTestCase
+   13|       |
+   14|       |@end
+   15|       |
+   16|       |@implementation BranchesTests
+   17|       |
+   18|      2|- (void)setUp {
+   19|      2|    [super setUp];
+   20|      2|    // Put setup code here. This method is called before the invocation of each test method in the class.
+   21|      2|}
+   22|       |
+   23|      2|- (void)tearDown {
+   24|      2|    // Put teardown code here. This method is called after the invocation of each test method in the class.
+   25|      2|    [super tearDown];
+   26|      2|}
+   27|       |
+   28|      1|- (void)testBranchesNoBranches {
+   29|      1|    Branches *branches = [[Branches alloc] init];
+   30|      1|    [branches branches:NO skipBranches:NO];
+   31|      1|}
+   32|       |
+   33|      1|- (void)testBranchesFirstBranchAndSkip {
+   34|      1|    Branches *branches = [[Branches alloc] init];
+   35|      1|    [branches branches:YES skipBranches:YES];
+   36|      1|}
+   37|       |
+   38|       |@end
+
+/Users/mcrenshaw/Projects/slather/spec/fixtures/fixturesTests/fixturesTests.m:
+    1|       |//
+    2|       |//  fixturesTests.m
+    3|       |//  fixturesTests
+    4|       |//
+    5|       |//  Created by Mark Larsen on 6/24/14.
+    6|       |//  Copyright (c) 2014 marklarr. All rights reserved.
+    7|       |//
+    8|       |
+    9|       |#import <XCTest/XCTest.h>
+   10|       |#import "fixtures.h"
+   11|       |#import "fixturesTwo.h"
+   12|       |
+   13|       |@interface fixturesTests : XCTestCase
+   14|       |
+   15|       |@end
+   16|       |
+   17|       |@implementation fixturesTests
+   18|       |
+   19|       |- (void)setUp
+   20|      2|{
+   21|      2|    [super setUp];
+   22|      2|    // Put setup code here. This method is called before the invocation of each test method in the class.
+   23|      2|}
+   24|       |
+   25|       |- (void)tearDown
+   26|      2|{
+   27|      2|    // Put teardown code here. This method is called after the invocation of each test method in the class.
+   28|      2|    [super tearDown];
+   29|      2|}
+   30|       |
+   31|       |- (void)testExample
+   32|      1|{
+   33|      1|    fixtures *f = [[fixtures alloc] init];
+   34|      1|    [f testedMethod];
+   35|      1|}
+   36|       |
+   37|       |- (void)testFixturesTwo
+   38|      1|{
+   39|      1|    fixturesTwo *f2 = [[fixturesTwo alloc] init];
+   40|      1|
+   41|      1|    XCTAssertEqual([f2 doSomething], 11);
+   42|      1|}
+   43|       |
+   44|       |@end
+
+/Users/mcrenshaw/Projects/slather/spec/fixtures/fixturesTests/peekaviewTests💣.m:
+    1|       |//
+    2|       |//  peekaviewTests💣.m
+    3|       |//  fixtures
+    4|       |//
+    5|       |//  Created by Mark Larsen on 6/25/14.
+    6|       |//  Copyright (c) 2014 marklarr. All rights reserved.
+    7|       |//
+    8|       |
+    9|       |#import <XCTest/XCTest.h>
+   10|       |
+   11|       |@interface peekaviewTests : XCTestCase
+   12|       |
+   13|       |@end
+   14|       |
+   15|       |@implementation peekaviewTests
+   16|       |
+   17|       |- (void)setUp
+   18|      1|{
+   19|      1|    [super setUp];
+   20|      1|    // Put setup code here. This method is called before the invocation of each test method in the class.
+   21|      1|}
+   22|       |
+   23|       |- (void)tearDown
+   24|      1|{
+   25|      1|    // Put teardown code here. This method is called after the invocation of each test method in the class.
+   26|      1|    [super tearDown];
+   27|      1|}
+   28|       |
+   29|       |- (void)testExample
+   30|      1|{
+   31|      1|    XCTAssert(YES, @"woot");
+   32|      1|}
+   33|       |
+   34|       |@end
+
+/Users/mcrenshaw/Projects/slather/spec/fixtures/fixturesTwo/fixturesTwo.m:
+    1|       |//
+    2|       |//  fixturesTwo.m
+    3|       |//  fixturesTwo
+    4|       |//
+    5|       |//  Created by Kent Sutherland on 4/17/16.
+    6|       |//  Copyright © 2016 marklarr. All rights reserved.
+    7|       |//
+    8|       |
+    9|       |#import "fixturesTwo.h"
+   10|       |
+   11|       |@implementation fixturesTwo
+   12|       |
+   13|       |- (NSInteger)doSomething
+   14|      1|{
+   15|      1|    NSInteger a = 5;
+   16|      1|    NSInteger b = 6;
+   17|      1|
+   18|      1|    return a + b;
+   19|      1|}
+   20|       |
+   21|       |@end

@@ -27,19 +27,12 @@ module Xcodeproj
 
       # Patch xcschemes too
       if format == :clang
-        if Gem::Requirement.new('>= 0.28.2') =~ Gem::Version.new(Xcodeproj::VERSION)
-          # @todo This will require to bump the xcodeproj dependency to >= 0.28.2
-          # (which would require to bump cocoapods too)
-          schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
-          Xcodeproj::Project.schemes(self.path).each do |scheme_name|
-            xcscheme_path = "#{schemes_path + scheme_name}.xcscheme"
-            xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
-            xcscheme.test_action.xml_element.attributes['codeCoverageEnabled'] = 'YES'
-            xcscheme.save_as(self.path, scheme_name)
-          end
-        else
-          # @todo In the meantime, simply inform the user to do it manually
-          puts %Q(Ensure you enabled "Gather coverage data" in each of your scheme's Test action)
+        schemes_path = Xcodeproj::XCScheme.shared_data_dir(self.path)
+        Xcodeproj::Project.schemes(self.path).each do |scheme_name|
+          xcscheme_path = "#{schemes_path + scheme_name}.xcscheme"
+          xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
+          xcscheme.test_action.xml_element.attributes['codeCoverageEnabled'] = 'YES'
+          xcscheme.save_as(self.path, scheme_name)
         end
       end
     end
@@ -52,7 +45,7 @@ module Slather
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
       :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files,
-      :decimals, :llvm_version
+      :decimals, :llvm_version, :configuration
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
@@ -63,7 +56,7 @@ module Slather
     end
 
     def failure_help_string
-      "\n\tAre you sure your project is generating coverage? Make sure you enable code coverage in the Test section of your Xcode scheme.\n\tDid you specify your Xcode scheme? (--scheme or 'scheme' in .slather.yml)\n\tIf you're using a workspace, did you specify it? (--workspace or 'workspace' in .slather.yml)"
+      "\n\tAre you sure your project is generating coverage? Make sure you enable code coverage in the Test section of your Xcode scheme.\n\tDid you specify your Xcode scheme? (--scheme or 'scheme' in .slather.yml)\n\tIf you're using a workspace, did you specify it? (--workspace or 'workspace' in .slather.yml)\n\tIf you use a different Xcode configuration, did you specify it? (--configuration or 'configuration' in .slather.yml)"
     end
 
     def derived_data_path
@@ -165,14 +158,29 @@ module Slather
       raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
       dir = nil
       if self.scheme
-        dir = Dir[File.join("#{build_directory}","/**/CodeCoverage/#{self.scheme}")].first
+        dir = Dir[File.join(build_directory,"/**/CodeCoverage/#{self.scheme}")].first
       else
-        dir = Dir[File.join("#{build_directory}","/**/#{first_product_name}")].first
+        dir = Dir[File.join(build_directory,"/**/#{first_product_name}")].first
       end
 
       if dir == nil
         # Xcode 7.3 moved the location of Coverage.profdata
-        dir = Dir[File.join("#{build_directory}","/**/CodeCoverage")].first
+        dir = Dir[File.join(build_directory,"/**/CodeCoverage")].first
+      end
+
+      if dir == nil && Slather.xcode_version[0] >= 9
+        # Xcode 9 moved the location of Coverage.profdata
+        coverage_files = Dir[File.join(build_directory, "/**/ProfileData/*/Coverage.profdata")]
+
+        if coverage_files.count == 0
+          # Look up one directory
+          # The ProfileData directory is next to Intermediates.noindex (in previous versions of Xcode the coverage was inside Intermediates)
+          coverage_files = Dir[File.join(build_directory, "../**/ProfileData/*/Coverage.profdata")]
+        end
+
+        if coverage_files != nil
+          dir = Pathname.new(coverage_files.first).parent()
+        end
       end
 
       raise StandardError, "No coverage directory found." unless dir != nil
@@ -230,6 +238,7 @@ module Slather
     def configure
       begin
         configure_scheme
+        configure_configuration
         configure_workspace
         configure_build_directory
         configure_ignore_list
@@ -242,7 +251,7 @@ module Slather
         configure_binary_file
         configure_decimals
 
-        self.llvm_version = `xcrun llvm-cov --version`.match(/Apple LLVM version ([\d\.]+)/).captures[0]
+        self.llvm_version = `xcrun llvm-cov --version`.match(/LLVM version ([\d\.]+)/).captures[0]
       rescue => e
         puts e.message
         puts failure_help_string
@@ -252,9 +261,13 @@ module Slather
 
       if self.verbose_mode
         puts "\nProcessing coverage file: #{profdata_file}"
-        puts "Against binary files:"
-        self.binary_file.each do |binary_file|
-          puts "\t#{binary_file}"
+        if self.binary_file
+          puts "Against binary files:"
+          self.binary_file.each do |binary_file|
+            puts "\t#{binary_file}"
+          end
+        else
+          puts "No binary files found."
         end
         puts "\n"
       end
@@ -300,6 +313,10 @@ module Slather
       self.scheme ||= self.class.yml["scheme"] if self.class.yml["scheme"]
     end
 
+    def configure_configuration
+      self.configuration ||= self.class.yml["configuration"] if self.class.yml["configuration"]
+    end
+
     def configure_decimals
       return if self.decimals
       self.decimals ||= self.class.yml["decimals"] if self.class.yml["decimals"]
@@ -335,8 +352,12 @@ module Slather
         extend(Slather::CoverageService::GutterJsonOutput)
       when :cobertura_xml
         extend(Slather::CoverageService::CoberturaXmlOutput)
+      when :llvm_cov
+        extend(Slather::CoverageService::LlvmCovOutput)
       when :html
         extend(Slather::CoverageService::HtmlOutput)
+      when :json
+        extend(Slather::CoverageService::JsonOutput)
       else
         raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json`, `cobertura_xml` or `html`"
       end
@@ -395,17 +416,28 @@ module Slather
 
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 
-        configuration = xcscheme.test_action.build_configuration
+        if self.configuration
+          configuration = self.configuration
+        else
+          configuration = xcscheme.test_action.build_configuration
+        end
 
         search_list = binary_basename || find_buildable_names(xcscheme)
+        search_dir = profdata_coverage_dir
+
+        if Slather.xcode_version[0] >= 9
+          # Go from the directory containing Coverage.profdata back to the directory containing Products (back out of ProfileData/UUID-dir)
+          search_dir = File.join(search_dir, '../..')
+        end
 
         search_list.each do |search_for|
-          found_product = Dir["#{profdata_coverage_dir}/Products/#{configuration}*/#{search_for}*"].sort { |x, y|
+          found_product = Dir["#{search_dir}/Products/#{configuration}*/#{search_for}*"].sort { |x, y|
             # Sort the matches without the file extension to ensure better matches when there are multiple candidates
             # For example, if the binary_basename is Test then we want Test.app to be matched before Test Helper.app
             File.basename(x, File.extname(x)) <=> File.basename(y, File.extname(y))
           }.reject { |path|
             path.end_with? ".dSYM"
+            path.end_with? ".swiftmodule"
           }.first
 
           if found_product and File.directory? found_product

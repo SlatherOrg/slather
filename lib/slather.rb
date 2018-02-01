@@ -10,6 +10,9 @@ require 'slather/coverage_service/hardcover'
 require 'slather/coverage_service/gutter_json_output'
 require 'slather/coverage_service/simple_output'
 require 'slather/coverage_service/html_output'
+require 'slather/coverage_service/json_output'
+require 'slather/coverage_service/llvm_cov_output'
+require 'cfpropertylist'
 
 module Slather
 
@@ -21,7 +24,8 @@ module Slather
 
   def self.xcode_version
     xcode_path = `xcode-select -p`.strip
-    xcode_version = `mdls -name kMDItemVersion -raw #{xcode_path.shellescape}/../..`.strip
+    plist = CFPropertyList::List.new(:file => File.join(xcode_path, '..', 'Info.plist'))
+    xcode_version = CFPropertyList.native_types(plist.value)["CFBundleShortVersionString"]
     xcode_version.split('.').map(&:to_i)
   end
 
