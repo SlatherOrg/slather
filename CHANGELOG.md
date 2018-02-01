@@ -1,6 +1,45 @@
 # CHANGELOG
 
-## master
+## v2.4.4
+
+* Added llvm-cov output format
+  [sgtsquiggs](https://github.com/sgtsquiggs) [#354](https://github.com/SlatherOrg/slather/pull/354)
+
+* Exclude swiftmodule from product search
+  [lampietti](https://github.com/lampietti) [#352](https://github.com/SlatherOrg/slather/pull/352)
+
+## v2.4.3
+
+* Initial Xcode 9 support
+  [ksuther](https://github.com/ksuther) [#339](https://github.com/SlatherOrg/slather/pull/339), [ivanbrunel](https://github.com/ivanbruel) [#321](https://github.com/SlatherOrg/slather/pull/321), [FDREAL](https://github.com/FDREAL) [#338](https://github.com/SlatherOrg/slather/pull/338)
+
+* Add `--json` output option for basic JSON format not specific to any particular service.
+  [ileitch](https://github.com/ileitch)
+  [#318](https://github.com/SlatherOrg/slather/pull/318)
+
+## v2.4.2
+
+* Restored support for Xcode 7  
+  [ButkiewiczP](https://github.com/ButkiewiczP)
+  [#304](https://github.com/slatherOrg/slather/pull/308)
+
+* Added Jenkins Pipeline support for Coveralls  
+  [daneov](https://github.com/daneov)
+  [#304](https://github.com/slatherOrg/slather/pull/304)
+
+## v2.4.1
+
+* Add `--configuration` option  
+  [thasegaw](https://github.com/thasegaw)
+  [#294](https://github.com/slatherOrg/slather/pull/294)
+
+* Fix misdetection of Xcode version if Spotlight hasn't indexed Xcode yet  
+  [ksuther](https://github.com/ksuther)
+  [#298](https://github.com/slatherOrg/slather/pull/298)
+
+* Better verbose message when no binaries are found  
+  [ksuther](https://github.com/ksuther)
+  [#300](https://github.com/slatherOrg/slather/pull/300)
 
 ## v2.4.0
 
