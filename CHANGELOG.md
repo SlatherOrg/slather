@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## master
+
+* Updated nokogiri dependency version
+  [#363](https://github.com/SlatherOrg/slather/issues/363), [#366](https://github.com/SlatherOrg/slather/pull/366)
+
+* slather now requires ruby 2.1 or later (10.13 ships with 2.3.3)
+
 ## v2.4.4
 
 * Added llvm-cov output format
