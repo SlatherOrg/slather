@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## v2.4.5
 
 * Support for specifying a specific binary architecture
   [ksuther](https://github.com/ksuther), [nickolas-pohilets](https://github.com/nickolas-pohilets)
