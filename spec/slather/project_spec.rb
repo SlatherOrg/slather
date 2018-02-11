@@ -509,9 +509,9 @@ describe Slather::Project do
     it "should print out environment info when in verbose_mode" do
       project_root = Pathname("./").realpath
 
-      ["\nProcessing coverage file: #{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Coverage.profdata",
+      [/\nProcessing coverage file: #{project_root}\/spec\/DerivedData\/libfixtures\/Build\/ProfileData\/[A-Z0-9-]+\/Coverage.profdata/,
        "Against binary files:",
-       "\t#{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Products/Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests",
+       "\t#{project_root}/spec/DerivedData/libfixtures/Build/Products/Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests",
        "\n"
       ].each do |line|
         expect(fixtures_project).to receive(:puts).with(line)
@@ -525,7 +525,7 @@ describe Slather::Project do
 
       project_root = Pathname("./").realpath
 
-      ["\nProcessing coverage file: #{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Coverage.profdata",
+      [/\nProcessing coverage file: #{project_root}\/spec\/DerivedData\/libfixtures\/Build\/ProfileData\/[A-Z0-9-]+\/Coverage.profdata/,
        "No binary files found.",
        "\n",
       ].each do |line|
@@ -587,7 +587,7 @@ describe Slather::Project do
     let(:configuration) { 'Debug' }
     let(:project_root) { Pathname("./").realpath }
     let(:coverage_dir) { "#{project_root}/spec/DerivedData/DerivedData/Build/Intermediates/CodeCoverage" }
-    let(:search_dir) { "#{coverage_dir}/Products/#{configuration}*/fixtures*" }
+    let(:search_dir) { "#{coverage_dir}/../../Products/#{configuration}*/fixtures*" }
     let(:binary_file) { "#{coverage_dir}/Products/#{configuration}-iphonesimulator/fixtures.app/fixtures" }
 
     before do
