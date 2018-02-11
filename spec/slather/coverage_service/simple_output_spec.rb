@@ -25,6 +25,7 @@ describe Slather::CoverageService::SimpleOutput do
       "spec/fixtures/fixturesTests/fixturesTests.m: 17 of 17 lines (100.00%)",
       "spec/fixtures/fixturesTests/peekaviewTests💣.m: 11 of 11 lines (100.00%)",
       "spec/fixtures/fixturesTwo/fixturesTwo.m: 6 of 6 lines (100.00%)",
+      "Tested 66/86 statements",
       "Test Coverage: 76.74%"
       ].each do |line|
         expect(fixtures_project).to receive(:puts).with(line)
@@ -47,6 +48,7 @@ describe Slather::CoverageService::SimpleOutput do
            "spec/fixtures/fixturesTwo/fixturesTwo.m: 6 of 6 lines (100.00%)",
            "##teamcity[buildStatisticValue key='CodeCoverageAbsLCovered' value='66']",
            "##teamcity[buildStatisticValue key='CodeCoverageAbsLTotal' value='86']",
+           "Tested 66/86 statements",
            "Test Coverage: 76.74%"
           ].each do |line|
             expect(fixtures_project).to receive(:puts).with(line)

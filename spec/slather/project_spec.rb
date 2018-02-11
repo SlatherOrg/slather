@@ -558,6 +558,7 @@ describe Slather::Project do
     it "should print out the coverage for each file, and then total coverage" do
       ["spec/fixtures/fixtures/fixtures.m: 3 of 6 lines (50.00%)",
       "spec/fixtures/fixturesTwo/fixturesTwo.m: 6 of 6 lines (100.00%)",
+      "Tested 9/12 statements",
       "Test Coverage: 75.00%"
       ].each do |line|
         expect(fixtures_project).to receive(:puts).with(line)
