@@ -61,6 +61,12 @@ If you use a different configuration for your tests:
 $ slather coverage -s --scheme YourXcodeSchemeName --configuration YourBuildConfigurationName path/to/project.xcodeproj
 ```
 
+If your configuration produces a universal binary you need to specify a specific architecture to use: 
+
+```sh
+$ slather coverage -s --arch x86_64 --scheme YourXcodeSchemeName --configuration YourBuildConfigurationName path/to/project.xcodeproj
+```
+
 ### Setup for Xcode 5 and 6
 
 Run this command to enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project:

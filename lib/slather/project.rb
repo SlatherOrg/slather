@@ -44,7 +44,7 @@ module Slather
   class Project < Xcodeproj::Project
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
-      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :source_files,
+      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :arch, :source_files,
       :decimals, :llvm_version, :configuration
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage
@@ -212,6 +212,9 @@ module Slather
       end
 
       llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path})
+      if self.arch
+        llvm_cov_args << "--arch" << self.arch
+      end
       `xcrun llvm-cov #{llvm_cov_args.shelljoin} #{source_files.shelljoin}`
     end
     private :unsafe_profdata_llvm_cov_output
@@ -248,6 +251,7 @@ module Slather
         configure_source_directory
         configure_output_directory
         configure_input_format
+        configure_arch
         configure_binary_file
         configure_decimals
 
@@ -370,6 +374,10 @@ module Slather
       end
     end
 
+    def configure_arch
+      self.arch ||= self.class.yml["arch"] if self.class.yml["arch"]
+    end
+
     def decimal_f decimal_arg
       configure_decimals unless decimals
       decimal = "%.#{decimals}f" % decimal_arg
@@ -438,6 +446,12 @@ module Slather
           }.reject { |path|
             path.end_with? ".dSYM"
             path.end_with? ".swiftmodule"
+
+            if path and File.directory? path
+              path = find_binary_file_in_bundle(path)
+            end
+
+            !matches_arch(path)
           }.first
 
           if found_product and File.directory? found_product
@@ -515,6 +529,16 @@ module Slather
 
       # some items are both buildable and testable, so return only unique ones
       found_buildable_names.uniq
+    end
+
+    def matches_arch(binary_path)
+      if self.arch
+        lipo_output = `lipo -info "#{binary_path}"`
+        archs_in_binary = lipo_output.split(':').last.split(' ')
+        archs_in_binary.include? self.arch
+      else
+        true
+      end
     end
 
     def find_source_files
