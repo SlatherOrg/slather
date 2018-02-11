@@ -251,8 +251,8 @@ module Slather
         configure_source_directory
         configure_output_directory
         configure_input_format
-        configure_binary_file
         configure_arch
+        configure_binary_file
         configure_decimals
 
         self.llvm_version = `xcrun llvm-cov --version`.match(/LLVM version ([\d\.]+)/).captures[0]
@@ -446,6 +446,12 @@ module Slather
           }.reject { |path|
             path.end_with? ".dSYM"
             path.end_with? ".swiftmodule"
+
+            if path and File.directory? path
+              path = find_binary_file_in_bundle(path)
+            end
+
+            !matches_arch(path)
           }.first
 
           if found_product and File.directory? found_product
@@ -523,6 +529,16 @@ module Slather
 
       # some items are both buildable and testable, so return only unique ones
       found_buildable_names.uniq
+    end
+
+    def matches_arch(binary_path)
+      if self.arch
+        lipo_output = `lipo -info "#{binary_path}"`
+        archs_in_binary = lipo_output.split(':').last.split(' ')
+        archs_in_binary.include? self.arch
+      else
+        true
+      end
     end
 
     def find_source_files
