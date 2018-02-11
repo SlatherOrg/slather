@@ -2,6 +2,10 @@
 
 ## master
 
+* Added absolute statement count to simple output (instead of showing just a percentage)
+  [barrault01](https://github.com/barrault01), [ivanbrunel](https://github.com/ivanbruel)
+  [#365](https://github.com/SlatherOrg/slather/pull/365)
+
 * Updated nokogiri dependency version
   [#363](https://github.com/SlatherOrg/slather/issues/363), [#366](https://github.com/SlatherOrg/slather/pull/366)
 
