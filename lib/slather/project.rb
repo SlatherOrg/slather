@@ -443,16 +443,17 @@ module Slather
             # Sort the matches without the file extension to ensure better matches when there are multiple candidates
             # For example, if the binary_basename is Test then we want Test.app to be matched before Test Helper.app
             File.basename(x, File.extname(x)) <=> File.basename(y, File.extname(y))
-          }.reject { |path|
-            path.end_with? ".dSYM"
-            path.end_with? ".swiftmodule"
+          }.find { |path|
+            next if path.end_with? ".dSYM"
+            next if path.end_with? ".swiftmodule"
 
-            if path and File.directory? path
+            if File.directory? path
               path = find_binary_file_in_bundle(path)
+              next if path.nil?
             end
 
-            !matches_arch(path)
-          }.first
+            matches_arch(path)
+          }
 
           if found_product and File.directory? found_product
             found_binary = find_binary_file_in_bundle(found_product)
