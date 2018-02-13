@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## master
+
+* Fix .dSYM and .swiftmodule files filtering in find_binary_files()
+  [krin-san](https://github.com/krin-san)
+  [#368](https://github.com/SlatherOrg/slather/pull/368)
+
 ## v2.4.5
 
 * Support for specifying a specific binary architecture
