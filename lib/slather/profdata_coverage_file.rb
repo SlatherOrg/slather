@@ -27,7 +27,7 @@ module Slather
 
     def path_on_first_line?
       path = self.source.split("\n")[0].sub ":", ""
-      !path.include?("|//")
+      !path.lstrip.start_with?("1|")
     end
 
     def source_file_pathname
