@@ -6,6 +6,10 @@
   [krin-san](https://github.com/krin-san)
   [#368](https://github.com/SlatherOrg/slather/pull/368)
 
+* Fixed loading coverage for a single source file
+  [blackm00n](https://github.com/blackm00n)
+  [#377](https://github.com/SlatherOrg/slather/pull/377)
+
 ## v2.4.5
 
 * Support for specifying a specific binary architecture
