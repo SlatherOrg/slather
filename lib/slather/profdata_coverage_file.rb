@@ -64,7 +64,14 @@ module Slather
     end
 
     def source_code_lines
-      self.source.split("\n")[(path_on_first_line? ? 1 : 0)..-1]
+      lines = self.source.split("\n")[(path_on_first_line? ? 1 : 0)..-1]
+      lines.select do |line|
+        # Ignore crash / error lines in format like
+        #   ------------------
+        #   | Unexecuted instantiation: _Something
+        #   ------------------
+        !(/^\s*(\|\s|--).*/ === line)
+      end
     end
 
     def source_data
