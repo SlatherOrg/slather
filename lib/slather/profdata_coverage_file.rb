@@ -65,13 +65,16 @@ module Slather
 
     def source_code_lines
       lines = self.source.split("\n")[(path_on_first_line? ? 1 : 0)..-1]
-      lines.select do |line|
-        # Ignore crash / error lines in format like
-        #   ------------------
-        #   | Unexecuted instantiation: _Something
-        #   ------------------
-        !(/^\s*(\|\s|--).*/ === line)
+      if self.line_numbers_first
+        lines = lines.select do |line|
+          # Ignore crash / error lines in format like
+          #   ------------------
+          #   | Unexecuted instantiation: _Something
+          #   ------------------
+          !(line.lstrip.start_with?("|") || line.lstrip.start_with?("--"))
+        end
       end
+      lines
     end
 
     def source_data
