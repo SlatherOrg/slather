@@ -122,9 +122,9 @@ module Slather
 
       if self.binary_file
         self.binary_file.each do |binary_path|
-          coverage_summary_json_string = llvm_cov_export_summary_output(binary_path)
-          coverage_summary_json = JSON.parse(coverage_summary_json_string)
-          pathnames_per_binary = coverage_summary_json["data"].reduce([]) do |result, chunk|
+          coverage_json_string = llvm_cov_export_output(binary_path)
+          coverage_json = JSON.parse(coverage_json_string)
+          pathnames_per_binary = coverage_json["data"].reduce([]) do |result, chunk|
             result.concat(chunk["files"].map do |file|
               Pathname(file["filename"]).realpath
             end)
@@ -203,7 +203,7 @@ module Slather
     end
     private :profdata_file
 
-    def unsafe_llvm_cov_export_summary_output(binary_path)
+    def unsafe_llvm_cov_export_output(binary_path)
       profdata_file_arg = profdata_file
       if profdata_file_arg == nil
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
@@ -213,19 +213,19 @@ module Slather
         raise StandardError, "No binary file found."
       end
 
-      llvm_cov_args = %W(export -instr-profile #{profdata_file_arg} #{binary_path} -summary-only)
+      llvm_cov_args = %W(export -instr-profile #{profdata_file_arg} #{binary_path})
       if self.arch
         llvm_cov_args << "--arch" << self.arch
       end
       `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
     end
-    private :unsafe_llvm_cov_export_summary_output
+    private :unsafe_llvm_cov_export_output
 
-    def llvm_cov_export_summary_output(binary_path)
-      output = unsafe_llvm_cov_export_summary_output(binary_path)
+    def llvm_cov_export_output(binary_path)
+      output = unsafe_llvm_cov_export_output(binary_path)
       output.valid_encoding? ? output : output.encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
     end
-    private :llvm_cov_export_summary_output
+    private :llvm_cov_export_output
 
     def unsafe_profdata_llvm_cov_output(binary_path, source_files)
       profdata_file_arg = profdata_file
