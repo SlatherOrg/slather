@@ -29,9 +29,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'clamp', '~> 0.6'
   spec.add_dependency 'xcodeproj', '~> 1.4'
-  spec.add_dependency 'nokogiri', '>= 1.6', '< 1.7'
+  spec.add_dependency 'nokogiri', '~> 1.8.2'
   spec.add_dependency 'CFPropertyList', '~> 2.2'
 
-  ## Version 5 needs Ruby 2.2, so we specify an upper bound to stay compatible with system ruby
-  spec.add_runtime_dependency 'activesupport', '>= 4.0.2', '< 5'
+  spec.add_runtime_dependency 'activesupport', '>= 4.0.2'
 end

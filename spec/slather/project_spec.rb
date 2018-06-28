@@ -163,10 +163,17 @@ describe Slather::Project do
 
     it "should find the product path for a scheme with no buildable products" do
       allow(fixtures_project).to receive(:scheme).and_return("fixturesTests")
+      allow(fixtures_project).to receive(:arch).and_return("x86_64")
       fixtures_project.send(:configure_binary_file)
       binary_file_location = fixtures_project.send(:binary_file)
       expect(binary_file_location.count).to eq(1)
       expect(binary_file_location.first).to end_with("Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests")
+    end
+
+    it "should not find a product path for an invalid architecture" do
+      allow(fixtures_project).to receive(:scheme).and_return("fixturesTests")
+      allow(fixtures_project).to receive(:arch).and_return("arm64")
+      expect { fixtures_project.send(:configure_binary_file) }.to raise_error.with_message(/No product binary found in (.+)./)
     end
 
     it "should find multiple unique paths for a scheme with serveral buildable/testable products" do
@@ -509,9 +516,9 @@ describe Slather::Project do
     it "should print out environment info when in verbose_mode" do
       project_root = Pathname("./").realpath
 
-      ["\nProcessing coverage file: #{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Coverage.profdata",
+      [/\nProcessing coverage file: #{project_root}\/spec\/DerivedData\/libfixtures\/Build\/ProfileData\/[A-Z0-9-]+\/Coverage.profdata/,
        "Against binary files:",
-       "\t#{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Products/Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests",
+       "\t#{project_root}/spec/DerivedData/libfixtures/Build/Products/Debug/fixturesTests.xctest/Contents/MacOS/fixturesTests",
        "\n"
       ].each do |line|
         expect(fixtures_project).to receive(:puts).with(line)
@@ -525,7 +532,7 @@ describe Slather::Project do
 
       project_root = Pathname("./").realpath
 
-      ["\nProcessing coverage file: #{project_root}/spec/DerivedData/libfixtures/Build/Intermediates/CodeCoverage/Coverage.profdata",
+      [/\nProcessing coverage file: #{project_root}\/spec\/DerivedData\/libfixtures\/Build\/ProfileData\/[A-Z0-9-]+\/Coverage.profdata/,
        "No binary files found.",
        "\n",
       ].each do |line|
@@ -558,6 +565,7 @@ describe Slather::Project do
     it "should print out the coverage for each file, and then total coverage" do
       ["spec/fixtures/fixtures/fixtures.m: 3 of 6 lines (50.00%)",
       "spec/fixtures/fixturesTwo/fixturesTwo.m: 6 of 6 lines (100.00%)",
+      "Tested 9/12 statements",
       "Test Coverage: 75.00%"
       ].each do |line|
         expect(fixtures_project).to receive(:puts).with(line)
@@ -587,7 +595,7 @@ describe Slather::Project do
     let(:configuration) { 'Debug' }
     let(:project_root) { Pathname("./").realpath }
     let(:coverage_dir) { "#{project_root}/spec/DerivedData/DerivedData/Build/Intermediates/CodeCoverage" }
-    let(:search_dir) { "#{coverage_dir}/Products/#{configuration}*/fixtures*" }
+    let(:search_dir) { "#{coverage_dir}/../../Products/#{configuration}*/fixtures*" }
     let(:binary_file) { "#{coverage_dir}/Products/#{configuration}-iphonesimulator/fixtures.app/fixtures" }
 
     before do

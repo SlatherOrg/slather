@@ -43,6 +43,7 @@ module Slather
         end
 
         total_percentage = decimal_f([(total_project_lines_tested / total_project_lines.to_f) * 100.0])
+        puts "Tested #{total_project_lines_tested}/#{total_project_lines} statements"
         puts "Test Coverage: #{total_percentage}%"
       end
 

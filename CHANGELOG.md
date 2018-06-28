@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## master
+
+* Fix .dSYM and .swiftmodule files filtering in find_binary_files()
+  [krin-san](https://github.com/krin-san)
+  [#368](https://github.com/SlatherOrg/slather/pull/368)
+
+* Fixed loading coverage for a single source file
+  [blackm00n](https://github.com/blackm00n)
+  [#377](https://github.com/SlatherOrg/slather/pull/377)
+
+## v2.4.5
+
+* Support for specifying a specific binary architecture
+  [ksuther](https://github.com/ksuther), [nickolas-pohilets](https://github.com/nickolas-pohilets)
+  [#367](https://github.com/SlatherOrg/slather/pull/367)
+
+* Added absolute statement count to simple output (instead of showing just a percentage)
+  [barrault01](https://github.com/barrault01), [ivanbrunel](https://github.com/ivanbruel)
+  [#365](https://github.com/SlatherOrg/slather/pull/365)
+
+* Updated nokogiri dependency version
+  [#363](https://github.com/SlatherOrg/slather/issues/363), [#366](https://github.com/SlatherOrg/slather/pull/366)
+
+* slather now requires ruby 2.1 or later (10.13 ships with 2.3.3)
+
 ## v2.4.4
 
 * Added llvm-cov output format
