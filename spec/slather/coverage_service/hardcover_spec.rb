@@ -66,6 +66,15 @@ describe Slather::CoverageService::Hardcover do
       allow(Slather::Project).to receive(:yml).and_return(fixture_yaml)
       fixtures_project.ci_service = :jenkins_ci
       project_root = Pathname("./").realpath
+      allow(fixtures_project).to receive(:llvm_cov_export_output).and_return(%q(
+        {
+           "data":[
+              {
+                 "files":[]
+              }
+           ]
+        }
+      ))
       allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("#{project_root}/spec/fixtures/fixtures/fixtures.m:
        |    1|//
        |    2|//  fixtures.m
@@ -104,7 +113,6 @@ describe Slather::CoverageService::Hardcover do
 
     it "should always remove the hardcover_json_file after it's done" do
       allow(fixtures_project).to receive(:`)
-
       allow(fixtures_project).to receive(:jenkins_job_id).and_return("slather-master/9182")
       allow(fixtures_project).to receive(:coverage_service_url).and_return("http://api.hardcover.io")
       fixtures_project.post
