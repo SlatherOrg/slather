@@ -72,6 +72,19 @@ describe Slather::Project do
       allow(Dir).to receive(:[]).and_call_original
       allow(Dir).to receive(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
       allow(fixtures_project).to receive(:binary_file).and_return(["Fixtures"])
+      allow(fixtures_project).to receive(:llvm_cov_export_output).and_return(%q(
+        {
+           "data":[
+              {
+                 "files":[
+                    {
+                       "filename":"spec/fixtures/fixtures/Fixtures.swift"
+                    }
+                 ]
+              }
+           ]
+        }
+      ))
       allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("#{FIXTURES_SWIFT_FILE_PATH}:
        |    0|
        |    1|import UIKit
@@ -111,6 +124,18 @@ describe Slather::Project do
       allow(fixtures_project).to receive(:ignore_list).and_return([])
       allow(Dir).to receive(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
       allow(fixtures_project).to receive(:binary_file).and_return(["Fixtures"])
+      allow(fixtures_project).to receive(:unsafe_llvm_cov_export_output).and_return("
+      {
+         \"data\":[
+            {
+               \"files\":[
+                  {
+                     \"filename\":\"sp\145c/fixtures/fixtures/fixtures.m\"
+                  }
+               ]
+            }
+         ]
+      }")
       allow(fixtures_project).to receive(:unsafe_profdata_llvm_cov_output).and_return("#{FIXTURES_SWIFT_FILE_PATH}:
       1|    8|    func application(application: \255, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
       1|    9|        return true
@@ -563,6 +588,22 @@ describe Slather::Project do
     end
 
     it "should print out the coverage for each file, and then total coverage" do
+      allow(fixtures_project).to receive(:llvm_cov_export_output).and_return(%q(
+        {
+           "data":[
+              {
+                 "files":[
+                    {
+                       "filename":"spec/fixtures/fixtures/fixtures.m"
+                    },
+                    {
+                       "filename":"spec/fixtures/fixturesTwo/fixturesTwo.m"
+                    }
+                 ]
+              }
+           ]
+        }
+      ))
       ["spec/fixtures/fixtures/fixtures.m: 3 of 6 lines (50.00%)",
       "spec/fixtures/fixturesTwo/fixturesTwo.m: 6 of 6 lines (100.00%)",
       "Tested 9/12 statements",

@@ -118,24 +118,26 @@ module Slather
 
     def profdata_coverage_files
       coverage_files = []
-      source_files = find_source_files || []
       line_numbers_first = Gem::Version.new(self.llvm_version) >= Gem::Version.new('8.1.0')
 
       if self.binary_file
         self.binary_file.each do |binary_path|
-          files = profdata_llvm_cov_output(binary_path, source_files).split("\n\n")
+          coverage_json_string = llvm_cov_export_output(binary_path)
+          coverage_json = JSON.parse(coverage_json_string)
+          pathnames_per_binary = coverage_json["data"].reduce([]) do |result, chunk|
+            result.concat(chunk["files"].map do |file|
+              Pathname(file["filename"]).realpath
+            end)
+          end
+
+          files = profdata_llvm_cov_output(binary_path, pathnames_per_binary).split("\n\n")
 
           coverage_files.concat(files.map do |source|
             coverage_file = coverage_file_class.new(self, source, line_numbers_first)
             # If a single source file is used, the resulting output does not contain the file name.
-            coverage_file.source_file_pathname = source_files.first if source_files.count == 1
+            coverage_file.source_file_pathname = pathnames_per_binary.first if pathnames_per_binary.count == 1
             !coverage_file.ignored? ? coverage_file : nil
           end.compact)
-
-          if !source_files.empty?
-            coverage_file_paths = coverage_files.map { |file| file.source_file_pathname }.to_set
-            source_files.select! { |path| !coverage_file_paths.include?(path) }
-          end
         end
       end
 
@@ -200,6 +202,30 @@ module Slather
       return File.expand_path(file)
     end
     private :profdata_file
+
+    def unsafe_llvm_cov_export_output(binary_path)
+      profdata_file_arg = profdata_file
+      if profdata_file_arg == nil
+        raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
+      end
+
+      if binary_path == nil
+        raise StandardError, "No binary file found."
+      end
+
+      llvm_cov_args = %W(export -instr-profile #{profdata_file_arg} #{binary_path})
+      if self.arch
+        llvm_cov_args << "--arch" << self.arch
+      end
+      `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
+    end
+    private :unsafe_llvm_cov_export_output
+
+    def llvm_cov_export_output(binary_path)
+      output = unsafe_llvm_cov_export_output(binary_path)
+      output.valid_encoding? ? output : output.encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
+    end
+    private :llvm_cov_export_output
 
     def unsafe_profdata_llvm_cov_output(binary_path, source_files)
       profdata_file_arg = profdata_file

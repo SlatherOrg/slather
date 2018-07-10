@@ -158,6 +158,15 @@ describe Slather::CoverageService::Coveralls do
       before(:each) {
         fixtures_project.ci_service = :travis_ci
         project_root = Pathname("./").realpath
+        allow(fixtures_project).to receive(:llvm_cov_export_output).and_return(%q(
+          {
+             "data":[
+                {
+                   "files":[]
+                }
+             ]
+          }
+        ))
         allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("#{project_root}/spec/fixtures/fixtures/fixtures.m:
        |    1|//
        |    2|//  fixtures.m
