@@ -8,7 +8,7 @@
 
 * Fixed loading coverage for a single source file
   [blackm00n](https://github.com/blackm00n)
-  [#377](https://github.com/SlatherOrg/slather/pull/377)
+  [#377](https://github.com/SlatherOrg/slather/pull/377) [#398](https://github.com/SlatherOrg/slather/pull/398)
 
 ## v2.4.5
 
