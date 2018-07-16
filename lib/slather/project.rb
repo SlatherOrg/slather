@@ -561,7 +561,7 @@ module Slather
     def matches_arch(binary_path)
       if self.arch
         lipo_output = `lipo -info "#{binary_path}"`
-        archs_in_binary = lipo_output.split(':').last.split(' ')
+        archs_in_binary = lipo_output.split(':').last.to_s.split(' ')
         archs_in_binary.include? self.arch
       else
         true
