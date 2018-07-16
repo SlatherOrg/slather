@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## v2.4.6
 
 * Fix .dSYM and .swiftmodule files filtering in find_binary_files()
   [krin-san](https://github.com/krin-san)
