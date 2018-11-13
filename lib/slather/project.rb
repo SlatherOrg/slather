@@ -143,19 +143,19 @@ module Slather
 
     def create_coverage_files_for_binary(binary_path, pathnames_per_binary)
       coverage_files = []
-      pathnames = []
-      current_char_count = 0
-      i = 0
-      while i < pathnames_per_binary.count do
-        begin
-          pathname = pathnames_per_binary[i]
-          current_char_count += pathname.size
-          pathnames << pathname
-          i += 1
-        end while i < pathnames_per_binary.count && current_char_count < self.class.max_os_argument_size * 0.9
-        coverage_files.concat(create_coverage_files(binary_path, pathnames))
-        pathnames = []
-        current_char_count = 0
+      # Chunk pathnames_per_binary into segments that do not exceed the OS ARG_MAX size
+      # There is an overhead to the total_size due to spaces and such so we add 20%
+      total_size = pathnames_per_binary.join.size 
+      number_of_chunks = [(total_size.to_f / 200.0).ceil, 1].max
+      # find out how many items there should be in each chunk
+      chunk_size = [(pathnames_per_binary.count.to_f / number_of_chunks).ceil, 1].max
+      pathnames_per_binary.each_slice(chunk_size).to_a.each do |pathnames|
+        slice_size = pathnames.join.size 
+        if slice_size < 200.0 
+          coverage_files.concat(create_coverage_files(binary_path, pathnames))
+        else
+          coverage_files.concat(create_coverage_files_for_binary(binary_path, pathnames))
+        end
       end
 
       coverage_files
