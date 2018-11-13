@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'clamp', '~> 1.3'
   spec.add_dependency 'xcodeproj', '~> 1.7'
   spec.add_dependency 'nokogiri', '~> 1.8'
-  spec.add_dependency 'CFPropertyList', '~> 3.0'
+  spec.add_dependency 'CFPropertyList', '>= 2.2'
 
   spec.add_runtime_dependency 'activesupport', '< 5', '>= 4.0.2'
 end
