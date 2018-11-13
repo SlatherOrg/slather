@@ -130,8 +130,19 @@ module Slather
             end)
           end
 
-          files = profdata_llvm_cov_output(binary_path, pathnames_per_binary).split("\n\n")
+          max_size = %x(getconf ARG_MAX).to_i
+          total_size = pathnames_per_binary.join.size
+          # There is an unknown overhead to the total size, so add one here to split into  more chunks
+          chunks = (total_size / max_size.to_f).ceil + 1
+          chunk_size = (pathnames_per_binary.count / chunks).floor
 
+          files = []
+          p "Max char size: #{max_size}, total char size: #{total_size}, Array chunks: #{chunks}, Array chunk size: #{chunk_size}"
+          pathnames_per_binary.each_slice(chunk_size).to_a.each do |chunk|
+            p "Actual chunk char size: #{chunk.join.size}"
+            files.concat(profdata_llvm_cov_output(binary_path, chunk).split("\n\n"))
+          end
+        
           coverage_files.concat(files.map do |source|
             coverage_file = coverage_file_class.new(self, source, line_numbers_first)
             # If a single source file is used, the resulting output does not contain the file name.
