@@ -118,43 +118,66 @@ module Slather
 
     def profdata_coverage_files
       coverage_files = []
-      line_numbers_first = Gem::Version.new(self.llvm_version) >= Gem::Version.new('8.1.0')
 
       if self.binary_file
         self.binary_file.each do |binary_path|
-          coverage_json_string = llvm_cov_export_output(binary_path)
-          coverage_json = JSON.parse(coverage_json_string)
-          pathnames_per_binary = coverage_json["data"].reduce([]) do |result, chunk|
-            result.concat(chunk["files"].map do |file|
-              Pathname(file["filename"]).realpath
-            end)
-          end
-
-          max_size = %x(getconf ARG_MAX).to_i
-          total_size = pathnames_per_binary.join.size
-          # There is an unknown overhead to the total size, so add one here to split into  more chunks
-          chunks = (total_size / max_size.to_f).ceil + 1
-          chunk_size = (pathnames_per_binary.count / chunks).floor
-
-          files = []
-          p "Max char size: #{max_size}, total char size: #{total_size}, Array chunks: #{chunks}, Array chunk size: #{chunk_size}"
-          pathnames_per_binary.each_slice(chunk_size).to_a.each do |chunk|
-            p "Actual chunk char size: #{chunk.join.size}"
-            files.concat(profdata_llvm_cov_output(binary_path, chunk).split("\n\n"))
-          end
-        
-          coverage_files.concat(files.map do |source|
-            coverage_file = coverage_file_class.new(self, source, line_numbers_first)
-            # If a single source file is used, the resulting output does not contain the file name.
-            coverage_file.source_file_pathname = pathnames_per_binary.first if pathnames_per_binary.count == 1
-            !coverage_file.ignored? ? coverage_file : nil
-          end.compact)
+          pathnames_per_binary = pathnames_per_binary(binary_path)
+          coverage_files.concat(create_coverage_files_for_binary(binary_path, pathnames_per_binary))
         end
       end
 
       coverage_files
     end
     private :profdata_coverage_files
+
+    def pathnames_per_binary(binary_path)
+      coverage_json_string = llvm_cov_export_output(binary_path)
+      coverage_json = JSON.parse(coverage_json_string)
+      coverage_json["data"].reduce([]) do |result, chunk|
+        result.concat(chunk["files"].map do |file|
+          Pathname(file["filename"]).realpath
+        end)
+      end
+    end
+    private :pathnames_per_binary
+
+    def create_coverage_files_for_binary(binary_path, pathnames_per_binary)
+      coverage_files = []
+      pathnames = []
+      current_char_count = 0
+      i = 0
+      while i < pathnames_per_binary.count do
+        begin
+          pathname = pathnames_per_binary[i]
+          current_char_count += pathname.size
+          pathnames << pathname
+          i += 1
+        end while i < pathnames_per_binary.count && current_char_count < self.class.max_os_argument_size * 0.9
+        coverage_files.concat(create_coverage_files(binary_path, pathnames))
+        pathnames = []
+        current_char_count = 0
+      end
+
+      coverage_files
+    end
+    private :create_coverage_files_for_binary
+
+    def create_coverage_files(binary_path, pathnames)
+      line_numbers_first = Gem::Version.new(self.llvm_version) >= Gem::Version.new('8.1.0')
+      files = create_profdata(binary_path, pathnames)
+      files.map do |source|
+        coverage_file = coverage_file_class.new(self, source, line_numbers_first)
+        # If a single source file is used, the resulting output does not contain the file name.
+        coverage_file.source_file_pathname = pathnames.first if pathnames.count == 1
+        !coverage_file.ignored? ? coverage_file : nil
+      end.compact
+    end
+    private :create_coverage_files
+
+    def create_profdata(binary_path, pathnames)
+      profdata_llvm_cov_output(binary_path, pathnames).split("\n\n")
+    end
+    private :create_profdata
 
     def remove_extension(path)
       path.split(".")[0..-2].join(".")
@@ -273,6 +296,10 @@ module Slather
 
     def self.yml
       @yml ||= File.exist?(yml_filename) ? YAML.load_file(yml_filename) : {}
+    end
+
+    def self.max_os_argument_size
+      @arg_max ||= %x(getconf ARG_MAX).to_i
     end
 
     def configure
