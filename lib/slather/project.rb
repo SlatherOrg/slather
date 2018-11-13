@@ -180,7 +180,7 @@ module Slather
           coverage_files = Dir[File.join(build_directory, "../**/ProfileData/*/Coverage.profdata")]
         end
 
-        if coverage_files != nil
+        if coverage_files != nil && coverage_files.count != 0
           dir = Pathname.new(coverage_files.first).parent()
         end
       end
