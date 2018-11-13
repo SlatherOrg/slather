@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v2.4.7
+
+* Update dependencies
+  [dnedrow](https://github.com/dnedrow)
+
 ## v2.4.6
 
 * Fix .dSYM and .swiftmodule files filtering in find_binary_files()
