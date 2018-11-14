@@ -35,6 +35,30 @@ describe Slather::Project do
     end
   end
 
+  describe "::max_os_argument_size" do
+    let(:getconf_project) do
+      Slather::Project.open(FIXTURES_PROJECT_PATH)
+    end
+
+    before(:each) do
+      getconf_project.instance_variable_set("@get_arg_max", nil) 
+    end
+
+    context "getconf ARG_MAX returns a value" do
+      it "should return a value" do
+        allow(getconf_project.class).to receive(:get_arg_max).and_return(2000)
+        expect(getconf_project.class.max_os_argument_size).to eq(2000)
+      end
+    end 
+
+    context "getconf ARG_MAX does not return a value" do
+      it "should return a value with a sensible default" do
+        allow(getconf_project.class).to receive(:get_arg_max).and_return(0)
+        expect(getconf_project.class.max_os_argument_size).to eq(26214)
+      end
+    end 
+  end
+
   describe "#coverage_files" do
     class SpecCoverageFile < Slather::CoverageFile
     end
@@ -106,6 +130,13 @@ describe Slather::Project do
     end
 
     it "should return Coverage.profdata file objects" do
+      profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
+      profdata_coverage_files.each { |cf| expect(cf.kind_of?(SpecXcode7CoverageFile)).to be_truthy }
+      expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["Fixtures.swift"])
+    end
+
+    it "should return Coverage.profdata file objects when get_arg_max returns a small value" do
+      allow(fixtures_project.class).to receive(:get_arg_max).and_return(200)
       profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
       profdata_coverage_files.each { |cf| expect(cf.kind_of?(SpecXcode7CoverageFile)).to be_truthy }
       expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["Fixtures.swift"])

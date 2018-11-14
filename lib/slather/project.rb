@@ -145,13 +145,14 @@ module Slather
       coverage_files = []
 
       # Chunk pathnames_per_binary into segments that do not exceed the OS ARG_MAX size for calls to llvm-cov
-      # The size is padded with 10% to account for added spaces atc in the final argument
+      # The size is padded with 10% to account for added spaces etc. in the final argument
       if pathnames_per_binary.join.size * 1.1  < self.class.max_os_argument_size
         coverage_files.concat(create_coverage_files(binary_path, pathnames_per_binary))
       else
+        # If it's too big pathnames_per_binary is split in two halfs which are then processed independently
         left,right = pathnames_per_binary.each_slice( (pathnames_per_binary.size/2.0).round ).to_a
-        coverage_files.concat(create_coverage_files_for_binary(binary_path, left))
-        coverage_files.concat(create_coverage_files_for_binary(binary_path, right))
+        coverage_files.concat(create_coverage_files_for_binary(binary_path, left)) if left.size > 0
+        coverage_files.concat(create_coverage_files_for_binary(binary_path, right)) if right.size > 0
       end
 
       coverage_files
@@ -294,8 +295,12 @@ module Slather
       @yml ||= File.exist?(yml_filename) ? YAML.load_file(yml_filename) : {}
     end
 
+    def self.get_arg_max
+      @get_arg_max ||= `getconf ARG_MAX`.to_i
+    end
+
     def self.max_os_argument_size
-      @arg_max ||= %x(getconf ARG_MAX).to_i
+      self.get_arg_max > 0 ? self.get_arg_max : 26214
     end
 
     def configure
