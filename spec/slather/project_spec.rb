@@ -88,15 +88,11 @@ describe Slather::Project do
     end
   end
 
-  describe "#profdata_coverage_files" do
+  describe "#profdata_coverage_files with large file lists" do
     class SpecXcode7CoverageFile < Slather::ProfdataCoverageFile
     end
 
-    before(:each) do
-      allow(Dir).to receive(:[]).and_call_original
-      allow(Dir).to receive(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
-      allow(fixtures_project).to receive(:binary_file).and_return(["Fixtures"])
-      allow(fixtures_project).to receive(:llvm_cov_export_output).and_return(%q(
+    llvm_cov_export_output = %q(
         {
            "data":[
               {
@@ -105,11 +101,18 @@ describe Slather::Project do
                        "filename":"spec/fixtures/fixtures/Fixtures.swift"
                     }
                  ]
+              },
+              {
+                 "files":[
+                    {
+                       "filename":"spec/fixtures/fixtures/Fixtures.swift"
+                    }
+                 ]
               }
            ]
-        }
-      ))
-      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("#{FIXTURES_SWIFT_FILE_PATH}:
+        })
+
+    profdata_llvm_cov_output = "#{FIXTURES_SWIFT_FILE_PATH}:
        |    0|
        |    1|import UIKit
        |    2|
@@ -124,19 +127,77 @@ describe Slather::Project do
        |   11|
       0|   12|    func applicationWillResignActive(application: UIApplication) {
       0|   13|    }
-      0|   14|}")
+      0|   14|}"
+
+    before(:each) do
+      allow(Dir).to receive(:[]).and_call_original
+      allow(Dir).to receive(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
+      allow(fixtures_project).to receive(:binary_file).and_return(["Fixtures"])
+      allow(fixtures_project).to receive(:llvm_cov_export_output).and_return(llvm_cov_export_output)
+      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return(profdata_llvm_cov_output)
+      allow(fixtures_project).to receive(:coverage_file_class).and_return(SpecXcode7CoverageFile)
+      allow(fixtures_project).to receive(:ignore_list).and_return([])
+    end
+
+    it "Should raise an error when the OS level argument size is too small to work with" do
+      allow(fixtures_project.class).to receive(:max_os_argument_size).and_return(10)
+      expect { fixtures_project.send(:profdata_coverage_files) }.to raise_error(StandardError, "The work can't be sliced into multiple chunks")
+    end
+
+    it "Should return Coverage.profdata file objects when the OS level argument size is smaller than the input size" do
+      allow(fixtures_project.class).to receive(:max_os_argument_size).and_return(llvm_cov_export_output.size/2)
+      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return(profdata_llvm_cov_output << profdata_llvm_cov_output)
+      profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
+      profdata_coverage_files.each { |cf| expect(cf.kind_of?(SpecXcode7CoverageFile)).to be_truthy }
+      expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["Fixtures.swift"])
+    end
+  end
+
+  describe "#profdata_coverage_files" do
+    class SpecXcode7CoverageFile < Slather::ProfdataCoverageFile
+    end
+
+    llvm_cov_export_output = %q(
+        {
+           "data":[
+              {
+                 "files":[
+                    {
+                       "filename":"spec/fixtures/fixtures/Fixtures.swift"
+                    }
+                 ]
+              }
+           ]
+        })
+
+    profdata_llvm_cov_output = "#{FIXTURES_SWIFT_FILE_PATH}:
+       |    0|
+       |    1|import UIKit
+       |    2|
+       |    3|@UIApplicationMain
+       |    4|class AppDelegate: UIResponder, UIApplicationDelegate {
+       |    5|
+       |    6|    var window: UIWindow?
+       |    7|
+      1|    8|    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+      1|    9|        return true
+      1|   10|    }
+       |   11|
+      0|   12|    func applicationWillResignActive(application: UIApplication) {
+      0|   13|    }
+      0|   14|}"
+
+    before(:each) do
+      allow(Dir).to receive(:[]).and_call_original
+      allow(Dir).to receive(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
+      allow(fixtures_project).to receive(:binary_file).and_return(["Fixtures"])
+      allow(fixtures_project).to receive(:llvm_cov_export_output).and_return(llvm_cov_export_output)
+      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return(profdata_llvm_cov_output)
       allow(fixtures_project).to receive(:coverage_file_class).and_return(SpecXcode7CoverageFile)
       allow(fixtures_project).to receive(:ignore_list).and_return([])
     end
 
     it "should return Coverage.profdata file objects" do
-      profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
-      profdata_coverage_files.each { |cf| expect(cf.kind_of?(SpecXcode7CoverageFile)).to be_truthy }
-      expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["Fixtures.swift"])
-    end
-
-    it "should return Coverage.profdata file objects when get_arg_max returns a small value" do
-      allow(fixtures_project.class).to receive(:get_arg_max).and_return(200)
       profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
       profdata_coverage_files.each { |cf| expect(cf.kind_of?(SpecXcode7CoverageFile)).to be_truthy }
       expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["Fixtures.swift"])
