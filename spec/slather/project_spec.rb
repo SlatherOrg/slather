@@ -141,7 +141,7 @@ describe Slather::Project do
 
     it "Should raise an error when the OS level argument size is too small to work with" do
       allow(fixtures_project.class).to receive(:max_os_argument_size).and_return(10)
-      expect { fixtures_project.send(:profdata_coverage_files) }.to raise_error(StandardError, "The work can't be sliced into multiple chunks")
+      expect { fixtures_project.send(:profdata_coverage_files) }.to raise_error(StandardError, "Errno::E2BIG: Argument list too long. A path in your project is close to the E2BIG limit. https://github.com/SlatherOrg/slather/pull/414")
     end
 
     it "Should return Coverage.profdata file objects when the OS level argument size is smaller than the input size" do

@@ -149,12 +149,12 @@ module Slather
       if pathnames_per_binary.join.size * 1.1  < self.class.max_os_argument_size
         coverage_files.concat(create_coverage_files(binary_path, pathnames_per_binary))
       elsif pathnames_per_binary.count >=2
-        # If it's too big pathnames_per_binary is split in two halfs which are then processed independently
+        # If pathnames_per_binary is too big it's split in two halfs which are then processed independently
         left,right = pathnames_per_binary.each_slice( (pathnames_per_binary.size/2.0).round ).to_a
-        coverage_files.concat(create_coverage_files_for_binary(binary_path, left)) if left.size > 0
-        coverage_files.concat(create_coverage_files_for_binary(binary_path, right)) if right.size > 0
+        coverage_files.concat(create_coverage_files_for_binary(binary_path, left))
+        coverage_files.concat(create_coverage_files_for_binary(binary_path, right))
       else 
-        raise StandardError, "The work can't be sliced into multiple chunks"
+        raise StandardError, "Errno::E2BIG: Argument list too long. A path in your project is close to the E2BIG limit. https://github.com/SlatherOrg/slather/pull/414"
       end
 
       coverage_files
