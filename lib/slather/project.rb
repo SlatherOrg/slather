@@ -144,17 +144,18 @@ module Slather
     def create_coverage_files_for_binary(binary_path, pathnames_per_binary)
       coverage_files = []
 
-      # Chunk pathnames_per_binary into segments that do not exceed the OS ARG_MAX size for calls to llvm-cov
-      # The size is padded with 10% to account for added spaces etc. in the final argument
-      if pathnames_per_binary.join.size * 1.1  < self.class.max_os_argument_size
+      begin
         coverage_files.concat(create_coverage_files(binary_path, pathnames_per_binary))
-      elsif pathnames_per_binary.count >=2
-        # If pathnames_per_binary is too big it's split in two halfs which are then processed independently
-        left,right = pathnames_per_binary.each_slice( (pathnames_per_binary.size/2.0).round ).to_a
-        coverage_files.concat(create_coverage_files_for_binary(binary_path, left))
-        coverage_files.concat(create_coverage_files_for_binary(binary_path, right))
-      else 
-        raise StandardError, "Errno::E2BIG: Argument list too long. A path in your project is close to the E2BIG limit. https://github.com/SlatherOrg/slather/pull/414"
+      rescue Errno::E2BIG => e
+        # pathnames_per_binary is too big for the OS to handle so it's split in two halfs which are processed independently
+        if pathnames_per_binary.count > 1
+          left, right = pathnames_per_binary.each_slice( (pathnames_per_binary.size/2.0).round ).to_a
+          coverage_files.concat(create_coverage_files_for_binary(binary_path, left))
+          coverage_files.concat(create_coverage_files_for_binary(binary_path, right))
+        else
+          # pathnames_per_binary contains one element which is too big for the OS to handle. 
+          raise e, "#{e}. A path in your project is close to the E2BIG limit. https://github.com/SlatherOrg/slather/pull/414", e.backtrace
+        end
       end
 
       coverage_files
@@ -295,14 +296,6 @@ module Slather
 
     def self.yml
       @yml ||= File.exist?(yml_filename) ? YAML.load_file(yml_filename) : {}
-    end
-
-    def self.get_arg_max
-      @get_arg_max ||= `getconf ARG_MAX`.to_i
-    end
-
-    def self.max_os_argument_size
-      self.get_arg_max > 0 ? self.get_arg_max : 26214
     end
 
     def configure

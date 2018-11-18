@@ -35,30 +35,6 @@ describe Slather::Project do
     end
   end
 
-  describe "::max_os_argument_size" do
-    let(:getconf_project) do
-      Slather::Project.open(FIXTURES_PROJECT_PATH)
-    end
-
-    before(:each) do
-      getconf_project.instance_variable_set("@get_arg_max", nil) 
-    end
-
-    context "getconf ARG_MAX returns a value" do
-      it "should return a value" do
-        allow(getconf_project.class).to receive(:get_arg_max).and_return(2000)
-        expect(getconf_project.class.max_os_argument_size).to eq(2000)
-      end
-    end 
-
-    context "getconf ARG_MAX does not return a value" do
-      it "should return a value with a sensible default" do
-        allow(getconf_project.class).to receive(:get_arg_max).and_return(0)
-        expect(getconf_project.class.max_os_argument_size).to eq(26214)
-      end
-    end 
-  end
-
   describe "#coverage_files" do
     class SpecCoverageFile < Slather::CoverageFile
     end
@@ -134,22 +110,24 @@ describe Slather::Project do
       allow(Dir).to receive(:[]).with("#{fixtures_project.build_directory}/**/Coverage.profdata").and_return(["/some/path/Coverage.profdata"])
       allow(fixtures_project).to receive(:binary_file).and_return(["Fixtures"])
       allow(fixtures_project).to receive(:llvm_cov_export_output).and_return(llvm_cov_export_output)
-      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return(profdata_llvm_cov_output)
       allow(fixtures_project).to receive(:coverage_file_class).and_return(SpecXcode7CoverageFile)
       allow(fixtures_project).to receive(:ignore_list).and_return([])
     end
 
-    it "Should raise an error when the OS level argument size is too small to work with" do
-      allow(fixtures_project.class).to receive(:max_os_argument_size).and_return(10)
-      expect { fixtures_project.send(:profdata_coverage_files) }.to raise_error(StandardError, "Errno::E2BIG: Argument list too long. A path in your project is close to the E2BIG limit. https://github.com/SlatherOrg/slather/pull/414")
+    it "Should catch Errno::E2BIG and re-raise if the input is too large to split into multiple chunks" do
+      allow(fixtures_project).to receive(:unsafe_profdata_llvm_cov_output).and_raise(Errno::E2BIG)
+      expect { fixtures_project.send(:profdata_coverage_files) }.to raise_error(Errno::E2BIG, "Argument list too long. A path in your project is close to the E2BIG limit. https://github.com/SlatherOrg/slather/pull/414")
     end
 
-    it "Should return Coverage.profdata file objects when the OS level argument size is smaller than the input size" do
-      allow(fixtures_project.class).to receive(:max_os_argument_size).and_return(llvm_cov_export_output.size/2)
-      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return(profdata_llvm_cov_output << profdata_llvm_cov_output)
+    it "Should catch Errno::E2BIG and return Coverage.profdata file objects when the work can be split into two" do
+      allow(fixtures_project).to receive(:unsafe_profdata_llvm_cov_output).once { 
+        # raise once and then insert the stub
+        allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return(profdata_llvm_cov_output)
+        raise Errno::E2BIG 
+      }
       profdata_coverage_files = fixtures_project.send(:profdata_coverage_files)
       profdata_coverage_files.each { |cf| expect(cf.kind_of?(SpecXcode7CoverageFile)).to be_truthy }
-      expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["Fixtures.swift"])
+      expect(profdata_coverage_files.map { |cf| cf.source_file_pathname.basename.to_s }).to eq(["Fixtures.swift", "Fixtures.swift"])
     end
   end
 
