@@ -118,32 +118,66 @@ module Slather
 
     def profdata_coverage_files
       coverage_files = []
-      line_numbers_first = Gem::Version.new(self.llvm_version) >= Gem::Version.new('8.1.0')
 
       if self.binary_file
         self.binary_file.each do |binary_path|
-          coverage_json_string = llvm_cov_export_output(binary_path)
-          coverage_json = JSON.parse(coverage_json_string)
-          pathnames_per_binary = coverage_json["data"].reduce([]) do |result, chunk|
-            result.concat(chunk["files"].map do |file|
-              Pathname(file["filename"]).realpath
-            end)
-          end
-
-          files = profdata_llvm_cov_output(binary_path, pathnames_per_binary).split("\n\n")
-
-          coverage_files.concat(files.map do |source|
-            coverage_file = coverage_file_class.new(self, source, line_numbers_first)
-            # If a single source file is used, the resulting output does not contain the file name.
-            coverage_file.source_file_pathname = pathnames_per_binary.first if pathnames_per_binary.count == 1
-            !coverage_file.ignored? ? coverage_file : nil
-          end.compact)
+          pathnames_per_binary = pathnames_per_binary(binary_path)
+          coverage_files.concat(create_coverage_files_for_binary(binary_path, pathnames_per_binary))
         end
       end
 
       coverage_files
     end
     private :profdata_coverage_files
+
+    def pathnames_per_binary(binary_path)
+      coverage_json_string = llvm_cov_export_output(binary_path)
+      coverage_json = JSON.parse(coverage_json_string)
+      coverage_json["data"].reduce([]) do |result, chunk|
+        result.concat(chunk["files"].map do |file|
+          Pathname(file["filename"]).realpath
+        end)
+      end
+    end
+    private :pathnames_per_binary
+
+    def create_coverage_files_for_binary(binary_path, pathnames_per_binary)
+      coverage_files = []
+
+      begin
+        coverage_files.concat(create_coverage_files(binary_path, pathnames_per_binary))
+      rescue Errno::E2BIG => e
+        # pathnames_per_binary is too big for the OS to handle so it's split in two halfs which are processed independently
+        if pathnames_per_binary.count > 1
+          left, right = pathnames_per_binary.each_slice( (pathnames_per_binary.size/2.0).round ).to_a
+          coverage_files.concat(create_coverage_files_for_binary(binary_path, left))
+          coverage_files.concat(create_coverage_files_for_binary(binary_path, right))
+        else
+          # pathnames_per_binary contains one element which is too big for the OS to handle. 
+          raise e, "#{e}. A path in your project is close to the E2BIG limit. https://github.com/SlatherOrg/slather/pull/414", e.backtrace
+        end
+      end
+
+      coverage_files
+    end
+    private :create_coverage_files_for_binary
+
+    def create_coverage_files(binary_path, pathnames)
+      line_numbers_first = Gem::Version.new(self.llvm_version) >= Gem::Version.new('8.1.0')
+      files = create_profdata(binary_path, pathnames)
+      files.map do |source|
+        coverage_file = coverage_file_class.new(self, source, line_numbers_first)
+        # If a single source file is used, the resulting output does not contain the file name.
+        coverage_file.source_file_pathname = pathnames.first if pathnames.count == 1
+        !coverage_file.ignored? ? coverage_file : nil
+      end.compact
+    end
+    private :create_coverage_files
+
+    def create_profdata(binary_path, pathnames)
+      profdata_llvm_cov_output(binary_path, pathnames).split("\n\n")
+    end
+    private :create_profdata
 
     def remove_extension(path)
       path.split(".")[0..-2].join(".")
