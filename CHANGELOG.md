@@ -5,6 +5,10 @@
 * Update dependencies
   [dnedrow](https://github.com/dnedrow)
 
+* Fixed errors when llvm-cov argument length exceeds ARG_MAX
+  [weibel](https://github.com/weibel)
+  [#414](https://github.com/SlatherOrg/slather/pull/414)
+
 ## v2.4.6
 
 * Fix .dSYM and .swiftmodule files filtering in find_binary_files()
