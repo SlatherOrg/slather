@@ -9,6 +9,10 @@
   [weibel](https://github.com/weibel)
   [#414](https://github.com/SlatherOrg/slather/pull/414)
 
+* Show "No coverage directory found." instead of "implicit conversion nil into String"
+  [phimage](https://github.com/phimage)
+  [#381](https://github.com/SlatherOrg/slather/pull/381) [#341](https://github.com/SlatherOrg/slather/issues/341)
+
 ## v2.4.6
 
 * Fix .dSYM and .swiftmodule files filtering in find_binary_files()
