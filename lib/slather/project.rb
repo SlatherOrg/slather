@@ -119,10 +119,11 @@ module Slather
     def profdata_coverage_files
       coverage_files = []
 
+      profdata_file_arg = profdata_file
       if self.binary_file
         self.binary_file.each do |binary_path|
-          pathnames_per_binary = pathnames_per_binary(binary_path)
-          coverage_files.concat(create_coverage_files_for_binary(binary_path, pathnames_per_binary))
+          pathnames_per_binary = pathnames_per_binary(binary_path, profdata_file_arg)
+          coverage_files.concat(create_coverage_files_for_binary(binary_path, pathnames_per_binary, profdata_file_arg))
         end
       end
 
@@ -130,8 +131,8 @@ module Slather
     end
     private :profdata_coverage_files
 
-    def pathnames_per_binary(binary_path)
-      coverage_json_string = llvm_cov_export_output(binary_path)
+    def pathnames_per_binary(binary_path, profdata_file)
+      coverage_json_string = llvm_cov_export_output(binary_path, profdata_file)
       coverage_json = JSON.parse(coverage_json_string)
       coverage_json["data"].reduce([]) do |result, chunk|
         result.concat(chunk["files"].map do |file|
@@ -141,11 +142,11 @@ module Slather
     end
     private :pathnames_per_binary
 
-    def create_coverage_files_for_binary(binary_path, pathnames_per_binary)
+    def create_coverage_files_for_binary(binary_path, pathnames_per_binary, profdata_file)
       coverage_files = []
 
       begin
-        coverage_files.concat(create_coverage_files(binary_path, pathnames_per_binary))
+        coverage_files.concat(create_coverage_files(binary_path, pathnames_per_binary, profdata_file))
       rescue Errno::E2BIG => e
         # pathnames_per_binary is too big for the OS to handle so it's split in two halfs which are processed independently
         if pathnames_per_binary.count > 1
@@ -162,9 +163,9 @@ module Slather
     end
     private :create_coverage_files_for_binary
 
-    def create_coverage_files(binary_path, pathnames)
+    def create_coverage_files(binary_path, pathnames, profdata_file)
       line_numbers_first = Gem::Version.new(self.llvm_version) >= Gem::Version.new('8.1.0')
-      files = create_profdata(binary_path, pathnames)
+      files = create_profdata(binary_path, pathnames, profdata_file)
       files.map do |source|
         coverage_file = coverage_file_class.new(self, source, line_numbers_first)
         # If a single source file is used, the resulting output does not contain the file name.
@@ -174,8 +175,8 @@ module Slather
     end
     private :create_coverage_files
 
-    def create_profdata(binary_path, pathnames)
-      profdata_llvm_cov_output(binary_path, pathnames).split("\n\n")
+    def create_profdata(binary_path, pathnames, profdata_file)
+      profdata_llvm_cov_output(binary_path, pathnames, profdata_file).split("\n\n")
     end
     private :create_profdata
 
@@ -237,9 +238,8 @@ module Slather
     end
     private :profdata_file
 
-    def unsafe_llvm_cov_export_output(binary_path)
-      profdata_file_arg = profdata_file
-      if profdata_file_arg == nil
+    def unsafe_llvm_cov_export_output(binary_path, profdata_file)
+      if profdata_file == nil
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
       end
 
@@ -247,7 +247,7 @@ module Slather
         raise StandardError, "No binary file found."
       end
 
-      llvm_cov_args = %W(export -instr-profile #{profdata_file_arg} #{binary_path})
+      llvm_cov_args = %W(export -instr-profile #{profdata_file} #{binary_path})
       if self.arch
         llvm_cov_args << "--arch" << self.arch
       end
@@ -255,15 +255,14 @@ module Slather
     end
     private :unsafe_llvm_cov_export_output
 
-    def llvm_cov_export_output(binary_path)
-      output = unsafe_llvm_cov_export_output(binary_path)
+    def llvm_cov_export_output(binary_path, profdata_file)
+      output = unsafe_llvm_cov_export_output(binary_path, profdata_file)
       output.valid_encoding? ? output : output.encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
     end
     private :llvm_cov_export_output
 
-    def unsafe_profdata_llvm_cov_output(binary_path, source_files)
-      profdata_file_arg = profdata_file
-      if profdata_file_arg == nil
+    def unsafe_profdata_llvm_cov_output(binary_path, source_files, profdata_file)
+      if profdata_file == nil
         raise StandardError, "No Coverage.profdata files found. Please make sure the \"Code Coverage\" checkbox is enabled in your scheme's Test action or the build_directory property is set."
       end
 
@@ -271,7 +270,7 @@ module Slather
         raise StandardError, "No binary file found."
       end
 
-      llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path})
+      llvm_cov_args = %W(show -instr-profile #{profdata_file} #{binary_path})
       if self.arch
         llvm_cov_args << "--arch" << self.arch
       end
@@ -279,8 +278,8 @@ module Slather
     end
     private :unsafe_profdata_llvm_cov_output
 
-    def profdata_llvm_cov_output(binary_path, source_files)
-      output = unsafe_profdata_llvm_cov_output(binary_path, source_files)
+    def profdata_llvm_cov_output(binary_path, source_files, profdata_file)
+      output = unsafe_profdata_llvm_cov_output(binary_path, source_files, profdata_file)
       output.valid_encoding? ? output : output.encode!('UTF-8', 'binary', :invalid => :replace, undef: :replace)
     end
     private :profdata_llvm_cov_output
