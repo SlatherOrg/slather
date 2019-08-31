@@ -75,8 +75,9 @@ module Slather
     end
 
     def ignored?
+      relative_path = source_file_pathname_relative_to_repo_root
       project.ignore_list.any? do |ignore|
-        File.fnmatch(ignore, source_file_pathname_relative_to_repo_root)
+        File.fnmatch(ignore, relative_path)
       end
     end
 
