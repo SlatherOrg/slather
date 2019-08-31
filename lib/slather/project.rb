@@ -119,8 +119,8 @@ module Slather
     def profdata_coverage_files
       coverage_files = []
 
-      profdata_file_arg = profdata_file
       if self.binary_file
+        profdata_file_arg = profdata_file
         self.binary_file.each do |binary_path|
           pathnames_per_binary = pathnames_per_binary(binary_path, profdata_file_arg)
           coverage_files.concat(create_coverage_files_for_binary(binary_path, pathnames_per_binary, profdata_file_arg))
