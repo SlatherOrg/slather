@@ -16,6 +16,7 @@ Generate test coverage reports for Xcode projects & hook it into CI.
 | [VENCore](https://github.com/venmo/VENCore) | [![VENCore Coverage](https://coveralls.io/repos/venmo/VENCore/badge.svg?branch=master)](https://coveralls.io/r/venmo/VENCore?branch=master) |
 | [DAZABTest](https://github.com/dasmer/DAZABTest) | [![DAZABTest Coverage](https://coveralls.io/repos/dasmer/DAZABTest/badge.svg?branch=master)](https://coveralls.io/r/dasmer/DAZABTest?branch=master) |
 | [TBStateMachine](https://github.com/tarbrain/TBStateMachine) | [![TBStateMachine Coverage](https://coveralls.io/repos/tarbrain/TBStateMachine/badge.svg?branch=master)](https://coveralls.io/r/tarbrain/TBStateMachine?branch=master) |
+| [DeclarativeKit](https://github.com/wendyliga/declarative-kit) | [![codecov](https://codecov.io/gh/wendyliga/declarative-kit/branch/master/graph/badge.svg)](https://codecov.io/gh/wendyliga/declarative-kit) |
 
 ## Installation
 
