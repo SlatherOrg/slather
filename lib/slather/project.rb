@@ -119,7 +119,7 @@ module Slather
     def profdata_coverage_files
       coverage_files = []
 
-      if self.binary_file
+      if self.binary_file.any?
         profdata_file_arg = profdata_file
         self.binary_file.each do |binary_path|
           pathnames_per_binary = pathnames_per_binary(binary_path, profdata_file_arg)
@@ -154,7 +154,7 @@ module Slather
           coverage_files.concat(create_coverage_files_for_binary(binary_path, left))
           coverage_files.concat(create_coverage_files_for_binary(binary_path, right))
         else
-          # pathnames_per_binary contains one element which is too big for the OS to handle. 
+          # pathnames_per_binary contains one element which is too big for the OS to handle.
           raise e, "#{e}. A path in your project is close to the E2BIG limit. https://github.com/SlatherOrg/slather/pull/414", e.backtrace
         end
       end
