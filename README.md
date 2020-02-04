@@ -67,6 +67,20 @@ If your configuration produces a universal binary you need to specify a specific
 $ slather coverage -s --arch x86_64 --scheme YourXcodeSchemeName --configuration YourBuildConfigurationName path/to/project.xcodeproj
 ```
 
+### For multiple modules
+
+If you want to run some modules, but not all (like modules created by CocoaPods) you can do it like this:
+
+```sh
+$ slather coverage --binary-basename module1 --binary-basename module2 path/to/project.xcodeproj
+```
+You can also add it to the `.slather.yml` file as an array:
+```yml
+binary-basename:
+  - module1
+  - module2
+```
+
 ### Setup for Xcode 5 and 6
 
 Run this command to enable the `Generate Test Coverage` and `Instrument Program Flow` flags for your project:
