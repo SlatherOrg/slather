@@ -76,7 +76,7 @@ $ slather coverage --binary-basename module1 --binary-basename module2 path/to/p
 ```
 You can also add it to the `.slather.yml` file as an array:
 ```yml
-binary-basename:
+binary_basename:
   - module1
   - module2
 ```
