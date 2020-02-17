@@ -13,7 +13,7 @@ describe Slather do
       # Execute the post_install hook via CocoaPods
       sandbox_root = 'Pods'
       sandbox = Pod::Sandbox.new(sandbox_root)
-      context = Pod::Installer::PostInstallHooksContext.generate(sandbox, [])
+      context = Pod::Installer::PostInstallHooksContext.generate(sandbox, mock_project, [])
       Pod::HooksManager.run(:post_install, context, {'slather' => nil})
     end
   end
