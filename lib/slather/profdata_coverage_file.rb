@@ -64,7 +64,16 @@ module Slather
     end
 
     def source_code_lines
-      self.source.split("\n")[(path_on_first_line? ? 1 : 0)..-1]
+      lines = self.source.split("\n")[(path_on_first_line? ? 1 : 0)..-1]
+      ignore_error_lines(lines)
+    end
+
+    def ignore_error_lines(lines, line_numbers_first = self.line_numbers_first)
+      if line_numbers_first
+        lines.reject { |line| line.lstrip.start_with?('|', '--') }
+      else
+        lines
+      end
     end
 
     def source_data
