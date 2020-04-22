@@ -191,36 +191,38 @@ module Slather
     end
 
     def profdata_coverage_dir
-      raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
-      dir = nil
-      if self.scheme
-        dir = Dir[File.join(build_directory,"/**/CodeCoverage/#{self.scheme}")].first
-      else
-        dir = Dir[File.join(build_directory,"/**/#{first_product_name}")].first
-      end
-
-      if dir == nil
-        # Xcode 7.3 moved the location of Coverage.profdata
-        dir = Dir[File.join(build_directory,"/**/CodeCoverage")].first
-      end
-
-      if dir == nil && Slather.xcode_version[0] >= 9
-        # Xcode 9 moved the location of Coverage.profdata
-        coverage_files = Dir[File.join(build_directory, "/**/ProfileData/*/Coverage.profdata")]
-
-        if coverage_files.count == 0
-          # Look up one directory
-          # The ProfileData directory is next to Intermediates.noindex (in previous versions of Xcode the coverage was inside Intermediates)
-          coverage_files = Dir[File.join(build_directory, "../**/ProfileData/*/Coverage.profdata")]
+      @profdata_coverage_dir ||= begin
+        raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
+        dir = nil
+        if self.scheme
+          dir = Dir[File.join(build_directory,"/**/CodeCoverage/#{self.scheme}")].first
+        else
+          dir = Dir[File.join(build_directory,"/**/#{first_product_name}")].first
         end
 
-        if coverage_files != nil && coverage_files.count != 0
-          dir = Pathname.new(coverage_files.first).parent()
+        if dir == nil
+          # Xcode 7.3 moved the location of Coverage.profdata
+          dir = Dir[File.join(build_directory,"/**/CodeCoverage")].first
         end
-      end
 
-      raise StandardError, "No coverage directory found." unless dir != nil
-      dir
+        if dir == nil && Slather.xcode_version[0] >= 9
+          # Xcode 9 moved the location of Coverage.profdata
+          coverage_files = Dir[File.join(build_directory, "/**/ProfileData/*/Coverage.profdata")]
+
+          if coverage_files.count == 0
+            # Look up one directory
+            # The ProfileData directory is next to Intermediates.noindex (in previous versions of Xcode the coverage was inside Intermediates)
+            coverage_files = Dir[File.join(build_directory, "../**/ProfileData/*/Coverage.profdata")]
+          end
+
+          if coverage_files != nil && coverage_files.count != 0
+            dir = Pathname.new(coverage_files.first).parent()
+          end
+        end
+
+        raise StandardError, "No coverage directory found." unless dir != nil
+        dir
+      end
     end
 
     def profdata_file
