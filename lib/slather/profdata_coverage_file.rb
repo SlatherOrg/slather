@@ -25,14 +25,20 @@ module Slather
     private :create_line_data
 
     def path_on_first_line?
-      !source.start_with?("1|")
+      !source.lstrip.start_with?("1|")
     end
 
     def source_file_pathname
       @source_file_pathname ||= begin
         if path_on_first_line?
-          end_index = self.source.index(":\n") - 1
-          path = self.source[0..end_index]
+          end_index = self.source.index(/:?\n/)
+          if end_index != nil
+            end_index -= 1
+            path = self.source[0..end_index]
+          else
+            # Empty file, output just contains path
+            path = self.source.sub ":", ""
+          end
           path &&= Pathname(path)
         else
           # llvm-cov was run with just one matching source file

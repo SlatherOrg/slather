@@ -47,3 +47,7 @@ html
 
 # JetBrains IDE
 .idea/
+
+# Test output
+report.llcov
+report.json
