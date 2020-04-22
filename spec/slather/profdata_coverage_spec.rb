@@ -90,6 +90,23 @@ describe Slather::ProfdataCoverageFile do
     end
   end
 
+  describe '#ignore_error_lines' do
+    it 'should ignore lines starting with - when line_numbers_first is true' do
+      expect(profdata_coverage_file.ignore_error_lines(['--------'], true)).to eq([])
+      expect(profdata_coverage_file.ignore_error_lines(['--------', 'not ignored'], true)).to eq(['not ignored'])
+    end
+
+    it 'should ignore lines starting with | when line_numbers_first is true' do
+      expect(profdata_coverage_file.ignore_error_lines(['| Unexecuted instantiation'], true)).to eq([])
+      expect(profdata_coverage_file.ignore_error_lines(['| Unexecuted instantiation', 'not ignored'], true)).to eq(['not ignored'])
+    end
+
+    it 'should not ignore any lines when line_numbers_first is false' do
+      lines = ['| Unexecuted instantiation', '------']
+      expect(profdata_coverage_file.ignore_error_lines(lines, false)).to eq(lines)
+    end
+  end
+
   describe "#coverage_for_line" do
     it "should return the number of hits for the line" do
       expect(profdata_coverage_file.coverage_for_line("      10|   40|    func applicationWillTerminate(application: UIApplication) {", false)).to eq(10)
@@ -115,6 +132,10 @@ describe Slather::ProfdataCoverageFile do
       expect(profdata_coverage_file.coverage_for_line("   18|      1|    return a + b;", true)).to eq(1)
       expect(profdata_coverage_file.coverage_for_line("   18|  11.8k|    return a + b;", true)).to eq(11800)
       expect(profdata_coverage_file.coverage_for_line("   18|  2.58M|    return a + b;", true)).to eq(2580000)
+    end
+
+    it 'should ignore errors in profdata' do
+      expect(profdata_coverage_file.coverage_for_line('------------------', true)).to eq(nil)
     end
   end
 
