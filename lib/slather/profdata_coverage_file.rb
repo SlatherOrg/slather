@@ -18,7 +18,6 @@ module Slather
     end
 
     def create_line_data
-      all_lines = source_code_lines
       line_data = Hash.new
       all_lines.each { |line| line_data[line_number_in_line(line, self.line_numbers_first)] = line }
       self.line_data = line_data
@@ -26,14 +25,14 @@ module Slather
     private :create_line_data
 
     def path_on_first_line?
-      path = self.source.split("\n")[0].sub ":", ""
-      !path.lstrip.start_with?("1|")
+      !source.start_with?("1|")
     end
 
     def source_file_pathname
       @source_file_pathname ||= begin
         if path_on_first_line?
-          path = self.source.split("\n")[0].sub ":", ""
+          end_index = self.source.index(":\n") - 1
+          path = self.source[0..end_index]
           path &&= Pathname(path)
         else
           # llvm-cov was run with just one matching source file
@@ -72,10 +71,7 @@ module Slather
     end
 
     def all_lines
-      if @all_lines == nil
-        @all_lines = source_code_lines
-      end
-      @all_lines
+      @all_lines ||= source_code_lines
     end
 
     def raw_source
@@ -94,6 +90,9 @@ module Slather
 
     def line_number_in_line(line, line_numbers_first = self.line_numbers_first)
       if line_numbers_first
+        # Skip regex if the number is the first thing in the line
+        fastpath_number = line.to_i
+        return fastpath_number if fastpath_number != 0
         line =~ /^(\s*)(\d*)/
         group = $2
       else
@@ -123,7 +122,7 @@ module Slather
     end
 
     def line_coverage_data
-      source_code_lines.map do |line|
+      all_lines.map do |line|
         coverage_for_line(line, self.line_numbers_first)
       end
     end
