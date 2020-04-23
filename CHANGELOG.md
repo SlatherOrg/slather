@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v2.4.8
+
+* Optimize performance for many binaries
+  [cltnschlosser](https://github.com/cltnschlosser)
+  [#455](https://github.com/SlatherOrg/slather/pull/455)
+
+* Don't generate line 0 in profdata_coverage_file.rb from line with error
+  [tthbalazs](https://github.com/tthbalazs)
+  [#449](https://github.com/SlatherOrg/slather/pull/449)
+
+* coveralls dependency update
+  [GRiMe2D](https://github.com/GRiMe2D)
+  [#448](https://github.com/SlatherOrg/slather/pull/448)
+
 ## v2.4.7
 
 * Update dependencies
