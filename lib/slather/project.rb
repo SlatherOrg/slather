@@ -424,6 +424,8 @@ module Slather
         extend(Slather::CoverageService::HtmlOutput)
       when :json
         extend(Slather::CoverageService::JsonOutput)
+      when :sonarqube_xml
+        extend(Slather::CoverageService::SonarqubeXmlOutput)
       else
         raise ArgumentError, "`#{coverage_service}` is not a valid coverage service. Try `terminal`, `coveralls`, `gutter_json`, `cobertura_xml` or `html`"
       end

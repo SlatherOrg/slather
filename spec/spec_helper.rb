@@ -13,6 +13,7 @@ require 'equivalent-xml'
 
 
 FIXTURES_XML_PATH = File.join(File.dirname(__FILE__), 'fixtures/cobertura.xml')
+FIXTURES_SONARQUBE_XML_PATH = File.join(File.dirname(__FILE__), 'fixtures/sonarqube-generic-coverage.xml')
 FIXTURES_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/report.json')
 FIXTURES_LLCOV_PATH = File.join(File.dirname(__FILE__), 'fixtures/report.llcov')
 FIXTURES_GUTTER_JSON_PATH = File.join(File.dirname(__FILE__), 'fixtures/gutter.json')
