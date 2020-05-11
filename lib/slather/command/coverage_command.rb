@@ -13,6 +13,7 @@ class CoverageCommand < Clamp::Command
   option ["--simple-output", "-s"], :flag, "Output coverage results to the terminal"
   option ["--gutter-json", "-g"], :flag, "Output coverage results as Gutter JSON format"
   option ["--cobertura-xml", "-x"], :flag, "Output coverage results as Cobertura XML format"
+  option ["--sonarqube-xml", "-sq"], :flag, "Output coverage results as Cobertura XML format"
   option ["--llvm-cov", "-r"], :flag, "Output coverage as llvm-cov format"
   option ["--json"], :flag, "Output coverage results as simple JSON"
   option ["--html"], :flag, "Output coverage results as static html pages"
@@ -124,6 +125,8 @@ class CoverageCommand < Clamp::Command
       project.show_html = show?
     elsif json?
       project.coverage_service = :json
+    elsif sonarqube_xml?
+      project.coverage_service = :sonarqube_xml
     end
   end
 

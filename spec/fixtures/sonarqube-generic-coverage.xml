@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<coverage version="1">
+  <file path="spec/fixtures/fixtures/fixtures.m">
+    <lineToCover lineNumber="14" covered="true"/>
+    <lineToCover lineNumber="15" covered="true"/>
+    <lineToCover lineNumber="16" covered="true"/>
+    <lineToCover lineNumber="19" covered="false"/>
+    <lineToCover lineNumber="20" covered="false"/>
+    <lineToCover lineNumber="21" covered="false"/>
+  </file>
+  <file path="spec/fixtures/fixtures/more_files/Branches.m">
+    <lineToCover lineNumber="14" covered="true"/>
+    <lineToCover lineNumber="15" covered="true"/>
+    <lineToCover lineNumber="16" covered="true"/>
+    <lineToCover lineNumber="17" covered="true"/>
+    <lineToCover lineNumber="18" covered="true"/>
+    <lineToCover lineNumber="19" covered="false"/>
+    <lineToCover lineNumber="20" covered="false"/>
+    <lineToCover lineNumber="21" covered="true"/>
+    <lineToCover lineNumber="22" covered="true"/>
+    <lineToCover lineNumber="23" covered="true"/>
+    <lineToCover lineNumber="24" covered="true"/>
+    <lineToCover lineNumber="25" covered="true"/>
+    <lineToCover lineNumber="26" covered="true"/>
+    <lineToCover lineNumber="27" covered="true"/>
+    <lineToCover lineNumber="28" covered="true"/>
+    <lineToCover lineNumber="29" covered="false"/>
+    <lineToCover lineNumber="30" covered="false"/>
+    <lineToCover lineNumber="31" covered="false"/>
+    <lineToCover lineNumber="32" covered="false"/>
+    <lineToCover lineNumber="33" covered="false"/>
+    <lineToCover lineNumber="34" covered="false"/>
+    <lineToCover lineNumber="35" covered="false"/>
+    <lineToCover lineNumber="36" covered="false"/>
+    <lineToCover lineNumber="37" covered="false"/>
+    <lineToCover lineNumber="38" covered="false"/>
+    <lineToCover lineNumber="39" covered="false"/>
+    <lineToCover lineNumber="40" covered="false"/>
+    <lineToCover lineNumber="41" covered="false"/>
+    <lineToCover lineNumber="42" covered="false"/>
+    <lineToCover lineNumber="43" covered="false"/>
+  </file>
+  <file path="spec/fixtures/fixturesTests/BranchesTests.m">
+    <lineToCover lineNumber="18" covered="true"/>
+    <lineToCover lineNumber="19" covered="true"/>
+    <lineToCover lineNumber="20" covered="true"/>
+    <lineToCover lineNumber="21" covered="true"/>
+    <lineToCover lineNumber="23" covered="true"/>
+    <lineToCover lineNumber="24" covered="true"/>
+    <lineToCover lineNumber="25" covered="true"/>
+    <lineToCover lineNumber="26" covered="true"/>
+    <lineToCover lineNumber="28" covered="true"/>
+    <lineToCover lineNumber="29" covered="true"/>
+    <lineToCover lineNumber="30" covered="true"/>
+    <lineToCover lineNumber="31" covered="true"/>
+    <lineToCover lineNumber="33" covered="true"/>
+    <lineToCover lineNumber="34" covered="true"/>
+    <lineToCover lineNumber="35" covered="true"/>
+    <lineToCover lineNumber="36" covered="true"/>
+  </file>
+  <file path="spec/fixtures/fixturesTests/fixturesTests.m">
+    <lineToCover lineNumber="20" covered="true"/>
+    <lineToCover lineNumber="21" covered="true"/>
+    <lineToCover lineNumber="22" covered="true"/>
+    <lineToCover lineNumber="23" covered="true"/>
+    <lineToCover lineNumber="26" covered="true"/>
+    <lineToCover lineNumber="27" covered="true"/>
+    <lineToCover lineNumber="28" covered="true"/>
+    <lineToCover lineNumber="29" covered="true"/>
+    <lineToCover lineNumber="32" covered="true"/>
+    <lineToCover lineNumber="33" covered="true"/>
+    <lineToCover lineNumber="34" covered="true"/>
+    <lineToCover lineNumber="35" covered="true"/>
+    <lineToCover lineNumber="38" covered="true"/>
+    <lineToCover lineNumber="39" covered="true"/>
+    <lineToCover lineNumber="40" covered="true"/>
+    <lineToCover lineNumber="41" covered="true"/>
+    <lineToCover lineNumber="42" covered="true"/>
+  </file>
+  <file path="spec/fixtures/fixturesTests/peekaviewTests&#x1F4A3;.m">
+    <lineToCover lineNumber="18" covered="true"/>
+    <lineToCover lineNumber="19" covered="true"/>
+    <lineToCover lineNumber="20" covered="true"/>
+    <lineToCover lineNumber="21" covered="true"/>
+    <lineToCover lineNumber="24" covered="true"/>
+    <lineToCover lineNumber="25" covered="true"/>
+    <lineToCover lineNumber="26" covered="true"/>
+    <lineToCover lineNumber="27" covered="true"/>
+    <lineToCover lineNumber="30" covered="true"/>
+    <lineToCover lineNumber="31" covered="true"/>
+    <lineToCover lineNumber="32" covered="true"/>
+  </file>
+</coverage>
