@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.4.9
+
+* Added support for Sonarqube output
+  [adellibovi](https://github.com/adellibovi)
+  [#456](https://github.com/SlatherOrg/slather/pull/456)
+
 ## v2.4.8
 
 * Optimize performance for many binaries
