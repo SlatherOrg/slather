@@ -36,6 +36,11 @@ module Slather
       end
       private :jenkins_job_id
 
+      def github_job_id
+        ENV['GITHUB_RUN_ID']
+      end
+      private :github_job_id
+
       def jenkins_branch_name
         branch_name = ENV['GIT_BRANCH'] || ENV['BRANCH_NAME']
         if branch_name.include? 'origin/'
