@@ -91,6 +91,8 @@ class CoverageCommand < Clamp::Command
       project.ci_service = :buildkite
     elsif teamcity?
       project.ci_service = :teamcity
+    elsif github?
+      project.ci_service = :github
     end
   end
 
