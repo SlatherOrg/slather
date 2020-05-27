@@ -129,6 +129,18 @@ module Slather
         "https://buildkite.com/" + ENV['BUILDKITE_PROJECT_SLUG'] + "/builds/" + ENV['BUILDKITE_BUILD_NUMBER'] + "#"
       end
 
+      def github_git_info
+        {
+          :head => {
+            :id => ENV['GITHUB_SHA'],
+            :author_name => ENV['GITHUB_ACTOR'],
+            :message => (`git log --format=%s -n 1 HEAD`.chomp || "")
+          },
+          :branch => github_branch_name
+        }
+      end
+      private :github_git_info
+
       def coveralls_coverage_data
         if ci_service == :travis_ci || ci_service == :travis_pro
           if travis_job_id
