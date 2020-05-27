@@ -56,6 +56,11 @@ module Slather
       end
       private :teamcity_branch_name
 
+      def github_branch_name
+        ENV['GIT_BRANCH'] || `git ls-remote --heads origin | grep $(git rev-parse HEAD) | cut -d / -f 3-`.chomp
+      end
+      private :github_branch_name
+
       def buildkite_job_id
         ENV['BUILDKITE_BUILD_NUMBER']
       end
