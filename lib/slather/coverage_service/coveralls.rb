@@ -239,6 +239,7 @@ module Slather
             }.to_json
           else
             raise StandardError, "Environment variable `GITHUB_RUN_ID` not set.  Is this running on github build?"
+          end
         else
           raise StandardError, "No support for ci named #{ci_service}"
         end
