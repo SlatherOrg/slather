@@ -149,7 +149,7 @@ ignore:
   - ProjectTestsGroup/*
 ```
 
-And then in your `.travis.yml` or `circle.yml`, call `slather` after a successful build:
+And then in your `.travis.yml` or `circle.yml` or `github-action.yml`, call `slather` after a successful build:
 
 ```yml
 # .travis.yml
@@ -165,6 +165,22 @@ after_success: slather
 test:
   post:
     - bundle exec slather
+
+```
+
+```yml
+# github-action.yml
+  myjob:
+    steps:
+      - run: |
+          bundle config path vendor/bundle
+          bundle install --without=documentation --jobs 4 --retry 3
+
+      - run: bundle exec slather
+        env:
+          GIT_BRANCH: ${{ github.event.pull_request.head.ref }}
+          CI_PULL_REQUEST: ${{ github.event.number }}
+          COVERAGE_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 ```
 
