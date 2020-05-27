@@ -228,6 +228,17 @@ module Slather
           else
             raise StandardError, "Environment variable `TC_BUILD_NUMBER` not set. Is this running on a teamcity build?"
           end
+        elsif ci_service == :github
+          if github_job_id
+            {
+              :service_job_id => github_job_id,
+              :service_name => "github",
+              :repo_token => coverage_access_token,
+              :source_files => coverage_files.map(&:as_json),
+              :git => github_git_info
+            }.to_json
+          else
+            raise StandardError, "Environment variable `GITHUB_RUN_ID` not set.  Is this running on github build?"
         else
           raise StandardError, "No support for ci named #{ci_service}"
         end
