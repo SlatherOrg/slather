@@ -240,6 +240,7 @@ module Slather
               :service_name => "github",
               :repo_token => coverage_access_token,
               :source_files => coverage_files.map(&:as_json),
+              :service_build_url => github_build_url,
               :git => github_git_info
             }.to_json
           else
