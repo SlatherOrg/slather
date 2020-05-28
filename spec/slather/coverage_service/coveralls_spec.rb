@@ -158,6 +158,7 @@ describe Slather::CoverageService::Coveralls do
       it "should return valid json for coveralls coverage data" do
         allow(fixtures_project).to receive(:github_job_id).and_return("9182")
         allow(fixtures_project).to receive(:coverage_access_token).and_return("abc123")
+        allow(fixtures_project).to receive(:github_pull_request).and_return("1")
         allow(fixtures_project).to receive(:github_build_url).and_return("https://github.com/Bruce/Wayne/actions/runs/1")
         allow(fixtures_project).to receive(:github_git_info).and_return({ :head => { :id => "ababa123", :author_name => "bwayne", :message => "hello" }, :branch => "master" })
         expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"github\",\"repo_token\":\"abc123\",\"service_pull_request\":\"1\",\"service_build_url\":\"https://github.com/Bruce/Wayne/actions/runs/1\",\"git\":{\"head\":{\"id\":\"ababa123\",\"author_name\":\"bwayne\",\"message\":\"hello\"},\"branch\":\"master\"}}").excluding("source_files")
