@@ -179,6 +179,7 @@ test:
       - run: bundle exec slather
         env:
           GIT_BRANCH: ${{ github.event.pull_request.head.ref }}
+          CI_PULL_REQUEST: ${{ github.event.number }}
 
 ```
 
