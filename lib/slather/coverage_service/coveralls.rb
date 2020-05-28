@@ -41,6 +41,11 @@ module Slather
       end
       private :github_job_id
 
+      def github_pull_request
+        ENV['CI_PULL_REQUEST'] || ""
+      end
+      private :github_pull_request
+
       def jenkins_branch_name
         branch_name = ENV['GIT_BRANCH'] || ENV['BRANCH_NAME']
         if branch_name.include? 'origin/'
@@ -241,6 +246,7 @@ module Slather
               :repo_token => coverage_access_token,
               :source_files => coverage_files.map(&:as_json),
               :service_build_url => github_build_url,
+              :service_pull_request => github_pull_request,
               :git => github_git_info
             }.to_json
           else
