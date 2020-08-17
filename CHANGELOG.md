@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.5.0
+
+* Fixed activesupport and cocoapods dependencies
+  [daneov](https://github.com/daneov)
+  [#456](https://github.com/SlatherOrg/slather/pull/467)
+
+* Fixed typo in documentation
+  [descorp](https://github.com/descorp)
+  [#456](https://github.com/SlatherOrg/slather/pull/463)
+
 ## v2.4.9
 
 * Added support for Sonarqube output
