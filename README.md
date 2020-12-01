@@ -175,10 +175,13 @@ test:
       - run: |
           bundle config path vendor/bundle
           bundle install --without=documentation --jobs 4 --retry 3
-
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: get_branch
       - run: bundle exec slather
         env:
-          GIT_BRANCH: ${{ github.event.pull_request.head.ref }}
+          GIT_BRANCH: ${{ steps.get_branch.outputs.branch }}
           CI_PULL_REQUEST: ${{ github.event.number }}
           COVERAGE_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
