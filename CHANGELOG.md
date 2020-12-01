@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.6.0
+
+* Added GitHub actions support
+  [martin-key](https://github.com/martin-key), [troyfontaine](https://github.com/troyfontaine)
+  [#468](https://github.com/SlatherOrg/slather/pull/468)
+
 ## v2.5.0
 
 * Fixed activesupport and cocoapods dependencies
