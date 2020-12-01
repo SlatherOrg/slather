@@ -151,6 +151,26 @@ describe Slather::CoverageService::Coveralls do
         ENV['GIT_BRANCH'] = git_branch
       end
     end
+
+    context "coverage_service is :github" do
+      before(:each) { fixtures_project.ci_service = :github }
+
+      it "should return valid json for coveralls coverage data" do
+        allow(fixtures_project).to receive(:github_job_id).and_return("9182")
+        allow(fixtures_project).to receive(:coverage_access_token).and_return("abc123")
+        allow(fixtures_project).to receive(:github_pull_request).and_return("1")
+        allow(fixtures_project).to receive(:github_build_url).and_return("https://github.com/Bruce/Wayne/actions/runs/1")
+        allow(fixtures_project).to receive(:github_git_info).and_return({ :head => { :id => "ababa123", :author_name => "bwayne", :message => "hello" }, :branch => "master" })
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql("{\"service_job_id\":\"9182\",\"service_name\":\"github\",\"repo_token\":\"abc123\",\"service_pull_request\":\"1\",\"service_build_url\":\"https://github.com/Bruce/Wayne/actions/runs/1\",\"git\":{\"head\":{\"id\":\"ababa123\",\"author_name\":\"bwayne\",\"message\":\"hello\"},\"branch\":\"master\"}}").excluding("source_files")
+        expect(fixtures_project.send(:coveralls_coverage_data)).to be_json_eql(fixtures_project.coverage_files.map(&:as_json).to_json).at_path("source_files")
+      end
+
+      it "should raise an error if there is no GITHUB_RUN_ID" do
+        allow(fixtures_project).to receive(:github_job_id).and_return(nil)
+        expect { fixtures_project.send(:coveralls_coverage_data) }.to raise_error(StandardError)
+      end
+    end
+
   end
 
   describe '#coveralls_coverage_data' do

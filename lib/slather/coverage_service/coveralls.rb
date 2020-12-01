@@ -36,6 +36,21 @@ module Slather
       end
       private :jenkins_job_id
 
+      def github_job_id
+        ENV['GITHUB_RUN_ID']
+      end
+      private :github_job_id
+
+      def github_pull_request
+        ENV['CI_PULL_REQUEST'] || ""
+      end
+      private :github_pull_request
+
+      def github_repo_name
+        ENV['GITHUB_REPOSITORY'] || ""
+      end
+      private :github_repo_name
+
       def jenkins_branch_name
         branch_name = ENV['GIT_BRANCH'] || ENV['BRANCH_NAME']
         if branch_name.include? 'origin/'
@@ -50,6 +65,11 @@ module Slather
         ENV['GIT_BRANCH'] || `git ls-remote --heads origin | grep $(git rev-parse HEAD) | cut -d / -f 3-`.chomp
       end
       private :teamcity_branch_name
+
+      def github_branch_name
+        ENV['GIT_BRANCH'] || `git ls-remote --heads origin | grep $(git rev-parse HEAD) | cut -d / -f 3-`.chomp
+      end
+      private :github_branch_name
 
       def buildkite_job_id
         ENV['BUILDKITE_BUILD_NUMBER']
@@ -118,6 +138,23 @@ module Slather
       def buildkite_build_url
         "https://buildkite.com/" + ENV['BUILDKITE_PROJECT_SLUG'] + "/builds/" + ENV['BUILDKITE_BUILD_NUMBER'] + "#"
       end
+
+      def github_git_info
+        {
+          :head => {
+            :id => ENV['GITHUB_SHA'],
+            :author_name => ENV['GITHUB_ACTOR'],
+            :message => (`git log --format=%s -n 1 HEAD`.chomp || "")
+          },
+          :branch => github_branch_name
+        }
+      end
+      private :github_git_info
+
+      def github_build_url
+        "https://github.com/" + ENV['GITHUB_REPOSITORY'] + "/actions/runs/" + ENV['GITHUB_RUN_ID']
+      end
+      private :github_build_url
 
       def coveralls_coverage_data
         if ci_service == :travis_ci || ci_service == :travis_pro
@@ -205,6 +242,26 @@ module Slather
             }.to_json
           else
             raise StandardError, "Environment variable `TC_BUILD_NUMBER` not set. Is this running on a teamcity build?"
+          end
+        elsif ci_service == :github
+
+          if coverage_access_token.to_s.strip.length == 0
+            raise StandardError, "Access token is not set. Uploading coverage data for private repositories requires an access token."
+          end
+
+          if github_job_id
+            {
+              :service_job_id => github_job_id,
+              :service_name => "github",
+              :repo_token => coverage_access_token,
+              :repo_name => github_repo_name,
+              :source_files => coverage_files.map(&:as_json),
+              :service_build_url => github_build_url,
+              :service_pull_request => github_pull_request,
+              :git => github_git_info
+            }.to_json
+          else
+            raise StandardError, "Environment variable `GITHUB_RUN_ID` not set.  Is this running on github build?"
           end
         else
           raise StandardError, "No support for ci named #{ci_service}"

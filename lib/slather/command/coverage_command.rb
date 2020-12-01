@@ -8,6 +8,7 @@ class CoverageCommand < Clamp::Command
   option ["--jenkins"], :flag, "Indicate that the builds are running on Jenkins"
   option ["--buildkite"], :flag, "Indicate that the builds are running on Buildkite"
   option ["--teamcity"], :flag, "Indicate that the builds are running on TeamCity"
+  option ["--github"], :flag, "Indicate that the builds are running on Github Actions"
 
   option ["--coveralls", "-c"], :flag, "Post coverage results to coveralls"
   option ["--simple-output", "-s"], :flag, "Output coverage results to the terminal"
@@ -91,6 +92,8 @@ class CoverageCommand < Clamp::Command
       project.ci_service = :buildkite
     elsif teamcity?
       project.ci_service = :teamcity
+    elsif github?
+      project.ci_service = :github
     end
   end
 
