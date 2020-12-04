@@ -653,8 +653,8 @@ describe Slather::Project do
     it "should find relevant source files" do
       source_files = fixtures_project.find_source_files
       expect(source_files.count).to eq(2)
-      expect(source_files.first.to_s).to include("fixtures.m")
-      expect(source_files.last.to_s).to include("fixturesTwo.m")
+      expect(source_files.first.to_s).to include("fixturesTwo.m")
+      expect(source_files.last.to_s).to include("fixtures.m")
     end
 
     it "should print out the coverage for each file, and then total coverage" do
