@@ -43,18 +43,23 @@ module Slather
 
     def gcov_data
       @gcov_data ||= begin
-        gcov_output = `gcov "#{source_file_pathname}" --object-directory "#{gcno_file_pathname.parent}" --branch-probabilities --branch-counts`
-        # Sometimes gcov makes gcov files for Cocoa Touch classes, like NSRange. Ignore and delete later.
-        gcov_files_created = gcov_output.scan(/creating '(.+\..+\.gcov)'/)
+        gcov_data = ""
 
-        gcov_file_name = "./#{source_file_pathname.basename}.gcov"
-        if File.exists?(gcov_file_name)
-          gcov_data = File.new(gcov_file_name).read
-        else
-          gcov_data = ""
+        Dir.chdir(project.project_dir) do
+          gcov_output = `gcov "#{source_file_pathname}" --object-directory "#{gcno_file_pathname.parent}" --branch-probabilities --branch-counts`
+          # Sometimes gcov makes gcov files for Cocoa Touch classes, like NSRange. Ignore and delete later.
+          gcov_files_created = gcov_output.scan(/creating '(.+\..+\.gcov)'/)
+
+          gcov_file_name = "./#{source_file_pathname.basename}.gcov"
+          if File.exists?(gcov_file_name)
+            gcov_data = File.new(gcov_file_name).read
+          else
+            gcov_data = ""
+          end
+
+          gcov_files_created.each { |file| FileUtils.rm_f(file) }
         end
 
-        gcov_files_created.each { |file| FileUtils.rm_f(file) }
         gcov_data
       end
     end
