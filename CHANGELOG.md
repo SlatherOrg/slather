@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.6.1
+
+* Update nokogiri to 1.11
+  [ashin-omg](https://github.com/ashin-omg)
+  [#473](https://github.com/SlatherOrg/slather/pull/473)
+
 ## v2.6.0
 
 * Added GitHub actions support
