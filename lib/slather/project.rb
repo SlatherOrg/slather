@@ -3,6 +3,7 @@ require 'xcodeproj'
 require 'json'
 require 'yaml'
 require 'shellwords'
+require 'open3'
 
 module Xcodeproj
 
@@ -277,7 +278,10 @@ module Slather
       if self.arch
         llvm_cov_args << "--arch" << self.arch
       end
-      `xcrun llvm-cov #{llvm_cov_args.shelljoin} #{source_files.shelljoin}`
+
+      # POSIX systems have an ARG_MAX for the maximum total length of the command line, so the command may fail with an error message of "Argument list too long".
+      # Using the xargs command we can break the list of source_files into sublists small enough to be acceptable.
+      `printf '%s\\0' #{source_files.shelljoin} | xargs -0 xcrun llvm-cov #{llvm_cov_args.shelljoin}`
     end
     private :unsafe_profdata_llvm_cov_output
 
