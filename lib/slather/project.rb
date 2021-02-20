@@ -3,7 +3,6 @@ require 'xcodeproj'
 require 'json'
 require 'yaml'
 require 'shellwords'
-require 'open3'
 
 module Xcodeproj
 
