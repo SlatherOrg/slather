@@ -177,6 +177,8 @@ module Slather
                   else
                     cov.td(:class => classes[idx]) {
                       cov.pre {
+                        # If the line has coverage and missed regions, split up
+                        # the line to show regions that weren't covered
                         if missedRegions != nil && hits != nil && hits > 0
                           regions = missedRegions.map do |region|
                             regionStart, regionLength = region
