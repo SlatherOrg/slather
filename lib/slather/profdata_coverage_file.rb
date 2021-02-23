@@ -204,6 +204,33 @@ module Slather
       end
     end
 
+    def branch_region_data
+      @branch_region_data ||= begin
+        branch_region_data = Hash.new
+        regionStart = nil
+        currentLine = 0
+        self.segments.each do |segment|
+          line, col, hits, hasCount, *rest = segment
+          # Make column 0 based index
+          col = col - 1
+          if hits == 0 && hasCount
+            currentLine = line
+            regionStart = col
+          elsif regionStart != nil && hits > 0 && hasCount
+            # if the region wrapped to a new line before ending, put nil to indicate it didnt end on this line
+            regionEnd = line == currentLine ? col - regionStart : nil
+            if branch_region_data.key?(currentLine)
+              branch_region_data[currentLine] = branch_region_data[currentLine] + [regionStart, regionEnd]
+            else
+              branch_region_data[currentLine] = [[regionStart, regionEnd]]
+            end
+            regionStart = nil
+          end
+        end
+        branch_region_data
+      end
+    end
+
     def source_file_basename
       File.basename(source_file_pathname, '.swift')
     end

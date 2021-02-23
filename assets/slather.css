@@ -74,6 +74,7 @@ table.source_code {
 table.source_code td {
   padding-bottom: 0.3em;
 }
+code.missed {background-color: rgba(255, 73, 76, 0.3);}
 table.source_code tr.missed td { background-color: rgba(248, 103, 105, 0.2); }
 table.source_code tr.covered td { background-color: rgba(103, 207, 124, 0.2); }
 table.source_code td.num {
@@ -124,7 +125,7 @@ footer p, footer a {
 Syntax Highlighting using highlight.js (https://highlightjs.org)
 ------------------------------------------------------------- */
 .hljs {
-  display: block;
+  display: inline-block;
   overflow-x: auto;
   -webkit-text-size-adjust: none;
 }

@@ -133,6 +133,7 @@ module Slather
         filepath = coverage_file.source_file_pathname_relative_to_repo_root
         filename = File.basename(filepath)
         percentage = coverage_file.percentage_lines_tested
+        branchPercentage = coverage_file.rate_branches_tested * 100
 
         cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
         is_file_empty = (cleaned_gcov_lines.count <= 0)
@@ -142,7 +143,10 @@ module Slather
         builder = Nokogiri::HTML::Builder.with(template.at('#reports')) { |cov|
           cov.h2(:class => "cov_title") {
             cov.span("Coverage for \"#{filename}\"" + (!is_file_empty ? " : " : ""))
+            cov.span("Lines: ")
             cov.span("#{decimal_f(percentage)}%", :class => class_for_coverage_percentage(percentage)) unless is_file_empty
+            cov.span(" Branches: ")
+            cov.span("#{decimal_f(branchPercentage)}%", :class => class_for_coverage_percentage(branchPercentage)) unless is_file_empty
           }
 
           cov.h4("(#{coverage_file.num_lines_tested} of #{coverage_file.num_lines_testable} relevant lines covered)", :class => "cov_subtitle")
@@ -157,8 +161,9 @@ module Slather
 
           cov.table(:class => "source_code") {
             cleaned_gcov_lines.each do |line|
-
               line_number = coverage_file.line_number_in_line(line)
+              missedRegions = coverage_file.branch_region_data[line_number]
+              hits = coverage_file.coverage_for_line(line)
               next unless line_number > 0
 
               line_source = line.split(line_number_separator, 3)[2]
@@ -171,7 +176,28 @@ module Slather
                     cov.td(line, :class => classes[idx])
                   else
                     cov.td(:class => classes[idx]) {
-                      cov.pre { cov.code(line, :class => "objc") }
+                      cov.pre {
+                        if missedRegions != nil && hits != nil && hits > 0
+                          regions = missedRegions.map do |region|
+                            regionStart, regionLength = region
+                            if regionLength != nil
+                              line[regionStart, regionLength]
+                            else
+                              line[regionStart, line.length - regionStart]
+                            end
+                          end
+                          currentLine = line
+                          regions.each do |region|
+                            covered, remainder = currentLine.split(region)
+                            cov.code(covered, :class => "objc")
+                            cov.code(region, :class => "objc missed")
+                            currentLine = remainder
+                          end
+                          cov.code(currentLine, :class => "objc")
+                        else
+                          cov.code(line, :class => "objc")
+                        end
+                      }
                     }
                   end
                 }
