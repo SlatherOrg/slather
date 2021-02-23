@@ -70,9 +70,14 @@ module Slather
 
         total_relevant_lines = 0
         total_tested_lines = 0
+        total_relevant_branches = 0
+        total_branches_tested = 0
         coverage_files.each { |coverage_file|
           total_tested_lines += coverage_file.num_lines_tested
           total_relevant_lines += coverage_file.num_lines_testable
+
+          total_relevant_branches += coverage_file.num_branches_testable
+          total_branches_tested += coverage_file.num_branches_tested
         }
 
         builder = Nokogiri::HTML::Builder.with(template.at('#reports')) { |cov|
@@ -81,6 +86,12 @@ module Slather
           cov.h4 {
             percentage = (total_tested_lines / total_relevant_lines.to_f) * 100.0
             cov.span "Total Coverage : "
+            cov.span decimal_f(percentage) + '%', :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
+          }
+
+          cov.h4 {
+            percentage = (total_branches_tested / total_relevant_branches.to_f) * 100.0
+            cov.span "Total Branch Coverage : "
             cov.span decimal_f(percentage) + '%', :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
           }
 
