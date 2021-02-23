@@ -8,7 +8,7 @@ module Slather
     include CoverageInfo
     include CoverallsCoverage
 
-    attr_accessor :project, :source, :line_numbers_first, :line_data
+    attr_accessor :project, :source, :segments, :line_numbers_first, :line_data
 
     def initialize(project, source, line_numbers_first)
       self.project = project
@@ -188,7 +188,19 @@ module Slather
 
     def branch_coverage_data
       @branch_coverage_data ||= begin
-        Hash.new
+        branch_coverage_data = Hash.new
+
+        self.segments.each do |segment|
+          line, col, hits, hasCount, *rest = segment
+          next if !hasCount
+          if branch_coverage_data.key?(line)
+            branch_coverage_data[line] = branch_coverage_data[line] + [hits]
+          else
+            branch_coverage_data[line] = [hits]
+          end
+        end
+
+        branch_coverage_data
       end
     end
 

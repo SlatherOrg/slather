@@ -664,10 +664,12 @@ describe Slather::Project do
               {
                  "files":[
                     {
-                       "filename":"spec/fixtures/fixtures/fixtures.m"
+                       "filename":"spec/fixtures/fixtures/fixtures.m",
+                       "segments": []
                     },
                     {
-                       "filename":"spec/fixtures/fixturesTwo/fixturesTwo.m"
+                       "filename":"spec/fixtures/fixturesTwo/fixturesTwo.m",
+                       "segments": []
                     }
                  ]
               }
