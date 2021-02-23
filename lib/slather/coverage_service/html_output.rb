@@ -143,9 +143,9 @@ module Slather
         builder = Nokogiri::HTML::Builder.with(template.at('#reports')) { |cov|
           cov.h2(:class => "cov_title") {
             cov.span("Coverage for \"#{filename}\"" + (!is_file_empty ? " : " : ""))
-            cov.span("Lines: ")
+            cov.span("Lines: ") unless is_file_empty
             cov.span("#{decimal_f(percentage)}%", :class => class_for_coverage_percentage(percentage)) unless is_file_empty
-            cov.span(" Branches: ")
+            cov.span(" Branches: ") unless is_file_empty
             cov.span("#{decimal_f(branchPercentage)}%", :class => class_for_coverage_percentage(branchPercentage)) unless is_file_empty
           }
 
