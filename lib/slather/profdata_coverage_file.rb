@@ -209,7 +209,8 @@ module Slather
         branch_region_data = Hash.new
         regionStart = nil
         currentLine = 0
-        self.segments.each do |segment|
+        @segments ||= []
+        @segments.each do |segment|
           line, col, hits, hasCount, *rest = segment
           # Make column 0 based index
           col = col - 1

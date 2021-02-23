@@ -157,6 +157,18 @@ describe Slather::ProfdataCoverageFile do
     end
   end
 
+  describe "#branch_coverage_data" do
+    it "should have branch data for line 19" do
+      # these segments correspond to the only statement on line 19
+      profdata_coverage_file.segments = [[19, 9, 0, true, false], [19, 20, 1, true, false]]
+      expect(profdata_coverage_file.branch_coverage_data[19]).to eq([0,1])
+    end
+    it "should have missing region data for line 19" do
+      profdata_coverage_file.segments = [[19, 9, 0, true, false], [19, 20, 1, true, false]]
+      expect(profdata_coverage_file.branch_region_data[19]).to eq([[8,11]])
+    end
+  end
+
   describe "#ignored" do
 
     before(:each) {
