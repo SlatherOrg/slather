@@ -191,8 +191,8 @@ module Slather
         branch_coverage_data = Hash.new
 
         self.segments.each do |segment|
-          line, col, hits, hasCount, *rest = segment
-          next if !hasCount
+          line, col, hits, has_count, *rest = segment
+          next if !has_count
           if branch_coverage_data.key?(line)
             branch_coverage_data[line] = branch_coverage_data[line] + [hits]
           else
@@ -207,25 +207,25 @@ module Slather
     def branch_region_data
       @branch_region_data ||= begin
         branch_region_data = Hash.new
-        regionStart = nil
-        currentLine = 0
+        region_start = nil
+        current_line = 0
         @segments ||= []
         @segments.each do |segment|
-          line, col, hits, hasCount, *rest = segment
+          line, col, hits, has_count, *rest = segment
           # Make column 0 based index
           col = col - 1
-          if hits == 0 && hasCount
-            currentLine = line
-            regionStart = col
-          elsif regionStart != nil && hits > 0 && hasCount
+          if hits == 0 && has_count
+            current_line = line
+            region_start = col
+          elsif region_start != nil && hits > 0 && has_count
             # if the region wrapped to a new line before ending, put nil to indicate it didnt end on this line
-            regionEnd = line == currentLine ? col - regionStart : nil
-            if branch_region_data.key?(currentLine)
-              branch_region_data[currentLine] = branch_region_data[currentLine] + [regionStart, regionEnd]
+            region_end = line == current_line ? col - region_start : nil
+            if branch_region_data.key?(current_line)
+              branch_region_data[current_line] = branch_region_data[current_line] + [region_start, region_end]
             else
-              branch_region_data[currentLine] = [[regionStart, regionEnd]]
+              branch_region_data[current_line] = [[region_start, region_end]]
             end
-            regionStart = nil
+            region_start = nil
           end
         end
         branch_region_data

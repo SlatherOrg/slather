@@ -144,7 +144,7 @@ module Slather
         filepath = coverage_file.source_file_pathname_relative_to_repo_root
         filename = File.basename(filepath)
         percentage = coverage_file.percentage_lines_tested
-        branchPercentage = coverage_file.rate_branches_tested * 100
+        branch_percentage = coverage_file.rate_branches_tested * 100
 
         cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
         is_file_empty = (cleaned_gcov_lines.count <= 0)
@@ -157,7 +157,7 @@ module Slather
             cov.span("Lines: ") unless is_file_empty
             cov.span("#{decimal_f(percentage)}%", :class => class_for_coverage_percentage(percentage)) unless is_file_empty
             cov.span(" Branches: ") unless is_file_empty
-            cov.span("#{decimal_f(branchPercentage)}%", :class => class_for_coverage_percentage(branchPercentage)) unless is_file_empty
+            cov.span("#{decimal_f(branch_percentage)}%", :class => class_for_coverage_percentage(branch_percentage)) unless is_file_empty
           }
 
           cov.h4("(#{coverage_file.num_lines_tested} of #{coverage_file.num_lines_testable} relevant lines covered)", :class => "cov_subtitle")
@@ -173,7 +173,7 @@ module Slather
           cov.table(:class => "source_code") {
             cleaned_gcov_lines.each do |line|
               line_number = coverage_file.line_number_in_line(line)
-              missedRegions = coverage_file.branch_region_data[line_number]
+              missed_regions = coverage_file.branch_region_data[line_number]
               hits = coverage_file.coverage_for_line(line)
               next unless line_number > 0
 
@@ -190,23 +190,23 @@ module Slather
                       cov.pre {
                         # If the line has coverage and missed regions, split up
                         # the line to show regions that weren't covered
-                        if missedRegions != nil && hits != nil && hits > 0
-                          regions = missedRegions.map do |region|
-                            regionStart, regionLength = region
-                            if regionLength != nil
-                              line[regionStart, regionLength]
+                        if missed_regions != nil && hits != nil && hits > 0
+                          regions = missed_regions.map do |region|
+                            region_start, region_length = region
+                            if region_length != nil
+                              line[region_start, region_length]
                             else
-                              line[regionStart, line.length - regionStart]
+                              line[region_start, line.length - region_start]
                             end
                           end
-                          currentLine = line
+                          current_line = line
                           regions.each do |region|
-                            covered, remainder = currentLine.split(region)
+                            covered, remainder = current_line.split(region)
                             cov.code(covered, :class => "objc")
                             cov.code(region, :class => "objc missed")
-                            currentLine = remainder
+                            current_line = remainder
                           end
-                          cov.code(currentLine, :class => "objc")
+                          cov.code(current_line, :class => "objc")
                         else
                           cov.code(line, :class => "objc")
                         end
