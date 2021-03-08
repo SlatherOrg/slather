@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.7.0
+
+* Add Branch Coverage data for ProfData coverage files
+  [hborawski](https://github.com/hborawski)
+  [#477](https://github.com/SlatherOrg/slather/pull/477)
+
+* Fixed 'Argument list too long' when running 'xcrun llvm-cov'
+  [samuelsainz](https://github.com/samuelsainz)
+  [#476](https://github.com/SlatherOrg/slather/pull/476)
+
 ## v2.6.1
 
 * Update nokogiri to 1.11
