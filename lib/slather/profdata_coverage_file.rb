@@ -8,7 +8,7 @@ module Slather
     include CoverageInfo
     include CoverallsCoverage
 
-    attr_accessor :project, :source, :line_numbers_first, :line_data
+    attr_accessor :project, :source, :segments, :line_numbers_first, :line_data
 
     def initialize(project, source, line_numbers_first)
       self.project = project
@@ -188,7 +188,47 @@ module Slather
 
     def branch_coverage_data
       @branch_coverage_data ||= begin
-        Hash.new
+        branch_coverage_data = Hash.new
+
+        self.segments.each do |segment|
+          line, col, hits, has_count, *rest = segment
+          next if !has_count
+          if branch_coverage_data.key?(line)
+            branch_coverage_data[line] = branch_coverage_data[line] + [hits]
+          else
+            branch_coverage_data[line] = [hits]
+          end
+        end
+
+        branch_coverage_data
+      end
+    end
+
+    def branch_region_data
+      @branch_region_data ||= begin
+        branch_region_data = Hash.new
+        region_start = nil
+        current_line = 0
+        @segments ||= []
+        @segments.each do |segment|
+          line, col, hits, has_count, *rest = segment
+          # Make column 0 based index
+          col = col - 1
+          if hits == 0 && has_count
+            current_line = line
+            region_start = col
+          elsif region_start != nil && hits > 0 && has_count
+            # if the region wrapped to a new line before ending, put nil to indicate it didnt end on this line
+            region_end = line == current_line ? col - region_start : nil
+            if branch_region_data.key?(current_line)
+              branch_region_data[current_line] = branch_region_data[current_line] + [region_start, region_end]
+            else
+              branch_region_data[current_line] = [[region_start, region_end]]
+            end
+            region_start = nil
+          end
+        end
+        branch_region_data
       end
     end
 

@@ -70,9 +70,14 @@ module Slather
 
         total_relevant_lines = 0
         total_tested_lines = 0
+        total_relevant_branches = 0
+        total_branches_tested = 0
         coverage_files.each { |coverage_file|
           total_tested_lines += coverage_file.num_lines_tested
           total_relevant_lines += coverage_file.num_lines_testable
+
+          total_relevant_branches += coverage_file.num_branches_testable
+          total_branches_tested += coverage_file.num_branches_tested
         }
 
         builder = Nokogiri::HTML::Builder.with(template.at('#reports')) { |cov|
@@ -81,6 +86,12 @@ module Slather
           cov.h4 {
             percentage = (total_tested_lines / total_relevant_lines.to_f) * 100.0
             cov.span "Total Coverage : "
+            cov.span decimal_f(percentage) + '%', :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
+          }
+
+          cov.h4 {
+            percentage = (total_branches_tested / total_relevant_branches.to_f) * 100.0
+            cov.span "Total Branch Coverage : "
             cov.span decimal_f(percentage) + '%', :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
           }
 
@@ -133,6 +144,7 @@ module Slather
         filepath = coverage_file.source_file_pathname_relative_to_repo_root
         filename = File.basename(filepath)
         percentage = coverage_file.percentage_lines_tested
+        branch_percentage = coverage_file.rate_branches_tested * 100
 
         cleaned_gcov_lines = coverage_file.cleaned_gcov_data.split("\n")
         is_file_empty = (cleaned_gcov_lines.count <= 0)
@@ -142,7 +154,10 @@ module Slather
         builder = Nokogiri::HTML::Builder.with(template.at('#reports')) { |cov|
           cov.h2(:class => "cov_title") {
             cov.span("Coverage for \"#{filename}\"" + (!is_file_empty ? " : " : ""))
+            cov.span("Lines: ") unless is_file_empty
             cov.span("#{decimal_f(percentage)}%", :class => class_for_coverage_percentage(percentage)) unless is_file_empty
+            cov.span(" Branches: ") unless is_file_empty
+            cov.span("#{decimal_f(branch_percentage)}%", :class => class_for_coverage_percentage(branch_percentage)) unless is_file_empty
           }
 
           cov.h4("(#{coverage_file.num_lines_tested} of #{coverage_file.num_lines_testable} relevant lines covered)", :class => "cov_subtitle")
@@ -157,8 +172,9 @@ module Slather
 
           cov.table(:class => "source_code") {
             cleaned_gcov_lines.each do |line|
-
               line_number = coverage_file.line_number_in_line(line)
+              missed_regions = coverage_file.branch_region_data[line_number]
+              hits = coverage_file.coverage_for_line(line)
               next unless line_number > 0
 
               line_source = line.split(line_number_separator, 3)[2]
@@ -171,7 +187,30 @@ module Slather
                     cov.td(line, :class => classes[idx])
                   else
                     cov.td(:class => classes[idx]) {
-                      cov.pre { cov.code(line, :class => "objc") }
+                      cov.pre {
+                        # If the line has coverage and missed regions, split up
+                        # the line to show regions that weren't covered
+                        if missed_regions != nil && hits != nil && hits > 0
+                          regions = missed_regions.map do |region|
+                            region_start, region_length = region
+                            if region_length != nil
+                              line[region_start, region_length]
+                            else
+                              line[region_start, line.length - region_start]
+                            end
+                          end
+                          current_line = line
+                          regions.each do |region|
+                            covered, remainder = current_line.split(region)
+                            cov.code(covered, :class => "objc")
+                            cov.code(region, :class => "objc missed")
+                            current_line = remainder
+                          end
+                          cov.code(current_line, :class => "objc")
+                        else
+                          cov.code(line, :class => "objc")
+                        end
+                      }
                     }
                   end
                 }

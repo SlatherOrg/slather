@@ -185,8 +185,8 @@ describe Slather::CoverageService::HtmlOutput do
       end
 
       allow(fixtures_project).to receive(:input_format).and_return("profdata")
-      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("./spec/fixtures/fixtures/other_fixtures.m:
-    1|     |//
+      allow(fixtures_project).to receive(:pathnames_per_binary).and_return([{"filename" => Pathname.new("./spec/fixtures/fixtures/other_fixtures.m"), "segments" => []}])
+      allow(fixtures_project).to receive(:profdata_llvm_cov_output).and_return("1|     |//
     2|     |//  other_fixtures.m
     3|     |//  fixtures
     4|     |//

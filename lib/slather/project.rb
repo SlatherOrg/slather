@@ -135,7 +135,7 @@ module Slather
       coverage_json = JSON.parse(coverage_json_string)
       coverage_json["data"].reduce([]) do |result, chunk|
         result.concat(chunk["files"].map do |file|
-          Pathname(file["filename"]).realpath
+          {"filename" => Pathname(file["filename"]).realpath, "segments" => file["segments"]}
         end)
       end
     end
@@ -162,13 +162,24 @@ module Slather
     end
     private :create_coverage_files_for_binary
 
-    def create_coverage_files(binary_path, pathnames)
+    def create_coverage_files(binary_path, path_objects)
       line_numbers_first = Gem::Version.new(self.llvm_version) >= Gem::Version.new('8.1.0')
+      # get just file names from the path objects
+      pathnames = path_objects.map { |path_obj| path_obj["filename"] }.compact
+      # Map of path name => segment array
+      paths_to_segments = path_objects.reduce(Hash.new) do |hash, path_obj|
+        hash[path_obj["filename"]] = path_obj["segments"]
+        hash
+      end
       files = create_profdata(binary_path, pathnames)
       files.map do |source|
         coverage_file = coverage_file_class.new(self, source, line_numbers_first)
         # If a single source file is used, the resulting output does not contain the file name.
         coverage_file.source_file_pathname = pathnames.first if pathnames.count == 1
+        # if there is segment data for the given path, add it to the coverage_file
+        if paths_to_segments.key?(coverage_file.source_file_pathname)
+          coverage_file.segments = paths_to_segments[coverage_file.source_file_pathname]
+        end
         !coverage_file.ignored? ? coverage_file : nil
       end.compact
     end
