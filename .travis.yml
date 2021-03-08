@@ -2,6 +2,8 @@ language: objective-c
 script: bundle exec rake
 osx_image: xcode12.2
 
+cache: bundler
+
 before_install:
   - curl http://curl.haxx.se/ca/cacert.pem -o /usr/local/share/cacert.pem
   - gem install bundler -v "~> 2.0" --no-document
