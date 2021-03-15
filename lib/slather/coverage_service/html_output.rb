@@ -201,7 +201,7 @@ module Slather
                           end
                           current_line = line
                           regions.each do |region|
-                            covered, remainder = current_line.split(region)
+                            covered, remainder = current_line.split(region, 2)
                             cov.code(covered, :class => "objc")
                             cov.code(region, :class => "objc missed")
                             current_line = remainder
