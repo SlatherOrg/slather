@@ -221,7 +221,7 @@ module Slather
             # if the region wrapped to a new line before ending, put nil to indicate it didnt end on this line
             region_end = line == current_line ? col - region_start : nil
             if branch_region_data.key?(current_line)
-              branch_region_data[current_line] = branch_region_data[current_line] + [region_start, region_end]
+              branch_region_data[current_line] << [region_start, region_end]
             else
               branch_region_data[current_line] = [[region_start, region_end]]
             end

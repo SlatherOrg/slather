@@ -167,6 +167,10 @@ describe Slather::ProfdataCoverageFile do
       profdata_coverage_file.segments = [[19, 9, 0, true, false], [19, 20, 1, true, false]]
       expect(profdata_coverage_file.branch_region_data[19]).to eq([[8,11]])
     end
+    it "should have two missing region data for line 19" do
+      profdata_coverage_file.segments = [[19, 9, 0, true, false], [19, 20, 1, true, false], [19, 30, 0, true, false], [19, 40, 1, true, true]]
+      expect(profdata_coverage_file.branch_region_data[19]).to eq([[8,11], [29,10]])
+    end
   end
 
   describe "#ignored" do
