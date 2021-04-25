@@ -587,6 +587,19 @@ module Slather
     def find_buildable_names(xcscheme)
       found_buildable_names = []
 
+      # enumerate code coverage targets
+      begin
+        code_coverage_targets = xcscheme.test_action.xml_element.elements['CodeCoverageTargets']
+        targets = code_coverage_targets.map do |node|
+          Xcodeproj::XCScheme::BuildableReference.new(node) if node.is_a?(REXML::Element)
+        end.compact
+        buildable_names = targets.each do |target|
+          found_buildable_names.push(target.buildable_name)
+        end
+      rescue
+        # just in case if there are no entries in the test action
+      end
+
       # enumerate build action entries
       begin
         xcscheme.build_action.entries.each do |entry|
