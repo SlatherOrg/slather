@@ -88,9 +88,9 @@ module Slather
             cov.span "Total Coverage : "
             cov.span decimal_f(percentage) + '%', :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
             cov.span " ("
-            cov.span total_relevant_lines, :id => "total_relevant_lines"
-            cov.span " of "
             cov.span total_tested_lines, :id => "total_tested_lines"
+            cov.span " of "
+            cov.span total_relevant_lines, :id => "total_relevant_lines"
             cov.span " lines)"
           }
 
