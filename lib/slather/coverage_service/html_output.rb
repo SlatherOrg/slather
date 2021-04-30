@@ -87,12 +87,22 @@ module Slather
             percentage = (total_tested_lines / total_relevant_lines.to_f) * 100.0
             cov.span "Total Coverage : "
             cov.span decimal_f(percentage) + '%', :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
+            cov.span " ("
+            cov.span total_tested_lines, :id => "total_tested_lines"
+            cov.span " of "
+            cov.span total_relevant_lines, :id => "total_relevant_lines"
+            cov.span " lines)"
           }
 
           cov.h4 {
             percentage = (total_branches_tested / total_relevant_branches.to_f) * 100.0
             cov.span "Total Branch Coverage : "
             cov.span decimal_f(percentage) + '%', :class => class_for_coverage_percentage(percentage), :id => "total_coverage"
+            cov.span " ("
+            cov.span total_branches_tested, :id => "total_branches_tested"
+            cov.span " of "
+            cov.span total_relevant_branches, :id => "total_relevant_branches"
+            cov.span " lines)"
           }
 
           cov.input(:class => "search", :placeholder => "Search")
