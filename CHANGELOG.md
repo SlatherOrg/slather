@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## v2.7.1
+
+* Support generating coverage for framework targets
+  [onato](https://github.com/onato)
+  [#482](https://github.com/SlatherOrg/slather/pull/482)
+
+* Show number of lines in HTML report
+  [SiemianHS](https://github.com/SiemianHS)
+  [#494](https://github.com/SlatherOrg/slather/pull/494)
+
+* Fixed issues with HTML report generation
+  [fchiba](https://github.com/fchiba)
+  [#483](https://github.com/SlatherOrg/slather/pull/483)
+  [#484](https://github.com/SlatherOrg/slather/pull/484)
+
+* Don't fail if a source file doesn't exist
+  [chillpop](https://github.com/chillpop)
+  [#492](https://github.com/SlatherOrg/slather/pull/492)
+
 ## v2.7.0
 
 * Add Branch Coverage data for ProfData coverage files
