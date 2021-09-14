@@ -157,6 +157,12 @@ module Slather
       private :github_build_url
 
       def coveralls_coverage_data
+        unless coverage_access_token.nil?
+          return {
+            :repo_token => coverage_access_token,
+            :source_files => coverage_files.map(&:as_json)
+          }.to_json
+        end
         if ci_service == :travis_ci || ci_service == :travis_pro
           if travis_job_id
             if ci_service == :travis_ci
