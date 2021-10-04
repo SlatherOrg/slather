@@ -375,7 +375,7 @@ module Slather
     end
 
     def configure_ci_service
-      self.ci_service ||= (self.class.yml["ci_service"] || :travis_ci)
+      self.ci_service ||= (self.class.yml["ci_service"] || :unknown)
     end
 
     def configure_input_format
