@@ -264,7 +264,15 @@ module Slather
             raise StandardError, "Environment variable `GITHUB_RUN_ID` not set.  Is this running on github build?"
           end
         else
-          raise StandardError, "No support for ci named #{ci_service}"
+          {
+              :service_job_id => ENV['CI_BUILD_NUMBER'],
+              :service_name => ENV['CI_NAME'] ? ENV['CI_NAME'] : 'other',
+              :repo_token => coverage_access_token,
+              :source_files => coverage_files.map(&:as_json),
+              :service_build_url => ENV['CI_BUILD_URL'],
+              :service_pull_request => ENV['CI_PULL_REQUEST'],
+              :service_branch => ENV['CI_BRANCH']
+            }.to_json
         end
       end
       private :coveralls_coverage_data
