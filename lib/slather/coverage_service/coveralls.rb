@@ -265,14 +265,23 @@ module Slather
           end
         else
           {
-              :service_job_id => ENV['CI_BUILD_NUMBER'],
-              :service_name => ENV['CI_NAME'] ? ENV['CI_NAME'] : 'other',
-              :repo_token => coverage_access_token,
-              :source_files => coverage_files.map(&:as_json),
-              :service_build_url => ENV['CI_BUILD_URL'],
-              :service_pull_request => ENV['CI_PULL_REQUEST'],
-              :service_branch => ENV['CI_BRANCH']
-            }.to_json
+            :service_job_id => ENV['CI_BUILD_NUMBER'],
+            :service_name => ENV['CI_NAME'] ? ENV['CI_NAME'] : 'other',
+            :repo_token => coverage_access_token,
+            :source_files => coverage_files.map(&:as_json),
+            :service_build_url => ENV['CI_BUILD_URL'],
+            :service_pull_request => ENV['CI_PULL_REQUEST'],
+            :service_branch => ENV['CI_BRANCH'],
+            :git => {
+              :head => {
+                :id => ENV['CI_COMMIT'],
+                :author_name => (`git log --format=%an -n 1 HEAD`.chomp || ""),
+                :author_email => (`git log --format=%ae -n 1 HEAD`.chomp || ""),
+                :message => (`git log --format=%s -n 1 HEAD`.chomp || "")
+              },
+              :branch => ENV['CI_BRANCH']
+            }
+          }.to_json
         end
       end
       private :coveralls_coverage_data
