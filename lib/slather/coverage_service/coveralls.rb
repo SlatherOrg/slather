@@ -41,6 +41,16 @@ module Slather
       end
       private :github_job_id
 
+      def bitrise_job_id
+        ENV['BITRISE_BUILD_NUMBER']
+      end
+      private :bitrise_job_id
+
+      def bitrise_pull_request
+        ENV['BITRISE_PULL_REQUEST']
+      end
+      private :bitrise_pull_request
+
       def github_pull_request
         ENV['CI_PULL_REQUEST'] || ""
       end
@@ -70,6 +80,11 @@ module Slather
         ENV['GIT_BRANCH'] || `git ls-remote --heads origin | grep $(git rev-parse HEAD) | cut -d / -f 3-`.chomp
       end
       private :github_branch_name
+
+      def bitrise_branch_name
+        ENV['BITRISE_GIT_BRANCH'] || `git ls-remote --heads origin | grep $(git rev-parse HEAD) | cut -d / -f 3-`.chomp
+      end
+      private :bitrise_branch_name
 
       def buildkite_job_id
         ENV['BUILDKITE_BUILD_NUMBER']
@@ -150,6 +165,19 @@ module Slather
         }
       end
       private :github_git_info
+
+      def bitrise_git_info
+        {
+          :head => {
+            :id => ENV['BITRISE_GIT_COMMIT'],
+            :committer_name => (ENV['GIT_CLONE_COMMIT_AUTHOR_NAME'] || `git log --format=%an -n 1 HEAD`.chomp || ""),
+            :committer_email => (ENV['GIT_CLONE_COMMIT_AUTHOR_EMAIL'] || `git log --format=%ae -n 1 HEAD`.chomp || ""),
+            :message => (ENV['BITRISE_GIT_MESSAGE'] || `git log --format=%s -n 1 HEAD`.chomp || "")
+          },
+          :branch => bitrise_branch_name
+        }
+      end
+      private :bitrise_git_info
 
       def github_build_url
         "https://github.com/" + ENV['GITHUB_REPOSITORY'] + "/actions/runs/" + ENV['GITHUB_RUN_ID']
@@ -263,16 +291,35 @@ module Slather
           else
             raise StandardError, "Environment variable `GITHUB_RUN_ID` not set.  Is this running on github build?"
           end
+        elsif ci_service == :bitrise
+          {
+            :service_job_id => bitrise_job_id,
+            :service_name => 'bitrise',
+            :repo_token => coverage_access_token,
+            :source_files => coverage_files.map(&:as_json),
+            :service_pull_request => bitrise_pull_request,
+            :service_branch => bitrise_branch_name,
+            :git => bitrise_git_info
+          }.to_json
         else
           {
-              :service_job_id => ENV['CI_BUILD_NUMBER'],
-              :service_name => ENV['CI_NAME'] ? ENV['CI_NAME'] : 'other',
-              :repo_token => coverage_access_token,
-              :source_files => coverage_files.map(&:as_json),
-              :service_build_url => ENV['CI_BUILD_URL'],
-              :service_pull_request => ENV['CI_PULL_REQUEST'],
-              :service_branch => ENV['CI_BRANCH']
-            }.to_json
+            :service_job_id => ENV['CI_BUILD_NUMBER'],
+            :service_name => ENV['CI_NAME'] || ci_service,
+            :repo_token => coverage_access_token,
+            :source_files => coverage_files.map(&:as_json),
+            :service_build_url => ENV['CI_BUILD_URL'],
+            :service_pull_request => ENV['CI_PULL_REQUEST'],
+            :service_branch => ENV['CI_BRANCH'],
+            :git => {
+              :head => {
+                :id => ENV['CI_COMMIT'],
+                :committer_name => (`git log --format=%an -n 1 HEAD`.chomp || ""),
+                :committer_email => (`git log --format=%ae -n 1 HEAD`.chomp || ""),
+                :message => (`git log --format=%s -n 1 HEAD`.chomp || "")
+              },
+              :branch => ENV['CI_BRANCH']
+            }
+          }.to_json
         end
       end
       private :coveralls_coverage_data
