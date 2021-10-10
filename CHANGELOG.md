@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v2.7.2
+
+* Update xcodeproj version
+  [adamyanalunas](https://github.com/adamyanalunas)
+  [#502](https://github.com/SlatherOrg/slather/pull/502)
+
+* Update nokogiri version
+  [jwelton](https://github.com/jwelton)
+  [#503](https://github.com/SlatherOrg/slather/pull/503)
+
+* Support alternate CI systems in coveralls output
+  [fermoyadrop](https://github.com/fermoyadrop)
+  [#504](https://github.com/SlatherOrg/slather/pull/504)
+
+* Add Bitrise support to coveralls output
+  [fermoyadrop](https://github.com/fermoyadrop)
+  [#504](https://github.com/SlatherOrg/slather/pull/505)
+
 ## v2.7.1
 
 * Support generating coverage for framework targets
