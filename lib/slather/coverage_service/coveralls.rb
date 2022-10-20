@@ -184,6 +184,11 @@ module Slather
       end
       private :github_build_url
 
+      def is_parallel
+        ENV['IS_PARALLEL'] != nil
+      end
+      private :is_parallel
+
       def coveralls_coverage_data
         if ci_service == :travis_ci || ci_service == :travis_pro
           if travis_job_id
@@ -286,7 +291,8 @@ module Slather
               :source_files => coverage_files.map(&:as_json),
               :service_build_url => github_build_url,
               :service_pull_request => github_pull_request,
-              :git => github_git_info
+              :git => github_git_info,
+              :parallel => is_parallel
             }.to_json
           else
             raise StandardError, "Environment variable `GITHUB_RUN_ID` not set.  Is this running on github build?"
