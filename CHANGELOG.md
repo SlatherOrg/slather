@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v2.7.3
+
+* Support Coveralls parallel runs
+  [paulz](https://github.com/paulz)
+  [#523](https://github.com/SlatherOrg/slather/pull/523)
+
+* Update nokogiri version
+  [anil291987](https://github.com/anil291987)
+  [#518](https://github.com/SlatherOrg/slather/pull/518)
+  [#524](https://github.com/SlatherOrg/slather/pull/524)
+
 ## v2.7.2
 
 * Update xcodeproj version
