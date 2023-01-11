@@ -208,7 +208,7 @@ module Slather
 
     def profdata_coverage_dir
       @profdata_coverage_dir ||= begin
-        raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exists?(self.build_directory)
+        raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exist?(self.build_directory)
         dir = nil
         if self.scheme
           dir = Dir[File.join(build_directory,"/**/CodeCoverage/#{self.scheme}")].first
@@ -503,7 +503,7 @@ module Slather
           end
         end
 
-        raise StandardError, "No scheme named '#{self.scheme}' found in #{self.path}" unless File.exists? xcscheme_path
+        raise StandardError, "No scheme named '#{self.scheme}' found in #{self.path}" unless File.exist? xcscheme_path
 
         xcscheme = Xcodeproj::XCScheme.new(xcscheme_path)
 

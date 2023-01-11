@@ -38,7 +38,7 @@ describe Slather::CoverageService::SonarqubeXmlOutput do
       fixtures_project.post
 
       filepath = "#{fixtures_project.output_directory}/sonarqube-generic-coverage.xml"
-      expect(File.exists?(filepath)).to be_truthy
+      expect(File.exist?(filepath)).to be_truthy
 
       FileUtils.rm_rf(fixtures_project.output_directory)
     end
