@@ -51,7 +51,7 @@ module Slather
           gcov_files_created = gcov_output.scan(/creating '(.+\..+\.gcov)'/)
 
           gcov_file_name = "./#{source_file_pathname.basename}.gcov"
-          if File.exists?(gcov_file_name)
+          if File.exist?(gcov_file_name)
             gcov_data = File.new(gcov_file_name).read
           else
             gcov_data = ""

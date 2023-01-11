@@ -45,7 +45,7 @@ describe Slather::CoverageService::CoberturaXmlOutput do
       fixtures_project.post
 
       filepath = "#{fixtures_project.output_directory}/cobertura.xml"
-      expect(File.exists?(filepath)).to be_truthy
+      expect(File.exist?(filepath)).to be_truthy
 
       FileUtils.rm_rf(fixtures_project.output_directory)
     end
