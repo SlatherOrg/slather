@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.7.4
+
+* Support Ruby 3.2.0
+  [crazymanish](https://github.com/crazymanish)
+  [#532](https://github.com/SlatherOrg/slather/pull/532)
+
 ## v2.7.3
 
 * Support Coveralls parallel runs
