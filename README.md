@@ -233,6 +233,8 @@ $ slather coverage --html --scheme YourXcodeSchemeName path/to/project.xcodeproj
 
 This will make a directory named `html` in your root directory (unless `--output-directory` is specified) and will generate all the reports as static html pages inside the directory. It will print out the report's path by default, but you can also specify `--show` flag to open it in your browser automatically.
 
+By default, the generated HTML will reference locally hosted assets (js, css). You can specify the `--cdn-assets` to specify that you prefer for the generated HTML to use externally hosted assets. This can be useful if publishing the HTML file as a build artifact. 
+
 ### TeamCity Reporting
 
 To report the coverage statistics to TeamCity:
