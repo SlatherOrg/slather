@@ -44,7 +44,7 @@ module Slather
   class Project < Xcodeproj::Project
 
     attr_accessor :build_directory, :ignore_list, :ci_service, :coverage_service, :coverage_access_token, :source_directory,
-      :output_directory, :xcodeproj, :show_html, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :arch, :source_files,
+      :output_directory, :xcodeproj, :show_html, :cdn_assets, :verbose_mode, :input_format, :scheme, :workspace, :binary_file, :binary_basename, :arch, :source_files,
       :decimals, :llvm_version, :configuration
 
     alias_method :setup_for_coverage, :slather_setup_for_coverage

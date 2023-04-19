@@ -233,10 +233,17 @@ module Slather
       end
 
       def generate_html_template(title, is_index, is_file_empty)
-        logo_path = "logo.jpg"
-        css_path = "slather.css"
-        highlight_js_path = "highlight.pack.js"
-        list_js_path = "list.min.js"
+        if cdn_assets
+          logo_path = "https://cdn.jsdelivr.net/gh/SlatherOrg/slather/docs/logo.jpg"
+          css_path = "https://cdn.jsdelivr.net/gh/SlatherOrg/slather/assets/slather.css"
+          highlight_js_path = "https://cdn.jsdelivr.net/gh/SlatherOrg/slather/assets/highlight.pack.js"
+          list_js_path = "https://cdn.jsdelivr.net/gh/SlatherOrg/slather/assets/list.min.js"
+        else
+          logo_path = "logo.jpg"
+          css_path = "slather.css"
+          highlight_js_path = "highlight.pack.js"
+          list_js_path = "list.min.js"
+        end
 
         builder = Nokogiri::HTML::Builder.new do |doc|
           doc.html {
