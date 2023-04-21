@@ -185,7 +185,7 @@ module Slather
         if paths_to_segments.key?(coverage_file.source_file_pathname)
           coverage_file.segments = paths_to_segments[coverage_file.source_file_pathname]
         end
-        !coverage_file.ignored? ? coverage_file : nil
+        coverage_file.source_file_pathname && !coverage_file.ignored? ? coverage_file : nil
       end.compact
     end
     private :create_coverage_files
@@ -640,7 +640,7 @@ module Slather
 
     def find_source_files
       source_files = load_option_array("source_files")
-      return if source_files.nil?
+      return [] if source_files.nil?
 
       current_dir = Pathname("./").realpath
       paths = source_files.flat_map { |pattern| Dir.glob(pattern) }.uniq
