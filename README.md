@@ -235,7 +235,7 @@ This will make a directory named `html` in your root directory (unless `--output
 
 By default, the generated HTML will reference locally hosted assets (js, css). You can specify the `--cdn-assets` to specify that you prefer for the generated HTML to use externally hosted assets. This can be useful if publishing the HTML file as a build artifact. 
 
-By default, the generated HTML will referece to external CSS Source. On Azure Pipelines, external links get blocked and for that reason, there wont be any CSS styling. You can specify the `--local-css` to specify that you prefer for the generated HTML to use local CSS in a style tag.
+By default, the generated HTML will reference an external CSS source. However, on Azure Pipelines, external links are blocked, resulting in the absence of any CSS styling. To work around this, you can use the '--local-css' option. This tells the generator to use local CSS contained within a style tag, as opposed to referencing remote CSS via a link.
 
 ### TeamCity Reporting
 
