@@ -134,13 +134,14 @@ test:
 
 ### Usage with Coveralls
 
-Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` supports Coveralls via [Travis CI](https://travis-ci.org) and [CircleCI](https://circleci.com).
+Login to [Coveralls](https://coveralls.io/) and enable your repository. Right now, `slather` supports Coveralls via [Travis CI](https://travis-ci.org), [CircleCI](https://circleci.com), [Jenkins](https://www.jenkins.io/), [Teamcity](https://www.jetbrains.com/teamcity/), [Buildkite](https://buildkite.com/), and [Bitrise](https://bitrise.io/).
 
-Make a `.slather.yml` file:
+Make a `.slather.yml` file and specify the CI Service you're using:
 
 ```yml
 # .slather.yml
 
+ci_service: circleci | travis_ci | travis_pro | jenkins | buildkite | teamcity
 coverage_service: coveralls
 xcodeproj: path/to/project.xcodeproj
 scheme: YourXcodeSchemeName
