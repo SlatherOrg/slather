@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v2.7.5
+
+* Add `--cdn-assets` flag
+  [sushant-here](https://github.com/sushant-here)
+  [#537](https://github.com/SlatherOrg/slather/pull/537)
+
+* Update nokogiri version
+
 ## v2.7.4
 
 * Support Ruby 3.2.0
