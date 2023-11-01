@@ -1,4 +1,4 @@
-require 'slather'
+require_relative 'slather'
 
 Pod::HooksManager.register('slather', :post_install) do |installer_context|
   sandbox_root = installer_context.sandbox_root
