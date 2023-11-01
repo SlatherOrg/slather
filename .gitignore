@@ -20,7 +20,8 @@ tmp
 *.o
 *.a
 mkmf.log
-.vendor 
+.vendor
+.ruby-version
 # Xcode
 #
 *.pbxuser
