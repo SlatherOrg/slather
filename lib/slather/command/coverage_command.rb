@@ -67,7 +67,7 @@ class CoverageCommand < Clamp::Command
   end
 
   def setup_ymlfile
-    yml_filename = ymlfile if ymlfile
+    Slather::Project.yml_filename = ymlfile if ymlfile
   end
 
   def setup_build_directory
