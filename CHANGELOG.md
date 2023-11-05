@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## master
+
+* Add `--ymlfile` option to override `.slather.yml`
+  [jarrodlombardo-EventBase](https://github.com/jarrodlombardo-EventBase)
+  [#550](https://github.com/SlatherOrg/slather/pull/550)
+
+* Update list.js
+  [AndriiZakhliupanyi](https://github.com/AndriiZakhliupanyi)
+  [#546](https://github.com/SlatherOrg/slather/pull/546)
+
 ## v2.7.5
 
 * Add `--cdn-assets` flag
