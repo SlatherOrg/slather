@@ -36,10 +36,12 @@ class CoverageCommand < Clamp::Command
   option ["--arch"], "ARCH", "Architecture to use from universal binaries"
   option ["--source-files"], "SOURCE_FILES", "A Dir.glob compatible pattern used to limit the lookup to specific source files. Ignored in gcov mode.", :multivalued => true
   option ["--decimals"], "DECIMALS", "The amount of decimals to use for % coverage reporting"
+  option ["--ymlfile"], "YMLFILE", "Relative path to a file used in place of '.slather.yml'"
 
   def execute
     puts "Slathering..."
 
+    setup_ymlfile # MUST be the first setup
     setup_service_name
     setup_ignore_list
     setup_build_directory
@@ -62,6 +64,10 @@ class CoverageCommand < Clamp::Command
     post
 
     puts "Slathered"
+  end
+
+  def setup_ymlfile
+    Slather::Project.yml_filename = ymlfile if ymlfile
   end
 
   def setup_build_directory

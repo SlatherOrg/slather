@@ -1,5 +1,5 @@
-require 'slather/coverage_info'
-require 'slather/coveralls_coverage'
+require_relative 'coverage_info'
+require_relative 'coveralls_coverage'
 require 'digest/md5'
 
 module Slather

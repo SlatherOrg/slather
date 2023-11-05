@@ -311,8 +311,14 @@ module Slather
     end
     private :dedupe
 
+    @@ymlfile = '.slather.yml'
+
+    def self.yml_filename=(var)
+      @@ymlfile = var
+    end
+
     def self.yml_filename
-      '.slather.yml'
+      @@ymlfile
     end
 
     def self.yml
