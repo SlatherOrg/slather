@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## master
+## v2.8.0
 
 * Add `--ymlfile` option to override `.slather.yml`
   [jarrodlombardo-EventBase](https://github.com/jarrodlombardo-EventBase)
