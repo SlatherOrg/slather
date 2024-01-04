@@ -250,8 +250,6 @@ module Slather
 
       return true if path.end_with?("isn't covered.")
       return true if path.include?("/Xcode.*\.app\/Contents\/Developer\/Platforms")
-      return true if path.include?("/SourcePackages/checkouts")
-      return true if path.include?("/DerivedSources")
 
       super
     end
