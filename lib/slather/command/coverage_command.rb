@@ -174,7 +174,7 @@ class CoverageCommand < Clamp::Command
   end
 
   def setup_source_files
-    project.source_files = source_files if !source_files.empty?
+    project.source_files = source_files_list if !source_files_list.empty?
   end
 
   def setup_decimals

@@ -383,7 +383,6 @@ module Slather
 
     def configure_source_files
       self.source_files ||= [(self.class.yml["source_files"] || [])].flatten
-      puts self.source_files.to_json
     end
 
     def configure_ci_service
