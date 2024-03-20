@@ -80,5 +80,11 @@ module Slather
       end
     end
 
+    def include_file?
+      project.source_files.any? do |include|
+        File.fnmatch(include, source_file_pathname_relative_to_repo_root)
+      end
+    end
+
   end
 end

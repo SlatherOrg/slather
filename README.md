@@ -88,7 +88,20 @@ Run this command to enable the `Generate Test Coverage` and `Instrument Program 
 ```sh
 $ slather setup path/to/project.xcodeproj
 ```
+## General Usage Notes
+### Commandline Arguments Win
+When using both a config file (`.slather.yml`) and providing arguments via the commandline,
+the arguments will take precedence over the matching setting in the config file.
 
+### `ignore` always wins over `source-files`
+When defining both files that should be ignored (`--ignore`, ignore) and source files to include (`--source-files`, source_files),
+the ignore list is checked first. If the file being scanned matches a glob in the ignore list, it will not be included. In this case, the
+source_file list is not checked.
+
+If the file being scanned is not in the ignore list, and source_file has been defined, the source_file list is
+checked. If the source file matches a glob, it will be included.
+
+## CI Integration
 ### Usage with Codecov
 
 Login to [Codecov](https://codecov.io/) (no need to activate a repository, this happens automatically). Right now, `slather` supports Codecov via **all** supported CI providers [listed here](https://github.com/codecov/codecov-bash#ci-providers).
