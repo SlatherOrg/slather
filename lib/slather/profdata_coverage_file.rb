@@ -246,16 +246,15 @@ module Slather
     private :supported_file_extensions
 
     def ignored?
-      # This indicates a llvm-cov coverage warning (occurs if a passed in source file 
-      # is not covered or with ccache in some cases).
-      ignore = source_file_pathname.to_s.end_with? "isn't covered."
+      path = source_file_pathname.to_s
 
-      if !ignore
-        # Ignore source files inside of platform SDKs
-        ignore = (/Xcode.*\.app\/Contents\/Developer\/Platforms/ =~ source_file_pathname.to_s) != nil
-      end
+      # This indicates a llvm-cov coverage warning (occurs if a passed in source file
+      # is not covered or with cache in some cases).
+      return true if path.end_with?("isn't covered.")
+      # Ignore source files inside of platform SDKs
+      return true if path.include?("/Xcode.*\.app\/Contents\/Developer\/Platforms")
 
-      ignore ? ignore : super
+      super
     end
   end
 end

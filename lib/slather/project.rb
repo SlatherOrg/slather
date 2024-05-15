@@ -185,7 +185,7 @@ module Slather
         if paths_to_segments.key?(coverage_file.source_file_pathname)
           coverage_file.segments = paths_to_segments[coverage_file.source_file_pathname]
         end
-        !coverage_file.ignored? ? coverage_file : nil
+        !coverage_file.ignored? && coverage_file.include_file? ? coverage_file : nil
       end.compact
     end
     private :create_coverage_files
@@ -341,6 +341,7 @@ module Slather
         configure_arch
         configure_binary_file
         configure_decimals
+        configure_source_files
 
         self.llvm_version = `xcrun llvm-cov --version`.match(/LLVM version ([\d\.]+)/).captures[0]
       rescue => e
@@ -378,6 +379,10 @@ module Slather
 
     def configure_ignore_list
       self.ignore_list ||= [(self.class.yml["ignore"] || [])].flatten
+    end
+
+    def configure_source_files
+      self.source_files ||= [(self.class.yml["source_files"] || [])].flatten
     end
 
     def configure_ci_service
