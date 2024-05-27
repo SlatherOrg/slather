@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
+<!DOCTYPE coverage SYSTEM "https://cobertura.sourceforge.net/xml/coverage-04.dtd">
 <coverage line-rate="0.7500000000000000" branch-rate="0.6410256410256411" lines-covered="60" lines-valid="80" branches-covered="25" branches-valid="39" complexity="0.0" timestamp="1614041230" version="Slather 2.6.1">
   <sources>
     <source>/Users/hborawski/sandbox/slather</source>

@@ -171,7 +171,7 @@ module Slather
           xml.doc.create_internal_subset(
             'coverage',
             nil,
-            "http://cobertura.sourceforge.net/xml/coverage-04.dtd"
+            "https://cobertura.sourceforge.net/xml/coverage-04.dtd"
           )
           xml.coverage do
             xml.sources do
