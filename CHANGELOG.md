@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.8.1
+
+* cobertura.sourceforge.net should use https instead of http
+  [jarrodlombardo-EventBase](https://github.com/jarrodlombardo-EventBase)
+  [#559](https://github.com/SlatherOrg/slather/pull/559)
+
+* Handle include globs
+  [dnedrow](https://github.com/dnedrow)
+  [#553](https://github.com/SlatherOrg/slather/pull/553)
+
 ## v2.8.0
 
 * Add `--ymlfile` option to override `.slather.yml`
