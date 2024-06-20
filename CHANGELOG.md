@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Unreleased
+
+* coverage_info.include_files? needs a default true return value for when source_files is empty.
+  [jarrodlombardo-EventBase](https://github.com/jarrodlombardo-EventBase)
+  [#561](https://github.com/SlatherOrg/slather/issues/561)
+
 ## v2.8.1
 
 * cobertura.sourceforge.net should use https instead of http

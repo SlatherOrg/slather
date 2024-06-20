@@ -81,9 +81,12 @@ module Slather
     end
 
     def include_file?
+      rv = true # default true return value to fix https://github.com/SlatherOrg/slather/issues/561
       project.source_files.any? do |include|
-        File.fnmatch(include, source_file_pathname_relative_to_repo_root)
+        rv = File.fnmatch(include, source_file_pathname_relative_to_repo_root)
       end
+
+      rv
     end
 
   end
