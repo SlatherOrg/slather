@@ -1,10 +1,10 @@
 # CHANGELOG
 
-## Unreleased
+## v2.8.2
 
 * coverage_info.include_files? needs a default true return value for when source_files is empty.
   [jarrodlombardo-EventBase](https://github.com/jarrodlombardo-EventBase)
-  [#561](https://github.com/SlatherOrg/slather/issues/561)
+  [#563](https://github.com/SlatherOrg/slather/pull/563)
 
 ## v2.8.1
 
