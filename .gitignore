@@ -22,6 +22,12 @@ tmp
 mkmf.log
 .vendor
 .ruby-version
+cobertura.xml
+.gutter.json
+html
+*.gcda
+*.gcno
+
 # Xcode
 #
 *.pbxuser
@@ -40,11 +46,13 @@ DerivedData
 *.ipa
 *.xcuserstate
 *.DS_Store
-cobertura.xml
-.gutter.json
-html
-*.gcda
-*.gcno
+
+# VSCode IDE
+.vscode/
+.rdbgrc*
+
+# python
+.venv/
 
 # JetBrains IDE
 .idea/
