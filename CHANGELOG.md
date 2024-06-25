@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Unreleased 
+
+* update cobertura DTD to a working URL.
+  [jarrodlombardo-EventBase](https://github.com/jarrodlombardo-EventBase)
+
 ## v2.8.2
 
 * coverage_info.include_files? needs a default true return value for when source_files is empty.
