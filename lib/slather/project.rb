@@ -185,14 +185,6 @@ module Slather
         if paths_to_segments.key?(coverage_file.source_file_pathname)
           coverage_file.segments = paths_to_segments[coverage_file.source_file_pathname]
         end
-        puts "--> coverage_file.source_file_pathname: #{coverage_file.source_file_pathname}"
-
-        if coverage_file.source_file_pathname.nil? || coverage_file.source_file_pathname.empty?
-          puts "--> source_file_pathname is nil or empty, source: #{source}"
-        else
-          puts "--> source_file_pathname is not nil or empty"
-        end
-        
         coverage_file.source_file_pathname && !coverage_file.ignored? && coverage_file.include_file? ? coverage_file : nil
       end.compact
     end
