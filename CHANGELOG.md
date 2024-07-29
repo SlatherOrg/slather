@@ -1,9 +1,14 @@
 # CHANGELOG
 
-## Unreleased 
+## v2.8.3 
+
+* Fix coverage_file.source_file_pathname
+  [alfredofernandes](https://github.com/alfredofernandes)
+  [#565](https://github.com/SlatherOrg/slather/pull/565)
 
 * update cobertura DTD to a working URL.
   [jarrodlombardo-EventBase](https://github.com/jarrodlombardo-EventBase)
+  [#564](https://github.com/SlatherOrg/slather/pull/564)
 
 ## v2.8.2
 
