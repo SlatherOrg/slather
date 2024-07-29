@@ -1,3 +1,3 @@
 module Slather
-  VERSION = '2.8.2' unless defined?(Slather::VERSION)
+  VERSION = '2.8.3' unless defined?(Slather::VERSION)
 end
