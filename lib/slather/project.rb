@@ -482,7 +482,16 @@ module Slather
     def find_binary_file_in_bundle(bundle_file)
       if File.directory? bundle_file
         bundle_file_noext = File.basename(bundle_file, File.extname(bundle_file))
-        Dir["#{bundle_file}/**/#{bundle_file_noext}"].first
+
+        # Search for .debug.dylib binaries
+        # See https://developer.apple.com/documentation/xcode/build-settings-reference#Enable-Debug-Dylib-Support for details
+        debug_dylib_matches = Dir["#{bundle_file}/**/#{bundle_file_noext}.debug.dylib"]
+
+        if debug_dylib_matches.length() > 0
+          debug_dylib_matches.first
+        else
+          Dir["#{bundle_file}/**/#{bundle_file_noext}"].first
+        end
       else
         bundle_file
       end
