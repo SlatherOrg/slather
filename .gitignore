@@ -60,3 +60,7 @@ DerivedData
 # Test output
 report.llcov
 report.json
+
+# VSCode
+.vscode
+.rdbgrc*
