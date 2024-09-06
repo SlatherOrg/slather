@@ -1,6 +1,16 @@
 # CHANGELOG
 
-## v2.8.3 
+## v2.8.4
+
+* Don't crash when 0% coverage is causing empty JSON
+  [jarrodlombardo-EventBase](https://github.com/jarrodlombardo-EventBase)
+  [#570](https://github.com/SlatherOrg/slather/pull/570)
+
+* Xcode 16 compatibility (as of beta 5)
+  [ksuther](https://github.com/ksuther)
+  [#568](https://github.com/SlatherOrg/slather/pull/568)
+
+## v2.8.3
 
 * Fix coverage_file.source_file_pathname
   [alfredofernandes](https://github.com/alfredofernandes)
