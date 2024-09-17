@@ -80,14 +80,20 @@ module Slather
       build_settings = `xcodebuild #{projectOrWorkspaceArgument} #{schemeArgument} -showBuildSettings #{buildAction} CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO 2>&1`
 
       if build_settings
-        derived_data_path = build_settings.match(/ OBJROOT = (.+)/)
+        derived_data_path = build_settings.match(/ BUILT_PRODUCTS_DIR = (.+)/)
+        # => /Users/.../Library/Developer/Xcode/DerivedData/app-bqrfaojicpsqnoglloisfftjhksc/Build/Products/Release-iphoneos
         # when match fails derived_data_path is nil
-        derived_data_path = derived_data_path[1] if derived_data_path
+        if derived_data_path
+          derived_data_path = derived_data_path[1]
+          derived_data_path = File.expand_path("../../..", derived_data_path)
+        end
       end
 
       if derived_data_path == nil
         derived_data_path = File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
       end
+
+      puts "Derived Data Path: #{derived_data_path}"
 
       derived_data_path
     end
