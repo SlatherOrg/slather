@@ -71,7 +71,15 @@ module Slather
     end
 
     def source_file_pathname_relative_to_repo_root
-      source_file_pathname.realpath.relative_path_from(Pathname("./").realpath)
+      test_path=source_file_pathname
+      equivalence=ENV["COVERAGE_PATH_EQUIVALENCE"]
+      if equivalence
+        orig_prefix=equivalence.delete_suffix(",.")
+        if "#{source_file_pathname}".start_with?(orig_prefix)
+          test_path=Pathname("." + "#{source_file_pathname}".delete_prefix(orig_prefix))
+        end
+      end
+      test_path.realpath.relative_path_from(Pathname("./").realpath)
     end
 
     def ignored?

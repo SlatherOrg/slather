@@ -274,6 +274,9 @@ module Slather
       if self.arch
         llvm_cov_args << "--arch" << self.arch
       end
+      if ENV["COVERAGE_PATH_EQUIVALENCE"]
+        llvm_cov_args << "-path-equivalence=#{ENV["COVERAGE_PATH_EQUIVALENCE"]}"
+      end
       `xcrun llvm-cov #{llvm_cov_args.shelljoin}`
     end
     private :unsafe_llvm_cov_export_output
@@ -297,6 +300,9 @@ module Slather
       llvm_cov_args = %W(show -instr-profile #{profdata_file_arg} #{binary_path})
       if self.arch
         llvm_cov_args << "--arch" << self.arch
+      end
+      if ENV["COVERAGE_PATH_EQUIVALENCE"]
+        llvm_cov_args << "-path-equivalence=#{ENV["COVERAGE_PATH_EQUIVALENCE"]}"
       end
 
       # POSIX systems have an ARG_MAX for the maximum total length of the command line, so the command may fail with an error message of "Argument list too long".
