@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.8.5
+
+* Update xcodeproj to 1.27.1 to support Xcode 16 folder references
+  [authiatr](https://github.com/authiatr)
+  [#574](https://github.com/SlatherOrg/slather/pull/574)
+
 ## v2.8.4
 
 * Don't crash when 0% coverage is causing empty JSON
