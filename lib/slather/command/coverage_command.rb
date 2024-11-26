@@ -20,6 +20,7 @@ class CoverageCommand < Clamp::Command
   option ["--html"], :flag, "Output coverage results as static html pages"
   option ["--show"], :flag, "Indicate that the static html pages will open automatically"
   option ["--cdn-assets"], :flag, "Indicate that the static html pages will load assets from a CDN"
+  option ["--local-css"], :flag, "Indicate that the static html pages will have local css"
 
   option ["--build-directory", "-b"], "BUILD_DIRECTORY", "The directory where gcno files will be written to. Defaults to derived data."
   option ["--source-directory"], "SOURCE_DIRECTORY", "The directory where your source files are located."
@@ -134,6 +135,7 @@ class CoverageCommand < Clamp::Command
       project.coverage_service = :html
       project.show_html = show?
       project.cdn_assets = cdn_assets?
+      project.local_css = local_css?
     elsif json?
       project.coverage_service = :json
     elsif sonarqube_xml?
