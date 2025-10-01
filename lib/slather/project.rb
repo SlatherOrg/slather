@@ -126,7 +126,11 @@ module Slather
         end
       end
 
-      coverage_files
+      if coverage_files.empty?
+        raise StandardError, "No coverage files found."
+      else
+        dedupe(coverage_files)
+      end
     end
     private :profdata_coverage_files
 
