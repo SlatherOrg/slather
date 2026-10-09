@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v2.8.6
+
+* Apply dedupe to profdata coverage as well
+  [RoySRodney](https://github.com/RoySRodney)
+  [#579](https://github.com/SlatherOrg/slather/pull/579)
+
+* Add Swift Package support
+  [michel-moreau](https://github.com/michel-moreau)
+  [#584](https://github.com/SlatherOrg/slather/pull/584)
+
+* Bump nokogiri minimum version to fix security advisories
+  [carloskvasir](https://github.com/carloskvasir)
+  [#585](https://github.com/SlatherOrg/slather/pull/585)
+
 ## v2.8.5
 
 * Update xcodeproj to 1.27.1 to support Xcode 16 folder references
