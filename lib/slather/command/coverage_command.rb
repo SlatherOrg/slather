@@ -113,6 +113,8 @@ class CoverageCommand < Clamp::Command
       xcodeproj_path_to_open = xcodeproj_path || Slather::Project.yml["xcodeproj"]
       if xcodeproj_path_to_open
         project = Slather::Project.open(xcodeproj_path_to_open)
+      elsif File.exist?("Package.swift")
+        project = Slather::Project.open(".")
       else
         raise StandardError, "Must provide an xcodeproj either via the 'slather [SUBCOMMAND] [PROJECT].xcodeproj' command or through .slather.yml"
       end

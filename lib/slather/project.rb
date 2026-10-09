@@ -50,7 +50,11 @@ module Slather
     alias_method :setup_for_coverage, :slather_setup_for_coverage
 
     def self.open(xcodeproj)
-      proj = super
+      if File.directory?(xcodeproj) && File.exist?(File.join(xcodeproj, "Package.swift"))
+        proj = self.new(xcodeproj)
+      else
+        proj = super
+      end
       proj.xcodeproj = xcodeproj
       proj
     end
@@ -86,7 +90,11 @@ module Slather
       end
 
       if derived_data_path == nil
-        derived_data_path = File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
+        if File.exist?(File.join(self.xcodeproj, "Package.swift"))
+          derived_data_path = File.join(self.xcodeproj, ".build")
+        else
+          derived_data_path = File.expand_path('~') + "/Library/Developer/Xcode/DerivedData/"
+        end
       end
 
       derived_data_path
@@ -205,10 +213,13 @@ module Slather
     private :create_profdata
 
     def remove_extension(path)
+      return "" if self.products.nil? || self.products.empty?
       path.split(".")[0..-2].join(".")
     end
 
     def first_product_name
+      # If products is nil it means we are likely using a Swift Package and not an xcodeproj
+      return "" if self.products.nil? || self.products.empty?
       first_product = self.products.first
       # If name is not available it computes it using
       # the path by dropping the 'extension' of the path.
@@ -220,9 +231,17 @@ module Slather
         raise StandardError, "The specified build directory (#{self.build_directory}) does not exist" unless File.exist?(self.build_directory)
         dir = nil
         if self.scheme
-          dir = Dir[File.join(build_directory,"/**/CodeCoverage/#{self.scheme}")].first
+          product_name = first_product_name
+          if !product_name.empty?
+            dir = Dir[File.join(build_directory,"/**/#{product_name}")].first
+          end.first
         else
           dir = Dir[File.join(build_directory,"/**/#{first_product_name}")].first
+        end
+
+        if dir == nil
+          # Swift Package Manager
+          dir = Dir[File.join(build_directory,"/**/codecov")].first
         end
 
         if dir == nil
@@ -383,6 +402,9 @@ module Slather
     end
 
     def configure_output_directory
+      if self.source_directory.nil? && File.exist?(File.join(self.xcodeproj, "Package.swift"))
+        self.source_directory = self.xcodeproj
+      end
       self.output_directory ||= self.class.yml["output_directory"] if self.class.yml["output_directory"]
     end
 
