@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.8.7
+
+* Restore scheme coverage directory lookup in profdata_coverage_dir
+  [MirekNalepa](https://github.com/MirekNalepa)
+  [#587](https://github.com/SlatherOrg/slather/pull/587)
+
 ## v2.8.6
 
 * Apply dedupe to profdata coverage as well
