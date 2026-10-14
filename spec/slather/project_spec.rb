@@ -188,6 +188,31 @@ describe Slather::Project do
     end
   end
 
+  describe "#profdata_coverage_dir" do
+    before(:each) do
+      fixtures_project.build_directory = "/some/build"
+      fixtures_project.scheme = "fixtures"
+      allow(File).to receive(:exist?).and_call_original
+      allow(File).to receive(:exist?).with("/some/build").and_return(true)
+      allow(Dir).to receive(:[]).and_call_original
+    end
+
+    it "should return the CodeCoverage scheme directory when a scheme is set" do
+      allow(Dir).to receive(:[]).with("/some/build/**/CodeCoverage/fixtures").and_return(["/some/build/Build/Intermediates/CodeCoverage/fixtures"])
+      expect(fixtures_project.profdata_coverage_dir).to eq("/some/build/Build/Intermediates/CodeCoverage/fixtures")
+    end
+
+    it "should fall back to the ProfileData directory when a scheme is set on Xcode 9 and later" do
+      allow(Slather).to receive(:xcode_version).and_return([16, 0])
+      allow(Dir).to receive(:[]).with("/some/build/**/CodeCoverage/fixtures").and_return([])
+      allow(Dir).to receive(:[]).with("/some/build/**/codecov").and_return([])
+      allow(Dir).to receive(:[]).with("/some/build/**/CodeCoverage").and_return([])
+      allow(Dir).to receive(:[]).with("/some/build/**/ProfileData/*/Coverage.profdata").and_return(["/some/build/ProfileData/ABC/Coverage.profdata"])
+      expect(Dir).not_to receive(:[]).with("/some/build/**/fixtures")
+      expect(fixtures_project.profdata_coverage_dir).to eq(Pathname.new("/some/build/ProfileData/ABC"))
+    end
+  end
+
   describe "#invalid_characters" do
     it "should correctly encode invalid characters" do
       allow(fixtures_project).to receive(:input_format).and_return("profdata")
